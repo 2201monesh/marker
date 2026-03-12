@@ -29,6 +29,8 @@ The dev server runs at `localhost:4321`.
 
 ## Deployment
 
+- **Live site**: https://onmarker.com (custom domain) / https://onmarker-site.web.app (Firebase)
+
 Deployment is handled by GitHub Actions:
 
 - **Push to `main`**: Builds and deploys to the live Firebase Hosting site.
