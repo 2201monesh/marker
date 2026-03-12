@@ -1,0 +1,35 @@
+---
+const features = [
+  {
+    title: "Capture Every Conversation",
+    description:
+      "Integrates with email, WeChat, and WhatsApp. No behavior change required. Your team keeps working how they normally would.",
+  },
+  {
+    title: "Map Your Process",
+    description:
+      "Automatically organizes communication by supplier, product, and timeline. See the full picture without asking anyone.",
+  },
+  {
+    title: "Scale Without Scaling Headcount",
+    description:
+      "Turn a 30-person sourcing org into a 300-person one. Reallocate people toward higher-leverage tasks.",
+  },
+];
+---
+
+<section class="py-20">
+  <div class="mx-auto max-w-5xl px-6">
+    <h2 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+      What Marker does for you
+    </h2>
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      {features.map((feature) => (
+        <div class="rounded-lg border border-border bg-background p-6">
+          <h3 class="text-lg font-semibold text-foreground">{feature.title}</h3>
+          <p class="mt-2 text-sm text-muted-foreground">{feature.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
