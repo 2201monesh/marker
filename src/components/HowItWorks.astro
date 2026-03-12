@@ -1,0 +1,41 @@
+---
+const steps = [
+  {
+    number: "1",
+    title: "Connect your channels",
+    description:
+      "Simple integration with your existing email, WeChat, and WhatsApp. No migration needed.",
+  },
+  {
+    number: "2",
+    title: "We organize everything",
+    description:
+      "Marker maps communication to your suppliers, products, and workflows automatically.",
+  },
+  {
+    number: "3",
+    title: "Your team levels up",
+    description:
+      "Full visibility into every conversation. Spot issues early, move faster, do more with less.",
+  },
+];
+---
+
+<section class="bg-muted py-20">
+  <div class="mx-auto max-w-5xl px-6">
+    <h2 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+      How it works
+    </h2>
+    <div class="mt-10 grid gap-8 md:grid-cols-3">
+      {steps.map((step) => (
+        <div class="flex flex-col">
+          <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+            {step.number}
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-foreground">{step.title}</h3>
+          <p class="mt-2 text-sm text-muted-foreground">{step.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

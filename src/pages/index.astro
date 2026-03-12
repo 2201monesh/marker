@@ -1,0 +1,20 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Hero from "../components/Hero";
+import Problem from "../components/Problem.astro";
+import Features from "../components/Features.astro";
+import HowItWorks from "../components/HowItWorks.astro";
+import EmailCapture from "../components/EmailCapture";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="Marker - Turn your sourcing team into a powerhouse">
+  <Navbar />
+  <Hero client:load />
+  <Problem />
+  <Features />
+  <HowItWorks />
+  <EmailCapture client:load />
+  <Footer />
+</Layout>
