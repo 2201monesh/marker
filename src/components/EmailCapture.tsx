@@ -18,10 +18,10 @@ export default function EmailCapture() {
       <div className="mx-auto max-w-5xl px-6">
         <div className="mx-auto max-w-lg text-center">
           <h2 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-            Stay up to date
+            Ready to stop chasing and start shipping?
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Get notified about new features and early access.
+            Get early access to Marker and see what an always-on supply chain coordinator can do for your team.
           </p>
 
           {submitted ? (

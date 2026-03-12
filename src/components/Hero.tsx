@@ -17,11 +17,13 @@ export default function Hero() {
     <section className="mx-auto max-w-5xl px-6 py-24 md:py-32">
       <div className="max-w-3xl">
         <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl">
-          Turn your sourcing team into a powerhouse
+          Your always-on supply chain coordinator
         </h1>
         <p className="mt-6 text-lg text-muted-foreground md:text-xl">
-          Marker captures communication across email, WeChat, and WhatsApp, so
-          your team can focus on high-leverage work instead of chasing messages.
+          Marker is an AI-powered orchestrator that keeps things moving before
+          you have to. It syncs data across your systems, tracks handoffs and
+          deadlines, and moves work forward autonomously. Shave weeks off your
+          timelines.
         </p>
         <div className="mt-10">
           {submitted ? (
