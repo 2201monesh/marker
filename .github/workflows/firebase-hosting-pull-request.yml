@@ -17,6 +17,8 @@ jobs:
           node-version: 22
       - run: npm ci
       - run: npm run build
+      - run: npx playwright install chromium --with-deps
+      - run: npx playwright test
       - uses: FirebaseExtended/action-hosting-deploy@e2eda2e106cfa35cdbcf4ac9ddaf6c4756df2c8c # v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

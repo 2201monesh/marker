@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-
 export default function Hero() {
   return (
     <section className="mx-auto max-w-5xl px-6 py-24 md:py-32">
@@ -15,10 +13,11 @@ export default function Hero() {
           deadlines, and moves work forward autonomously.
         </p>
         <div className="mt-10">
-          <a href="mailto:founders@onmarker.com?subject=Marker%20Demo%20Request">
-            <Button size="lg">
-              Request a Demo
-            </Button>
+          <a
+            href="mailto:founders@onmarker.com?subject=Marker%20Demo%20Request"
+            className="inline-flex h-12 items-center justify-center rounded-lg bg-primary px-8 text-base font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            Request a Demo
           </a>
         </div>
       </div>
