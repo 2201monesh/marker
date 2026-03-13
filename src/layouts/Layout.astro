@@ -16,13 +16,16 @@ const { title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Marker is an AI-powered orchestrator that acts as your always-on retail supply chain coordinator. It syncs data, tracks handoffs, and moves work forward autonomously. Backed by Y Combinator." />
+    <meta name="description" content="Marker is an AI-powered orchestrator that acts as your always-on retail supply chain coordinator. It syncs data, tracks handoffs, and moves work forward autonomously." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>{title}</title>
   </head>
   <body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">
+      Skip to main content
+    </a>
     <slot />
   </body>
 </html>

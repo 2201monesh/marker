@@ -3,9 +3,17 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="border-t border-border py-8">
-  <div class="mx-auto max-w-5xl px-6 text-center text-sm text-muted-foreground">
-    <span>&copy; {year} Widari Inc. All rights reserved.</span>
-    <span class="mx-2">&middot;</span>
-    <a href="/privacy" class="underline hover:text-foreground transition-colors">Privacy Policy</a>
+  <div class="mx-auto max-w-5xl px-6">
+    <nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground" aria-label="Footer">
+      <a href="/privacy" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Privacy Policy</a>
+      <a href="/terms" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Terms of Service</a>
+      <a href="/privacy#privacyrights" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Do Not Sell My Personal Information</a>
+    </nav>
+    <p class="mt-4 text-center text-sm text-muted-foreground">
+      &copy; {year} Widari Inc. All rights reserved.
+    </p>
+    <p class="mt-2 text-center text-xs text-muted-foreground">
+      We are committed to making this website accessible to all users. If you experience any accessibility issues, please contact <a href="mailto:privacy@onmarker.com" class="text-primary underline">privacy@onmarker.com</a>.
+    </p>
   </div>
 </footer>
