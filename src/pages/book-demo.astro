@@ -1,0 +1,24 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import BookDemoForm from "../components/BookDemoForm";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="Book a Demo - Marker">
+  <Navbar />
+  <main id="main-content">
+    <section class="mx-auto max-w-4xl px-6 pt-12 pb-24 md:pt-16 md:pb-32">
+      <h1 class="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+        Book a demo
+      </h1>
+      <p class="mt-4 text-lg text-muted-foreground">
+        See how Marker keeps your supply chain moving.
+      </p>
+      <div class="mt-10">
+        <BookDemoForm client:load />
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
