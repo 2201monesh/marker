@@ -10,7 +10,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test:a11y": "npx playwright test"
+    "test": "npx playwright test",
+    "test:a11y": "npx playwright test tests/accessibility.spec.ts",
+    "test:forms-smoke": "npx playwright test tests/forms.spec.ts",
+    "test:not-found-smoke": "npx playwright test tests/not-found.spec.ts"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.0",

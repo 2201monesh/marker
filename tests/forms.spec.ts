@@ -43,18 +43,19 @@ test("book demo submits and opens the scheduling page", async ({
 test("newsletter signup shows a success message", async ({ page }) => {
   await page.goto("/");
 
-  const newsletter = page.locator("section").filter({
-    has: page.getByRole("heading", { name: "Stay in the loop" }),
+  const emailInput = page.getByPlaceholder("you@company.com");
+  const subscribeButton = page.getByRole("button", { name: "Subscribe" });
+
+  await emailInput.scrollIntoViewIfNeeded();
+  await page.waitForFunction(() => {
+    const input = document.querySelector('input[placeholder="you@company.com"]');
+    const island = input?.closest("astro-island");
+    return island instanceof HTMLElement && !island.hasAttribute("ssr");
   });
+  await expect(subscribeButton).toBeVisible();
 
-  await newsletter.scrollIntoViewIfNeeded();
-  await expect(newsletter.getByRole("button", { name: "Subscribe" })).toBeVisible();
-  await page.waitForTimeout(500);
+  await emailInput.fill("ops@company.com");
+  await subscribeButton.click();
 
-  await newsletter.getByPlaceholder("you@company.com").fill("ops@company.com");
-  await newsletter.getByRole("button", { name: "Subscribe" }).click();
-
-  await expect(
-    newsletter.getByText("You're on the list. We'll be in touch!")
-  ).toBeVisible();
+  await expect(page.getByText("You're on the list. We'll be in touch!")).toBeVisible();
 });

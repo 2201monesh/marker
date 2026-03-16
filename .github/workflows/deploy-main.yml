@@ -1,12 +1,17 @@
-name: Deploy to Firebase Hosting on PR
-on: pull_request
-permissions:
-  checks: write
-  contents: read
-  pull-requests: write
+name: Deploy Main
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: true
+
 jobs:
-  build_and_preview:
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+  deploy_main:
+    name: Deploy Main
     runs-on: ubuntu-latest
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -17,10 +22,9 @@ jobs:
           node-version: 22
       - run: npm ci
       - run: npm run build
-      - run: npx playwright install chromium --with-deps
-      - run: npx playwright test
       - uses: FirebaseExtended/action-hosting-deploy@e2eda2e106cfa35cdbcf4ac9ddaf6c4756df2c8c # v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ONMARKER_SITE }}
+          channelId: live
           projectId: onmarker-site
