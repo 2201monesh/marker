@@ -1,0 +1,35 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="Page Not Found | Marker" noindex>
+  <Navbar />
+  <main id="main-content" class="flex min-h-[calc(100vh-8rem)] items-center">
+    <section class="mx-auto w-full max-w-3xl px-6 py-20 text-center">
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-primary">404</p>
+      <h1 class="mt-4 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+        This page doesn&apos;t exist.
+      </h1>
+      <p class="mt-6 text-lg leading-8 text-muted-foreground">
+        The link may be outdated, or the page may have moved. Use the button below to go back to Marker&apos;s homepage.
+      </p>
+      <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <a
+          href="/"
+          class="inline-flex h-11 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
+          Return Home
+        </a>
+        <a
+          href="/book-demo"
+          class="inline-flex h-11 items-center justify-center rounded-lg border border-border px-6 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
+          Book a Demo
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

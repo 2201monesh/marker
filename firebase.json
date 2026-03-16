@@ -8,7 +8,7 @@
         "headers": [
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://app.termly.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https:; frame-ancestors 'none'"
+            "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://app.termly.io https://js-na2.hs-scripts.com https://js.hscollectedforms.net https://js.hs-scripts.com https://js.hs-analytics.net https://js.hsforms.net https://js.hs-banner.com https://js.hsleadflows.net https://js.hsadspixel.net https://static.hsappstatic.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https:; frame-src 'self' https://meetings-na2.hubspot.com https://app.hubspot.com; frame-ancestors 'none'"
           },
           {
             "key": "X-Frame-Options",
@@ -28,9 +28,6 @@
           }
         ]
       }
-    ],
-    "rewrites": [
-      { "source": "**", "destination": "/index.html" }
     ]
   }
 }
