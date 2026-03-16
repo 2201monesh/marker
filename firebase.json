@@ -4,6 +4,15 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "headers": [
       {
+        "source": "/book-demo",
+        "headers": [
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex, nofollow, noarchive"
+          }
+        ]
+      },
+      {
         "source": "**",
         "headers": [
           {
@@ -28,9 +37,6 @@
           }
         ]
       }
-    ],
-    "rewrites": [
-      { "source": "**", "destination": "/index.html" }
     ]
   }
 }
