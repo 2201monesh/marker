@@ -1,0 +1,6 @@
+[files]
+extend-exclude = [
+  "package-lock.json",
+  "src/pages/privacy.astro",
+  "src/pages/terms.astro",
+]

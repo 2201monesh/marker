@@ -8,16 +8,8 @@ import Footer from "../components/Footer.astro";
 <Layout title="Book a Demo - Marker">
   <Navbar />
   <main id="main-content">
-    <section class="mx-auto max-w-4xl px-6 pt-12 pb-24 md:pt-16 md:pb-32">
-      <h1 class="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-        Book a demo
-      </h1>
-      <p class="mt-4 text-lg text-muted-foreground">
-        See how Marker keeps your supply chain moving.
-      </p>
-      <div class="mt-10">
-        <BookDemoForm client:load />
-      </div>
+    <section class="mx-auto max-w-5xl px-4 pt-6 pb-16 md:px-6 md:pt-10 md:pb-24">
+      <BookDemoForm client:only="react" />
     </section>
   </main>
   <Footer />

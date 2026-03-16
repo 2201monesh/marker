@@ -11,11 +11,19 @@ interface HubSpotField {
   value: string;
 }
 
+function getCookie(name: string): string | undefined {
+  const cookies = document.cookie.split("; ");
+  const match = cookies.find((cookie) => cookie.startsWith(`${name}=`));
+  return match?.split("=")[1];
+}
+
 export async function submitHubSpotForm(
   formGuid: string,
   fields: HubSpotField[]
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    const hutk = getCookie("hubspotutk");
+
     const response = await fetch(
       `https://api.hsforms.com/submissions/v3/integration/submit/${PORTAL_ID}/${formGuid}`,
       {
@@ -24,6 +32,7 @@ export async function submitHubSpotForm(
         body: JSON.stringify({
           fields,
           context: {
+            ...(hutk ? { hutk } : {}),
             pageUri: window.location.href,
             pageName: document.title,
           },
