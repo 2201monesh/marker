@@ -16,32 +16,32 @@ function companyTypeFromIndustry(industry: string) {
 
 const studies = [
   // Planning & Demand Signals
-  { team: "Planning & Demand Signals", industry: "Fortune 500 Automotive", title: "54% turnover. Zero knowledge lost.", summary: "Marker keeps supplier relationships, decisions, and context when team members move on." },
+  { team: "Planning & Demand Signals", industry: "Fortune 500 Automotive", title: "54% turnover.<br>Zero knowledge lost.", summary: "Marker keeps supplier relationships, decisions, and context when team members move on." },
 
   // Design & Costing
-  { team: "Design & Costing", industry: "Premium Menswear", title: "Designers picking $200 fabric for a $50 shirt? Fixed.", summary: "Marker shows cost signals while designs are made, not three rounds of costing later." },
-  { team: "Design & Costing", industry: "Premium Activewear", title: "\"Why did that cost go up?\" Finally, an answer.", summary: "Marker tracks every costing round so margin drift is visible, explainable, and actionable." },
-  { team: "Design & Costing", industry: "Premium Menswear", title: "Rate card says $12. Quote says $14. Caught.", summary: "Marker checks quotes against rate cards across POs, catching overages before they stack up." },
-  { team: "Design & Costing", industry: "Premium Menswear", title: "70 emails a day? Try zero.", summary: "Marker replaces email back-and-forth with shared workflows that keep teams and vendors aligned." },
+  { team: "Design & Costing", industry: "Premium Menswear", title: "Designers picking $200 fabric<br>for a $50 shirt? Fixed.", summary: "Marker shows cost signals while designs are made, not three rounds of costing later." },
+  { team: "Design & Costing", industry: "Premium Activewear", title: "\"Why did that cost go up?\"<br>Finally, an answer.", summary: "Marker tracks every costing round so margin drift is visible, explainable, and actionable." },
+  { team: "Design & Costing", industry: "Premium Menswear", title: "Rate card says $12.<br>Quote says $14. Caught.", summary: "Marker checks quotes against rate cards across POs, catching overages before they stack up." },
+  { team: "Design & Costing", industry: "Premium Menswear", title: "70 emails a day?<br>Try zero.", summary: "Marker replaces email back-and-forth with shared workflows that keep teams and vendors aligned." },
 
   // Sourcing & Negotiation
-  { team: "Sourcing & Negotiation", industry: "Multi-Brand Apparel", title: "Same supplier, same product, different costs. Busted.", summary: "Marker lets holding companies see cross-brand pricing so they stop bidding against themselves." },
-  { team: "Sourcing & Negotiation", industry: "Outdoor Apparel", title: "~50 vendors. Tiny team. No sweat.", summary: "Marker automates follow-ups and status checks so lean teams handle big vendor rosters." },
+  { team: "Sourcing & Negotiation", industry: "Multi-Brand Apparel", title: "Same supplier, same product,<br>different costs. Busted.", summary: "Marker lets holding companies see cross-brand pricing so they stop bidding against themselves." },
+  { team: "Sourcing & Negotiation", industry: "Outdoor Apparel", title: "~50 vendors. Tiny team.<br>No sweat.", summary: "Marker automates follow-ups and status checks so lean teams handle big vendor rosters." },
 
   // Order Management
-  { team: "Order Management", industry: "Multi-Brand Sports Retail", title: "39 adoption meetings. Instant roll-ups for all of them.", summary: "Marker rolls brand-level work into portfolio views so leaders see adoption and risk fast." },
-  { team: "Order Management", industry: "DTC Furniture", title: "\"Where's my PO?\" Ask Marker, not the factory.", summary: "Marker tracks POs from issue to delivery so the answer is in one place, not scattered chats." },
+  { team: "Order Management", industry: "Multi-Brand Sports Retail", title: "39 adoption meetings.<br>Instant roll-ups for all of them.", summary: "Marker rolls brand-level work into portfolio views so leaders see adoption and risk fast." },
+  { team: "Order Management", industry: "DTC Furniture", title: "\"Where's my PO?\"<br>Ask Marker, not the factory.", summary: "Marker tracks POs from issue to delivery so the answer is in one place, not scattered chats." },
 
   // Production & Delivery
-  { team: "Production & Delivery", industry: "Lifestyle Apparel", title: "Half your day, one supplier email. How about half a minute, every supplier email?", summary: "Marker turns long email threads into structured actions so every supplier touch is faster." },
-  { team: "Production & Delivery", industry: "Premium Menswear", title: "Ship date moved? Everyone knows. Instantly.", summary: "Marker cascades ship date changes to downstream teams so plans change with reality." },
-  { team: "Production & Delivery", industry: "Lifestyle Apparel", title: "Deadlines don't get missed. They get flagged.", summary: "Marker flags at-risk milestones early using real communication, not stale status decks." },
-  { team: "Production & Delivery", industry: "DTC Footwear", title: "Shipment slipped. 50k marketing emails already sent. Never again.", summary: "Marker connects production and marketing so campaigns move when ship dates move." },
+  { team: "Production & Delivery", industry: "Lifestyle Apparel", title: "Half your day, one supplier email.<br>How about half a minute, every supplier email?", summary: "Marker turns long email threads into structured actions so every supplier touch is faster." },
+  { team: "Production & Delivery", industry: "Premium Menswear", title: "Ship date moved?<br>Everyone knows. Instantly.", summary: "Marker cascades ship date changes to downstream teams so plans change with reality." },
+  { team: "Production & Delivery", industry: "Lifestyle Apparel", title: "Deadlines don't get missed.<br>They get flagged.", summary: "Marker flags at-risk milestones early using real communication, not stale status decks." },
+  { team: "Production & Delivery", industry: "DTC Footwear", title: "Shipment slipped. 50k marketing<br>emails already sent. Never again.", summary: "Marker connects production and marketing so campaigns move when ship dates move." },
 
   // Compliance & Continuous Improvement
-  { team: "Compliance & Continuous Improvement", industry: "Fortune 500 Retail", title: "12 tools deployed. Everyone still uses Excel.", summary: "Marker replaces tool sprawl with one system people trust enough to actually adopt." },
-  { team: "Compliance & Continuous Improvement", industry: "Global Apparel Manufacturing", title: "Dozens of systems. One workflow.", summary: "Marker unifies work across portals and tools so thin-margin teams stop context switching." },
-  { team: "Compliance & Continuous Improvement", industry: "Outdoor Apparel", title: "\"Why was that shipment late?\" Ask Marker, not your team.", summary: "Marker reconstructs the real delivery story from messages so postmortems stop guessing." },
+  { team: "Compliance & Continuous Improvement", industry: "Fortune 500 Retail", title: "12 tools deployed.<br>Everyone still uses Excel.", summary: "Marker replaces tool sprawl with one system people trust enough to actually adopt." },
+  { team: "Compliance & Continuous Improvement", industry: "Global Apparel Manufacturing", title: "Dozens of systems.<br>One workflow.", summary: "Marker unifies work across portals and tools so thin-margin teams stop context switching." },
+  { team: "Compliance & Continuous Improvement", industry: "Outdoor Apparel", title: "\"Why was that shipment late?\"<br>Ask Marker, not your team.", summary: "Marker reconstructs the real delivery story from messages so postmortems stop guessing." },
 ];
 ---
 <html lang="en">
@@ -83,51 +83,51 @@ const studies = [
       transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
                   transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
       pointer-events: none;
-      padding: 48px 7vw 64px;
+      padding: 14vh 7vw 0;
     }
     .slide.active { opacity: 1; transform: scale(1); pointer-events: auto; }
     .slide.zoom-out { opacity: 0; transform: scale(1.08); }
 
     .case-header {
       position: fixed;
-      top: 36px;
+      top: 5vh;
       left: 7vw;
       right: 7vw;
       display: flex;
-      align-items: center;
-      gap: 24px;
+      align-items: baseline;
+      gap: 28px;
       z-index: 150;
     }
-    .brand-logo {
-      display: block;
-      height: 63px;
-      width: auto;
-      filter: brightness(0);
-      transform: none;
-    }
-    .brand-tagline {
-      font-size: 2.7rem;
-      font-weight: 600;
+    .brand-name {
+      font-size: clamp(2rem, 5.2vh, 4.75rem);
+      font-weight: 700;
+      font-style: italic;
       color: var(--text);
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
       line-height: 1;
     }
     .brand-separator {
-      font-size: 2.2rem;
-      font-weight: 400;
-      line-height: 1;
+      font-size: clamp(1.6rem, 4.4vh, 4rem);
+      font-weight: 300;
       color: #c7ccd1;
-      transform: none;
+      line-height: 1;
     }
-    .brand-tagline .accent { color: var(--primary); }
+    .brand-tagline {
+      font-size: clamp(1.2rem, 3.3vh, 3rem);
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.005em;
+      line-height: 1;
+    }
+    .brand-tagline .accent { color: var(--primary); font-weight: 600; }
 
     .headline {
-      font-size: clamp(5rem, 8.75vw, 8.44rem);
+      font-size: clamp(3rem, min(8.75vw, 9.5vh), 8.44rem);
       font-weight: 800;
       letter-spacing: -0.03em;
-      line-height: 1.02;
+      line-height: 1.15;
       max-width: 92%;
-      margin-bottom: 22px;
+      margin-bottom: clamp(1.5rem, 5vh, 6rem);
       opacity: 0;
       transform: translateY(24px);
       transition: opacity 0.5s 0.25s ease, transform 0.5s 0.25s ease;
@@ -136,15 +136,14 @@ const studies = [
     .teamline-row {
       display: flex;
       align-items: center;
-      gap: 18px;
-      margin-bottom: 8px;
+      gap: clamp(8px, 1.5vh, 18px);
       opacity: 0;
       transform: translateY(18px);
       transition: opacity 0.5s 0.38s ease, transform 0.5s 0.38s ease;
     }
 
     .greenline {
-      width: 56px;
+      width: clamp(28px, 4.5vh, 56px);
       height: 4px;
       background: var(--primary);
       border-radius: 999px;
@@ -152,7 +151,7 @@ const studies = [
     }
 
     .teamline {
-      font-size: 2.7rem;
+      font-size: clamp(1rem, 3vh, 2.7rem);
       font-weight: 800;
       letter-spacing: 0.02em;
       text-transform: uppercase;
@@ -168,11 +167,6 @@ const studies = [
       margin: 0 0.2em;
       position: relative;
       top: -0.05em;
-    }
-
-    .slide-order-multi-brand .teamline,
-    .slide-sourcing-outdoor .teamline {
-      font-size: 2.7rem;
     }
 
     .subtext {
@@ -241,13 +235,9 @@ const studies = [
     }
 
     @media (max-width: 1100px) {
-      .case-header { top: 24px; left: 24px; right: 24px; }
-      .slide { padding: 64px 24px 52px; }
-      .brand-logo { height: 32px; }
-      .brand-separator { font-size: 1.3rem; }
-      .brand-tagline { font-size: 1.6rem; }
-      .teamline { font-size: 1.6rem; }
-      .subtext { font-size: 1.2rem; max-width: 100%; }
+      .case-header { left: 24px; right: 24px; }
+      .slide { padding: 14vh 24px 0; }
+      .subtext { max-width: 100%; }
     }
   </style>
 </head>
@@ -261,7 +251,7 @@ const studies = [
   </div>
 
   <div class="case-header">
-    <img src="/logo.png" alt="Marker" class="brand-logo" />
+    <span class="brand-name">marker</span>
     <span class="brand-separator" aria-hidden="true">|</span>
     <span class="brand-tagline">Your always-on <span class="accent">supply chain coordinator</span></span>
   </div>
@@ -281,8 +271,8 @@ const studies = [
         .join(" ");
 
       return (
-        <div class={`slide${extraClasses ? " " + extraClasses : ""}`} data-duration="9750">
-        <h2 class="headline">{study.title}</h2>
+        <div class={`slide${extraClasses ? " " + extraClasses : ""}`} data-duration="6000">
+        <h2 class="headline" set:html={study.title} />
         <div class="teamline-row">
           <div class="greenline"></div>
           <div class="teamline">
