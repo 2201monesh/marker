@@ -118,7 +118,7 @@ export default function ConferencePostcardStudio({
   mooGuideSrc?: string;
 }) {
   const [downloading, setDownloading] = useState<"front" | "back" | null>(null);
-  const [showGuide, setShowGuide] = useState(true);
+  const [showGuide, setShowGuide] = useState(false);
   const frontExportRef = useRef<HTMLDivElement>(null);
   const backExportRef = useRef<HTMLDivElement>(null);
 

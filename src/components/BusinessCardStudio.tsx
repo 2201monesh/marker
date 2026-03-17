@@ -155,7 +155,7 @@ export default function BusinessCardStudio({
   mooGuideSrc?: string;
 }) {
   const [downloading, setDownloading] = useState<DownloadKey | null>(null);
-  const [showGuide, setShowGuide] = useState(true);
+  const [showGuide, setShowGuide] = useState(false);
   const frontExportRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const backExportRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
