@@ -207,8 +207,17 @@ const studies = [
       transition: none;
     }
 
-    .debug-controls {
+    .debug-controls-zone {
       position: fixed;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 80px;
+      z-index: 200;
+    }
+    .debug-controls {
+      position: absolute;
       left: 50%;
       bottom: 28px;
       transform: translateX(-50%);
@@ -221,7 +230,13 @@ const studies = [
       background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(14px);
       box-shadow: 0 12px 32px rgba(26, 26, 26, 0.08);
-      z-index: 200;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .debug-controls-zone:hover .debug-controls {
+      opacity: 1;
+      pointer-events: auto;
     }
     .debug-button, .debug-status {
       border-radius: 999px;
@@ -253,11 +268,13 @@ const studies = [
 </head>
 <body>
   <div class="progress-bar" id="progress"></div>
-  <div class="debug-controls">
-    <button class="debug-button" id="prevButton" type="button">Prev</button>
-    <button class="debug-button is-primary" id="playPauseButton" type="button">Autoplay Off</button>
-    <button class="debug-button" id="nextButton" type="button">Next</button>
-    <div class="debug-status" id="slideStatus">Slide 1</div>
+  <div class="debug-controls-zone">
+    <div class="debug-controls">
+      <button class="debug-button" id="prevButton" type="button">Prev</button>
+      <button class="debug-button" id="playPauseButton" type="button">Autoplay On</button>
+      <button class="debug-button" id="nextButton" type="button">Next</button>
+      <div class="debug-status" id="slideStatus">Slide 1</div>
+    </div>
   </div>
 
   <div class="case-header">
@@ -305,7 +322,7 @@ const studies = [
     let current = 0;
     let slideTimer = null;
     let slideDuration = 0;
-    let isAutoplayEnabled = false;
+    let isAutoplayEnabled = true;
 
     function clearSlideTimer() {
       clearTimeout(slideTimer);
