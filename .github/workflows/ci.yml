@@ -9,6 +9,7 @@ concurrency:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   build:
@@ -110,4 +111,19 @@ jobs:
           if [ -n "$preview_url" ]; then
             echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
             echo "Preview URL: $preview_url" >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Comment preview URL on PR
+        if: steps.firebase_preview.outputs.preview_url
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PREVIEW_URL: ${{ steps.firebase_preview.outputs.preview_url }}
+        run: |
+          comment_body="🔗 **Preview:** $PREVIEW_URL"
+          # Look for an existing preview comment to update
+          existing_comment_id=$(gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" --jq '.[] | select(.body | startswith("🔗 **Preview:**")) | .id' | head -n 1)
+          if [ -n "$existing_comment_id" ]; then
+            gh api "repos/${{ github.repository }}/issues/comments/${existing_comment_id}" -X PATCH -f body="$comment_body"
+          else
+            gh pr comment "$PR_NUMBER" --body "$comment_body"
           fi
