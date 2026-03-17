@@ -19,6 +19,18 @@ npm run dev
 
 The dev server runs at `localhost:4321`.
 
+## Branded Assets
+
+Dev-only branded asset pages live under `/branded-assets` when running
+`npm run dev`.
+
+- `/branded-assets` lists the available local asset pages
+- `/branded-assets/business-card` contains the business card exports
+- `/branded-assets/conference-postcard` contains the conference postcard exports
+
+These routes are intentionally excluded from production builds and are not
+published with the site.
+
 ## Commands
 
 | Command           | Action                                       |

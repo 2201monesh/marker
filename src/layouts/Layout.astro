@@ -4,9 +4,47 @@ import "../styles/global.css";
 interface Props {
   title: string;
   noindex?: boolean;
+  fontSource?: "google" | "local";
 }
 
-const { title, noindex = false } = Astro.props;
+const {
+  title,
+  noindex = false,
+  fontSource = "google",
+} = Astro.props;
+const LOCAL_INTER_CSS = `
+  @font-face {
+    font-family: "Inter";
+    src: url("/fonts/Inter-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Inter";
+    src: url("/fonts/Inter-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Inter";
+    src: url("/fonts/Inter-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Inter";
+    src: url("/fonts/Inter-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+`;
 ---
 
 <!doctype html>
@@ -19,9 +57,18 @@ const { title, noindex = false } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Marker is an AI-powered orchestrator that acts as your always-on retail supply chain coordinator. It syncs data, tracks handoffs, and moves work forward autonomously." />
     {noindex && <meta name="robots" content="noindex, nofollow, noarchive" />}
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    {fontSource === "local" ? (
+      <style is:inline>{LOCAL_INTER_CSS}</style>
+    ) : (
+      <>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        />
+      </>
+    )}
     <title>{title}</title>
     <script is:inline src="https://app.termly.io/resource-blocker/12b5ead1-e229-43ff-a44c-1394e5dbbdd6?autoBlock=on"></script>
     <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/245531796.js"></script>
