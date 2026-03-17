@@ -1,0 +1,80 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout title="Driving Adoption Without Requiring a Complete Data Foundation - Marker">
+  <Navbar />
+  <main id="main-content">
+    <article class="mx-auto max-w-3xl px-6 pt-16 pb-16 md:pt-24 md:pb-24">
+      <a href="/case-studies" class="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground">
+        <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        All Case Studies
+      </a>
+
+      <span class="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-primary">Fortune 500 Retail</span>
+      <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">Driving Adoption Without Requiring a Complete Data Foundation</h1>
+
+      <div class="mt-8 rounded-lg border border-border bg-muted/50 p-5 text-sm">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <span class="block font-medium text-foreground">Company</span>
+            <span class="text-muted-foreground">Fortune 500 mass-market retailer where data sits across multiple cloud services with no semantic layer</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Team</span>
+            <span class="text-muted-foreground">Sourcing product insights group responsible for building tools that the sourcing organization will actually adopt</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Key Challenge</span>
+            <span class="text-muted-foreground">Teams rejected tools that required all data to be present upfront; without transparency into logic, associates defaulted to Excel</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Challenge</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">A product manager in the sourcing insights group at this Fortune 500 retailer had spent a decade learning what it takes to get a large, change-resistant sourcing organization to adopt new technology. The answer was clear: you can't wait for perfect data. "Whatever we build, to get adoption you can't rely on all of the data being there to build the first product they adopt."</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">The company's data was scattered across cloud services with no semantic layer connecting them. Nobody knew how everything was related. Previous tools that required clean, complete data as a prerequisite failed before they launched — the data was never ready, and the sourcing organization lost patience. On the other end, tools that provided answers without showing their logic were equally rejected. "Without transparency for associates for how they got to an answer, associates will continue to use Excel."</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">The PM needed technology that delivered value from day one — even with incomplete data — while building the foundational dataset that would power more advanced capabilities over time.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Approach</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Marker's communication-first approach means the data foundation builds itself through normal work. From the first day, every supplier email, document exchange, and negotiation captured by Marker becomes part of the dataset — no migration, no data cleaning, no prerequisite integration project. Teams see value immediately through communication visibility, and the dataset grows richer with each interaction.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Every insight Marker surfaces is linked to the source communication. When the system flags a pricing anomaly or highlights a deadline risk, the associate can trace it back to the specific email or document that generated it. This transparency is what moves associates off Excel — not by taking away their flexibility, but by providing answers they can verify. As the dataset grows over weeks and months, more advanced capabilities (trend analysis, supplier benchmarking, predictive alerts) unlock naturally, without a separate data readiness project.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">Key Takeaways</h2>
+        <ul class="mt-3 space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Value delivered from day one through communication visibility — no data migration or integration prerequisite</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Data foundation builds itself through normal sourcing activity, growing richer with each interaction</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Full traceability from every insight back to source communication, meeting the transparency bar that drives adoption</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Advanced capabilities (benchmarking, trend analysis, predictive alerts) unlock progressively as the dataset matures</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-12 rounded-lg border border-primary/20 bg-primary/5 p-6 text-center">
+        <p class="text-sm font-medium text-foreground">See how Marker delivers value from day one without requiring a data readiness project.</p>
+        <a href="/book-demo" class="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Book a Demo</a>
+      </section>
+    </article>
+  </main>
+  <Footer />
+</Layout>

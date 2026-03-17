@@ -1,0 +1,80 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout title="Building an Audit Trail for Every Vendor Commitment - Marker">
+  <Navbar />
+  <main id="main-content">
+    <article class="mx-auto max-w-3xl px-6 pt-16 pb-16 md:pt-24 md:pb-24">
+      <a href="/case-studies" class="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground">
+        <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        All Case Studies
+      </a>
+
+      <span class="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-primary">DTC Furniture</span>
+      <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">Building an Audit Trail for Every Vendor Commitment</h1>
+
+      <div class="mt-8 rounded-lg border border-border bg-muted/50 p-5 text-sm">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <span class="block font-medium text-foreground">Company</span>
+            <span class="text-muted-foreground">Direct-to-consumer furniture brand managing re-sourcing due to tariff changes</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Team</span>
+            <span class="text-muted-foreground">Sourcing leader reporting to Chief Sourcing and Supply Chain Officer</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Key Challenge</span>
+            <span class="text-muted-foreground">No record of when vendors changed dates or terms, making accountability and performance measurement impossible</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Challenge</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">A sourcing leader at this DTC furniture brand — previously at a major home goods retailer for seven years — described a recurring frustration: vendors would change ship dates, adjust pricing, or revise terms, and there was no systematic record of when those changes happened or who agreed to them. Communications were scattered across "email, WhatsApp, text, carrier pigeon," as she described it.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">The lack of an audit trail made vendor performance measurement unreliable. The team knew some vendors were difficult to work with — one required 17 rounds of communication to finalize pricing, while another consistently closed in 3 — but this knowledge was anecdotal. There was no way to quantify conflict resolution time, response patterns, or commitment reliability across the supplier base.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">With tariff changes forcing the team to re-source actively, the problem was intensifying. More vendor relationships meant more communication to track, more commitments to verify, and more opportunities for changes to slip through unnoticed.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Approach</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Marker creates an automatic audit log of every vendor commitment captured in communication: ship dates, pricing confirmations, payment terms, and delivery milestones. When a vendor changes a date, the original commitment and the change are both recorded with timestamps and context — no manual logging required.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">This audit trail powers vendor performance scoring that goes beyond the usual on-time/on-budget metrics. The team can now measure what the sourcing leader called "vibes" — but quantified: average response time, number of rounds to resolve pricing, frequency of unilateral date changes, and how quickly issues escalate and resolve. For a team actively onboarding new vendors due to tariff shifts, this data accelerates the evaluation of which new relationships are working and which aren't.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">Key Takeaways</h2>
+        <ul class="mt-3 space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Automatic audit log of every vendor commitment — dates, pricing, terms — with timestamps and full context</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Vendor performance scored on responsiveness, conflict resolution time, and commitment reliability</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Date and term changes flagged with the original commitment visible, preventing unnoticed scope creep</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Faster evaluation of new vendor relationships during active re-sourcing periods</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-12 rounded-lg border border-primary/20 bg-primary/5 p-6 text-center">
+        <p class="text-sm font-medium text-foreground">See how Marker creates accountability across your vendor relationships.</p>
+        <a href="/book-demo" class="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Book a Demo</a>
+      </section>
+    </article>
+  </main>
+  <Footer />
+</Layout>

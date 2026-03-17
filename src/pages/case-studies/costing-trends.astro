@@ -1,0 +1,80 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout title="Tracking Costing Trends Across Vendors and Seasons - Marker">
+  <Navbar />
+  <main id="main-content">
+    <article class="mx-auto max-w-3xl px-6 pt-16 pb-16 md:pt-24 md:pb-24">
+      <a href="/case-studies" class="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground">
+        <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        All Case Studies
+      </a>
+
+      <span class="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-primary">Premium Activewear</span>
+      <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">Tracking Costing Trends Across Vendors and Seasons</h1>
+
+      <div class="mt-8 rounded-lg border border-border bg-muted/50 p-5 text-sm">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <span class="block font-medium text-foreground">Company</span>
+            <span class="text-muted-foreground">Premium activewear brand managing 3-6 rounds of costing per style across ~50 vendors</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Team</span>
+            <span class="text-muted-foreground">Sourcing team responsible for costing, vendor negotiations, and margin management</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Key Challenge</span>
+            <span class="text-muted-foreground">No historical view of cost evolution across vendors; D2C brands especially vulnerable to being overcharged without competitive benchmarks</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Challenge</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">A senior sourcing leader at this premium activewear brand described a reality common across the industry: each style goes through 3 to 6 rounds of costing, from directional estimates through prototype adoption to pre-investment review and final PO pricing. At each stage, costs are renegotiated based on evolving BOMs, quantity commitments, and factory capacity. The data generated across these rounds — multiplied by ~50 vendors — is enormous, but it was never captured in a way that allowed trend analysis.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Cost data was re-entered into the PLM system at the component level, and earlier-stage estimates lived only in email threads. There was no way to look back and see how a specific factory's pricing had evolved over multiple seasons, or whether the same construction was being quoted differently by different vendors. The sourcing leader, who had experience at one of the world's largest apparel companies, noted that D2C brands are especially vulnerable: factories "milk it for as long as they can, especially for D2Cs" who lack visibility into what comparable brands are paying.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Even within the same organization, different team members negotiating with the same vendor network could end up negotiating against themselves — a problem that at scale could represent significant margin erosion.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Approach</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Marker captures cost data as it flows through supplier communication — from the first directional estimate through every subsequent round — and builds a historical view of pricing by vendor, construction type, and season. Rather than relying on what gets entered into the PLM (often only the final number), Marker preserves the full negotiation trajectory.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">When a vendor quotes a price for a new style, the team can instantly see how that quote compares to historical pricing for similar constructions from the same vendor and from competitors. When pricing trends upward without a clear driver (material costs, capacity constraints), the sourcing team has the data to have an informed conversation. For a brand managing ~50 vendor relationships, this visibility ensures the organization isn't paying more than it should — not through adversarial negotiation, but through information parity.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">Key Takeaways</h2>
+        <ul class="mt-3 space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Full costing history captured from communication — every round from directional estimate to PO, not just the final number</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>New quotes benchmarked against historical pricing for similar constructions from the same and competing vendors</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Pricing trend drift detected and surfaced before it compounds across seasons</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Internal self-negotiation prevented by giving the full team visibility into what's being quoted across the vendor base</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-12 rounded-lg border border-primary/20 bg-primary/5 p-6 text-center">
+        <p class="text-sm font-medium text-foreground">See how Marker gives your sourcing team historical cost intelligence.</p>
+        <a href="/book-demo" class="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Book a Demo</a>
+      </section>
+    </article>
+  </main>
+  <Footer />
+</Layout>

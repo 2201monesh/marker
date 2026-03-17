@@ -1,0 +1,182 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout title="Reclaiming Hours Lost to the Supplier Email Cycle - Marker">
+  <Navbar />
+  <main id="main-content">
+    <article class="mx-auto max-w-3xl px-6 pt-16 pb-16 md:pt-24 md:pb-24">
+      <a
+        href="/case-studies"
+        class="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
+      >
+        <svg
+          class="mr-1 h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 19l-7-7 7-7"></path>
+        </svg>
+        All Case Studies
+      </a>
+
+      <span
+        class="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-primary"
+      >
+        Premium Menswear
+      </span>
+      <h1
+        class="text-2xl font-bold tracking-tight text-foreground md:text-3xl"
+      >
+        Reclaiming Hours Lost to the Supplier Email Cycle
+      </h1>
+
+      <div
+        class="mt-8 rounded-lg border border-border bg-muted/50 p-5 text-sm"
+      >
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <span class="block font-medium text-foreground">Company</span>
+            <span class="text-muted-foreground"
+              >Premium menswear brand, DTC + wholesale</span
+            >
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Team</span>
+            <span class="text-muted-foreground"
+              >~12-person product development team; fewer than 12 suppliers</span
+            >
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Key Challenge</span
+            >
+            <span class="text-muted-foreground"
+              >Email overload consuming productive hours; no internal
+              collaboration layer before responding to suppliers</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Challenge</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">
+          The VP of Product Development at this premium menswear brand described
+          the daily reality facing his team: merchants handling 70 to 80 emails
+          per day, with roughly half requiring them to pull files from other
+          systems, check tech packs, or cross-reference purchase orders before
+          they could respond. The VP himself was spending an estimated four hours
+          a day in email.
+        </p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">
+          He called it the "evil email cycle" — a pattern where every supplier
+          message triggers a cascade of internal lookups, side conversations, and
+          delayed responses. There was no way to discuss a supplier email
+          internally before sending a reply. Team members often weren't sure who
+          should respond to which messages, and things would get stuck when the
+          right person didn't see a thread in time.
+        </p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">
+          When a ship date changed, for example, the update needed to reach
+          logistics, merchants, and marketing — but there was no automated way to
+          cascade that notification. The team was manually tracking these
+          dependencies, often through yet more email.
+        </p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Approach</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">
+          Marker connects to the team's existing supplier email workflow and
+          provides an internal collaboration layer on top of it. Rather than
+          replacing email, Marker captures the communication stream and gives the
+          team tools to discuss, assign, and validate before responses go out.
+        </p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">
+          When a supplier sends an email — for instance, notifying of a ship date
+          delay — Marker surfaces contextual information alongside the message:
+          the relevant purchase order, penalty clauses, and the downstream teams
+          that need to be informed. Team members can tag colleagues, draft
+          responses collaboratively, and assign follow-up actions without leaving
+          the platform.
+        </p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">
+          Marker also validates incoming supplier communications against existing
+          agreements. If a rate card isn't being followed or a ship date change
+          conflicts with contractual terms, the team is alerted before they
+          respond. For this brand, where margins are strong and relationships with
+          long-tenured vendors run deep, this validation layer protects the
+          business without requiring adversarial negotiations.
+        </p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">Key Takeaways</h2>
+        <ul class="mt-3 space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+            ></span>
+            <span
+              >Internal collaboration on supplier emails before responses are
+              sent, reducing back-and-forth and miscommunication</span
+            >
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+            ></span>
+            <span
+              >Automatic validation of supplier communications against rate
+              cards and contractual terms</span
+            >
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+            ></span>
+            <span
+              >Cascading notifications when ship dates or PO details change,
+              ensuring logistics, merchants, and marketing stay aligned</span
+            >
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+            ></span>
+            <span
+              >Clear assignment of email ownership, preventing threads from
+              stalling when the right person doesn't see them</span
+            >
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+            ></span>
+            <span
+              >Dashboard-level visibility into team communication patterns with
+              suppliers, surfacing bottlenecks</span
+            >
+          </li>
+        </ul>
+      </section>
+
+      <section
+        class="mt-12 rounded-lg border border-primary/20 bg-primary/5 p-6 text-center"
+      >
+        <p class="text-sm font-medium text-foreground">
+          See how Marker can help your team reclaim hours lost to supplier email.
+        </p>
+        <a
+          href="/book-demo"
+          class="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
+          Book a Demo
+        </a>
+      </section>
+    </article>
+  </main>
+  <Footer />
+</Layout>

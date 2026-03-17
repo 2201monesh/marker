@@ -1,0 +1,80 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout title="Helping Designers Make Cost-Informed Fabric Decisions - Marker">
+  <Navbar />
+  <main id="main-content">
+    <article class="mx-auto max-w-3xl px-6 pt-16 pb-16 md:pt-24 md:pb-24">
+      <a href="/case-studies" class="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground">
+        <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        All Case Studies
+      </a>
+
+      <span class="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-primary">Premium Menswear</span>
+      <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">Helping Designers Make Cost-Informed Fabric Decisions</h1>
+
+      <div class="mt-8 rounded-lg border border-border bg-muted/50 p-5 text-sm">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <span class="block font-medium text-foreground">Company</span>
+            <span class="text-muted-foreground">Premium menswear brand where designers select fabrics without visibility into cost implications</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Team</span>
+            <span class="text-muted-foreground">Design team working alongside product development, where fabric selection drives a significant portion of total garment cost</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Key Challenge</span>
+            <span class="text-muted-foreground">Designers overdeveloped styles and chose expensive fabrics with no incentive or information to optimize, leading to costly costing rounds later in the process</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Challenge</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">The VP of Product Development at this premium menswear brand — who also teaches at the university level — described a systemic disconnect between design and cost management. Designers selected fabrics based on aesthetic and performance criteria, with no visibility into price. There was no incentive structure encouraging designers to pick cost-effective materials, and no tool giving them real-time feedback on how their choices would affect the garment's FOB (freight on board) price.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">The result was oversampling and overdevelopment. The VP's target was 30% oversampling — meaning 30% of developed styles would be cut before production. But without cost information early in the process, styles that were never viable from a margin perspective were developed through multiple rounds of sampling, costing, and negotiation before being killed. Each unnecessary round consumed vendor time, PD team bandwidth, and actual sampling costs.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Fabric choice is one of the largest cost drivers in apparel. A fabric selection that goes through the full 3-6 round costing process only to be rejected at the pre-investment review represents a significant waste of the entire supply chain's resources — from the greige goods stage through yarn and finished fabric.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Approach</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Marker gives designers cost context at the moment of fabric selection. When a designer is considering a fabric, Marker surfaces historical pricing data for that material type — what the brand has paid previously, what alternatives exist at different price points, and how the choice would affect the projected garment cost relative to the target margin.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">This isn't about constraining design — it's about informing it. The designer still makes the creative decision, but they make it with visibility into the financial implications. Styles that are clearly outside the margin envelope can be flagged early, before they enter the multi-round costing process. For the PD team, this means fewer wasted costing rounds and more focused development. For suppliers, it means fewer spec changes and sample requests for styles that will ultimately be cut.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">Key Takeaways</h2>
+        <ul class="mt-3 space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Historical fabric pricing surfaced at the moment of selection, giving designers cost context alongside creative criteria</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Styles outside the margin envelope flagged early, before they consume multiple costing rounds</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Alternative fabrics at different price points visible, enabling informed trade-offs between aesthetics and cost</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Supplier sampling and PD team bandwidth preserved by reducing overdevelopment of non-viable styles</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-12 rounded-lg border border-primary/20 bg-primary/5 p-6 text-center">
+        <p class="text-sm font-medium text-foreground">See how Marker connects design decisions to cost intelligence.</p>
+        <a href="/book-demo" class="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Book a Demo</a>
+      </section>
+    </article>
+  </main>
+  <Footer />
+</Layout>

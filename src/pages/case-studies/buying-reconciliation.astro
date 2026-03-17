@@ -1,0 +1,80 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout title="Eliminating Reconciliation Errors in the Buying Process - Marker">
+  <Navbar />
+  <main id="main-content">
+    <article class="mx-auto max-w-3xl px-6 pt-16 pb-16 md:pt-24 md:pb-24">
+      <a href="/case-studies" class="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground">
+        <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        All Case Studies
+      </a>
+
+      <span class="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-primary">Multi-Brand Sports Retail</span>
+      <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">Eliminating Reconciliation Errors in the Buying Process</h1>
+
+      <div class="mt-8 rounded-lg border border-border bg-muted/50 p-5 text-sm">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <span class="block font-medium text-foreground">Company</span>
+            <span class="text-muted-foreground">Multi-brand sports retailer managing 7 categories across 20 brands</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Team</span>
+            <span class="text-muted-foreground">Buyer managing a category with one buying assistant and one coordinator</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Key Challenge</span>
+            <span class="text-muted-foreground">560 budget meetings per year, constant manual data reconciliation, and a 1-in-500 error rate from hand-keying data across spreadsheets</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Challenge</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">A buyer at this multi-brand sports retailer managed an accessories category spanning 20 brands across 4 quarterly cycles — resulting in roughly 560 budget meetings per year. Every meeting required pulling data from budget files, range plans, booking order files, and sales analysis spreadsheets. The sales analysis file alone was so large that the team had to close all other applications to open it.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Everything ran on Excel. Budget files were built both top-down and bottom-up, range plans included images and product details, and PO reconciliation was done manually across spreadsheets. The buyer estimated a 1-in-500 error rate from manual data entry — not catastrophic in isolation, but compounding across thousands of line items and multiple seasons. Every error required time-consuming reconciliation.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">The human cost was equally significant. Coordinators spent their days updating numbers in spreadsheets and never got the opportunity to learn the actual buying craft. Employee turnover was high, in part because the work was tedious. As the buyer put it: "The information exchange is so much that we do sometimes lose things in translation."</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Approach</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Marker captures the communication between buyer and vendor — order confirmations, pricing updates, delivery schedules, and change requests — and structures it against the relevant budget and PO data. When a vendor confirms a price that differs from the PO, or when a delivery date shifts, the discrepancy is flagged before it compounds into a reconciliation problem.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Rather than replacing the team's Excel workflows, Marker acts as a validation layer on the data flowing between systems. The buyer retains the flexibility to view the business from any angle — the pivot table functionality they rely on — while Marker catches the errors and inconsistencies that manual entry introduces. For the coordinator, this shifts the role from data janitor to someone who can focus on learning supplier relationships and buying strategy.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">Key Takeaways</h2>
+        <ul class="mt-3 space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Automatic flagging of price and date discrepancies between vendor communications and PO data before they compound</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Validation layer that works alongside existing Excel workflows rather than replacing them</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Coordinator time redirected from manual data reconciliation to higher-value buying activities</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Communication trail between buyer and vendor structured and searchable, reducing information lost in translation</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-12 rounded-lg border border-primary/20 bg-primary/5 p-6 text-center">
+        <p class="text-sm font-medium text-foreground">See how Marker eliminates reconciliation errors in your buying process.</p>
+        <a href="/book-demo" class="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Book a Demo</a>
+      </section>
+    </article>
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,80 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout title="Turning Sourcing Communication Into Supplier Scorecards - Marker">
+  <Navbar />
+  <main id="main-content">
+    <article class="mx-auto max-w-3xl px-6 pt-16 pb-16 md:pt-24 md:pb-24">
+      <a href="/case-studies" class="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground">
+        <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        All Case Studies
+      </a>
+
+      <span class="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-primary">Luxury Beauty Retail</span>
+      <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">Turning Sourcing Communication Into Supplier Scorecards</h1>
+
+      <div class="mt-8 rounded-lg border border-border bg-muted/50 p-5 text-sm">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <span class="block font-medium text-foreground">Company</span>
+            <span class="text-muted-foreground">Global luxury beauty retailer within a multinational conglomerate</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Team</span>
+            <span class="text-muted-foreground">Supply chain and compliance leadership</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Key Challenge</span>
+            <span class="text-muted-foreground">No tools for sourcing communication; compliance team chasing sourcing for audit data that lives in email threads</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Challenge</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">A supply chain and compliance leader at this luxury beauty retailer — part of a major multinational conglomerate — described the core tension between sourcing speed and compliance rigor. The compliance team was perpetually chasing the sourcing team for audit information, supplier documentation, and social and environmental reports. Sourcing teams, under pressure to hit cost and timeline targets, used "I don't have time for an audit" as a loophole to defer compliance requests.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">The underlying problem was that no system captured sourcing communication in a structured way. Supplier performance data — responsiveness, commitment follow-through, issue resolution patterns — lived exclusively in individual inboxes. Building a supplier scorecard required manually gathering information from across the organization, a process so time-consuming that it rarely happened with any rigor.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">This leader described the communication record as "the secret sauce" — the missing dataset that could power both operational improvements and compliance reporting, if only it were captured and structured.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Approach</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Marker captures the full stream of sourcing communication and uses it to automatically generate supplier scorecards. Rather than requiring the compliance team to chase down audit data, the information is extracted from conversations that are already happening: response times, commitment adherence, issue escalation patterns, and documentation completeness.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">For the compliance team, this means audit-relevant information surfaces as a byproduct of normal sourcing activity — no additional data entry or process changes required. For sourcing leadership, the scorecards provide a data-driven view of supplier performance that supports vendor reviews, re-sourcing decisions, and risk assessments. Reports that previously required weeks of manual compilation can be generated from the communication record on demand.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">Key Takeaways</h2>
+        <ul class="mt-3 space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Supplier scorecards generated automatically from communication data — no manual data gathering required</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Compliance audit data surfaced as a byproduct of normal sourcing activity, eliminating the chase</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Supplier responsiveness, commitment adherence, and issue resolution patterns quantified from real interactions</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>On-demand reporting that previously took weeks of manual compilation across the organization</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-12 rounded-lg border border-primary/20 bg-primary/5 p-6 text-center">
+        <p class="text-sm font-medium text-foreground">See how Marker turns sourcing communication into actionable supplier intelligence.</p>
+        <a href="/book-demo" class="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Book a Demo</a>
+      </section>
+    </article>
+  </main>
+  <Footer />
+</Layout>

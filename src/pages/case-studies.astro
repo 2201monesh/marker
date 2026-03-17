@@ -1,0 +1,300 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+
+const phases = [
+  {
+    step: 1,
+    name: "Planning & Demand Signals",
+    description: "Long-range visibility into demand, capacity, and organizational readiness",
+    studies: [
+      {
+        slug: "brand-manufacturer-planning-gap",
+        industry: "Global Apparel Manufacturing",
+        title: "Closing the Planning Gap Between Brands and Factories",
+        summary:
+          "A global apparel manufacturer was financing production with limited visibility into brand demand signals. Poor information sharing and frequent brand leadership changes left the factory exposed to working capital risk.",
+      },
+      {
+        slug: "institutional-knowledge",
+        industry: "Fortune 500 Automotive",
+        title: "Preserving Sourcing Knowledge Through Team Turnover",
+        summary:
+          "A Fortune 500 automotive OEM managing $2B in annual component spend saw sourcing team turnover rise from 8% to 54%. Decades of supplier relationship knowledge was walking out the door with every departure.",
+      },
+      {
+        slug: "adoption-without-complete-data",
+        industry: "Fortune 500 Retail",
+        title: "Driving Adoption Without Requiring a Complete Data Foundation",
+        summary:
+          "A Fortune 500 retailer's previous tools failed because they required clean, complete data as a prerequisite. The sourcing organization needed technology that delivered value from day one while building the data foundation over time.",
+      },
+    ],
+  },
+  {
+    step: 2,
+    name: "Supplier Selection & Onboarding",
+    description: "Finding, evaluating, and onboarding the right manufacturing partners",
+    studies: [
+      {
+        slug: "supplier-onboarding",
+        industry: "Lifestyle Apparel",
+        title: "Mapping Supplier Capabilities for Faster Onboarding",
+        summary:
+          "A lifestyle apparel brand had no central repository of what their suppliers could do. Onboarding new vendors meant mapping the entire process from scratch — capabilities, certifications, and process knowledge lived only in individual inboxes.",
+      },
+      {
+        slug: "supplier-scorecards",
+        industry: "Luxury Beauty Retail",
+        title: "Turning Sourcing Communication Into Supplier Scorecards",
+        summary:
+          "A luxury beauty retailer's compliance team was chasing sourcing for audit data that lived in email threads. Supplier performance data — responsiveness, commitment follow-through — existed nowhere in structured form.",
+      },
+      {
+        slug: "vendor-accountability",
+        industry: "DTC Furniture",
+        title: "Building an Audit Trail for Every Vendor Commitment",
+        summary:
+          "A DTC furniture brand had no record of when vendors changed dates or terms. With tariff changes forcing active re-sourcing, the team needed to evaluate new relationships quickly — but had no data on vendor reliability.",
+      },
+    ],
+  },
+  {
+    step: 3,
+    name: "Design & Costing",
+    description: "Translating creative concepts into manufacturable, margin-viable products",
+    studies: [
+      {
+        slug: "designer-cost-visibility",
+        industry: "Premium Menswear",
+        title: "Helping Designers Make Cost-Informed Fabric Decisions",
+        summary:
+          "Designers at a premium menswear brand selected fabrics with no visibility into cost. Styles that were never viable from a margin perspective went through multiple costing rounds before being killed — wasting the entire supply chain's resources.",
+      },
+      {
+        slug: "costing-trends",
+        industry: "Premium Activewear",
+        title: "Tracking Costing Trends Across Vendors and Seasons",
+        summary:
+          "A premium activewear brand ran 3-6 costing rounds per style across ~50 vendors. Earlier-stage estimates lived only in email, and the team had no historical view of how pricing evolved — leaving them vulnerable to upward drift.",
+      },
+      {
+        slug: "rate-card-validation",
+        industry: "Premium Menswear",
+        title: "Validating Supplier Rate Cards Against Contractual Terms",
+        summary:
+          "A premium menswear brand operating at ~70% margins had no automated way to verify that supplier quotes adhered to agreed rate cards. Small deviations compounded across hundreds of POs per season.",
+      },
+      {
+        slug: "email-orchestration",
+        industry: "Premium Menswear",
+        title: "Reclaiming Hours Lost to the Supplier Email Cycle",
+        summary:
+          "A premium menswear brand's product development team was spending hours each day buried in supplier emails. By centralizing communication and enabling internal collaboration before responses go out, they transformed how their lean team manages vendor relationships.",
+      },
+    ],
+  },
+  {
+    step: 4,
+    name: "Sourcing & Negotiation",
+    description: "Running RFQs, aligning across teams, and securing the right terms at scale",
+    studies: [
+      {
+        slug: "standardizing-rfq-workflows",
+        industry: "Fortune 500 Retail",
+        title: "Standardizing RFQ Workflows Across Divisions",
+        summary:
+          "A Fortune 500 retailer's divisions each ran RFQs in different tools with separate databases. Associates had to navigate too many systems to complete basic sourcing tasks, and no one knew how the data across services was connected.",
+      },
+      {
+        slug: "multi-brand-sourcing",
+        industry: "Multi-Brand Apparel",
+        title: "Unifying Sourcing Communication Across a Multi-Brand Portfolio",
+        summary:
+          "An apparel holding company managing 5+ brands through acquisition had no unified view of vendor activity. Two brands could be negotiating with the same factory at different prices without anyone knowing.",
+      },
+      {
+        slug: "lean-sourcing-team",
+        industry: "Outdoor Apparel",
+        title: "Scaling a Lean Sourcing Team Without Adding Headcount",
+        summary:
+          "A sustainability-focused outdoor brand needed to grow its sourcing output without growing its team. The challenge: communication scattered across email, WhatsApp, and Slack, with no single view of what needed attention.",
+      },
+      {
+        slug: "scaling-without-complexity",
+        industry: "Premium Activewear",
+        title: "Growing From Startup to Scale Without Legacy Overhead",
+        summary:
+          "A fast-growing activewear brand wanted to build sourcing infrastructure that would scale with the business — without inheriting the bloated systems and processes that slow down larger competitors.",
+      },
+    ],
+  },
+  {
+    step: 5,
+    name: "Order Management",
+    description: "Placing, tracking, and reconciling purchase orders across the vendor base",
+    studies: [
+      {
+        slug: "unstructured-order-parsing",
+        industry: "Office & Business Supply Chain",
+        title: "Parsing Unstructured Orders Into Actionable Data",
+        summary:
+          "A national office supply retailer with 50 fulfillment centers received customer orders as unstructured email. Each customer had their own format, and system walls between OMS, WMS, and TMS added further friction.",
+      },
+      {
+        slug: "buying-reconciliation",
+        industry: "Multi-Brand Sports Retail",
+        title: "Eliminating Reconciliation Errors in the Buying Process",
+        summary:
+          "A buyer at a multi-brand sports retailer managed 560 budget meetings per year across 20 brands, all running on Excel. Manual data entry across spreadsheets introduced a steady stream of errors that compounded across seasons.",
+      },
+      {
+        slug: "po-lifecycle",
+        industry: "DTC Furniture",
+        title: "Automating PO Lifecycle Tracking From Issue to Delivery",
+        summary:
+          "A DTC furniture brand tracked WIP status by manually asking factories for updates via email and WhatsApp. With dozens of POs at different stages, there was no centralized view of where things stood.",
+      },
+      {
+        slug: "admin-to-strategy",
+        industry: "DTC Footwear",
+        title: "Shifting Supply Chain Analysts From Admin to Strategy",
+        summary:
+          "A supply chain analyst at a DTC footwear brand spent most of the day on invoice reconciliation, payment tracking, and return processing. The strategic work — cost optimization and vendor evaluation — was perpetually deferred.",
+      },
+    ],
+  },
+  {
+    step: 6,
+    name: "Production & Delivery",
+    description: "Monitoring production milestones, managing delays, and coordinating logistics",
+    studies: [
+      {
+        slug: "ship-date-cascades",
+        industry: "Premium Menswear",
+        title: "Cascading Ship Date Changes to Every Affected Team",
+        summary:
+          "When a supplier changed a ship date at this premium menswear brand, the update needed to reach logistics, merchants, and marketing. But notifications were manually forwarded — and often arrived too late for downstream teams to adjust.",
+      },
+      {
+        slug: "deadline-visibility",
+        industry: "Lifestyle Apparel",
+        title: "Turning Missed Deadlines Into Proactive Alerts",
+        summary:
+          "A lifestyle apparel brand struggled with missed milestones across a multi-quarter product calendar. Without a way to connect communication history to deadline performance, the team had no visibility into what went wrong or why.",
+      },
+      {
+        slug: "multi-channel-communication",
+        industry: "DTC Footwear",
+        title: "Centralizing Supplier Communication Across Channels",
+        summary:
+          "A direct-to-consumer footwear brand managed supplier conversations across email, WhatsApp, and WeChat with no central record. Critical updates on materials and ship dates were getting lost in the noise.",
+      },
+    ],
+  },
+  {
+    step: 7,
+    name: "Compliance, Infrastructure & Continuous Improvement",
+    description: "Governance, tooling, and learning from each season to improve the next",
+    studies: [
+      {
+        slug: "compliance-sourcing-link",
+        industry: "Luxury Beauty Retail",
+        title: "Connecting Compliance Audits to Sourcing Decisions",
+        summary:
+          "A luxury beauty retailer's compliance and sourcing teams operated in parallel without shared visibility. Risk information from audits arrived disconnected from sourcing context — and often too late to influence decisions.",
+      },
+      {
+        slug: "tool-overload",
+        industry: "Fortune 500 Retail",
+        title: "Reducing Tool Overload for Sourcing Associates",
+        summary:
+          "A Fortune 500 retailer had deployed multiple AI chat tools, but associates still visited too many systems to complete basic tasks. Without transparency into how tools reached their answers, teams defaulted back to Excel.",
+      },
+      {
+        slug: "portal-fatigue",
+        industry: "Global Apparel Manufacturing",
+        title: "Replacing Portal Fatigue With Communication-First Workflows",
+        summary:
+          "A global apparel manufacturer produced for dozens of brands — each requiring data uploads to a different PLM or portal. The constant context-switching between systems consumed time the thin-margin operation couldn't afford.",
+      },
+      {
+        slug: "season-hindsighting",
+        industry: "Outdoor Apparel",
+        title: "Using Communication Data for End-of-Season Hindsighting",
+        summary:
+          "An outdoor apparel brand's post-season reviews relied on memory and anecdote. Tracing why a delivery was late required manually reconstructing communication timelines from email, WhatsApp, and Slack.",
+      },
+    ],
+  },
+];
+---
+
+<Layout title="Case Studies - Marker">
+  <Navbar />
+  <main id="main-content">
+    <section class="mx-auto max-w-5xl px-6 pt-16 pb-8 md:pt-24 md:pb-12">
+      <h1
+        class="text-3xl font-bold tracking-tight text-foreground md:text-4xl"
+      >
+        Case Studies
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-muted-foreground">
+        How supply chain and product development teams are using Marker across
+        every stage of the concept-to-market lifecycle.
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-5xl px-6 pb-16 md:pb-24">
+      {
+        phases.map((phase, phaseIdx) => (
+          <div class:list={["relative", phaseIdx > 0 && "mt-12"]}>
+            {/* Timeline connector */}
+            {phaseIdx < phases.length - 1 && (
+              <div class="absolute top-14 bottom-0 left-[19px] hidden w-px bg-border md:block" />
+            )}
+
+            {/* Phase header */}
+            <div class="mb-6 flex items-start gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+                {phase.step}
+              </div>
+              <div>
+                <h2 class="text-xl font-semibold text-foreground">
+                  {phase.name}
+                </h2>
+                <p class="mt-1 text-sm text-muted-foreground">
+                  {phase.description}
+                </p>
+              </div>
+            </div>
+
+            {/* Studies */}
+            <div class="space-y-6 md:pl-14">
+              {phase.studies.map((study) => (
+                <div class="group">
+                  <span class="text-xs font-medium uppercase tracking-wider text-primary">
+                    {study.industry}
+                  </span>
+                  <h3 class="mt-1">
+                    <a
+                      href={`/case-studies/${study.slug}`}
+                      class="text-base font-semibold text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-primary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    >
+                      {study.title}
+                    </a>
+                  </h3>
+                  <p class="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                    {study.summary}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </section>
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,80 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout title="Replacing Portal Fatigue With Communication-First Workflows - Marker">
+  <Navbar />
+  <main id="main-content">
+    <article class="mx-auto max-w-3xl px-6 pt-16 pb-16 md:pt-24 md:pb-24">
+      <a href="/case-studies" class="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground">
+        <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        All Case Studies
+      </a>
+
+      <span class="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-primary">Global Apparel Manufacturing</span>
+      <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">Replacing Portal Fatigue With Communication-First Workflows</h1>
+
+      <div class="mt-8 rounded-lg border border-border bg-muted/50 p-5 text-sm">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <span class="block font-medium text-foreground">Company</span>
+            <span class="text-muted-foreground">Global apparel manufacturer producing for major international brands</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Team</span>
+            <span class="text-muted-foreground">Manufacturing operations team managing communication with multiple brand customers, each with different PLM and portal requirements</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Key Challenge</span>
+            <span class="text-muted-foreground">Manufacturers forced to log into and upload data to each brand's separate portal — different systems, different formats, different workflows for every customer</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Challenge</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Manufacturing leadership at this global apparel producer described a burden that's unique to their side of the supply chain: every brand customer uses a different PLM, portal, and data format. Bamboo Rose, Centric, custom-built systems — the manufacturer's team had to log into each one separately, upload data in the required format, and manage workflows that differed from customer to customer. As one leader put it, manufacturers "hate uploading and dealing with all these brands' different archaic systems and portals."</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">There is no PLM designed for manufacturers. The systems that exist are built for brands, and manufacturers are expected to conform to whatever each brand uses. Meanwhile, the manufacturer's own operational reality — costing, quoting, tech pack storage, production scheduling — is managed through spreadsheets, email, and shared drives. The friction isn't just time; it's the constant context-switching between different systems with different expectations.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Compounding this, manufacturers operate on thin margins and can't afford expensive software. Any solution needs to reduce burden, not add another portal to the stack.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Approach</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Marker takes a communication-first approach: rather than asking the manufacturer to adopt another system, it captures the data flowing through existing channels (email exchanges with brand sourcing teams) and structures it automatically. When a brand sends an RFQ via email, Marker extracts the relevant details — styles, quantities, delivery dates, material specs — and organizes them in the manufacturer's own workflow.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">When the manufacturer needs to update a brand's system, Marker prepares the data in the required format. The manufacturer interacts with one interface; the system handles the translation to each brand's portal requirements. For a manufacturer working with dozens of brand customers, this eliminates the constant context-switching and reduces the administrative overhead of maintaining compliance with each brand's data expectations.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">Key Takeaways</h2>
+        <ul class="mt-3 space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Single interface for manufacturers replacing the need to log into each brand's separate PLM or portal</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Inbound RFQ data extracted from email and organized in the manufacturer's own workflow format</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Outbound data automatically formatted to each brand's portal requirements, reducing context-switching</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Communication-first approach adds no new portal burden to margin-constrained manufacturing operations</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-12 rounded-lg border border-primary/20 bg-primary/5 p-6 text-center">
+        <p class="text-sm font-medium text-foreground">See how Marker eliminates portal fatigue for manufacturers.</p>
+        <a href="/book-demo" class="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Book a Demo</a>
+      </section>
+    </article>
+  </main>
+  <Footer />
+</Layout>

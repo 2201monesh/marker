@@ -1,0 +1,80 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout title="Connecting Compliance Audits to Sourcing Decisions - Marker">
+  <Navbar />
+  <main id="main-content">
+    <article class="mx-auto max-w-3xl px-6 pt-16 pb-16 md:pt-24 md:pb-24">
+      <a href="/case-studies" class="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground">
+        <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        All Case Studies
+      </a>
+
+      <span class="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-primary">Luxury Beauty Retail</span>
+      <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">Connecting Compliance Audits to Sourcing Decisions</h1>
+
+      <div class="mt-8 rounded-lg border border-border bg-muted/50 p-5 text-sm">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <span class="block font-medium text-foreground">Company</span>
+            <span class="text-muted-foreground">Global luxury beauty retailer within a multinational conglomerate with rigorous social and environmental compliance requirements</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Team</span>
+            <span class="text-muted-foreground">Compliance team working alongside sourcing, often operating in parallel without shared visibility</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Key Challenge</span>
+            <span class="text-muted-foreground">Compliance operated on the side, chasing sourcing for information; sourcing teams used time pressure as a reason to defer audits</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Challenge</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">At this global beauty retailer, compliance and sourcing operated in parallel but rarely in coordination. The compliance team was responsible for social and environmental audits, supplier risk mapping, and business continuity planning. But they had no direct visibility into sourcing communication — and the sourcing team, under constant pressure to hit cost and timeline targets, frequently deferred compliance requests with "I don't have time for an audit."</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">A former supply chain leader at the company described the dynamic: compliance was always "happening on the side, chasing the sourcing team." When audit reports surfaced an issue with a supplier's social or environmental practices, the finding arrived disconnected from the sourcing context — the current order volumes, the criticality of the vendor, and the availability of alternatives. This made it difficult for compliance to prioritize which findings required immediate action and which could be addressed over time.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">The parent conglomerate used risk mapping tools, but these operated independently of the day-to-day sourcing workflow. Compliance data lived in one system; sourcing decisions were made in another. The result was that risk information frequently arrived too late to influence the decisions it was meant to inform.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Approach</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Marker connects compliance data to the sourcing communication stream. When a sourcing team member is working with a supplier, relevant compliance information — audit status, risk flags, certification expirations — is surfaced alongside the commercial conversation. Compliance findings don't arrive as a separate request; they appear in the context where sourcing decisions are being made.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">This integration works in both directions. When the compliance team needs to understand the business context of a finding (how critical is this vendor? what are the alternatives?), they can see the sourcing communication that answers those questions without filing a request. For organizations selling the value of compliance to internal stakeholders — finance sees cost savings, legal sees risk reduction — Marker provides the data that connects compliance activity to business outcomes.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">Key Takeaways</h2>
+        <ul class="mt-3 space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Compliance audit status and risk flags surfaced directly within the sourcing communication workflow</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Sourcing context (vendor criticality, order volume, alternatives) available to compliance without filing separate requests</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Compliance findings connected to business outcomes, supporting the case for investment from finance and legal</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Risk information arrives in time to influence sourcing decisions, not after commitments have been made</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-12 rounded-lg border border-primary/20 bg-primary/5 p-6 text-center">
+        <p class="text-sm font-medium text-foreground">See how Marker connects compliance and sourcing into a single workflow.</p>
+        <a href="/book-demo" class="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Book a Demo</a>
+      </section>
+    </article>
+  </main>
+  <Footer />
+</Layout>

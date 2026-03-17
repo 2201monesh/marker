@@ -1,0 +1,80 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout title="Preserving Sourcing Knowledge Through Team Turnover - Marker">
+  <Navbar />
+  <main id="main-content">
+    <article class="mx-auto max-w-3xl px-6 pt-16 pb-16 md:pt-24 md:pb-24">
+      <a href="/case-studies" class="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground">
+        <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        All Case Studies
+      </a>
+
+      <span class="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-primary">Fortune 500 Automotive</span>
+      <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">Preserving Sourcing Knowledge Through Team Turnover</h1>
+
+      <div class="mt-8 rounded-lg border border-border bg-muted/50 p-5 text-sm">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <span class="block font-medium text-foreground">Company</span>
+            <span class="text-muted-foreground">Fortune 500 automotive OEM managing a $2B annual component spend across 6,000 suppliers</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Team</span>
+            <span class="text-muted-foreground">Sourcing organization that saw employee turnover rise from 8% to 54% during a senior leader's tenure</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Key Challenge</span>
+            <span class="text-muted-foreground">Decades of supplier relationship knowledge and negotiation context walking out the door with every departure</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Challenge</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">A retired sourcing executive from this Fortune 500 automotive manufacturer spent 45 years in procurement, the last 24 managing a $2 billion annual component spend across roughly 6,000 suppliers. During his tenure, employee turnover in the sourcing organization rose from 8% to 54%. The institutional knowledge loss was staggering.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Sourcing in automotive is relationship-driven. Programs take three years to go into production and are recognized for six. Understanding why a particular supplier was selected for a program, what pricing concessions were negotiated, and what quality issues were resolved along the way requires context that accumulates over years. When that context lives in individual employees' memories and email archives, every departure creates a gap that can take years to fill.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">The problem was compounded by a generational shift: newer employees were less inclined to invest years building deep supplier relationships. And critical information from review meetings — the verbal context behind decisions — was rarely captured in any system. As the executive put it: "A lot of verbal stuff happens" that never makes it into the record.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Approach</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Marker creates a persistent, searchable record of every supplier interaction — the communication history that previously lived only in individual inboxes and memories. When a sourcing manager leaves, the full context of their supplier relationships remains: negotiation history, pricing evolution, quality discussions, and the rationale behind key decisions.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">For an organization managing 6,000 suppliers with annual savings targets in the millions, the ability to onboard a new team member with full historical context — rather than having them start from scratch — directly protects the company's negotiating position. New hires can review the trajectory of a supplier relationship before their first meeting, understanding not just current terms but how those terms were reached. The "verbal stuff" that happens in reviews gets connected to the written communication trail, creating a more complete picture of each relationship.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">Key Takeaways</h2>
+        <ul class="mt-3 space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Full supplier relationship history preserved when team members depart — negotiation context, pricing evolution, and quality discussions</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>New hires onboarded with complete historical context for each supplier relationship they inherit</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Decision rationale captured alongside communication, connecting the "why" behind sourcing choices to the record</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Negotiating position protected across team transitions in multi-year procurement programs</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-12 rounded-lg border border-primary/20 bg-primary/5 p-6 text-center">
+        <p class="text-sm font-medium text-foreground">See how Marker preserves institutional knowledge across your sourcing team.</p>
+        <a href="/book-demo" class="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Book a Demo</a>
+      </section>
+    </article>
+  </main>
+  <Footer />
+</Layout>

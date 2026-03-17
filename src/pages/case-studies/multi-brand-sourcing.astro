@@ -1,0 +1,80 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout title="Unifying Sourcing Communication Across a Multi-Brand Portfolio - Marker">
+  <Navbar />
+  <main id="main-content">
+    <article class="mx-auto max-w-3xl px-6 pt-16 pb-16 md:pt-24 md:pb-24">
+      <a href="/case-studies" class="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground">
+        <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        All Case Studies
+      </a>
+
+      <span class="mb-3 inline-block text-xs font-medium uppercase tracking-wider text-primary">Multi-Brand Apparel</span>
+      <h1 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">Unifying Sourcing Communication Across a Multi-Brand Portfolio</h1>
+
+      <div class="mt-8 rounded-lg border border-border bg-muted/50 p-5 text-sm">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <span class="block font-medium text-foreground">Company</span>
+            <span class="text-muted-foreground">Apparel holding company managing 5+ ecommerce brands plus a marketplace, acquired through multiple transactions</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Team</span>
+            <span class="text-muted-foreground">Product management and operations leadership consolidating tech stacks across acquired brands</span>
+          </div>
+          <div>
+            <span class="block font-medium text-foreground">Key Challenge</span>
+            <span class="text-muted-foreground">Each acquired brand brought its own sourcing tools, vendor relationships, and communication patterns — no unified view across the portfolio</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Challenge</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">This apparel holding company had grown through acquisition, bringing together multiple brands — each with roughly 15,000 SKUs, its own ecommerce platform, and its own sourcing relationships. The parent company, operating at a roughly $500M run rate with around 250 employees including stores, was consolidating tech stacks across brands while simultaneously migrating CMS platforms and executing brand redesigns.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Each acquired brand had its own vendor relationships, communication patterns, and informal processes for managing sourcing. Some shared vendors, but without a unified view, the holding company couldn't tell when two brands were negotiating with the same factory — potentially at different prices or on conflicting timelines. Third-party agencies handled much of the actual manufacturing, adding another layer of communication fragmentation.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">The product and operations team was already stretched thin by the tech consolidation effort. They needed a way to unify sourcing visibility across brands without executing another large-scale system migration.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">The Approach</h2>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Marker connects to the communication channels used by each brand's sourcing team and creates a unified, portfolio-level view of vendor activity. When two brands are working with the same factory, Marker surfaces the overlap — allowing the holding company to coordinate negotiations, align timelines, and avoid bidding against itself.</p>
+        <p class="mt-3 leading-relaxed text-muted-foreground">Each brand retains its own sourcing workflow and communication style. Marker doesn't require process standardization across brands; it normalizes the data at the portfolio level. For the operations team managing the consolidation, this provides the cross-brand visibility they need without adding another migration to an already full plate. As new brands are acquired, their sourcing communication can be onboarded into the same unified view without disrupting existing operations.</p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-lg font-semibold text-foreground">Key Takeaways</h2>
+        <ul class="mt-3 space-y-2 text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Portfolio-level visibility into vendor activity across all brands without requiring process standardization</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>Shared vendor overlap surfaced automatically, preventing the holding company from bidding against itself</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>No additional system migration required — connects to each brand's existing communication channels</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+            <span>New brand acquisitions onboarded into the unified view without disrupting existing operations</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-12 rounded-lg border border-primary/20 bg-primary/5 p-6 text-center">
+        <p class="text-sm font-medium text-foreground">See how Marker creates portfolio-level sourcing visibility across brands.</p>
+        <a href="/book-demo" class="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Book a Demo</a>
+      </section>
+    </article>
+  </main>
+  <Footer />
+</Layout>
