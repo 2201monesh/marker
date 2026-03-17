@@ -15,33 +15,38 @@ function companyTypeFromIndustry(industry: string) {
 }
 
 const studies = [
-  // Planning & Demand Signals
+  // non-apparel
   { team: "Planning & Demand Signals", industry: "Fortune 500 Automotive", title: "54% turnover.<br>Zero knowledge lost.", summary: "Marker keeps supplier relationships, decisions, and context when team members move on." },
-
-  // Design & Costing
-  { team: "Design & Costing", industry: "Premium Menswear", title: "Designers picking $200 fabric<br>for a $50 shirt? Fixed.", summary: "Marker shows cost signals while designs are made, not three rounds of costing later." },
-  { team: "Design & Costing", industry: "Premium Activewear", title: "\"Why did that cost go up?\"<br>Finally, an answer.", summary: "Marker tracks every costing round so margin drift is visible, explainable, and actionable." },
-  { team: "Design & Costing", industry: "Premium Menswear", title: "Rate card says $12.<br>Quote says $14. Caught.", summary: "Marker checks quotes against rate cards across POs, catching overages before they stack up." },
-  { team: "Design & Costing", industry: "Premium Menswear", title: "70 emails a day?<br>Try zero.", summary: "Marker replaces email back-and-forth with shared workflows that keep teams and vendors aligned." },
-
-  // Sourcing & Negotiation
-  { team: "Sourcing & Negotiation", industry: "Multi-Brand Apparel", title: "Same supplier, same product,<br>different costs. Busted.", summary: "Marker lets holding companies see cross-brand pricing so they stop bidding against themselves." },
+  // apparel
+  { team: "Design & Costing", industry: "Premium Menswear", title: "Designer picks $200 fabric<br>for $50 shirt. Never again.", summary: "Marker shows cost signals while designs are made, not three rounds of costing later." },
+  // non-apparel
+  { team: "Order Management", industry: "DTC Furniture", title: "Where's my PO?<br>Ask Marker, not the factory.", summary: "Marker tracks POs from issue to delivery so the answer is in one place, not scattered chats." },
+  // apparel
+  { team: "Sourcing & Negotiation", industry: "Multi-Brand Apparel", title: "Same supplier, same product, different costs.<br>Busted.", summary: "Marker lets holding companies see cross-brand pricing so they stop bidding against themselves." },
+  // non-apparel
+  { team: "Design & Costing", industry: "Grocer", title: "Why did that cost go up?<br>Finally, an answer.", summary: "Marker tracks every costing round so margin drift is visible, explainable, and actionable." },
+  // apparel
   { team: "Sourcing & Negotiation", industry: "Outdoor Apparel", title: "~50 vendors. Tiny team.<br>No sweat.", summary: "Marker automates follow-ups and status checks so lean teams handle big vendor rosters." },
-
-  // Order Management
-  { team: "Order Management", industry: "Multi-Brand Sports Retail", title: "39 adoption meetings.<br>Instant roll-ups for all of them.", summary: "Marker rolls brand-level work into portfolio views so leaders see adoption and risk fast." },
-  { team: "Order Management", industry: "DTC Furniture", title: "\"Where's my PO?\"<br>Ask Marker, not the factory.", summary: "Marker tracks POs from issue to delivery so the answer is in one place, not scattered chats." },
-
-  // Production & Delivery
-  { team: "Production & Delivery", industry: "Lifestyle Apparel", title: "Half your day, one supplier email.<br>How about half a minute, every supplier email?", summary: "Marker turns long email threads into structured actions so every supplier touch is faster." },
-  { team: "Production & Delivery", industry: "Premium Menswear", title: "Ship date moved?<br>Everyone knows. Instantly.", summary: "Marker cascades ship date changes to downstream teams so plans change with reality." },
-  { team: "Production & Delivery", industry: "Lifestyle Apparel", title: "Deadlines don't get missed.<br>They get flagged.", summary: "Marker flags at-risk milestones early using real communication, not stale status decks." },
-  { team: "Production & Delivery", industry: "DTC Footwear", title: "Shipment slipped. 50k marketing<br>emails already sent. Never again.", summary: "Marker connects production and marketing so campaigns move when ship dates move." },
-
-  // Compliance & Continuous Improvement
+  // non-apparel
   { team: "Compliance & Continuous Improvement", industry: "Fortune 500 Retail", title: "12 tools deployed.<br>Everyone still uses Excel.", summary: "Marker replaces tool sprawl with one system people trust enough to actually adopt." },
-  { team: "Compliance & Continuous Improvement", industry: "Global Apparel Manufacturing", title: "Dozens of systems.<br>One workflow.", summary: "Marker unifies work across portals and tools so thin-margin teams stop context switching." },
-  { team: "Compliance & Continuous Improvement", industry: "Outdoor Apparel", title: "\"Why was that shipment late?\"<br>Ask Marker, not your team.", summary: "Marker reconstructs the real delivery story from messages so postmortems stop guessing." },
+  // apparel
+  { team: "Production & Delivery", industry: "Lifestyle Apparel", title: "4 hours, one vendor email.<br>Try 4 minutes, every vendor email.", summary: "Marker turns long email threads into structured actions so every supplier touch is faster." },
+  // non-apparel
+  { team: "Production & Delivery", industry: "DTC Footwear", title: "Shipment slipped.<br>50k marketing emails already sent. Never again.", summary: "Marker connects production and marketing so campaigns move when ship dates move." },
+  // apparel
+  { team: "Design & Costing", industry: "Premium Menswear", title: "Rate card says $12.<br>Quote says $14. Caught it.", summary: "Marker checks quotes against rate cards across POs, catching overages before they stack up." },
+  // non-apparel
+  { team: "Order Management", industry: "Multi-Brand Sports Retail", title: "39 adoption meetings.<br>Now with instant roll-ups.", summary: "Marker rolls brand-level work into portfolio views so leaders see adoption and risk fast." },
+  // apparel
+  { team: "Production & Delivery", industry: "Premium Menswear", title: "Ship date moved?<br>Everyone knows. Instantly.", summary: "Marker cascades ship date changes to downstream teams so plans change with reality." },
+  // non-apparel
+  { team: "Design & Costing", industry: "Fortune 500 CPG", title: "70 emails a day?<br>Try zero.", summary: "Marker replaces email back-and-forth with shared workflows that keep teams and vendors aligned." },
+  // apparel
+  { team: "Production & Delivery", industry: "Lifestyle Apparel", title: "Deadlines don't get missed.<br>They get flagged.", summary: "Marker flags at-risk milestones early using real communication, not stale status decks." },
+  // non-apparel
+  { team: "Compliance & Continuous Improvement", industry: "Fortune 500 CPG", title: "Dozens of systems.<br>One workflow.", summary: "Marker unifies work across portals and tools so thin-margin teams stop context switching." },
+  // apparel
+  { team: "Compliance & Continuous Improvement", industry: "Outdoor Apparel", title: "Why is the shipment late?<br>Ask Marker, not your team.", summary: "Marker reconstructs the real delivery story from messages so postmortems stop guessing." },
 ];
 ---
 <html lang="en">
@@ -99,7 +104,7 @@ const studies = [
       z-index: 150;
     }
     .brand-name {
-      font-size: clamp(2rem, 5.2vh, 4.75rem);
+      font-size: clamp(2.5rem, 6.5vh, 6rem);
       font-weight: 700;
       font-style: italic;
       color: var(--text);
@@ -107,22 +112,27 @@ const studies = [
       line-height: 1;
     }
     .brand-separator {
-      font-size: clamp(1.6rem, 4.4vh, 4rem);
+      font-size: clamp(2rem, 5.5vh, 5rem);
       font-weight: 300;
       color: #c7ccd1;
       line-height: 1;
+      position: relative;
+      top: -0.08em;
+      margin: 0 0.2em 0 0.45em;
     }
     .brand-tagline {
-      font-size: clamp(1.2rem, 3.3vh, 3rem);
-      font-weight: 500;
+      font-size: clamp(1.5rem, 4.2vh, 3.8rem);
+      font-weight: 400;
       color: var(--text);
       letter-spacing: -0.005em;
       line-height: 1;
+      position: relative;
+      top: -0.12em;
     }
-    .brand-tagline .accent { color: var(--primary); font-weight: 600; }
+    .brand-tagline .accent { color: var(--primary); font-weight: 500; }
 
     .headline {
-      font-size: clamp(3rem, min(8.75vw, 9.5vh), 8.44rem);
+      font-size: clamp(4rem, min(10.5vw, 12vh), 10.5rem);
       font-weight: 800;
       letter-spacing: -0.03em;
       line-height: 1.15;
@@ -151,7 +161,7 @@ const studies = [
     }
 
     .teamline {
-      font-size: clamp(1rem, 3vh, 2.7rem);
+      font-size: clamp(1.25rem, 3.8vh, 3.4rem);
       font-weight: 800;
       letter-spacing: 0.02em;
       text-transform: uppercase;
