@@ -44,7 +44,9 @@ const FrontPostcardArt = forwardRef<HTMLDivElement>(function FrontPostcardArt(
             <p className={`${HEADLINE_CLASS} mt-[14px] text-primary`}>
               supply chain
             </p>
-            <p className={`${HEADLINE_CLASS} mt-[14px]`}>coordinator</p>
+            <p className={`${HEADLINE_CLASS} mt-[14px] text-primary`}>
+              coordinator
+            </p>
           </div>
 
           <p className={`mt-[52px] max-w-[980px] ${BODY_CLASS}`}>
@@ -94,11 +96,8 @@ const BackPostcardArt = forwardRef<HTMLDivElement>(function BackPostcardArt(
           </div>
 
           <div className="mt-[64px] flex flex-wrap gap-x-[28px] gap-y-[14px]">
-            <a href="mailto:will@onmarker.com" className={CONTACT_CLASS}>
-              will@onmarker.com
-            </a>
-            <a href="mailto:richard@onmarker.com" className={CONTACT_CLASS}>
-              richard@onmarker.com
+            <a href="mailto:sales@onmarker.com" className={CONTACT_CLASS}>
+              sales@onmarker.com
             </a>
           </div>
         </div>
