@@ -7,68 +7,70 @@ import Footer from "../components/Footer.astro";
 <Layout title="Our Team - Marker">
   <Navbar />
   <main id="main-content">
-    <section class="mx-auto max-w-5xl px-6 pt-10 pb-24">
-      <div class="mx-auto max-w-3xl">
-        <h1 class="text-4xl font-bold tracking-tight text-foreground md:text-5xl">
-          Our Team
-        </h1>
-        <p class="mt-4 text-lg text-muted-foreground">
-          Marker was founded by a technical team of U.C. Berkeley graduates who
-          have worked together for over 15 years — building companies, shipping
-          products, and solving hard problems in retail.
+    <section class="mx-auto max-w-5xl px-6 pt-16 pb-8 md:pt-24 md:pb-12">
+      <h1 class="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+        Our Team
+      </h1>
+      <p class="mt-4 text-lg text-muted-foreground">
+        Marker was founded by a technical team of U.C. Berkeley graduates who
+        have worked together for over 15 years — building companies, shipping
+        products, and solving hard problems in retail.
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-5xl px-6 pb-16 md:pb-24">
+      <div class="space-y-6 text-base text-muted-foreground">
+        <p>
+          The founding team previously built Drapr, a virtual try-on company backed
+          by Y Combinator (S20), and sold it to Gap Inc. After the
+          acquisition, they spent over three years embedded inside the
+          company, gaining exposure to every function across the
+          organization — from individual contributors to the C-suite. They started and ran Gap Inc.'s Generative AI
+          program and led cross-functional and cross-brand initiatives,
+          including within supply chain.
         </p>
+        <p>
+          That broad, deep access revealed the pain points that matter most
+          and where technology can have the greatest impact. Through
+          conversations with peers across the industry — at conferences and
+          through personal networks — the team identified and validated a
+          set of significant, recurring challenges.
+        </p>
+        <p>
+          With the emergence of large language models, the team believes supply chain processes can be
+          automated far beyond what was possible before.
+        </p>
+        <p>
+          Marker was founded to make that a reality.
+        </p>
+      </div>
 
-        <div class="mt-10 space-y-6 text-base text-muted-foreground">
-          <p>
-            The founding team previously built Drapr, a virtual try-on company backed
-            by Y Combinator (S20), and sold it to Gap Inc. After the
-            acquisition, they spent over three years embedded inside the
-            company, gaining exposure to every function across the
-            organization — from individual contributors to the C-suite. They started and ran Gap Inc.'s Generative AI
-            program and led cross-functional and cross-brand initiatives,
-            including within supply chain.
-          </p>
-          <p>
-            That broad, deep access revealed the pain points that matter most
-            and where technology can have the greatest impact. Through
-            conversations with peers across the industry — at conferences and
-            through personal networks — the team identified and validated a
-            set of significant, recurring challenges.
-          </p>
-          <p>
-            With the emergence of large language models, the team believes supply chain processes can be
-            automated far beyond what was possible before. Marker was founded to make that a
-            reality.
-          </p>
-        </div>
+      <div class="mt-12 flex items-center justify-center gap-12">
+        <img
+          src="/yc-logo.svg"
+          alt="Y Combinator"
+          class="h-24 grayscale opacity-40"
+        />
+        <img
+          src="/ucb-seal.svg"
+          alt="University of California, Berkeley"
+          class="h-28 grayscale opacity-40"
+        />
+      </div>
 
-        <div class="mt-12 flex items-center justify-center gap-12">
-          <img
-            src="/yc-logo.svg"
-            alt="Y Combinator"
-            class="h-24 grayscale opacity-40"
-          />
-          <img
-            src="/ucb-seal.svg"
-            alt="University of California, Berkeley"
-            class="h-28 grayscale opacity-40"
-          />
-        </div>
-
-        <div class="mt-16 rounded-xl border border-primary/20 bg-primary/5 p-8 text-center">
-          <h2 class="text-xl font-semibold text-foreground">
-            Want to learn more?
-          </h2>
-          <p class="mt-2 text-muted-foreground">
-            We'd love to tell you about what we're building at Marker.
-          </p>
-          <a
-            href="/book-demo"
-            class="mt-6 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          >
-            Book a Demo
-          </a>
-        </div>
+      <div class="mt-16 rounded-xl border border-primary/20 bg-primary/5 p-8 text-center">
+        <h2 class="text-xl font-semibold text-foreground">
+          Want to learn more?
+        </h2>
+        <p class="mt-2 text-muted-foreground">
+          We'd love to tell you about what we're building at Marker.
+        </p>
+        <a
+          href="/book-demo"
+          class="mt-6 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
+          Book a Demo
+        </a>
       </div>
     </section>
   </main>
