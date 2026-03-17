@@ -15,31 +15,33 @@ function companyTypeFromIndustry(industry: string) {
 }
 
 const studies = [
-  { team: "Planning & Demand Signals", industry: "Global Apparel Manufacturing", title: "\"We're flying blind on demand\" — not anymore", summary: "Marker now surfaces brand demand signals directly to the factory floor, so production financing decisions are backed by real data instead of gut feel and stale spreadsheets." },
-  { team: "Planning & Demand Signals", industry: "Fortune 500 Automotive", title: "54% turnover. Zero knowledge lost.", summary: "Marker captures every supplier relationship, negotiation, and decision as it happens — so when people leave, the institutional knowledge stays. $2B in annual spend, fully preserved." },
-  { team: "Planning & Demand Signals", industry: "Fortune 500 Retail", title: "No clean data? No problem.", summary: "Marker started delivering value on day one — no six-month data cleanup project required. It builds the data foundation as teams use it, not as a prerequisite." },
-  { team: "Supplier Selection & Onboarding", industry: "Lifestyle Apparel", title: "New vendor? Onboarded before lunch.", summary: "Marker auto-maps supplier capabilities, certifications, and capacity from existing communication — turning a weeks-long onboarding scramble into a structured, searchable profile from day one." },
-  { team: "Supplier Selection & Onboarding", industry: "Luxury Beauty Retail", title: "Emails in, scorecards out.", summary: "Marker mines every supplier interaction — responsiveness, follow-through, commitment accuracy — and builds live scorecards automatically. Compliance finally has structured data without chasing anyone." },
-  { team: "Supplier Selection & Onboarding", industry: "DTC Furniture", title: "\"They said Thursday.\" Now there's a receipt.", summary: "Marker timestamps and logs every vendor commitment, date change, and term shift. When tariffs forced re-sourcing, the team had hard data on who delivers and who doesn't." },
-  { team: "Design & Costing", industry: "Premium Menswear", title: "Designers picking $200 fabric for a $50 shirt? Fixed.", summary: "Marker puts cost data in front of designers at the moment of fabric selection — killing unviable styles early instead of after three rounds of costing theater." },
-  { team: "Design & Costing", industry: "Premium Activewear", title: "\"Why did that cost go up?\" Finally, an answer.", summary: "Marker tracks every costing round across ~50 vendors and multiple seasons, revealing pricing drift before it eats your margins. No more guessing from email timestamps." },
-  { team: "Design & Costing", industry: "Premium Menswear", title: "Rate card says $12. Quote says $14. Caught.", summary: "Marker auto-validates supplier quotes against contracted rate cards across hundreds of POs — catching the small overcharges that compound into serious margin leakage at ~70% margins." },
-  { team: "Design & Costing", industry: "Premium Menswear", title: "70 emails a day? Try zero.", summary: "Marker replaced 70-80 daily supplier emails with structured workflows and internal collaboration threads — so the team reviews and responds together instead of playing broken telephone." },
-  { team: "Sourcing & Negotiation", industry: "Fortune 500 Retail", title: "Same company. Five RFQ systems. Now one.", summary: "Marker unified RFQ workflows across every division into a single platform — so associates stop toggling between disconnected tools and actually see the full sourcing picture." },
-  { team: "Sourcing & Negotiation", industry: "Multi-Brand Apparel", title: "Two brands. Same factory. Different prices. Busted.", summary: "Marker gives the holding company a unified view across 5+ acquired brands — so they negotiate as one portfolio instead of accidentally bidding against themselves." },
-  { team: "Sourcing & Negotiation", industry: "Outdoor Apparel", title: "~50 vendors. Tiny team. No sweat.", summary: "Marker automates the follow-ups, status checks, and coordination overhead across email, WhatsApp, and Slack — so a lean sourcing team punches way above its weight." },
-  { team: "Sourcing & Negotiation", industry: "Premium Activewear", title: "Startup speed, enterprise infrastructure.", summary: "Marker gave a fast-growing brand real sourcing infrastructure from the start — without the bloated systems, migration headaches, and process debt that slow down the incumbents." },
-  { team: "Order Management", industry: "Office & Business Supply Chain", title: "\"Every customer emails orders differently.\" Solved.", summary: "Marker parses unstructured email orders across 50 fulfillment centers — every format, every customer — into clean, actionable data that flows straight into OMS and WMS." },
-  { team: "Order Management", industry: "Multi-Brand Sports Retail", title: "560 budget meetings. Zero spreadsheet errors.", summary: "Marker replaced the manual Excel gauntlet across 20 brands with automated reconciliation — eliminating the copy-paste errors that compounded across seasons and cost real money." },
-  { team: "Order Management", industry: "DTC Furniture", title: "\"Where's my PO?\" Ask Marker, not the factory.", summary: "Marker auto-tracks every PO from issue to delivery — pulling status updates from factory communication so the team sees a live dashboard instead of chasing WhatsApp threads." },
-  { team: "Order Management", industry: "DTC Footwear", title: "Your analysts have better things to do.", summary: "Marker automated invoice reconciliation, payment tracking, and return processing — freeing supply chain analysts to finally spend their days on cost optimization and vendor strategy." },
-  { team: "Production & Delivery", industry: "Premium Menswear", title: "Ship date moved? Everyone knows. Instantly.", summary: "Marker auto-cascades every ship date change to logistics, merchants, and marketing in real time — no more manually forwarded emails that arrive after downstream teams have already planned around the old date." },
-  { team: "Production & Delivery", industry: "Lifestyle Apparel", title: "Deadlines don't get missed. They get flagged.", summary: "Marker connects communication history to every milestone across a multi-quarter calendar — surfacing at-risk deadlines before they're missed, not after." },
-  { team: "Production & Delivery", industry: "DTC Footwear", title: "WeChat. WhatsApp. Email. One timeline.", summary: "Marker pulls 50+ scattered message threads into a single, searchable supplier timeline — so critical material updates and ship dates never get lost between channels again." },
-  { team: "Compliance & Continuous Improvement", industry: "Luxury Beauty Retail", title: "Compliance and sourcing, finally in the same room.", summary: "Marker links audit findings directly to sourcing workflows — so risk information reaches decision-makers in context and on time, not as a disconnected PDF three weeks later." },
-  { team: "Compliance & Continuous Improvement", industry: "Fortune 500 Retail", title: "12 tools deployed. Everyone still uses Excel.", summary: "Marker replaced the tool sprawl with one transparent platform that shows its work — so associates actually adopted it instead of defaulting back to the spreadsheet they trust." },
-  { team: "Compliance & Continuous Improvement", industry: "Global Apparel Manufacturing", title: "Dozens of brand portals. One workflow.", summary: "Marker replaced the daily portal-hopping across dozens of brand PLMs with communication-first workflows — giving thin-margin manufacturers their time back where it matters most." },
-  { team: "Compliance & Continuous Improvement", industry: "Outdoor Apparel", title: "\"Why was that shipment late?\" Receipts included.", summary: "Marker auto-generates end-of-season hindsight reports from real communication data — replacing memory-and-anecdote postmortems with timestamped, searchable delivery timelines." },
+  // Planning & Demand Signals
+  { team: "Planning & Demand Signals", industry: "Fortune 500 Automotive", title: "54% turnover. Zero knowledge lost.", summary: "Marker keeps supplier relationships, decisions, and context when team members move on." },
+
+  // Design & Costing
+  { team: "Design & Costing", industry: "Premium Menswear", title: "Designers picking $200 fabric for a $50 shirt? Fixed.", summary: "Marker shows cost signals while designs are made, not three rounds of costing later." },
+  { team: "Design & Costing", industry: "Premium Activewear", title: "\"Why did that cost go up?\" Finally, an answer.", summary: "Marker tracks every costing round so margin drift is visible, explainable, and actionable." },
+  { team: "Design & Costing", industry: "Premium Menswear", title: "Rate card says $12. Quote says $14. Caught.", summary: "Marker checks quotes against rate cards across POs, catching overages before they stack up." },
+  { team: "Design & Costing", industry: "Premium Menswear", title: "70 emails a day? Try zero.", summary: "Marker replaces email back-and-forth with shared workflows that keep teams and vendors aligned." },
+
+  // Sourcing & Negotiation
+  { team: "Sourcing & Negotiation", industry: "Multi-Brand Apparel", title: "Same supplier, same product, different costs. Busted.", summary: "Marker lets holding companies see cross-brand pricing so they stop bidding against themselves." },
+  { team: "Sourcing & Negotiation", industry: "Outdoor Apparel", title: "~50 vendors. Tiny team. No sweat.", summary: "Marker automates follow-ups and status checks so lean teams handle big vendor rosters." },
+
+  // Order Management
+  { team: "Order Management", industry: "Multi-Brand Sports Retail", title: "39 adoption meetings. Instant roll-ups for all of them.", summary: "Marker rolls brand-level work into portfolio views so leaders see adoption and risk fast." },
+  { team: "Order Management", industry: "DTC Furniture", title: "\"Where's my PO?\" Ask Marker, not the factory.", summary: "Marker tracks POs from issue to delivery so the answer is in one place, not scattered chats." },
+
+  // Production & Delivery
+  { team: "Production & Delivery", industry: "Lifestyle Apparel", title: "Half your day, one supplier email. How about half a minute, every supplier email?", summary: "Marker turns long email threads into structured actions so every supplier touch is faster." },
+  { team: "Production & Delivery", industry: "Premium Menswear", title: "Ship date moved? Everyone knows. Instantly.", summary: "Marker cascades ship date changes to downstream teams so plans change with reality." },
+  { team: "Production & Delivery", industry: "Lifestyle Apparel", title: "Deadlines don't get missed. They get flagged.", summary: "Marker flags at-risk milestones early using real communication, not stale status decks." },
+  { team: "Production & Delivery", industry: "DTC Footwear", title: "Shipment slipped. 50k marketing emails already sent. Never again.", summary: "Marker connects production and marketing so campaigns move when ship dates move." },
+
+  // Compliance & Continuous Improvement
+  { team: "Compliance & Continuous Improvement", industry: "Fortune 500 Retail", title: "12 tools deployed. Everyone still uses Excel.", summary: "Marker replaces tool sprawl with one system people trust enough to actually adopt." },
+  { team: "Compliance & Continuous Improvement", industry: "Global Apparel Manufacturing", title: "Dozens of systems. One workflow.", summary: "Marker unifies work across portals and tools so thin-margin teams stop context switching." },
+  { team: "Compliance & Continuous Improvement", industry: "Outdoor Apparel", title: "\"Why was that shipment late?\" Ask Marker, not your team.", summary: "Marker reconstructs the real delivery story from messages so postmortems stop guessing." },
 ];
 ---
 <html lang="en">
@@ -87,20 +89,21 @@ const studies = [
     .slide.zoom-out { opacity: 0; transform: scale(1.08); }
 
     .case-header {
-      position: absolute;
+      position: fixed;
       top: 36px;
       left: 7vw;
       right: 7vw;
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 36px;
+      z-index: 150;
     }
     .brand-logo { height: 40px; width: auto; filter: brightness(0); }
-    .brand-tagline { font-size: 1.15rem; font-weight: 500; color: var(--text-muted); letter-spacing: -0.01em; }
+    .brand-tagline { font-size: 1.7rem; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
     .brand-tagline .accent { color: var(--primary); }
 
     .headline {
-      font-size: clamp(4rem, 7vw, 6.75rem);
+      font-size: clamp(5rem, 8.75vw, 8.44rem);
       font-weight: 800;
       letter-spacing: -0.03em;
       line-height: 1.02;
@@ -124,15 +127,24 @@ const studies = [
     }
 
     .teamline {
-      font-size: 1.25rem;
+      font-size: 2rem;
       font-weight: 800;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--primary);
-      margin-bottom: 16px;
+      margin-bottom: 8px;
       opacity: 0;
       transform: translateY(18px);
       transition: opacity 0.5s 0.38s ease, transform 0.5s 0.38s ease;
+    }
+
+    .teamline-connector {
+      font-weight: 500;
+      letter-spacing: 0;
+      font-size: 0.85em;
+      margin: 0 0.2em;
+      position: relative;
+      top: -0.05em;
     }
 
     .subtext {
@@ -205,11 +217,11 @@ const studies = [
     }
 
     @media (max-width: 1100px) {
-      .case-header { top: 28px; left: 40px; right: 40px; }
-      .slide { padding: 44px 40px 52px; }
+      .case-header { top: 24px; left: 24px; right: 24px; }
+      .slide { padding: 64px 24px 52px; }
       .brand-logo { height: 32px; }
-      .brand-tagline { font-size: 1rem; }
-      .teamline { font-size: 1.05rem; }
+      .brand-tagline { font-size: 1.25rem; }
+      .teamline { font-size: 1.2rem; }
       .subtext { font-size: 1.2rem; max-width: 100%; }
     }
   </style>
@@ -223,17 +235,20 @@ const studies = [
     <div class="debug-status" id="slideStatus">Slide 1</div>
   </div>
 
+  <div class="case-header">
+    <img src="/logo.png" alt="Marker" class="brand-logo" />
+    <span class="brand-tagline">Your always-on <span class="accent">supply chain coordinator</span></span>
+  </div>
+
   <div class="scene">
     {studies.map((study) => (
       <div class="slide" data-duration="9750">
-        <div class="case-header">
-          <img src="/logo.png" alt="Marker" class="brand-logo" />
-          <span class="brand-tagline">Your always-on <span class="accent">supply chain coordinator</span></span>
-        </div>
         <h2 class="headline">{study.title}</h2>
         <div class="greenline"></div>
-        <div class="teamline">{study.team} | {companyTypeFromIndustry(study.industry)}</div>
-        <p class="subtext">{study.summary}</p>
+        <div class="teamline">
+          {study.team} <span class="teamline-connector">@</span> {study.industry}
+        </div>
+        {/* <p class="subtext">{study.summary}</p> */}
       </div>
     ))}
   </div>
