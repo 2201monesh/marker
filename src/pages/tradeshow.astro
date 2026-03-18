@@ -1,53 +1,12 @@
 ---
 // Trade show loop — simplified hierarchy
-// headline -> green line -> team/company -> subtext (original summary)
+// headline -> green line -> team/company
 
-function companyTypeFromIndustry(industry: string) {
-  if (industry.startsWith("Fortune 500")) return "Fortune 500";
-  if (industry.startsWith("DTC")) return "DTC";
-  if (industry.startsWith("Multi-Brand")) return "Multi-Brand";
-  if (industry.startsWith("Global")) return "Global";
-  if (industry.startsWith("Luxury")) return "Luxury";
-  if (industry.startsWith("Premium")) return "Premium";
-  if (industry.startsWith("Lifestyle")) return "Lifestyle";
-  if (industry.startsWith("Office")) return "Office";
-  return industry.split(" ")[0] ?? industry;
-}
+import { studies } from "../data/tradeshow-studies";
 
-const studies = [
-  // non-apparel
-  { team: "Planning & Demand Signals", industry: "Fortune 500 Automotive", title: "54% turnover.<br>Zero knowledge lost.", summary: "Marker keeps supplier relationships, decisions, and context when team members move on." },
-  // apparel
-  { team: "Design & Costing", industry: "Premium Menswear", title: "Designer picks $200 fabric<br>for $50 shirt. Never again.", summary: "Marker shows cost signals while designs are made, not three rounds of costing later." },
-  // non-apparel
-  { team: "Order Management", industry: "DTC Furniture", title: "Where's my PO?<br>Ask Marker, not the factory.", summary: "Marker tracks POs from issue to delivery so the answer is in one place, not scattered chats." },
-  // apparel
-  { team: "Sourcing & Negotiation", industry: "Multi-Brand Apparel", title: "Same supplier, same product, different costs.<br>Busted.", summary: "Marker lets holding companies see cross-brand pricing so they stop bidding against themselves." },
-  // non-apparel
-  { team: "Design & Costing", industry: "Grocer", title: "Why did that cost go up?<br>Finally, an answer.", summary: "Marker tracks every costing round so margin drift is visible, explainable, and actionable." },
-  // apparel
-  { team: "Sourcing & Negotiation", industry: "Outdoor Apparel", title: "~50 vendors. Tiny team.<br>No sweat.", summary: "Marker automates follow-ups and status checks so lean teams handle big vendor rosters." },
-  // non-apparel
-  { team: "Compliance & Continuous Improvement", industry: "Fortune 500 Retail", title: "12 tools deployed.<br>Everyone still uses Excel.", summary: "Marker replaces tool sprawl with one system people trust enough to actually adopt." },
-  // apparel
-  { team: "Production & Delivery", industry: "Lifestyle Apparel", title: "4 hours, one vendor email.<br>Try 4 minutes, every vendor email.", summary: "Marker turns long email threads into structured actions so every supplier touch is faster." },
-  // non-apparel
-  { team: "Production & Delivery", industry: "DTC Footwear", title: "Shipment slipped.<br>50k marketing emails already sent. Never again.", summary: "Marker connects production and marketing so campaigns move when ship dates move." },
-  // apparel
-  { team: "Design & Costing", industry: "Premium Menswear", title: "Rate card says $12.<br>Quote says $14. Caught it.", summary: "Marker checks quotes against rate cards across POs, catching overages before they stack up." },
-  // non-apparel
-  { team: "Order Management", industry: "Multi-Brand Sports Retail", title: "39 adoption meetings.<br>Now with instant roll-ups.", summary: "Marker rolls brand-level work into portfolio views so leaders see adoption and risk fast." },
-  // apparel
-  { team: "Production & Delivery", industry: "Premium Menswear", title: "Ship date moved?<br>Everyone knows. Instantly.", summary: "Marker cascades ship date changes to downstream teams so plans change with reality." },
-  // non-apparel
-  { team: "Design & Costing", industry: "Fortune 500 CPG", title: "70 emails a day?<br>Try zero.", summary: "Marker replaces email back-and-forth with shared workflows that keep teams and vendors aligned." },
-  // apparel
-  { team: "Production & Delivery", industry: "Lifestyle Apparel", title: "Deadlines don't get missed.<br>They get flagged.", summary: "Marker flags at-risk milestones early using real communication, not stale status decks." },
-  // non-apparel
-  { team: "Compliance & Continuous Improvement", industry: "Fortune 500 CPG", title: "Dozens of systems.<br>One workflow.", summary: "Marker unifies work across portals and tools so thin-margin teams stop context switching." },
-  // apparel
-  { team: "Compliance & Continuous Improvement", industry: "Outdoor Apparel", title: "Why is the shipment late?<br>Ask Marker, not your team.", summary: "Marker reconstructs the real delivery story from messages so postmortems stop guessing." },
-];
+// --- Config: tweak these before the show ---
+const slideDurationMs = 6000;       // how long each slide stays on screen
+const controlsAlwaysVisible = false; // true = always show, false = show on hover
 ---
 <html lang="en">
 <head>
@@ -65,6 +24,22 @@ const studies = [
       --text: #1a1a1a;
       --text-muted: #6b7280;
       --border: #e5e7eb;
+
+      /* --- Typography: tweak these to tune sizing --- */
+
+      /* Header bar */
+      --brand-name-size: clamp(2.5rem, 6.5vh, 6rem);
+      --brand-name-weight: 700;
+      --brand-separator-size: clamp(2rem, 5.5vh, 5rem);
+      --brand-separator-weight: 300;
+      --brand-tagline-size: clamp(1.5rem, 4.2vh, 3.8rem);
+      --brand-tagline-weight: 400;
+
+      /* Slide content */
+      --headline-size: clamp(4rem, min(10.5vw, 10.5vh), 10.5rem);
+      --headline-weight: 800;
+      --teamline-size: clamp(1.25rem, 3.8vh, 3.4rem);
+      --teamline-weight: 800;
     }
     html, body {
       width: 100vw;
@@ -104,16 +79,16 @@ const studies = [
       z-index: 150;
     }
     .brand-name {
-      font-size: clamp(2.5rem, 6.5vh, 6rem);
-      font-weight: 700;
+      font-size: var(--brand-name-size);
+      font-weight: var(--brand-name-weight);
       font-style: italic;
       color: var(--text);
       letter-spacing: -0.02em;
       line-height: 1;
     }
     .brand-separator {
-      font-size: clamp(2rem, 5.5vh, 5rem);
-      font-weight: 300;
+      font-size: var(--brand-separator-size);
+      font-weight: var(--brand-separator-weight);
       color: #c7ccd1;
       line-height: 1;
       position: relative;
@@ -121,8 +96,8 @@ const studies = [
       margin: 0 0.2em 0 0.45em;
     }
     .brand-tagline {
-      font-size: clamp(1.5rem, 4.2vh, 3.8rem);
-      font-weight: 400;
+      font-size: var(--brand-tagline-size);
+      font-weight: var(--brand-tagline-weight);
       color: var(--text);
       letter-spacing: -0.005em;
       line-height: 1;
@@ -132,8 +107,8 @@ const studies = [
     .brand-tagline .accent { color: var(--primary); font-weight: 500; }
 
     .headline {
-      font-size: clamp(4rem, min(10.5vw, 10.5vh), 10.5rem);
-      font-weight: 800;
+      font-size: var(--headline-size);
+      font-weight: var(--headline-weight);
       letter-spacing: -0.03em;
       line-height: 1.15;
       max-width: 92%;
@@ -161,13 +136,11 @@ const studies = [
     }
 
     .teamline {
-      font-size: clamp(1.25rem, 3.8vh, 3.4rem);
-      font-weight: 800;
+      font-size: var(--teamline-size);
+      font-weight: var(--teamline-weight);
       letter-spacing: 0.02em;
       text-transform: uppercase;
       color: var(--primary);
-      opacity: 1;
-      transform: none;
     }
 
     .teamline-connector {
@@ -179,19 +152,8 @@ const studies = [
       top: -0.05em;
     }
 
-    .subtext {
-      font-size: 1.8rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-      max-width: 85%;
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.5s 0.5s ease, transform 0.5s 0.5s ease;
-    }
-
     .slide.active .headline,
-    .slide.active .teamline-row,
-    .slide.active .subtext {
+    .slide.active .teamline-row {
       opacity: 1;
       transform: translateY(0);
     }
@@ -234,6 +196,10 @@ const studies = [
       transition: opacity 0.3s ease;
       pointer-events: none;
     }
+    body[data-controls-visible] .debug-controls {
+      opacity: 1;
+      pointer-events: auto;
+    }
     .debug-controls-zone:hover .debug-controls {
       opacity: 1;
       pointer-events: auto;
@@ -262,11 +228,10 @@ const studies = [
     @media (max-width: 1100px) {
       .case-header { left: 24px; right: 24px; }
       .slide { padding: 14vh 24px 0; }
-      .subtext { max-width: 100%; }
-    }
+}
   </style>
 </head>
-<body>
+<body {...(controlsAlwaysVisible ? { "data-controls-visible": true } : {})}>
   <div class="progress-bar" id="progress"></div>
   <div class="debug-controls-zone">
     <div class="debug-controls">
@@ -284,21 +249,8 @@ const studies = [
   </div>
 
   <div class="scene">
-    {studies.map((study) => {
-      const isOrderMultiBrand =
-        study.team === "Order Management" && study.industry === "Multi-Brand Sports Retail";
-      const isSourcingOutdoor =
-        study.team === "Sourcing & Negotiation" && study.industry === "Outdoor Apparel";
-
-      const extraClasses = [
-        isOrderMultiBrand ? "slide-order-multi-brand" : "",
-        isSourcingOutdoor ? "slide-sourcing-outdoor" : "",
-      ]
-        .filter(Boolean)
-        .join(" ");
-
-      return (
-        <div class={`slide${extraClasses ? " " + extraClasses : ""}`} data-duration="6000">
+    {studies.map((study) => (
+      <div class="slide" data-duration={slideDurationMs}>
         <h2 class="headline" set:html={study.title} />
         <div class="teamline-row">
           <div class="greenline"></div>
@@ -306,10 +258,8 @@ const studies = [
             {study.team} <span class="teamline-connector">@</span> {study.industry}
           </div>
         </div>
-          {/* <p class="subtext">{study.summary}</p> */}
-        </div>
-      );
-    })}
+      </div>
+    ))}
   </div>
 
   <script>
