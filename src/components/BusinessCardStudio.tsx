@@ -14,7 +14,7 @@ const TRIM_INSET = 24;
 // the 24px trim inset so the visual design stays within the white trimmed card.
 const CARD_FRAME_CLASS = "relative h-[648px] w-[1098px] overflow-hidden bg-white text-foreground";
 const BLEED_ACCENT_CLASS =
-  "absolute inset-y-0 left-0 z-10 w-[40px] bg-primary";
+  "absolute inset-y-0 left-0 z-10 w-[48px] bg-primary";
 const TRIM_PANEL_CLASS = "absolute overflow-hidden bg-white";
 const CARD_INSET_CLASS =
   "relative flex h-full flex-col px-[56px] pb-[132px] pt-[48px]";

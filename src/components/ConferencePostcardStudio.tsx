@@ -12,7 +12,7 @@ const TRIM_INSET = 24;
 const FRAME_CLASS =
   "relative h-[1248px] w-[1848px] overflow-hidden bg-white text-foreground";
 const BLEED_ACCENT_CLASS =
-  "absolute inset-y-0 left-0 z-10 w-[40px] bg-primary";
+  "absolute inset-y-0 left-0 z-10 w-[56px] bg-primary";
 const TRIM_PANEL_CLASS = "absolute overflow-hidden bg-white";
 const INSET_CLASS =
   "relative flex h-full flex-col px-[112px] pb-[248px] pt-[92px]";
