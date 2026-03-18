@@ -4,7 +4,7 @@ export const CALENDAR_HTML = `<style>
   * { box-sizing: border-box; margin: 0; }
   .wf { padding: 0.5rem 0; font-family: var(--font-sans); }
   .header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
-  .header h2 { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+  .header h2 { font-size: 22px; font-weight: 600; color: var(--color-text-primary); }
   .stat { font-size: 13px; color: var(--color-text-secondary); display: flex; align-items: center; gap: 8px; }
   .stat-bar { width: 90px; height: 5px; border-radius: 3px; background: var(--color-border-tertiary); overflow: hidden; }
   .stat-fill { height: 100%; border-radius: 3px; background: var(--color-text-info); }
@@ -21,7 +21,7 @@ export const CALENDAR_HTML = `<style>
   .btn1 { background: var(--color-text-info); color: #fff; }
   .btn2 { background: var(--color-background-secondary); color: var(--color-text-secondary); border: 0.5px solid var(--color-border-secondary); }
   .sl { font-size: 11px; color: var(--color-text-tertiary); }
-  .sw { overflow-x: auto; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); }
+  .sw { overflow-x: auto; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overscroll-behavior-x: contain; }
   .board { position: relative; }
   .phase-row { display: flex; height: 26px; border-bottom: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); }
   .phase-row .hs { width: 100px; flex-shrink: 0; border-right: 0.5px solid var(--color-border-tertiary); position: sticky; left: 0; z-index: 2; background: var(--color-background-secondary); }

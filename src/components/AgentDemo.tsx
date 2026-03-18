@@ -981,8 +981,8 @@ function SidebarButton({
       onClick={onClick}
       className="w-full h-10 rounded-lg flex items-center gap-2.5 px-2.5 transition-colors shrink-0"
       style={{
-        background: active ? C.sage : "transparent",
-        color: active ? "#ffffff" : C.textLight,
+        background: active ? C.border : "transparent",
+        color: active ? C.text : C.textLight,
       }}
       onMouseEnter={(e) => {
         if (!active) {
@@ -1100,7 +1100,7 @@ function UserAvatar() {
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function AgentDemo() {
-  const [activeView, setActiveView] = useState<"chat" | "workflows">("chat");
+  const [activeView, setActiveView] = useState<"chat" | "workflows" | "calendars">("chat");
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [workflowsCollapsed, setWorkflowsCollapsed] = useState(false);
   const [automatedCollapsed, setAutomatedCollapsed] = useState(true);
@@ -1319,6 +1319,10 @@ export default function AgentDemo() {
     setTypewriterText({});
     setTypewriterDone({});
     setActiveView("chat");
+    requestAnimationFrame(() => {
+      if (scrollRef.current) scrollRef.current.scrollTop = 0;
+      window.scrollTo(0, 0);
+    });
   };
 
   // Step type → style mapping for the botanical palette
@@ -1394,67 +1398,111 @@ export default function AgentDemo() {
             borderRight: `1px solid ${C.borderLight}`,
           }}
         >
-          {/* New task button */}
-          <button
-            onClick={handleReset}
-            className="w-full h-9 rounded-lg flex items-center gap-2 px-2.5 mb-3 text-xs font-medium transition-colors shrink-0"
-            style={{
-              color: "#ffffff",
-              background: C.sage,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = "0.9";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = "1";
-            }}
-          >
-            <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            New task
-          </button>
-
-          {/* Recent runs */}
-          <div className="flex-1 overflow-y-auto">
-            <p
-              className="text-[10px] uppercase tracking-wider font-medium px-2.5 mb-2"
-              style={{ color: C.textLight }}
-            >
-              Recent
-            </p>
-            <div className="space-y-0.5">
-              {[
-                { title: "Weekly status report", time: "2 hours ago" },
-                { title: "Landed-cost — Refresh line", time: "Yesterday" },
-                { title: "Q2 supplier risk assessment", time: "Yesterday" },
-                { title: "Fleet Feet order expedite", time: "Mar 14" },
-                { title: "Zhenmei lead time analysis", time: "Mar 13" },
-                { title: "Weekly status report", time: "Mar 10" },
-                { title: "Packaging cost comparison", time: "Mar 8" },
-              ].map((run, i) => (
+          {/* Sidebar content area — flex-1 so bottom nav stays pinned */}
+          <div className="flex-1 flex flex-col min-h-0">
+            {activeView !== "calendars" ? (
+              <>
+                {/* New task button */}
                 <button
-                  key={i}
-                  className="w-full text-left rounded-lg px-2.5 py-2 transition-colors"
-                  style={{ color: C.textMuted }}
+                  onClick={handleReset}
+                  className="w-full h-9 rounded-lg flex items-center gap-2 px-2.5 mb-3 text-xs font-medium transition-colors shrink-0"
+                  style={{
+                    color: "#ffffff",
+                    background: C.sage,
+                  }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = C.creamDark;
+                    e.currentTarget.style.opacity = "0.9";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.opacity = "1";
                   }}
                 >
-                  <p className="text-xs truncate" style={{ color: i === 0 ? C.text : C.textMuted }}>{run.title}</p>
-                  <p className="text-[10px]" style={{ color: C.textLight }}>{run.time}</p>
+                  <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                  </svg>
+                  New task
                 </button>
-              ))}
-            </div>
+
+                {/* Recent runs */}
+                <div className="flex-1 overflow-y-auto">
+                  <p
+                    className="text-[10px] uppercase tracking-wider font-medium px-2.5 mb-2"
+                    style={{ color: C.textLight }}
+                  >
+                    Recent
+                  </p>
+                  <div className="space-y-0.5">
+                    {[
+                      { title: "Weekly status report", time: "2 hours ago" },
+                      { title: "Landed-cost — Refresh line", time: "Yesterday" },
+                      { title: "Q2 supplier risk assessment", time: "Yesterday" },
+                      { title: "Fleet Feet order expedite", time: "Mar 14" },
+                      { title: "Zhenmei lead time analysis", time: "Mar 13" },
+                      { title: "Weekly status report", time: "Mar 10" },
+                      { title: "Packaging cost comparison", time: "Mar 8" },
+                    ].map((run, i) => (
+                      <button
+                        key={i}
+                        className="w-full text-left rounded-lg px-2.5 py-2 transition-colors"
+                        style={{ color: C.textMuted }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = C.creamDark;
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = "transparent";
+                        }}
+                      >
+                        <p className="text-xs truncate" style={{ color: i === 0 ? C.text : C.textMuted }}>{run.title}</p>
+                        <p className="text-[10px]" style={{ color: C.textLight }}>{run.time}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              /* Calendar list */
+              <div className="flex-1 overflow-y-auto">
+                <p
+                  className="text-[10px] uppercase tracking-wider font-medium px-2.5 pb-2"
+                  style={{ color: C.textLight }}
+                >
+                  Calendars
+                </p>
+                <div className="space-y-0.5 pt-1">
+                  {[
+                    { title: "SS26 wovens", active: true },
+                    { title: "SS26 knits", active: false },
+                    { title: "FW26 outerwear", active: false },
+                    { title: "FW26 denim", active: false },
+                    { title: "Resort 26 swim", active: false },
+                  ].map((cal, i) => (
+                    <button
+                      key={i}
+                      className="w-full text-left rounded-lg px-2.5 py-2 transition-colors"
+                      style={{
+                        color: cal.active ? C.text : C.textMuted,
+                        background: cal.active ? C.border : "transparent",
+                        fontWeight: cal.active ? 600 : 400,
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!cal.active) e.currentTarget.style.background = C.creamDark;
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!cal.active) e.currentTarget.style.background = "transparent";
+                      }}
+                    >
+                      <p className="text-xs truncate">{cal.title}</p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Bottom nav */}
           <div
-            className="pt-3 mt-2 space-y-0.5"
-            style={{ borderTop: `1px solid ${C.borderLight}` }}
+            className="pt-3 mt-auto shrink-0"
+            style={{ borderTop: `1px solid ${C.borderLight}`, display: "flex", flexDirection: "column", gap: 2 }}
           >
             <SidebarButton
               icon={
@@ -1463,9 +1511,20 @@ export default function AgentDemo() {
                 </svg>
               }
               label="Workflows"
-              active={activeView === "workflows"}
+              active={activeView === "chat"}
               expanded={sidebarExpanded}
-              onClick={() => setActiveView(activeView === "workflows" ? "chat" : "workflows")}
+              onClick={() => { handleReset(); setActiveView("chat"); }}
+            />
+            <SidebarButton
+              icon={
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+                </svg>
+              }
+              label="Calendars"
+              active={activeView === "calendars"}
+              expanded={sidebarExpanded}
+              onClick={() => setActiveView(activeView === "calendars" ? "chat" : "calendars")}
             />
             <SidebarButton
               icon={
@@ -1501,8 +1560,8 @@ export default function AgentDemo() {
         {/* Main content area */}
         <div className="flex-1 flex flex-col min-h-0 min-w-0 relative">
           {/* Workflows calendar view */}
-          {activeView === "workflows" && (
-            <div className="flex-1 overflow-y-auto min-h-0" style={{ contain: "inline-size" }}>
+          {activeView === "calendars" && (
+            <div className="flex-1 overflow-y-auto min-h-0" style={{ contain: "inline-size", overscrollBehavior: "contain" }}>
               <SourcingCalendar />
             </div>
           )}
