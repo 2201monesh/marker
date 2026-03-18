@@ -1009,9 +1009,301 @@ function SidebarButton({
   );
 }
 
+// ─── Workflow builder data ────────────────────────────────────────────────────
+
+interface BuilderStep {
+  type: "trigger" | "connect" | "send" | "wait" | "read" | "review" | "write" | "notify";
+  title: string;
+  /** Config fields shown inside the card — what you'd fill in when building this step */
+  config: { label: string; value: string }[];
+  permission?: "auto" | "approval";
+}
+
+interface BuilderWorkflow {
+  id: string;
+  calendarStepId: string;
+  title: string;
+  subtitle: string;
+  steps: BuilderStep[];
+}
+
+const BUILDER_WORKFLOWS: BuilderWorkflow[] = [
+  {
+    id: "collect-fabric-data",
+    calendarStepId: "p0",
+    title: "Collect fabric data sheets",
+    subtitle: "Automated vendor portal workflow — triggered at season kickoff",
+    steps: [
+      {
+        type: "trigger",
+        title: "Season kickoff",
+        config: [
+          { label: "Trigger", value: "Manual start" },
+          { label: "Started by", value: "PD Lead" },
+        ],
+      },
+      {
+        type: "connect",
+        title: "Pull style list",
+        config: [
+          { label: "Connector", value: "Centric PLM" },
+          { label: "Query", value: "All active woven styles for SS26" },
+          { label: "Returns", value: "127 styles with fabric requirements" },
+        ],
+        permission: "auto",
+      },
+      {
+        type: "send",
+        title: "Request data sheets from mills",
+        config: [
+          { label: "Connector", value: "Outlook — Email" },
+          { label: "To", value: "8 mills (from approved vendor list)" },
+          { label: "Template", value: "Fabric data sheet request — SS26" },
+          { label: "Attach", value: "Style list, spec requirements" },
+        ],
+        permission: "approval",
+      },
+      {
+        type: "wait",
+        title: "Await mill uploads",
+        config: [
+          { label: "Listen for", value: "Vendor Portal — new file uploads" },
+          { label: "Remind", value: "Auto-email at 48h, 1 week" },
+          { label: "Timeout", value: "10 business days" },
+        ],
+      },
+      {
+        type: "read",
+        title: "Extract fabric specs",
+        config: [
+          { label: "Source", value: "Vendor Portal — uploaded PDFs" },
+          { label: "Extract", value: "Composition, weight, width, MOQ, lead time, pricing" },
+          { label: "Match to", value: "Style list from Centric PLM" },
+        ],
+        permission: "auto",
+      },
+      {
+        type: "write",
+        title: "Write specs to PLM",
+        config: [
+          { label: "Connector", value: "Centric PLM" },
+          { label: "Action", value: "Update fabric spec fields for matched styles" },
+          { label: "Attach", value: "Original mill data sheets as reference" },
+        ],
+        permission: "approval",
+      },
+      {
+        type: "review",
+        title: "Flag mismatches for PD",
+        config: [
+          { label: "Check", value: "MOQ vs. buy plan, pricing vs. targets" },
+          { label: "Route to", value: "PD Lead — via Slack + email" },
+          { label: "Threshold", value: "Any pricing >5% over target" },
+        ],
+        permission: "approval",
+      },
+      {
+        type: "notify",
+        title: "Confirm completion to team",
+        config: [
+          { label: "Connector", value: "Outlook — Email" },
+          { label: "To", value: "PD Lead, Design Lead" },
+          { label: "Template", value: "Fabric data collection complete — SS26" },
+          { label: "Include", value: "Summary: styles matched, flags raised" },
+        ],
+        permission: "auto",
+      },
+    ],
+  },
+];
+
+const STEP_META: Record<BuilderStep["type"], { label: string; color: string; iconPath: string }> = {
+  trigger: {
+    label: "Trigger",
+    color: C.textLight,
+    iconPath: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z",
+  },
+  connect: {
+    label: "Connect",
+    color: C.sage,
+    iconPath: "M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244",
+  },
+  send: {
+    label: "Send",
+    color: C.sage,
+    iconPath: "M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5",
+  },
+  wait: {
+    label: "Wait",
+    color: C.ochre,
+    iconPath: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z",
+  },
+  read: {
+    label: "Read",
+    color: C.sage,
+    iconPath: "M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4",
+  },
+  review: {
+    label: "Review",
+    color: C.brown,
+    iconPath: "M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0",
+  },
+  write: {
+    label: "Write",
+    color: C.sage,
+    iconPath: "M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10",
+  },
+  notify: {
+    label: "Notify",
+    color: C.sage,
+    iconPath: "M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0",
+  },
+};
+
+/** Single step card for the workflow builder canvas */
+function BuilderStepCard({ step }: { step: BuilderStep }) {
+  const meta = STEP_META[step.type];
+  const isApproval = step.permission === "approval";
+  const hasPermission = step.permission !== undefined;
+
+  return (
+    <div
+      className="rounded-xl shrink-0 flex flex-col"
+      style={{
+        width: 210,
+        background: C.cream,
+        border: `1px solid ${C.borderLight}`,
+        boxShadow: `0 1px 4px ${C.borderLight}60`,
+      }}
+    >
+      {/* Header */}
+      <div className="px-3 py-2.5 flex items-center gap-2" style={{ borderBottom: `1px solid ${C.borderLight}` }}>
+        <div
+          className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
+          style={{ background: `${meta.color}14`, color: meta.color }}
+        >
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d={meta.iconPath} />
+          </svg>
+        </div>
+        <div className="flex-1 min-w-0">
+          <span className="text-[9px] font-semibold uppercase tracking-wider" style={{ color: meta.color }}>
+            {meta.label}
+          </span>
+          <p className="text-[11px] font-semibold leading-tight truncate" style={{ color: C.text }}>
+            {step.title}
+          </p>
+        </div>
+      </div>
+
+      {/* Config fields */}
+      <div className="px-3 py-2 flex-1 space-y-1.5">
+        {step.config.map((cfg) => (
+          <div key={cfg.label}>
+            <span className="text-[8px] font-semibold uppercase tracking-wider" style={{ color: C.textLight }}>
+              {cfg.label}
+            </span>
+            <p className="text-[10px] leading-snug" style={{ color: C.textMuted }}>
+              {cfg.value}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* Permission badge */}
+      {hasPermission && (
+        <div className="px-3 pb-2.5 pt-1">
+          <div
+            className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] font-medium w-fit"
+            style={{
+              background: isApproval ? `${C.ochre}10` : `${C.sage}10`,
+              color: isApproval ? C.ochre : C.sage,
+              border: `1px solid ${isApproval ? C.ochre : C.sage}25`,
+            }}
+          >
+            {isApproval ? (
+              <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+            ) : (
+              <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            )}
+            {isApproval ? "Requires approval" : "Auto-approved"}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Workflow builder canvas view — horizontal card layout */
+function WorkflowBuilderView({
+  workflow,
+  onBack,
+}: {
+  workflow: BuilderWorkflow;
+  onBack: () => void;
+}) {
+  return (
+    <div
+      className="flex-1 flex flex-col min-h-0"
+      style={{
+        background: C.cream,
+        backgroundImage: `radial-gradient(circle, ${C.borderLight}66 1px, transparent 1px)`,
+        backgroundSize: "24px 24px",
+      }}
+    >
+      {/* Header bar */}
+      <div
+        className="shrink-0 px-6 py-3 flex items-center gap-3"
+        style={{
+          background: `${C.cream}ee`,
+          borderBottom: `1px solid ${C.borderLight}`,
+        }}
+      >
+        <h2 className="text-lg font-semibold" style={{ color: C.text }}>{workflow.title}</h2>
+        <div
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ml-3"
+          style={{ background: `${C.sage}14`, border: `1px solid ${C.sage}30`, color: C.sage }}
+        >
+          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+          </svg>
+          Automated workflow
+        </div>
+      </div>
+
+      {/* Canvas — horizontally scrollable cards */}
+      <div className="flex-1 overflow-x-auto overflow-y-auto min-h-0">
+        <div className="flex items-start gap-0 pl-8 py-8 min-w-max" style={{ minHeight: "100%" }}>
+          {workflow.steps.map((step, i) => (
+            <div key={i} className="flex items-start">
+              {/* Connector line */}
+              {i > 0 && (
+                <div className="flex items-center self-center shrink-0" style={{ marginTop: 0 }}>
+                  <div className="w-6 h-px" style={{ background: C.borderLight }} />
+                  <svg className="w-2 h-2 -ml-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke={C.borderLight} strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+                </div>
+              )}
+              <BuilderStepCard step={step} />
+            </div>
+          ))}
+          <div className="shrink-0 w-8" aria-hidden />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /** Sourcing calendar Gantt chart view */
-function SourcingCalendar() {
+function SourcingCalendar({ onAgentClick }: { onAgentClick?: (stepId: string) => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const callbackRef = useRef(onAgentClick);
+  callbackRef.current = onAgentClick;
 
   useEffect(() => {
     const el = containerRef.current;
@@ -1051,7 +1343,17 @@ function SourcingCalendar() {
       fn();
     }
 
+    // Add click delegation for agent steps
+    const handleClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest(".c.is-agent") as HTMLElement | null;
+      if (target?.id && callbackRef.current) {
+        callbackRef.current(target.id);
+      }
+    };
+    el.addEventListener("click", handleClick);
+
     return () => {
+      el.removeEventListener("click", handleClick);
       // Clear any running simulation timeouts
       const tt = (window as unknown as Record<string, ReturnType<typeof setTimeout>[]>).__calendarTT;
       if (tt) {
@@ -1100,7 +1402,8 @@ function UserAvatar() {
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function AgentDemo() {
-  const [activeView, setActiveView] = useState<"chat" | "workflows" | "calendars">("chat");
+  const [activeView, setActiveView] = useState<"chat" | "workflows" | "calendars" | "workflow-builder">("chat");
+  const [builderWorkflowId, setBuilderWorkflowId] = useState<string | null>(null);
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [workflowsCollapsed, setWorkflowsCollapsed] = useState(false);
   const [automatedCollapsed, setAutomatedCollapsed] = useState(true);
@@ -1562,9 +1865,27 @@ export default function AgentDemo() {
           {/* Workflows calendar view */}
           {activeView === "calendars" && (
             <div className="flex-1 overflow-y-auto min-h-0" style={{ contain: "inline-size", overscrollBehavior: "contain" }}>
-              <SourcingCalendar />
+              <SourcingCalendar
+                onAgentClick={(stepId) => {
+                  const wf = BUILDER_WORKFLOWS.find((w) => w.calendarStepId === stepId);
+                  if (wf) {
+                    setBuilderWorkflowId(wf.id);
+                    setActiveView("workflow-builder");
+                  }
+                }}
+              />
             </div>
           )}
+          {/* Workflow builder canvas view */}
+          {activeView === "workflow-builder" && (() => {
+            const wf = BUILDER_WORKFLOWS.find((w) => w.id === builderWorkflowId);
+            return wf ? (
+              <WorkflowBuilderView
+                workflow={wf}
+                onBack={() => setActiveView("calendars")}
+              />
+            ) : null;
+          })()}
           {/* Workflow progress bar — fixed at top of chat area */}
           {activeView === "chat" && selectedScenario && (
             <div

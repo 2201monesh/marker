@@ -48,7 +48,8 @@ export const CALENDAR_HTML = `<style>
   .c .cwait { display: none; font-size: 9px; color: var(--color-text-warning); font-weight: 500; }
   .c .ck { display: none; position: absolute; top: 3px; right: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--color-background-success); align-items: center; justify-content: center; }
   .c .ck svg { width: 9px; height: 9px; }
-  .c.is-agent { background: #E8F5EC; border: 1.5px solid #A8D5BA; border-left: 4px solid var(--color-text-info); }
+  .c.is-agent { background: #E8F5EC; border: 1.5px solid #A8D5BA; border-left: 4px solid var(--color-text-info); cursor: pointer; }
+  .c.is-agent:hover { box-shadow: 0 2px 8px rgba(58,125,86,0.18); }
   .c.is-agent .cw { color: var(--color-text-info); font-weight: 700; }
   .c.waiting { opacity: 0.18; }
   @keyframes ap { 0%,100%{box-shadow:0 0 0 0 transparent} 50%{box-shadow:0 0 0 4px rgba(58,125,86,0.25)} }
