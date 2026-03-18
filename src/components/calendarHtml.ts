@@ -30,7 +30,7 @@ export const CALENDAR_HTML = `<style>
   .plb:not(:first-child) { border-left: 0.5px dashed var(--color-border-secondary); }
   .lane { display: flex; align-items: stretch; min-height: 88px; border-bottom: 0.5px solid var(--color-border-tertiary); }
   .lane:last-child { border-bottom: none; }
-  .lh { width: 100px; flex-shrink: 0; display: flex; align-items: center; gap: 7px; padding: 8px 10px; border-right: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); position: sticky; left: 0; z-index: 2; }
+  .lh { width: 100px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 8px 10px; border-right: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); position: sticky; left: 0; z-index: 2; }
   .lh .li { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--color-background-warning); }
   .lh .li svg { width: 12px; height: 12px; }
   .lh .ln { font-size: 12px; font-weight: 500; color: var(--color-text-primary); }
@@ -362,7 +362,7 @@ function build() {
   LANES.forEach(function(l) {
     var r = document.createElement('div');
     r.className = 'lane';
-    r.innerHTML = '<div class="lh"><div class="li">'+PI+'</div><div class="ln">'+l+'</div></div><div class="lt" id="tk-'+l+'"></div>';
+    r.innerHTML = '<div class="lh"><div class="ln">'+l+'</div></div><div class="lt" id="tk-'+l+'"></div>';
     b.appendChild(r);
   });
 
@@ -393,7 +393,9 @@ function build() {
 }
 
 function ss(id, st) {
-  document.getElementById(id).className = 'c ' + st;
+  var el = document.getElementById(id);
+  var isA = el.classList.contains('is-agent');
+  el.className = 'c ' + st + (isA ? ' is-agent' : '');
 }
 
 function mc(col) {
