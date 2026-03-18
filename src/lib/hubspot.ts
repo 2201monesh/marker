@@ -2,7 +2,6 @@ const PORTAL_ID = "245531796";
 
 export const HUBSPOT_FORMS = {
   newsletter: "f78561f6-b5c8-4481-bdb4-df3bb35851e7",
-  bookDemo: "d6ec765a-9d4f-43b7-91ad-93f5741806b7",
 } as const;
 
 interface HubSpotField {
