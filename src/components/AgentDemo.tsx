@@ -776,6 +776,86 @@ function PermissionsCard({
   );
 }
 
+/** Compact workflow step diagram shown inside scenario buttons */
+function WorkflowDiagram({ steps }: { steps: StepDef[] }) {
+  // Collapse consecutive same-type steps and map to visual nodes
+  const nodes: { type: StepDef["type"]; label: string; count: number }[] = [];
+  for (const step of steps) {
+    const last = nodes[nodes.length - 1];
+    if (last && last.type === step.type) {
+      last.count++;
+    } else {
+      // Short labels for each type
+      const shortLabel: Record<StepDef["type"], string> = {
+        system_read: "Connect",
+        data_pull: "Read",
+        reasoning: "Analyze",
+        human_input: "Review",
+        result: "Act",
+      };
+      nodes.push({ type: step.type, label: shortLabel[step.type], count: 1 });
+    }
+  }
+
+  const nodeColor: Record<StepDef["type"], string> = {
+    system_read: C.sage,
+    data_pull: C.sage,
+    reasoning: C.ochre,
+    human_input: C.brown,
+    result: C.sage,
+  };
+
+  return (
+    <div className="flex items-center gap-0 mt-2.5 overflow-hidden">
+      {nodes.map((node, i) => (
+        <div key={i} className="flex items-center">
+          {i > 0 && (
+            <div
+              className="w-3 h-px shrink-0"
+              style={{ background: C.borderLight }}
+            />
+          )}
+          <div
+            className="flex items-center gap-1 rounded-full px-2 py-0.5 shrink-0"
+            style={{
+              background: `${nodeColor[node.type]}14`,
+              border: `1px solid ${nodeColor[node.type]}30`,
+            }}
+          >
+            {/* Tiny icon per type */}
+            {(node.type === "system_read" || node.type === "data_pull") && (
+              <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke={nodeColor[node.type]} strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+              </svg>
+            )}
+            {node.type === "reasoning" && (
+              <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke={nodeColor[node.type]} strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+            )}
+            {node.type === "human_input" && (
+              <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke={nodeColor[node.type]} strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" />
+              </svg>
+            )}
+            {node.type === "result" && (
+              <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke={nodeColor[node.type]} strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+            )}
+            <span
+              className="text-[9px] font-medium leading-none"
+              style={{ color: nodeColor[node.type] }}
+            >
+              {node.label}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /** Sidebar nav button — icon with inline label that appears when sidebar is expanded */
 function SidebarButton({
   icon,
@@ -1269,30 +1349,25 @@ export default function AgentDemo() {
                   e.currentTarget.style.background = "transparent";
                 }}
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
+                <div>
+                  <div className="flex items-start justify-between gap-4">
                     <p
                       className="font-medium transition-colors"
                       style={{ color: C.text }}
                     >
                       {s.title}
                     </p>
-                    <p
-                      className="text-sm mt-0.5"
-                      style={{ color: C.textLight }}
+                    <span
+                      className="text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 shrink-0 mt-1"
+                      style={{
+                        color: C.textLight,
+                        border: `1px solid ${C.borderLight}`,
+                      }}
                     >
-                      {s.subtitle}
-                    </p>
+                      {s.industry}
+                    </span>
                   </div>
-                  <span
-                    className="text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 shrink-0 mt-1"
-                    style={{
-                      color: C.textLight,
-                      border: `1px solid ${C.borderLight}`,
-                    }}
-                  >
-                    {s.industry}
-                  </span>
+                  <WorkflowDiagram steps={s.steps} />
                 </div>
               </button>
             ))}
