@@ -11,6 +11,8 @@ interface StepDef {
   requiresApproval?: boolean;
   /** Options shown during human_input steps */
   approvalPrompt?: string;
+  /** Custom labels for the approval buttons [primary, secondary] */
+  approvalButtons?: [string, string];
 }
 
 interface ScenarioDef {
@@ -18,6 +20,11 @@ interface ScenarioDef {
   title: string;
   subtitle: string;
   industry: string;
+  acknowledgment: string;
+  permissions: {
+    autoApproved: string[];
+    requiresApproval: string[];
+  };
   steps: StepDef[];
   completionMessage: string;
 }
@@ -30,12 +37,26 @@ const SCENARIOS: ScenarioDef[] = [
     title: "Produce the weekly status update for leadership",
     subtitle: "Cross-functional report across sourcing, costing, and logistics",
     industry: "Apparel & Footwear",
+    acknowledgment:
+      "On it — I'll run the weekly status workflow. This is a pre-configured workflow with read-only access to your connected systems. I'll flag anything that needs your attention before taking action.\n\n1. Connect to and read from your PLM, ERP, costing, procurement, WMS, email, and shared drives (pre-authorized, read-only)\n2. Cross-reference supplier communications with system data\n3. Flag any conflicts or delays and analyze downstream impact\n4. Compile everything into the leadership template — you'll review before anything is sent\n\nLet me get started.",
+    permissions: {
+      autoApproved: [
+        "Read from all connected systems",
+        "Cross-reference data across sources",
+        "Generate reports and summaries",
+      ],
+      requiresApproval: [
+        "Send emails or reports",
+        "Escalate issues to team members",
+        "Update records in any system",
+      ],
+    },
     steps: [
       {
         type: "system_read",
-        label: "Connecting to systems",
+        label: "Connecting & reading systems",
         detail:
-          "Authenticating and pulling latest data from connected platforms...",
+          "Authenticating via pre-configured service accounts. All connections are read-only — no data will be modified.",
         sources: [
           "PLM (Centric)",
           "ERP (NetSuite)",
@@ -64,10 +85,13 @@ const SCENARIOS: ScenarioDef[] = [
           "Supplier Zhenmei Textiles emailed a 12-day delay on greige fabric (PO #4412) but this wasn't reflected in NetSuite. Meanwhile, the costing tool still shows the original freight estimate. If the delay holds, this pushes the cut-start date past the factory booking window — we'd need to either expedite air freight (+$2.40/unit) or renegotiate the factory slot. Checking downstream calendar impact...",
       },
       {
-        type: "reasoning",
-        label: "Analyzing downstream impact",
-        detail:
-          "The Zhenmei delay cascades into 2 other styles (STY-2291, STY-2294) that share the same fabric. Combined, these represent $340K in first-cost exposure. The factory in Ho Chi Minh has a 3-day buffer before the booking lapses. Recommendation: escalate PO #4412 to procurement lead, hold air freight decision until Thursday.",
+        type: "human_input",
+        label: "Flagging significant finding",
+        detail: "",
+        requiresApproval: true,
+        approvalPrompt:
+          "I found something that needs your attention before I continue.\n\nThe Zhenmei delay on PO #4412 cascades into 2 other styles (STY-2291, STY-2294) that share the same fabric. Combined, these represent **$340K in first-cost exposure**. The factory in Ho Chi Minh has a 3-day buffer before the booking lapses.\n\nThis is above the $100K escalation threshold configured for this workflow. I'd recommend flagging this as critical in the report and recommending the procurement lead escalate by EOD Wednesday.\n\nShould I proceed with that recommendation, or would you like to adjust it?",
+        approvalButtons: ["Proceed with recommendation", "Adjust"],
       },
       {
         type: "data_pull",
@@ -92,7 +116,8 @@ const SCENARIOS: ScenarioDef[] = [
         detail: "",
         requiresApproval: true,
         approvalPrompt:
-          "I've drafted the weekly status report. Here's the executive summary:\n\n**Weekly Supply Chain Status — Week of Mar 16**\n\n🔴 **Critical (2)**\n• Zhenmei Textiles — 12-day fabric delay on PO #4412. Cascading impact to STY-2291 & STY-2294 ($340K exposure). Recommend: escalate to procurement by EOD Wed.\n• Container MEDU4217890 — held at Yantian port, customs review. ETA slip: 4–7 days. Logistics team notified.\n\n🟡 **Watch (3)**\n• Factory slot in HCMC expires Fri — decision needed on air freight vs. renegotiation by Thu.\n• Coupa PO approval queue has 6 items pending >48hrs.\n• Fabric lab dip for STY-2310 rejected on 2nd attempt — supplier re-submitting.\n\n🟢 **On Track (12 workstreams)**\nAll other development, sourcing, and logistics milestones progressing per plan.\n\n---\nWould you like me to send this to the leadership distribution list (exec-supply-chain@company.com)?",
+          "I've drafted the weekly status report. Sending emails is not auto-approved for this workflow, so I need your sign-off.\n\n**Weekly Supply Chain Status — Week of Mar 16**\n\n🔴 **Critical (2)**\n• Zhenmei Textiles — 12-day fabric delay on PO #4412. Cascading impact to STY-2291 & STY-2294 ($340K exposure). Recommend: escalate to procurement by EOD Wed.\n• Container MEDU4217890 — held at Yantian port, customs review. ETA slip: 4–7 days. Logistics team notified.\n\n🟡 **Watch (3)**\n• Factory slot in HCMC expires Fri — decision needed on air freight vs. renegotiation by Thu.\n• Coupa PO approval queue has 6 items pending >48hrs.\n• Fabric lab dip for STY-2310 rejected on 2nd attempt — supplier re-submitting.\n\n🟢 **On Track (12 workstreams)**\nAll other development, sourcing, and logistics milestones progressing per plan.\n\n---\nWould you like me to send this to the leadership distribution list (exec-supply-chain@company.com)?",
+        approvalButtons: ["Send it", "Open draft to edit"],
       },
       {
         type: "result",
@@ -107,56 +132,79 @@ const SCENARIOS: ScenarioDef[] = [
   {
     id: "cost-analysis",
     title: "Run a landed-cost analysis on the new product line",
-    subtitle: "Full cost build-up from raw materials to warehouse door",
-    industry: "Consumer Electronics",
+    subtitle: "Full cost build-up from ingredients and packaging to warehouse door",
+    industry: "CPG",
+    acknowledgment:
+      "Got it — I'll run the landed-cost workflow. This workflow has pre-authorized read access to your formulation, ERP, and procurement systems. I'll pull the data automatically but check with you before sharing results or making recommendations.\n\n1. Connect to and read formulations, ingredient pricing, and packaging specs from PLM, ERP, and procurement (pre-authorized, read-only)\n2. Resolve any pricing discrepancies across sources\n3. Layer in co-manufacturing, freight, and distribution costs\n4. Compare against your target — you'll review the full breakdown before I share it\n\nLet me get started.",
+    permissions: {
+      autoApproved: [
+        "Read formulations and pricing from PLM & ERP",
+        "Query freight and co-man rate tables",
+        "Cross-reference supplier quotes",
+      ],
+      requiresApproval: [
+        "Share analysis with teams",
+        "Create follow-up tasks",
+        "Flag discrepancies to suppliers",
+      ],
+    },
     steps: [
       {
         type: "system_read",
-        label: "Connecting to systems",
+        label: "Connecting & reading systems",
         detail:
-          "Pulling BOM data, supplier quotes, and logistics rates from connected platforms...",
+          "Authenticating via pre-configured service accounts. All connections are read-only — no data will be modified.",
         sources: [
-          "PLM (Arena)",
+          "PLM (Specright)",
           "ERP (SAP S/4HANA)",
-          "Costing Tool (Pivot88)",
+          "Costing Tool",
           "Coupa Procurement",
-          "Freight Calculator",
-          "Shared Drives (Excel BOMs)",
+          "Co-Man Portal",
+          "Shared Drives (Excel formulations)",
         ],
       },
       {
         type: "data_pull",
-        label: "Extracting BOM & component pricing",
+        label: "Extracting formulations & ingredient pricing",
         detail:
-          'Pulled 4 product BOMs from PLM for the "Nova" line. Cross-referencing component costs across 3 suppliers in Coupa. Found pricing discrepancies: Supplier A quotes PCB assembly at $4.12/unit in Coupa but the BOM spreadsheet from engineering shows $3.87/unit from a quote dated 6 weeks ago.',
+          'Pulled 3 product formulations from PLM for the "Refresh" sparkling beverage line. Cross-referencing ingredient costs across 4 suppliers in Coupa. Found pricing discrepancies: citric acid supplier AmeriChem quotes $2.85/kg in Coupa but the formulation costing spreadsheet from R&D shows $2.52/kg from a quote dated 8 weeks ago.',
         sources: [
-          "Arena PLM — Nova Line BOMs",
+          "Specright PLM — Refresh Line Formulations",
           "Coupa — Supplier Quotes",
-          "Shared Drive — Engineering BOM v3.xlsx",
+          "Shared Drive — R&D Costing Model v4.xlsx",
         ],
+      },
+      {
+        type: "human_input",
+        label: "Pricing discrepancy — confirming source of truth",
+        detail: "",
+        requiresApproval: true,
+        approvalPrompt:
+          "I found a discrepancy I want to confirm before building the cost model.\n\nAmeriChem's citric acid pricing differs between two sources:\n• **Coupa (current):** $2.85/kg — reflects a commodity surcharge added Mar 1\n• **R&D costing spreadsheet:** $2.52/kg — quote is 8 weeks old, doesn't reflect the surcharge\n\nThe Coupa quote appears to be the more current and accurate source. I'd like to use **$2.85/kg as the source of truth** for this analysis.\n\nDoes that look right, or should I use a different figure?",
+        approvalButtons: ["Use $2.85, proceed", "Use a different figure"],
       },
       {
         type: "reasoning",
         label: "Resolving pricing discrepancies",
         detail:
-          "The $0.25 delta on PCB assembly traces back to a raw material surcharge Supplier A added on Feb 28 (copper index +8%). The engineering spreadsheet is stale. Using the Coupa quote as source of truth. However, Supplier B has a valid quote at $3.95/unit — $0.17 cheaper — but requires a 10K MOQ vs Supplier A's 5K. At our forecasted volume of 8K units, Supplier A is actually more cost-effective when factoring in carrying cost of excess inventory.",
+          "Confirmed: using Coupa quote at $2.85/kg. The $0.33 delta traces back to a citric acid commodity spike (+13%) driven by a poor citrus harvest in Brazil. Alternative supplier PureChem has a valid quote at $2.71/kg but requires a 20-ton MOQ vs AmeriChem's 5-ton. At our forecasted volume of 12 tons for the launch run, AmeriChem is more cost-effective when factoring in storage costs and shelf-life constraints on excess inventory.",
       },
       {
         type: "data_pull",
-        label: "Pulling freight & duty rates",
+        label: "Pulling co-man, packaging & freight rates",
         detail:
-          "Querying freight forwarder rate tables for Shenzhen → Los Angeles (FCL, 40ft). Current spot rate: $2,840/container. Duty rate for HTS 8471.30: 0% (covered under ITA). Drayage + last-mile to warehouse: $680. Insurance: 0.35% of declared value.",
+          "Querying co-manufacturing rates from partner portal... PackRight Co-Man quotes $0.38/unit for fill & pack on 12oz cans. Packaging costs: cans at $0.09/unit, shrink wrap at $0.03/unit, case packing at $0.05/unit. Freight: co-man facility (Indiana) → regional DC (Dallas), LTL rate $1,840/shipment at 22,000 units/load.",
         sources: [
-          "Flexport Rate API",
-          "HTS Duty Lookup",
-          "Insurance Calculator",
+          "Co-Man Portal — PackRight",
+          "Coupa — Packaging Quotes",
+          "Freight Calculator",
         ],
       },
       {
         type: "reasoning",
         label: "Building full landed-cost model",
         detail:
-          "Compiling all cost layers:\n\n• Raw materials & components: $28.41/unit\n• Assembly & labor: $6.20/unit\n• Factory overhead & margin: $4.10/unit\n• Inland freight (factory to port): $0.32/unit\n• Ocean freight: $0.71/unit (at 4,000 units/container)\n• Duty: $0.00 (ITA exempt)\n• Drayage + last-mile: $0.17/unit\n• Insurance: $0.14/unit\n• Quality inspection (pre-ship): $0.22/unit\n\n**Total landed cost: $40.27/unit**\n\nTarget was $39.00. We're $1.27 over. The main driver is the copper surcharge on PCBs. Two levers: negotiate Supplier A down, or redesign the PCB layout to use less copper (engineering estimates 2-week timeline).",
+          "Compiling all cost layers:\n\n• Ingredients (per 12oz unit): $0.41\n• Flavoring & additives: $0.08\n• Can & packaging materials: $0.17\n• Co-manufacturing (fill, pack, label): $0.38\n• Quality testing (batch): $0.02\n• Freight to DC: $0.08\n• Warehousing & handling: $0.05\n• Insurance & shrink allowance: $0.02\n\n**Total landed cost: $1.21/unit**\n\nTarget was $1.10. We're $0.11 over. The main driver is the citric acid surcharge (+$0.06) and co-man rates running higher than budgeted (+$0.04). Two levers: negotiate co-man volume discount for the full-year commitment, or reformulate to reduce citric acid concentration (R&D estimates 1-week timeline, minimal flavor impact).",
       },
       {
         type: "human_input",
@@ -164,13 +212,14 @@ const SCENARIOS: ScenarioDef[] = [
         detail: "",
         requiresApproval: true,
         approvalPrompt:
-          "Here's the full landed-cost analysis for the Nova product line:\n\n**Landed Cost Summary — Nova Line (per unit)**\n\n| Cost Layer | $/Unit |\n|---|---|\n| Raw Materials & Components | $28.41 |\n| Assembly & Labor | $6.20 |\n| Factory Overhead & Margin | $4.10 |\n| Inland Freight | $0.32 |\n| Ocean Freight | $0.71 |\n| Duty | $0.00 |\n| Drayage + Last-Mile | $0.17 |\n| Insurance | $0.14 |\n| QC Inspection | $0.22 |\n| **Total Landed** | **$40.27** |\n\n⚠️ **$1.27 over target ($39.00)**\n\nRecommended actions:\n1. Renegotiate PCB assembly with Supplier A (potential savings: $0.40–0.60)\n2. Evaluate PCB redesign to reduce copper usage (est. 2 weeks, potential savings: $0.80)\n\nShall I save this analysis and share it with the product & procurement teams?",
+          "Here's the full landed-cost analysis. Sharing with other teams requires your approval.\n\n**Landed Cost Summary — Refresh Sparkling Line (per 12oz unit)**\n\n| Cost Layer | $/Unit |\n|---|---|\n| Ingredients | $0.41 |\n| Flavoring & Additives | $0.08 |\n| Can & Packaging | $0.17 |\n| Co-Manufacturing | $0.38 |\n| Quality Testing | $0.02 |\n| Freight to DC | $0.08 |\n| Warehousing & Handling | $0.05 |\n| Insurance & Shrink | $0.02 |\n| **Total Landed** | **$1.21** |\n\n⚠️ **$0.11 over target ($1.10)**\n\nRecommended actions:\n1. Negotiate co-man volume discount with PackRight for full-year commitment (potential savings: $0.03–0.05)\n2. Reformulate to reduce citric acid concentration (est. 1 week, potential savings: $0.04–0.06)\n\nShall I save this analysis and share it with the brand & procurement teams?",
+        approvalButtons: ["Share with teams", "Open draft to review"],
       },
       {
         type: "result",
         label: "Analysis shared",
         detail:
-          "Landed-cost analysis saved to the Nova project folder and shared with product@company.com and procurement@company.com. Follow-up tasks created: (1) Supplier A negotiation call, (2) PCB redesign feasibility review.",
+          "Landed-cost analysis saved to the Refresh project folder and shared with brand@company.com and procurement@company.com. Follow-up tasks created: (1) PackRight volume discount negotiation, (2) R&D reformulation feasibility review.",
       },
     ],
     completionMessage:
@@ -181,12 +230,26 @@ const SCENARIOS: ScenarioDef[] = [
     title: "Assess supplier risk for Q2 planning",
     subtitle: "Multi-tier supplier health check with contingency mapping",
     industry: "Food & Beverage",
+    acknowledgment:
+      "Sure — I'll run the supplier risk workflow. This workflow has pre-authorized read access to your ERP, SRM, procurement, and compliance systems, plus external risk feeds. I'll surface everything I find but check with you before sending assessments or drafting RFQs.\n\n1. Connect to and read performance scorecards and compliance records across all active suppliers (pre-authorized, read-only)\n2. Check external risk signals — financials, news, credit ratings\n3. Identify compounding risk factors and single-source dependencies\n4. Map contingency options — you'll approve before anything goes out\n\nLet me dig in.",
+    permissions: {
+      autoApproved: [
+        "Read supplier data from ERP & SRM",
+        "Query external risk and news feeds",
+        "Read email for supplier communications",
+      ],
+      requiresApproval: [
+        "Share assessments with teams",
+        "Draft or send RFQs",
+        "Log findings in QMS",
+      ],
+    },
     steps: [
       {
         type: "system_read",
-        label: "Connecting to systems",
+        label: "Connecting & reading systems",
         detail:
-          "Pulling supplier performance data, financial health indicators, and compliance records...",
+          "Authenticating via pre-configured service accounts. All connections are read-only — no data will be modified.",
         sources: [
           "ERP (Oracle Cloud)",
           "SRM (SAP Ariba)",
@@ -220,10 +283,19 @@ const SCENARIOS: ScenarioDef[] = [
         ],
       },
       {
+        type: "human_input",
+        label: "Unlogged quality issues found — flagging for review",
+        detail: "",
+        requiresApproval: true,
+        approvalPrompt:
+          "I found something that may need attention outside this workflow.\n\nI discovered 3 quality complaints about FreshBlend Co-Manufacturing in email threads that were **never logged in your QMS**. The complaints reference off-spec viscosity issues over the past 3 weeks.\n\nThis is a compliance gap — these should have been recorded as quality incidents. I can include this finding in the risk assessment, but wanted to flag it separately since it may require a process review.\n\nShould I:\n1. Include it in the assessment and move on?\n2. Include it and also flag to your quality team that these need to be retroactively logged?",
+        approvalButtons: ["Include and flag quality team", "Include and move on"],
+      },
+      {
         type: "reasoning",
         label: "Assessing compounding risk factors",
         detail:
-          "GreenPak supplies 60% of our sustainable packaging — a single-source dependency. Their credit downgrade + our 35-day payment terms creates a working capital risk for them. If they go into distress, lead times on packaging could blow out 4–6 weeks, halting 3 product lines. Meanwhile, FreshBlend's unlogged quality issues (found 3 email complaints about off-spec viscosity) combined with their 87% OTD rate makes them a dual risk: quality AND delivery.",
+          "GreenPak supplies 60% of our sustainable packaging — a single-source dependency. Their credit downgrade + our 35-day payment terms creates a working capital risk for them. If they go into distress, lead times on packaging could blow out 4–6 weeks, halting 3 product lines. Meanwhile, FreshBlend's unlogged quality issues combined with their 87% OTD rate makes them a dual risk: quality AND delivery.",
       },
       {
         type: "reasoning",
@@ -237,13 +309,14 @@ const SCENARIOS: ScenarioDef[] = [
         detail: "",
         requiresApproval: true,
         approvalPrompt:
-          "Here's the Q2 Supplier Risk Assessment:\n\n**🔴 High Risk (2 suppliers)**\n\n**GreenPak Industries** (Packaging)\n• Single-source dependency (60% of sustainable packaging)\n• Credit downgraded to BB- (parent company Q4 loss)\n• Risk: 4–6 week supply disruption if financial distress worsens\n• **Recommendation:** Activate EcoPack Solutions for 30% of volume (6-week ramp)\n\n**FreshBlend Co-Manufacturing** (Co-Man)\n• 87% OTD (below 90% threshold)\n• 3 unlogged quality complaints (off-spec viscosity)\n• **Recommendation:** Begin transition to Precision Foods (+15% cost, but 98% OTD; net savings $120K/yr risk-adjusted)\n\n**🟡 Watch (4 suppliers)**\n• Below 90% OTD but no compounding risk factors\n\n**🟢 Healthy (28 suppliers)**\n• All metrics within acceptable ranges\n\nShall I:\n1. Share this assessment with the procurement & quality teams?\n2. Draft RFQs for EcoPack and Precision Foods?\n3. Both?",
+          "Here's the Q2 Supplier Risk Assessment. Sharing this and drafting RFQs both require your approval.\n\n**🔴 High Risk (2 suppliers)**\n\n**GreenPak Industries** (Packaging)\n• Single-source dependency (60% of sustainable packaging)\n• Credit downgraded to BB- (parent company Q4 loss)\n• Risk: 4–6 week supply disruption if financial distress worsens\n• **Recommendation:** Activate EcoPack Solutions for 30% of volume (6-week ramp)\n\n**FreshBlend Co-Manufacturing** (Co-Man)\n• 87% OTD (below 90% threshold)\n• 3 unlogged quality complaints (off-spec viscosity)\n• **Recommendation:** Begin transition to Precision Foods (+15% cost, but 98% OTD; net savings $120K/yr risk-adjusted)\n\n**🟡 Watch (4 suppliers)**\n• Below 90% OTD but no compounding risk factors\n\n**🟢 Healthy (28 suppliers)**\n• All metrics within acceptable ranges\n\nShall I:\n1. Share this assessment with the procurement & quality teams?\n2. Draft RFQs for EcoPack and Precision Foods?\n3. Both?",
+        approvalButtons: ["Share and draft RFQs", "Open draft to review"],
       },
       {
         type: "result",
         label: "Assessment distributed & RFQs drafted",
         detail:
-          "Risk assessment shared with procurement@company.com and quality@company.com. Draft RFQs prepared for EcoPack Solutions and Precision Foods and placed in the procurement approval queue in Coupa.",
+          "Risk assessment shared with procurement@company.com and quality@company.com. Draft RFQs prepared for EcoPack Solutions and Precision Foods and placed in the procurement approval queue in Coupa. Quality team notified about unlogged FreshBlend incidents for retroactive QMS entry.",
       },
     ],
     completionMessage:
@@ -251,20 +324,34 @@ const SCENARIOS: ScenarioDef[] = [
   },
   {
     id: "order-expedite",
-    title: "Investigate and expedite a delayed customer order",
+    title: "Investigate and expedite a delayed wholesale order",
     subtitle: "End-to-end order tracking with root-cause analysis",
-    industry: "Industrial & B2B",
+    industry: "Sports Retailer",
+    acknowledgment:
+      "On it — I'll run the order investigation workflow. This workflow has pre-authorized read access to your OMS, WMS, 3PL portal, and wholesale CRM. I can trace the order and identify issues automatically, but any actions — reallocating inventory, updating accounts, or contacting wholesale partners — require your sign-off.\n\n1. Connect to and read the order from OMS, then trace through warehouse and logistics (pre-authorized, read-only)\n2. Identify the root cause of any delays\n3. Evaluate expedite options with cost and timeline trade-offs\n4. Recommend a recovery plan — you'll approve before I execute anything\n\nLet me start tracking.",
+    permissions: {
+      autoApproved: [
+        "Read order data from OMS & wholesale CRM",
+        "Read inventory and allocation from WMS",
+        "Read 3PL tracking and email",
+      ],
+      requiresApproval: [
+        "Reallocate inventory across channels",
+        "Update wholesale account records",
+        "Send partner notifications",
+      ],
+    },
     steps: [
       {
         type: "system_read",
-        label: "Connecting to systems",
+        label: "Connecting & reading systems",
         detail:
-          "Pulling order details, production status, and logistics data...",
+          "Authenticating via pre-configured service accounts. All connections are read-only — no data will be modified.",
         sources: [
-          "ERP (Microsoft Dynamics 365)",
-          "MES (Plex)",
-          "TMS (BluJay)",
-          "CRM (Salesforce)",
+          "OMS (NetSuite)",
+          "WMS (Manhattan Active)",
+          "3PL Portal (Radial)",
+          "Wholesale CRM (NuOrder)",
           "Email (Outlook)",
           "Supplier Portal",
         ],
@@ -273,48 +360,58 @@ const SCENARIOS: ScenarioDef[] = [
         type: "data_pull",
         label: "Tracing order through systems",
         detail:
-          'Customer order SO-88712 (Apex Manufacturing, $485K) due to ship Mar 21. CRM shows sales rep escalated 2 days ago — customer threatening to pull the order. Tracing back: ERP shows production order PO-6633 is at 60% completion. MES data reveals a 3-day stoppage on Line 4 starting Mar 12.',
+          'Wholesale order WO-14208 (Fleet Feet, 2,400 units across 3 SKUs, $186K) due to arrive at their DC by Mar 24 for spring floor-set. NuOrder shows the account manager flagged this 2 days ago — Fleet Feet is threatening to reduce next season\'s buy. Tracing back: OMS shows the order was released to fulfillment on Mar 8, but WMS shows only SKU RUN-340 (men\'s trail runner) has been picked. The other 2 SKUs are blocked.',
         sources: [
-          "Dynamics 365 — SO-88712",
-          "Plex MES — PO-6633",
-          "Salesforce — Case #41205",
+          "NetSuite OMS — WO-14208",
+          "Manhattan Active WMS — Pick Status",
+          "NuOrder — Fleet Feet Account",
         ],
       },
       {
         type: "data_pull",
-        label: "Identifying root cause of production stoppage",
+        label: "Identifying root cause of fulfillment block",
         detail:
-          'Line 4 stoppage caused by a missing component — Hydraulic Valve Assembly (HVA-200). Checking supplier portal: the HVA-200 order was placed on Feb 20 with 15-day lead time but supplier (TechFlow Hydraulics) shows "delayed — awaiting raw material." An email from TechFlow on Mar 10 warned of the delay, but it was only sent to the buyer who was on PTO last week.',
+          'SKU FIT-220 (women\'s training shoe) is blocked because allocated inventory was pulled for a flash sale on the DTC site that ran Mar 10–12. 800 of the 1,000 units earmarked for Fleet Feet were reallocated to DTC without updating the wholesale commitment. SKU TRK-115 (unisex hiking boot) shows "awaiting receiving" — the inbound shipment from the Vietnam factory cleared customs but the 3PL hasn\'t checked it in yet. An email from Radial on Mar 13 mentions a backlog at the receiving dock.',
         sources: [
-          "Plex MES — Line 4 Downtime Log",
-          "Supplier Portal — TechFlow Hydraulics",
-          "Outlook — TechFlow delay notification",
-          "HR System — Buyer PTO calendar",
+          "WMS — Inventory Allocation Log",
+          "DTC Platform — Flash Sale Mar 10–12",
+          "3PL Portal — Radial Receiving Queue",
+          "Outlook — Radial backlog notification",
         ],
       },
       {
-        type: "reasoning",
-        label: "Evaluating expedite options",
-        detail:
-          "Three options to recover the schedule:\n\n1. **Expedite from TechFlow** — They can ship partial (60 of 100 units) by Mar 18, remaining by Mar 25. This gets Line 4 running but we'd ship partial order.\n2. **Alternative supplier** — HydraForce has HVA-200 equivalent in stock, can ship overnight. Cost premium: $12/unit ($1,200 total). Gets full production done by Mar 20.\n3. **Partial ship + air freight** — Build what we can with TechFlow partial, air freight final batch. Total premium: $4,800.\n\nOption 2 is fastest and cheapest for full order recovery. Line 4 can resume by Mar 19, production complete by Mar 20, ship by Mar 21 — meeting the original deadline.",
-      },
-      {
         type: "human_input",
-        label: "Approve expedite plan",
+        label: "Root cause identified — confirming before evaluating options",
         detail: "",
         requiresApproval: true,
         approvalPrompt:
-          "Here's the proposed recovery plan for SO-88712 (Apex Manufacturing, $485K):\n\n**Root Cause:** Missed supplier delay notification (buyer on PTO) for Hydraulic Valve Assembly.\n\n**Recommended Action:** Source HVA-200 from HydraForce (alternative supplier)\n• Cost premium: $1,200 (vs. $4,800 for air freight option)\n• Timeline: Overnight ship → Line 4 resumes Mar 19 → Production complete Mar 20 → Ships Mar 21 ✅\n• Customer impact: None — original delivery date preserved\n\n**Process Fix:** Set up backup notification routing so supplier delay alerts go to team channel when primary buyer is OOO.\n\nShall I:\n1. Place the emergency PO with HydraForce?\n2. Update the sales rep in Salesforce with the recovery plan?\n3. Notify the customer with an updated confirmation?",
+          "I've identified two separate issues and want to confirm before I spend time evaluating recovery options.\n\n**Issue 1 — FIT-220 (women's training shoe):** 800 units were reallocated from this wholesale order to a DTC flash sale on Mar 10–12. The wholesale commitment in NuOrder was never updated. This is a channel conflict — inventory was moved without checking wholesale obligations.\n\n**Issue 2 — TRK-115 (unisex hiking boot):** Inbound shipment has cleared customs but is sitting in Radial's receiving backlog. The 3PL flagged dock congestion on Mar 13 but the alert wasn't actioned.\n\nFleet Feet needs all 3 SKUs by Mar 24 for their spring floor-set. Should I proceed with evaluating recovery options?",
+        approvalButtons: ["Evaluate options", "I'll handle this manually"],
+      },
+      {
+        type: "reasoning",
+        label: "Evaluating recovery options",
+        detail:
+          "For FIT-220 (800-unit shortfall):\n1. **Reallocate from DTC safety stock** — 600 units available in the same DC. Covers 75% of the gap immediately, no shipping cost. Remaining 200 can ship from the West Coast DC via 2-day air ($3.20/unit, $640 total).\n2. **Pull from another wholesale allocation** — 800 units allocated to a Nordstrom order shipping Apr 3. We could borrow and replenish from the next factory shipment (arrives Mar 28). Risk: tight turnaround on Nordstrom.\n3. **Short-ship Fleet Feet** — Send what we have, backfill the rest. Risk: they've already threatened to cut next season's buy.\n\nOption 1 is safest — preserves all wholesale commitments and only costs $640 in expedited freight.\n\nFor TRK-115: Radial can prioritize the receiving check-in if we flag it. Estimated 24-hour turnaround once escalated. No additional cost.",
+      },
+      {
+        type: "human_input",
+        label: "Approve recovery plan",
+        detail: "",
+        requiresApproval: true,
+        approvalPrompt:
+          "Here's the proposed recovery plan. Reallocating inventory and contacting partners both require your approval.\n\n**FIT-220 Recovery:**\n• Reallocate 600 units from DTC safety stock (same DC, immediate)\n• Ship remaining 200 units from West Coast DC via 2-day air ($640)\n• Total cost: $640 | Fleet Feet gets full quantity by Mar 22 ✅\n\n**TRK-115 Recovery:**\n• Escalate receiving priority with Radial — 24hr turnaround\n• No additional cost | Available for pick by Mar 20 ✅\n\n**Process Fix:** Add wholesale commitment checks to the DTC inventory allocation workflow so future flash sales can't pull from committed wholesale orders.\n\nShall I:\n1. Submit the inventory reallocation in WMS?\n2. Escalate the TRK-115 receiving with Radial?\n3. Update the Fleet Feet account manager with the recovery timeline?",
+        approvalButtons: ["Execute recovery plan", "Let me review the options"],
       },
       {
         type: "result",
-        label: "Expedite in motion",
+        label: "Recovery in motion",
         detail:
-          "Emergency PO placed with HydraForce in Dynamics 365. Salesforce case updated with recovery timeline. Customer notification drafted and sent via sales rep. Backup notification rule created for supplier delay alerts.",
+          "Inventory reallocation submitted in Manhattan Active WMS. Radial receiving escalation sent via 3PL portal. Fleet Feet account updated in NuOrder with revised delivery timeline (Mar 22). DTC allocation workflow flagged for process review to prevent future channel conflicts.",
       },
     ],
     completionMessage:
-      "Order rescue complete — root cause identified, expedite plan executed, and process gap fixed. A $485K order saved from cancellation in under 10 minutes.",
+      "Order rescue complete — root cause identified across two systems, recovery plan executed, and process gap flagged. A $186K wholesale order preserved and a key account relationship protected.",
   },
 ];
 
@@ -329,12 +426,12 @@ const C = {
   border: "#DDD2C0",
   borderLight: "#E8DFD0",
   text: "#2D2418",
-  textMuted: "#8B7355",
-  textLight: "#A99B82",
-  sage: "#5B7C5A",
-  sageMuted: "#7A9A6D",
-  sageLight: "#EDF3EB",
-  sageBorder: "#C5D8BF",
+  textMuted: "#6B5638",
+  textLight: "#7D6B4F",
+  sage: "#3A7D56",
+  sageMuted: "#4E9A6A",
+  sageLight: "#EAF3ED",
+  sageBorder: "#B8D4C2",
   ochre: "#B8860B",
   ochreMuted: "#C4922A",
   ochreLight: "#FBF5E6",
@@ -343,6 +440,27 @@ const C = {
   amberBorder: "#EBD9B8",
   brown: "#6B4E2E",
 };
+
+/** Parse simple markdown bold (**text**) into React elements */
+function renderInlineMarkdown(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = [];
+  // Remove any trailing orphaned ** that haven't closed yet (mid-stream)
+  let cleaned = text.replace(/\*\*([^*]*)$/, "$1");
+  const regex = /\*\*(.+?)\*\*/g;
+  let lastIndex = 0;
+  let match;
+  while ((match = regex.exec(cleaned)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(cleaned.slice(lastIndex, match.index));
+    }
+    parts.push(<strong key={match.index} className="font-semibold">{match[1]}</strong>);
+    lastIndex = regex.lastIndex;
+  }
+  if (lastIndex < cleaned.length) {
+    parts.push(cleaned.slice(lastIndex));
+  }
+  return parts;
+}
 
 // ─── Helper components ────────────────────────────────────────────────────────
 
@@ -403,19 +521,310 @@ function SystemBadge({ name }: { name: string }) {
   );
 }
 
+/** Animated pill for the system_read step — transitions through connecting → connected */
+function AnimatedSystemPill({
+  name,
+  status,
+}: {
+  name: string;
+  status: "waiting" | "connecting" | "connected";
+}) {
+  const isWaiting = status === "waiting";
+  const isConnecting = status === "connecting";
+  const isConnected = status === "connected";
+
+  return (
+    <span
+      className="inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 transition-all duration-500"
+      style={{
+        background: isConnected ? C.sageLight : isConnecting ? C.cream : C.creamDark,
+        color: isConnected ? C.sage : isConnecting ? C.textMuted : C.textLight,
+        border: `1px solid ${isConnected ? C.sageBorder : isConnecting ? C.border : C.borderLight}`,
+        opacity: isWaiting ? 0.6 : 1,
+      }}
+    >
+      {/* Status indicator */}
+      {isWaiting && (
+        <span
+          className="w-1.5 h-1.5 rounded-full"
+          style={{ background: C.borderLight }}
+        />
+      )}
+      {isConnecting && (
+        <span className="relative w-1.5 h-1.5">
+          <span
+            className="absolute inset-0 rounded-full animate-ping"
+            style={{ background: C.ochre, opacity: 0.6 }}
+          />
+          <span
+            className="absolute inset-0 rounded-full animate-pulse"
+            style={{ background: C.ochre }}
+          />
+        </span>
+      )}
+      {isConnected && (
+        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      )}
+      {name}
+    </span>
+  );
+}
+
+/** The animated "Connecting & reading systems" step with two-section pill layout */
+function SystemConnectStep({
+  sources,
+  onComplete,
+}: {
+  sources: string[];
+  onComplete: () => void;
+}) {
+  const [pillStatuses, setPillStatuses] = useState<
+    Record<number, "waiting" | "connecting" | "connected">
+  >(() => Object.fromEntries(sources.map((_, i) => [i, "waiting"])));
+  const [phase, setPhase] = useState<"starting" | "connecting" | "done">("starting");
+  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    // Brief initial pause
+    const startTimeout = setTimeout(() => {
+      setPhase("connecting");
+
+      // Stagger each pill: first set to "connecting", then after a random delay, "connected"
+      const shuffled = sources
+        .map((_, i) => i)
+        .sort(() => Math.random() - 0.5);
+
+      shuffled.forEach((pillIndex, order) => {
+        // Start connecting with stagger
+        const connectDelay = 500 + order * 600 + Math.random() * 500;
+        const t1 = setTimeout(() => {
+          setPillStatuses((prev) => ({ ...prev, [pillIndex]: "connecting" }));
+        }, connectDelay);
+
+        // Complete connection after authenticating
+        const completeDelay = connectDelay + 1800 + Math.random() * 1500;
+        const t2 = setTimeout(() => {
+          setPillStatuses((prev) => ({ ...prev, [pillIndex]: "connected" }));
+        }, completeDelay);
+
+        timeoutsRef.current.push(t1, t2);
+      });
+
+      // All done — calculate max delay
+      const maxDelay =
+        500 +
+        (sources.length - 1) * 600 +
+        500 + // max random from connect
+        1800 +
+        1500 + // max random from complete
+        800; // buffer
+      const doneTimeout = setTimeout(() => {
+        setPhase("done");
+        onComplete();
+      }, maxDelay);
+      timeoutsRef.current.push(doneTimeout);
+    }, 600);
+    timeoutsRef.current.push(startTimeout);
+
+    return () => {
+      timeoutsRef.current.forEach(clearTimeout);
+    };
+  }, [sources, onComplete]);
+
+  const connectingPills = sources.filter(
+    (_, i) => pillStatuses[i] === "waiting" || pillStatuses[i] === "connecting"
+  );
+  const connectedPills = sources.filter((_, i) => pillStatuses[i] === "connected");
+
+  return (
+    <div className="space-y-3">
+      {/* Authenticating section */}
+      {connectingPills.length > 0 && (
+        <div>
+          <p
+            className="text-[10px] uppercase tracking-wider font-medium mb-2"
+            style={{ color: C.textLight }}
+          >
+            {phase === "starting" ? "Queuing connections..." : "Connecting & reading..."}
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {sources.map(
+              (src, i) =>
+                (pillStatuses[i] === "waiting" ||
+                  pillStatuses[i] === "connecting") && (
+                  <AnimatedSystemPill
+                    key={src}
+                    name={src}
+                    status={pillStatuses[i]}
+                  />
+                )
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Connected section */}
+      {connectedPills.length > 0 && (
+        <div>
+          <p
+            className="text-[10px] uppercase tracking-wider font-medium mb-2"
+            style={{ color: C.sage }}
+          >
+            Data read
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {sources.map(
+              (src, i) =>
+                pillStatuses[i] === "connected" && (
+                  <AnimatedSystemPill
+                    key={src}
+                    name={src}
+                    status="connected"
+                  />
+                )
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Permissions summary card shown after the acknowledgment */
+function PermissionsCard({
+  permissions,
+}: {
+  permissions: ScenarioDef["permissions"];
+}) {
+  return (
+    <div
+      className="rounded-xl p-4 text-xs"
+      style={{
+        background: C.cream,
+        border: `1px solid ${C.borderLight}`,
+      }}
+    >
+      <div className="flex items-center gap-1.5 mb-3">
+        <svg
+          className="w-3.5 h-3.5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke={C.sage}
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+          />
+        </svg>
+        <span className="font-semibold uppercase tracking-wider" style={{ color: C.text }}>
+          Workflow permissions
+        </span>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <p className="font-medium mb-1.5" style={{ color: C.sage }}>
+            Auto-approved (read-only)
+          </p>
+          <ul className="space-y-1">
+            {permissions.autoApproved.map((item) => (
+              <li key={item} className="flex items-start gap-1.5" style={{ color: C.textMuted }}>
+                <svg
+                  className="w-3 h-3 mt-0.5 shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke={C.sage}
+                  strokeWidth={3}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <p className="font-medium mb-1.5" style={{ color: C.ochre }}>
+            Requires your approval
+          </p>
+          <ul className="space-y-1">
+            {permissions.requiresApproval.map((item) => (
+              <li key={item} className="flex items-start gap-1.5" style={{ color: C.textMuted }}>
+                <svg
+                  className="w-3 h-3 mt-0.5 shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke={C.ochre}
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                  />
+                </svg>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Sidebar nav button — icon with inline label that appears when sidebar is expanded */
+function SidebarButton({
+  icon,
+  label,
+  active = false,
+  expanded = false,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  active?: boolean;
+  expanded?: boolean;
+}) {
+  return (
+    <button
+      className="w-full h-10 rounded-lg flex items-center gap-2.5 px-2.5 transition-colors shrink-0"
+      style={{
+        background: active ? C.sage : "transparent",
+        color: active ? "#ffffff" : C.textLight,
+      }}
+      onMouseEnter={(e) => {
+        if (!active) {
+          e.currentTarget.style.background = C.creamDark;
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!active) {
+          e.currentTarget.style.background = "transparent";
+        }
+      }}
+    >
+      <span className="w-5 h-5 shrink-0 flex items-center justify-center">{icon}</span>
+      <span
+        className="text-xs font-medium whitespace-nowrap overflow-hidden transition-all duration-200"
+        style={{
+          width: expanded ? "auto" : 0,
+          opacity: expanded ? 1 : 0,
+        }}
+      >
+        {label}
+      </span>
+    </button>
+  );
+}
+
 function MarkerLogo() {
   return (
-    <div className="flex items-center gap-2.5">
-      <div
-        className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm"
-        style={{ background: C.sage }}
-      >
-        M
-      </div>
-      <span className="font-semibold text-lg" style={{ color: C.text }}>
-        Marker
-      </span>
-    </div>
+    <a href="/" className="flex items-center">
+      <img src="/logo.png" alt="Marker" className="h-7" />
+    </a>
   );
 }
 
@@ -431,14 +840,14 @@ function AgentAvatar() {
   );
 }
 
-/** The "B" avatar for Bjorn's messages */
+/** The "R" avatar for Richard's messages */
 function UserAvatar() {
   return (
     <div
       className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 mt-0.5"
       style={{ background: C.brown }}
     >
-      B
+      R
     </div>
   );
 }
@@ -446,6 +855,7 @@ function UserAvatar() {
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function AgentDemo() {
+  const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [selectedScenario, setSelectedScenario] = useState<ScenarioDef | null>(
     null
   );
@@ -453,6 +863,8 @@ export default function AgentDemo() {
   const [currentStepDone, setCurrentStepDone] = useState(false);
   const [waitingForApproval, setWaitingForApproval] = useState(false);
   const [allDone, setAllDone] = useState(false);
+  const [ackText, setAckText] = useState("");
+  const [ackDone, setAckDone] = useState(false);
   const [typewriterText, setTypewriterText] = useState<
     Record<number, string>
   >({});
@@ -461,41 +873,94 @@ export default function AgentDemo() {
   >({});
   const scrollRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const systemConnectResolveRef = useRef<(() => void) | null>(null);
 
-  // Auto-scroll
+  // Auto-scroll — smooth scroll to bottom as content changes
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      scrollRef.current.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: "smooth",
+      });
     }
-  }, [visibleSteps, currentStepDone, waitingForApproval, allDone, typewriterText]);
+  }, [visibleSteps, currentStepDone, waitingForApproval, allDone, typewriterText, ackText, ackDone]);
+
+  // Stream text in word-sized chunks to simulate LLM token output
+  const streamText = useCallback(
+    (
+      text: string,
+      onUpdate: (partial: string) => void,
+      onDone: () => void,
+    ): void => {
+      // Split into word-like tokens (words + whitespace/punctuation)
+      const tokens = text.match(/\S+\s*/g) || [text];
+      let tokenIndex = 0;
+      const tick = () => {
+        // Emit 1–3 tokens per tick for natural variation
+        const count = 1 + Math.floor(Math.random() * 2);
+        tokenIndex = Math.min(tokenIndex + count, tokens.length);
+        onUpdate(tokens.slice(0, tokenIndex).join(""));
+        if (tokenIndex < tokens.length) {
+          // Vary delay: shorter for small tokens, occasional pause
+          const delay = 30 + Math.random() * 40;
+          timeoutRef.current = setTimeout(tick, delay);
+        } else {
+          onDone();
+        }
+      };
+      tick();
+    },
+    []
+  );
 
   // Typewriter effect for a step
   const typewrite = useCallback(
     (stepIndex: number, text: string): Promise<void> => {
       return new Promise((resolve) => {
-        let i = 0;
-        const speed = 12; // ms per char
-        const tick = () => {
-          // Advance by a chunk for long texts
-          const chunk = Math.min(3, text.length - i);
-          i += chunk;
-          setTypewriterText((prev) => ({ ...prev, [stepIndex]: text.slice(0, i) }));
-          if (i < text.length) {
-            timeoutRef.current = setTimeout(tick, speed);
-          } else {
+        streamText(
+          text,
+          (partial) => setTypewriterText((prev) => ({ ...prev, [stepIndex]: partial })),
+          () => {
             setTypewriterDone((prev) => ({ ...prev, [stepIndex]: true }));
             resolve();
-          }
-        };
-        tick();
+          },
+        );
       });
     },
-    []
+    [streamText]
+  );
+
+  // Typewriter for the acknowledgment message
+  const typewriteAck = useCallback(
+    (text: string): Promise<void> => {
+      return new Promise((resolve) => {
+        streamText(
+          text,
+          (partial) => setAckText(partial),
+          () => {
+            setAckDone(true);
+            resolve();
+          },
+        );
+      });
+    },
+    [streamText]
   );
 
   // Advance steps automatically
   const advanceSteps = useCallback(
     async (scenario: ScenarioDef, fromStep: number) => {
+      // Show acknowledgment first (only on initial run)
+      if (fromStep === 0) {
+        await new Promise((r) => {
+          timeoutRef.current = setTimeout(r, 800);
+        });
+        await typewriteAck(scenario.acknowledgment);
+        await new Promise((r) => {
+          timeoutRef.current = setTimeout(r, 1800);
+        });
+      }
+
       for (let i = fromStep; i < scenario.steps.length; i++) {
         const step = scenario.steps[i];
 
@@ -503,21 +968,29 @@ export default function AgentDemo() {
         setVisibleSteps(i + 1);
         setCurrentStepDone(false);
 
-        // Simulate work with typewriter
-        const textToType =
-          step.type === "human_input"
-            ? step.approvalPrompt || ""
-            : step.detail;
+        if (step.type === "system_read" && step.sources) {
+          // For system_read steps, wait for the SystemConnectStep animation
+          await new Promise<void>((resolve) => {
+            systemConnectResolveRef.current = resolve;
+          });
+          setCurrentStepDone(true);
+        } else {
+          // Simulate work with typewriter
+          const textToType =
+            step.type === "human_input"
+              ? step.approvalPrompt || ""
+              : step.detail;
 
-        // Brief pause before starting to type
-        await new Promise((r) => {
-          timeoutRef.current = setTimeout(r, 600);
-        });
+          // Brief pause before starting to type
+          await new Promise((r) => {
+            timeoutRef.current = setTimeout(r, 1200);
+          });
 
-        await typewrite(i, textToType);
+          await typewrite(i, textToType);
 
-        // Show sources if any (after typing)
-        setCurrentStepDone(true);
+          // Show sources if any (after typing)
+          setCurrentStepDone(true);
+        }
 
         if (step.requiresApproval) {
           setWaitingForApproval(true);
@@ -526,7 +999,7 @@ export default function AgentDemo() {
 
         // Pause between steps
         await new Promise((r) => {
-          timeoutRef.current = setTimeout(r, 800);
+          timeoutRef.current = setTimeout(r, 1800);
         });
       }
 
@@ -534,7 +1007,7 @@ export default function AgentDemo() {
       setAllDone(true);
       return -1;
     },
-    [typewrite]
+    [typewrite, typewriteAck]
   );
 
   const handleSelectScenario = (scenario: ScenarioDef) => {
@@ -543,11 +1016,20 @@ export default function AgentDemo() {
     setCurrentStepDone(false);
     setWaitingForApproval(false);
     setAllDone(false);
+    setAckText("");
+    setAckDone(false);
     setTypewriterText({});
     setTypewriterDone({});
     // Start advancing after a brief delay
     setTimeout(() => advanceSteps(scenario, 0), 500);
   };
+
+  const handleSystemConnectComplete = useCallback(() => {
+    if (systemConnectResolveRef.current) {
+      systemConnectResolveRef.current();
+      systemConnectResolveRef.current = null;
+    }
+  }, []);
 
   const handleApproval = () => {
     if (!selectedScenario) return;
@@ -564,6 +1046,8 @@ export default function AgentDemo() {
     setCurrentStepDone(false);
     setWaitingForApproval(false);
     setAllDone(false);
+    setAckText("");
+    setAckDone(false);
     setTypewriterText({});
     setTypewriterDone({});
   };
@@ -615,54 +1099,161 @@ export default function AgentDemo() {
       >
         <MarkerLogo />
         <div className="flex items-center gap-3">
-          <span className="text-xs" style={{ color: C.textLight }}>
-            Supply Chain Coordinator
-          </span>
-          {selectedScenario && (
-            <button
-              onClick={handleReset}
-              className="text-xs rounded-lg px-3 py-1.5 transition-colors hover:opacity-80"
-              style={{
-                color: C.textMuted,
-                border: `1px solid ${C.border}`,
-              }}
+          <div className="flex items-center gap-2.5">
+            <div className="text-right">
+              <p className="text-xs font-medium leading-tight" style={{ color: C.text }}>Richard Berwick</p>
+              <p className="text-[10px] leading-tight" style={{ color: C.textLight }}>VP Supply Chain</p>
+            </div>
+            <div
+              className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold"
+              style={{ background: C.brown }}
             >
-              New task
-            </button>
-          )}
+              RB
+            </div>
+          </div>
         </div>
       </header>
 
-      {/* Ornamental border accent below header */}
-      <div
-        className="h-[3px]"
-        style={{
-          background: `linear-gradient(to right, ${C.cream}, ${C.sageBorder}, ${C.ochreBorder}, ${C.sageBorder}, ${C.cream})`,
-        }}
-      />
+      {/* Body: sidebar + main */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar */}
+        <nav
+          className="hidden sm:flex flex-col shrink-0 py-3 px-2 transition-all duration-200 overflow-hidden"
+          style={{
+            width: 200,
+            background: C.parchment,
+            borderRight: `1px solid ${C.borderLight}`,
+          }}
+        >
+          {/* New task button */}
+          <button
+            onClick={handleReset}
+            className="w-full h-9 rounded-lg flex items-center gap-2 px-2.5 mb-3 text-xs font-medium transition-colors shrink-0"
+            style={{
+              color: "#ffffff",
+              background: C.sage,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = "0.9";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = "1";
+            }}
+          >
+            <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            New task
+          </button>
 
-      {/* Chat area */}
-      <div
-        ref={scrollRef}
-        className="flex-1 overflow-y-auto px-4 py-8 max-w-3xl mx-auto w-full"
-      >
-        {/* Greeting */}
-        <div className="flex gap-3 mb-8">
-          <AgentAvatar />
-          <div>
-            <p className="text-lg font-medium mb-1" style={{ color: C.text }}>
-              Hey Bjorn!
+          {/* Recent runs */}
+          <div className="flex-1 overflow-y-auto">
+            <p
+              className="text-[10px] uppercase tracking-wider font-medium px-2.5 mb-2"
+              style={{ color: C.textLight }}
+            >
+              Recent
             </p>
-            <p className="leading-relaxed" style={{ color: C.textMuted }}>
-              Welcome back. Let's crush some grunt work — what do you want to
-              tackle today?
-            </p>
+            <div className="space-y-0.5">
+              {[
+                { title: "Weekly status report", time: "2 hours ago" },
+                { title: "Landed-cost — Refresh line", time: "Yesterday" },
+                { title: "Q2 supplier risk assessment", time: "Yesterday" },
+                { title: "Fleet Feet order expedite", time: "Mar 14" },
+                { title: "Zhenmei lead time analysis", time: "Mar 13" },
+                { title: "Weekly status report", time: "Mar 10" },
+                { title: "Packaging cost comparison", time: "Mar 8" },
+              ].map((run, i) => (
+                <button
+                  key={i}
+                  className="w-full text-left rounded-lg px-2.5 py-2 transition-colors"
+                  style={{ color: C.textMuted }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = C.creamDark;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "transparent";
+                  }}
+                >
+                  <p className="text-xs truncate" style={{ color: i === 0 ? C.text : C.textMuted }}>{run.title}</p>
+                  <p className="text-[10px]" style={{ color: C.textLight }}>{run.time}</p>
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Scenario picker */}
+          {/* Bottom nav */}
+          <div
+            className="pt-3 mt-2 space-y-0.5"
+            style={{ borderTop: `1px solid ${C.borderLight}` }}
+          >
+            <SidebarButton
+              icon={
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                </svg>
+              }
+              label="Workflows"
+              expanded={sidebarExpanded}
+            />
+            <SidebarButton
+              icon={
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+                </svg>
+              }
+              label="Connectors"
+              expanded={sidebarExpanded}
+            />
+            <SidebarButton
+              icon={
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                </svg>
+              }
+              label="Permissions"
+              expanded={sidebarExpanded}
+            />
+            <SidebarButton
+              icon={
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              }
+              label="Settings"
+              expanded={sidebarExpanded}
+            />
+          </div>
+        </nav>
+
+        {/* Chat area */}
+        <div
+          ref={scrollRef}
+          className="flex-1 overflow-y-auto px-4 py-8 max-w-3xl mx-auto w-full"
+        >
+        {/* Greeting */}
         {!selectedScenario && (
-          <div className="grid gap-3 mb-8">
+          <div className="mb-10 pt-8">
+            <h1
+              className="text-3xl sm:text-4xl font-semibold leading-snug tracking-tight"
+              style={{ color: C.text }}
+            >
+              Your supply chain coordinator is ready. What should I work on?
+            </h1>
+          </div>
+        )}
+
+        {/* Pre-built Workflows */}
+        {!selectedScenario && (
+          <div className="mb-8">
+            <p
+              className="text-xs uppercase tracking-wider font-medium mb-3"
+              style={{ color: C.textLight }}
+            >
+              Your Pre-built Workflows
+            </p>
+            <div className="grid gap-3">
             {SCENARIOS.map((s) => (
               <button
                 key={s.id}
@@ -705,6 +1296,56 @@ export default function AgentDemo() {
                 </div>
               </button>
             ))}
+            </div>
+
+            <p
+              className="text-xs uppercase tracking-wider font-medium mt-8 mb-3"
+              style={{ color: C.textLight }}
+            >
+              Or ask anything
+            </p>
+            <div
+              className="flex items-center gap-3 rounded-2xl px-4 py-3"
+              style={{
+                background: C.cream,
+                border: `1px solid ${C.border}`,
+                boxShadow: `0 1px 3px ${C.border}44`,
+              }}
+            >
+              <input
+                type="text"
+                placeholder="Ask Marker anything about your supply chain..."
+                className="flex-1 bg-transparent text-sm outline-none"
+                style={{ color: C.text }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    (e.target as HTMLInputElement).value = "";
+                  }
+                }}
+              />
+              <button
+                className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors"
+                style={{ background: C.sage, color: "#ffffff" }}
+                onClick={(e) => {
+                  const input = (e.currentTarget as HTMLElement).previousElementSibling as HTMLInputElement;
+                  if (input) input.value = "";
+                }}
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         )}
 
@@ -721,6 +1362,29 @@ export default function AgentDemo() {
               <p style={{ color: C.text }}>{selectedScenario.title}</p>
             </div>
             <UserAvatar />
+          </div>
+        )}
+
+        {/* Acknowledgment message */}
+        {selectedScenario && ackText && (
+          <div className="flex gap-3 mb-6">
+            <AgentAvatar />
+            <div className="flex-1 min-w-0 space-y-3">
+              <div
+                className="text-sm leading-relaxed rounded-xl p-4 whitespace-pre-wrap"
+                style={{
+                  background: C.parchment,
+                  border: `1px solid ${C.borderLight}`,
+                  color: C.textMuted,
+                }}
+              >
+                {renderInlineMarkdown(ackText)}
+                {!ackDone && <TypingDots />}
+              </div>
+              {ackDone && (
+                <PermissionsCard permissions={selectedScenario.permissions} />
+              )}
+            </div>
           </div>
         )}
 
@@ -744,7 +1408,8 @@ export default function AgentDemo() {
                     <span style={{ color: style.iconColor }}>
                       {step.type === "system_read" && (
                         <svg
-                          className="w-4 h-4"
+                          className={`w-4 h-4 ${isLast && !stepDone ? "animate-spin" : ""}`}
+                          style={isLast && !stepDone ? { animationDuration: "2s" } : {}}
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -753,7 +1418,7 @@ export default function AgentDemo() {
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                           />
                         </svg>
                       )}
@@ -824,7 +1489,31 @@ export default function AgentDemo() {
                     >
                       {step.label}
                     </span>
-                    {isLast && isTyping && <TypingDots />}
+                    {(step.type === "system_read" || step.type === "data_pull" || step.type === "reasoning") && (
+                      <span
+                        className="text-[10px] rounded-full px-2 py-0.5"
+                        style={{
+                          color: C.sage,
+                          background: C.sageLight,
+                          border: `1px solid ${C.sageBorder}`,
+                        }}
+                      >
+                        Auto
+                      </span>
+                    )}
+                    {step.type === "human_input" && (
+                      <span
+                        className="text-[10px] rounded-full px-2 py-0.5"
+                        style={{
+                          color: C.ochre,
+                          background: C.ochreLight,
+                          border: `1px solid ${C.ochreBorder}`,
+                        }}
+                      >
+                        Approval required
+                      </span>
+                    )}
+                    {isLast && isTyping && step.type !== "system_read" && <TypingDots />}
                   </div>
 
                   {/* Step content */}
@@ -835,23 +1524,32 @@ export default function AgentDemo() {
                       border: `1px solid ${style.border}`,
                     }}
                   >
-                    <div
-                      className="whitespace-pre-wrap"
-                      style={{ color: C.textMuted }}
-                    >
-                      {displayText}
-                    </div>
+                    {step.type === "system_read" && step.sources ? (
+                      <SystemConnectStep
+                        sources={step.sources}
+                        onComplete={handleSystemConnectComplete}
+                      />
+                    ) : (
+                      <>
+                        <div
+                          className="whitespace-pre-wrap"
+                          style={{ color: C.textMuted }}
+                        >
+                          {renderInlineMarkdown(displayText)}
+                        </div>
 
-                    {/* Sources */}
-                    {step.sources && stepDone && (
-                      <div
-                        className="flex flex-wrap gap-1.5 mt-3 pt-3"
-                        style={{ borderTop: `1px solid ${style.border}` }}
-                      >
-                        {step.sources.map((src) => (
-                          <SystemBadge key={src} name={src} />
-                        ))}
-                      </div>
+                        {/* Sources */}
+                        {step.sources && stepDone && (
+                          <div
+                            className="flex flex-wrap gap-1.5 mt-3 pt-3"
+                            style={{ borderTop: `1px solid ${style.border}` }}
+                          >
+                            {step.sources.map((src) => (
+                              <SystemBadge key={src} name={src} />
+                            ))}
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
 
@@ -869,7 +1567,7 @@ export default function AgentDemo() {
                             boxShadow: `0 4px 12px ${C.sage}33`,
                           }}
                         >
-                          Yes, send it out
+                          {step.approvalButtons?.[0] || "Approve"}
                         </button>
                         <button
                           onClick={handleApproval}
@@ -880,7 +1578,7 @@ export default function AgentDemo() {
                             background: C.cream,
                           }}
                         >
-                          Looks good, proceed
+                          {step.approvalButtons?.[1] || "Review"}
                         </button>
                       </div>
                     )}
@@ -926,51 +1624,9 @@ export default function AgentDemo() {
           </div>
         )}
       </div>
-
-      {/* Bottom input (decorative) */}
-      <div
-        className="px-4 py-4"
-        style={{
-          background: C.cream,
-          borderTop: `1px solid ${C.borderLight}`,
-        }}
-      >
-        <div className="max-w-3xl mx-auto">
-          <div
-            className="flex items-center gap-3 rounded-2xl px-4 py-3"
-            style={{
-              background: C.parchment,
-              border: `1px solid ${C.borderLight}`,
-            }}
-          >
-            <input
-              type="text"
-              readOnly
-              placeholder="Ask Marker anything about your supply chain..."
-              className="flex-1 bg-transparent text-sm outline-none cursor-default"
-              style={{ color: C.textLight }}
-            />
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center"
-              style={{ background: C.creamDark, color: C.textLight }}
-            >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
+      {/* end sidebar + main flex */}
       </div>
+
     </div>
   );
 }
