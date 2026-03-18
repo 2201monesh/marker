@@ -1,0 +1,333 @@
+---
+// Trade show loop — simplified hierarchy
+// headline -> green line -> team/company
+
+import { studies } from "../data/tradeshow-studies";
+
+// --- Config: tweak these before the show ---
+const slideDurationMs = 6000;       // how long each slide stays on screen
+const controlsAlwaysVisible = false; // true = always show, false = show on hover
+---
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marker — Trade Show Loop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #2e7d57;
+      --bg: #ffffff;
+      --text: #1a1a1a;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+
+      /* --- Typography: tweak these to tune sizing --- */
+
+      /* Header bar */
+      --brand-name-size: clamp(2.5rem, 6.5vh, 6rem);
+      --brand-name-weight: 700;
+      --brand-separator-size: clamp(2rem, 5.5vh, 5rem);
+      --brand-separator-weight: 300;
+      --brand-tagline-size: clamp(1.5rem, 4.2vh, 3.8rem);
+      --brand-tagline-weight: 400;
+
+      /* Slide content */
+      --headline-size: clamp(4rem, min(10.5vw, 10.5vh), 10.5rem);
+      --headline-weight: 800;
+      --teamline-size: clamp(1.25rem, 3.8vh, 3.4rem);
+      --teamline-weight: 800;
+    }
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--bg);
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text);
+      cursor: default;
+    }
+    .scene { position: fixed; inset: 0; }
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.94);
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      padding: 14vh 7vw 0;
+    }
+    .slide.active { opacity: 1; transform: scale(1); pointer-events: auto; }
+    .slide.zoom-out { opacity: 0; transform: scale(1.08); }
+
+    .case-header {
+      position: fixed;
+      top: 5vh;
+      left: 7vw;
+      right: 7vw;
+      display: flex;
+      align-items: baseline;
+      gap: 28px;
+      z-index: 150;
+    }
+    .brand-name {
+      font-size: var(--brand-name-size);
+      font-weight: var(--brand-name-weight);
+      font-style: italic;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .brand-separator {
+      font-size: var(--brand-separator-size);
+      font-weight: var(--brand-separator-weight);
+      color: #c7ccd1;
+      line-height: 1;
+      position: relative;
+      top: -0.08em;
+      margin: 0 0.2em 0 0.45em;
+    }
+    .brand-tagline {
+      font-size: var(--brand-tagline-size);
+      font-weight: var(--brand-tagline-weight);
+      color: var(--text);
+      letter-spacing: -0.005em;
+      line-height: 1;
+      position: relative;
+      top: -0.12em;
+    }
+    .brand-tagline .accent { color: var(--primary); font-weight: 500; }
+
+    .headline {
+      font-size: var(--headline-size);
+      font-weight: var(--headline-weight);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      max-width: 92%;
+      margin-bottom: clamp(1.5rem, 5vh, 6rem);
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.5s 0.25s ease, transform 0.5s 0.25s ease;
+    }
+
+    .teamline-row {
+      display: flex;
+      align-items: center;
+      gap: clamp(8px, 1.5vh, 18px);
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s 0.38s ease, transform 0.5s 0.38s ease;
+    }
+
+    .greenline {
+      width: clamp(28px, 4.5vh, 56px);
+      height: 4px;
+      background: var(--primary);
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
+
+    .teamline {
+      font-size: var(--teamline-size);
+      font-weight: var(--teamline-weight);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    .teamline-connector {
+      font-weight: 500;
+      letter-spacing: 0;
+      font-size: 0.85em;
+      margin: 0 0.2em;
+      position: relative;
+      top: -0.05em;
+    }
+
+    .slide.active .headline,
+    .slide.active .teamline-row {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 10px;
+      background: var(--primary);
+      z-index: 100;
+      width: 0%;
+      transition: none;
+    }
+
+    .debug-controls-zone {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 80px;
+      z-index: 200;
+    }
+    .debug-controls {
+      position: absolute;
+      left: 50%;
+      bottom: 28px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 12px 32px rgba(26, 26, 26, 0.08);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    body[data-controls-visible] .debug-controls {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .debug-controls-zone:hover .debug-controls {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .debug-button, .debug-status {
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .debug-button {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      padding: 10px 16px;
+      cursor: pointer;
+    }
+    .debug-button.is-primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .debug-status {
+      padding: 10px 14px;
+      background: rgba(46, 125, 87, 0.08);
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1100px) {
+      .case-header { left: 24px; right: 24px; }
+      .slide { padding: 14vh 24px 0; }
+}
+  </style>
+</head>
+<body {...(controlsAlwaysVisible ? { "data-controls-visible": true } : {})}>
+  <div class="progress-bar" id="progress"></div>
+  <div class="debug-controls-zone">
+    <div class="debug-controls">
+      <button class="debug-button" id="prevButton" type="button">Prev</button>
+      <button class="debug-button" id="playPauseButton" type="button">Autoplay On</button>
+      <button class="debug-button" id="nextButton" type="button">Next</button>
+      <div class="debug-status" id="slideStatus">Slide 1</div>
+    </div>
+  </div>
+
+  <div class="case-header">
+    <span class="brand-name">marker</span>
+    <span class="brand-separator" aria-hidden="true">|</span>
+    <span class="brand-tagline">Your always-on <span class="accent">supply chain coordinator</span></span>
+  </div>
+
+  <div class="scene">
+    {studies.map((study) => (
+      <div class="slide" data-duration={slideDurationMs}>
+        <h2 class="headline" set:html={study.title} />
+        <div class="teamline-row">
+          <div class="greenline"></div>
+          <div class="teamline">
+            {study.team} <span class="teamline-connector">@</span> {study.industry}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const progress = document.getElementById('progress');
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+    const playPauseButton = document.getElementById('playPauseButton');
+    const slideStatus = document.getElementById('slideStatus');
+    let current = 0;
+    let slideTimer = null;
+    let slideDuration = 0;
+    let isAutoplayEnabled = true;
+
+    function clearSlideTimer() {
+      clearTimeout(slideTimer);
+      slideTimer = null;
+    }
+    function resetProgress() {
+      progress.style.transition = 'none';
+      progress.style.width = '0%';
+      progress.offsetWidth;
+    }
+    function updateControls() {
+      playPauseButton.textContent = isAutoplayEnabled ? 'Autoplay On' : 'Autoplay Off';
+      playPauseButton.classList.toggle('is-primary', !isAutoplayEnabled);
+      slideStatus.textContent = `Slide ${current + 1} of ${slides.length}`;
+    }
+    function startAutoplay() {
+      slideDuration = parseInt(slides[current].dataset.duration, 10);
+      progress.style.transition = `width ${slideDuration}ms linear`;
+      progress.style.width = '100%';
+      clearSlideTimer();
+      slideTimer = setTimeout(() => showSlide((current + 1) % slides.length), slideDuration);
+    }
+    function showSlide(index) {
+      clearSlideTimer();
+      slides.forEach((slide, i) => {
+        if (i === current && i !== index) {
+          slide.classList.remove('active');
+          slide.classList.add('zoom-out');
+          setTimeout(() => slide.classList.remove('zoom-out'), 700);
+        }
+      });
+      current = index;
+      resetProgress();
+      setTimeout(() => slides[current].classList.add('active'), 80);
+      updateControls();
+      if (isAutoplayEnabled) startAutoplay();
+    }
+    function stepTo(offset) {
+      showSlide((current + offset + slides.length) % slides.length);
+    }
+    function toggleAutoplay() {
+      isAutoplayEnabled = !isAutoplayEnabled;
+      if (isAutoplayEnabled) startAutoplay();
+      else { clearSlideTimer(); resetProgress(); }
+      updateControls();
+    }
+    prevButton.addEventListener('click', () => stepTo(-1));
+    nextButton.addEventListener('click', () => stepTo(1));
+    playPauseButton.addEventListener('click', toggleAutoplay);
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') stepTo(-1);
+      else if (event.key === 'ArrowRight') stepTo(1);
+      else if (event.key === ' ' || event.key === 'Spacebar') { event.preventDefault(); toggleAutoplay(); }
+    });
+    showSlide(0);
+  </script>
+</body>
+</html>
