@@ -856,6 +856,111 @@ function WorkflowDiagram({ steps }: { steps: StepDef[] }) {
   );
 }
 
+/** Sticky workflow progress bar shown during an active workflow run */
+function WorkflowProgressInline({
+  steps,
+  currentStep,
+  allDone,
+}: {
+  steps: StepDef[];
+  currentStep: number;
+  allDone: boolean;
+}) {
+  // Collapse consecutive same-type steps into nodes (same logic as WorkflowDiagram)
+  const nodes: { type: StepDef["type"]; label: string; startIndex: number; endIndex: number }[] = [];
+  for (let i = 0; i < steps.length; i++) {
+    const step = steps[i];
+    const last = nodes[nodes.length - 1];
+    if (last && last.type === step.type) {
+      last.endIndex = i;
+    } else {
+      const shortLabel: Record<StepDef["type"], string> = {
+        system_read: "Connect",
+        data_pull: "Read",
+        reasoning: "Analyze",
+        human_input: "Review",
+        result: "Act",
+      };
+      nodes.push({ type: step.type, label: shortLabel[step.type], startIndex: i, endIndex: i });
+    }
+  }
+
+  const nodeColor: Record<StepDef["type"], string> = {
+    system_read: C.sage,
+    data_pull: C.sage,
+    reasoning: C.ochre,
+    human_input: C.brown,
+    result: C.sage,
+  };
+
+  return (
+    <div className="contents">
+        {nodes.map((node, i) => {
+          const isDone = allDone || currentStep > node.endIndex;
+          const isActive = !allDone && currentStep >= node.startIndex && currentStep <= node.endIndex;
+          const isPending = !isDone && !isActive;
+          const color = nodeColor[node.type];
+
+          return (
+            <div key={i} className="flex items-center">
+              {i > 0 && (
+                <div
+                  className="w-4 sm:w-6 h-px shrink-0 transition-colors duration-500"
+                  style={{ background: isDone ? `${color}60` : C.borderLight }}
+                />
+              )}
+              <div
+                className="flex items-center gap-1 rounded-full px-2 py-1 shrink-0 transition-all duration-500"
+                style={{
+                  background: isDone ? `${color}20` : isActive ? `${color}14` : `${C.borderLight}80`,
+                  border: `1px solid ${isDone ? `${color}40` : isActive ? `${color}50` : C.borderLight}`,
+                  boxShadow: isActive ? `0 0 0 2px ${C.cream}, 0 0 0 4px ${color}40` : "none",
+                  opacity: isPending ? 0.5 : 1,
+                } as React.CSSProperties}
+              >
+                {/* Icon: checkmark if done, type icon if active/pending */}
+                {isDone ? (
+                  <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke={color} strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                ) : (
+                  <>
+                    {(node.type === "system_read" || node.type === "data_pull") && (
+                      <svg className={`w-2.5 h-2.5 ${isActive ? "animate-pulse" : ""}`} fill="none" viewBox="0 0 24 24" stroke={isPending ? C.textLight : color} strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                      </svg>
+                    )}
+                    {node.type === "reasoning" && (
+                      <svg className={`w-2.5 h-2.5 ${isActive ? "animate-pulse" : ""}`} fill="none" viewBox="0 0 24 24" stroke={isPending ? C.textLight : color} strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                      </svg>
+                    )}
+                    {node.type === "human_input" && (
+                      <svg className={`w-2.5 h-2.5 ${isActive ? "animate-pulse" : ""}`} fill="none" viewBox="0 0 24 24" stroke={isPending ? C.textLight : color} strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" />
+                      </svg>
+                    )}
+                    {node.type === "result" && (
+                      <svg className={`w-2.5 h-2.5 ${isActive ? "animate-pulse" : ""}`} fill="none" viewBox="0 0 24 24" stroke={isPending ? C.textLight : color} strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    )}
+                  </>
+                )}
+                <span
+                  className="text-[9px] font-medium leading-none"
+                  style={{ color: isDone ? color : isActive ? color : C.textLight }}
+                >
+                  {node.label}
+                </span>
+              </div>
+            </div>
+          );
+        })}
+    </div>
+  );
+}
+
 /** Sidebar nav button — icon with inline label that appears when sidebar is expanded */
 function SidebarButton({
   icon,
@@ -936,6 +1041,8 @@ function UserAvatar() {
 
 export default function AgentDemo() {
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
+  const [workflowsCollapsed, setWorkflowsCollapsed] = useState(false);
+  const [automatedCollapsed, setAutomatedCollapsed] = useState(true);
   const [selectedScenario, setSelectedScenario] = useState<ScenarioDef | null>(
     null
   );
@@ -952,18 +1059,38 @@ export default function AgentDemo() {
     Record<number, boolean>
   >({});
   const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollAnchorRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const systemConnectResolveRef = useRef<(() => void) | null>(null);
 
-  // Auto-scroll — smooth scroll to bottom as content changes
+  // Auto-scroll — scroll during streaming, but stop if user scrolls up
+  const autoScrollEnabledRef = useRef(true);
+
+  // Track user scroll: if they scroll up, disable auto-scroll
+  // If they scroll back to bottom, re-enable
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: "smooth",
-      });
+    const el = scrollRef.current;
+    if (!el) return;
+    const handleScroll = () => {
+      const threshold = 150;
+      const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
+      autoScrollEnabledRef.current = atBottom;
+    };
+    el.addEventListener("scroll", handleScroll, { passive: true });
+    return () => el.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Re-enable auto-scroll when a new scenario starts
+  useEffect(() => {
+    autoScrollEnabledRef.current = true;
+  }, [selectedScenario]);
+
+  // Scroll to bottom as content changes
+  useEffect(() => {
+    if (autoScrollEnabledRef.current && scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [visibleSteps, currentStepDone, waitingForApproval, allDone, typewriterText, ackText, ackDone]);
+  }, [visibleSteps, currentStepDone, waitingForApproval, allDone, ackDone, typewriterText, ackText]);
 
   // Stream text in word-sized chunks to simulate LLM token output
   const streamText = useCallback(
@@ -1166,7 +1293,7 @@ export default function AgentDemo() {
 
   return (
     <div
-      className="min-h-screen flex flex-col"
+      className="h-screen flex flex-col overflow-hidden"
       style={{ background: C.cream, color: C.text }}
     >
       {/* Top bar — with subtle classical bottom border */}
@@ -1195,7 +1322,7 @@ export default function AgentDemo() {
       </header>
 
       {/* Body: sidebar + main */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 min-h-0">
         {/* Sidebar */}
         <nav
           className="hidden sm:flex flex-col shrink-0 py-3 px-2 transition-all duration-200 overflow-hidden"
@@ -1308,10 +1435,31 @@ export default function AgentDemo() {
         </nav>
 
         {/* Chat area */}
-        <div
-          ref={scrollRef}
-          className="flex-1 overflow-y-auto px-4 py-8 max-w-3xl mx-auto w-full"
-        >
+        <div className="flex-1 flex flex-col min-h-0 relative">
+          {/* Workflow progress bar — fixed at top of chat area */}
+          {selectedScenario && (
+            <div
+              className="z-10 shrink-0 py-3 px-4 backdrop-blur-md"
+              style={{
+                background: `${C.cream}ee`,
+                borderBottom: `1px solid ${C.borderLight}`,
+              }}
+            >
+              <div className="flex items-center justify-center gap-0 max-w-2xl mx-auto">
+                <WorkflowProgressInline
+                  steps={selectedScenario.steps}
+                  currentStep={visibleSteps - 1}
+                  allDone={allDone}
+                />
+              </div>
+            </div>
+          )}
+
+          <div
+            ref={scrollRef}
+            className="flex-1 overflow-y-auto min-h-0"
+          >
+        <div className="px-4 py-8 max-w-3xl mx-auto w-full">
         {/* Greeting */}
         {!selectedScenario && (
           <div className="mb-10 pt-8">
@@ -1327,12 +1475,31 @@ export default function AgentDemo() {
         {/* Pre-built Workflows */}
         {!selectedScenario && (
           <div className="mb-8">
-            <p
-              className="text-xs uppercase tracking-wider font-medium mb-3"
-              style={{ color: C.textLight }}
+            <button
+              onClick={() => setWorkflowsCollapsed(!workflowsCollapsed)}
+              className="flex items-center gap-1.5 mb-3 group"
             >
-              Your Pre-built Workflows
-            </p>
+              <svg
+                className="w-3 h-3 transition-transform duration-200"
+                style={{
+                  color: C.textLight,
+                  transform: workflowsCollapsed ? "rotate(-90deg)" : "rotate(0deg)",
+                }}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+              <span
+                className="text-xs uppercase tracking-wider font-medium"
+                style={{ color: C.textLight }}
+              >
+                Your Pre-built Workflows
+              </span>
+            </button>
+            {!workflowsCollapsed && (
             <div className="grid gap-3">
             {SCENARIOS.map((s) => (
               <button
@@ -1372,6 +1539,103 @@ export default function AgentDemo() {
               </button>
             ))}
             </div>
+            )}
+
+            {/* Automated Workflows */}
+            <button
+              onClick={() => setAutomatedCollapsed(!automatedCollapsed)}
+              className="flex items-center gap-1.5 mt-8 mb-3 group"
+            >
+              <svg
+                className="w-3 h-3 transition-transform duration-200"
+                style={{
+                  color: C.textLight,
+                  transform: automatedCollapsed ? "rotate(-90deg)" : "rotate(0deg)",
+                }}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+              <span
+                className="text-xs uppercase tracking-wider font-medium"
+                style={{ color: C.textLight }}
+              >
+                Scheduled & Triggered Workflows
+              </span>
+            </button>
+            {!automatedCollapsed && (
+            <div className="grid gap-3">
+              {/* Scheduled: Weekly status */}
+              <div
+                className="p-4 rounded-xl"
+                style={{ border: `1px solid ${C.borderLight}` }}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <p className="font-medium" style={{ color: C.text }}>
+                    Produce the weekly status update for leadership
+                  </p>
+                  <span
+                    className="text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 shrink-0 mt-1"
+                    style={{
+                      color: C.textLight,
+                      border: `1px solid ${C.borderLight}`,
+                    }}
+                  >
+                    Apparel & Footwear
+                  </span>
+                </div>
+                <WorkflowDiagram steps={SCENARIOS[0].steps} />
+                <div className="flex items-center gap-4 mt-3 pt-3" style={{ borderTop: `1px solid ${C.borderLight}` }}>
+                  <div className="flex items-center gap-1.5">
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke={C.sage} strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-xs font-medium" style={{ color: C.sage }}>
+                      Every Monday, 10:00 AM
+                    </span>
+                  </div>
+                  <span className="text-[10px]" style={{ color: C.textLight }}>
+                    Last run: Mar 17, 10:01 AM
+                  </span>
+                </div>
+              </div>
+
+              {/* Triggered: Order escalation */}
+              <div
+                className="p-4 rounded-xl"
+                style={{ border: `1px solid ${C.borderLight}` }}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <p className="font-medium" style={{ color: C.text }}>
+                    Investigate and expedite a delayed wholesale order
+                  </p>
+                  <span
+                    className="text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 shrink-0 mt-1"
+                    style={{
+                      color: C.textLight,
+                      border: `1px solid ${C.borderLight}`,
+                    }}
+                  >
+                    Sports Retailer
+                  </span>
+                </div>
+                <WorkflowDiagram steps={SCENARIOS[3].steps} />
+                <div className="flex items-center gap-4 mt-3 pt-3" style={{ borderTop: `1px solid ${C.borderLight}` }}>
+                  <div className="flex items-center gap-1.5">
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke={C.ochre} strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                    </svg>
+                    <span className="text-xs font-medium" style={{ color: C.ochre }}>
+                      Triggered when a customer order is flagged at-risk in CRM
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            )}
 
             <p
               className="text-xs uppercase tracking-wider font-medium mt-8 mb-3"
@@ -1698,9 +1962,15 @@ export default function AgentDemo() {
             </div>
           </div>
         )}
+        <div ref={scrollAnchorRef} />
+      </div>
+      {/* end inner content wrapper */}
+      </div>
+      {/* end scrollable area */}
+      </div>
+      {/* end chat area outer */}
       </div>
       {/* end sidebar + main flex */}
-      </div>
 
     </div>
   );
