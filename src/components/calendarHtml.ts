@@ -99,7 +99,7 @@ export const CALENDAR_HTML = `<style>
   <div class="feed"><div class="ftitle">Activity log</div><div id="fl"></div></div>
 </div>
 <script>
-var U = 105;
+var U = 140;
 var PERSON = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg>';
 var ROBOT = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="12" y1="2" x2="12" y2="5" stroke-linecap="round"/><circle cx="12" cy="2" r="1" fill="currentColor" stroke="none"/><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="currentColor" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="currentColor" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/><line x1="1" y1="10" x2="4" y2="10" stroke-linecap="round"/><line x1="20" y1="10" x2="23" y2="10" stroke-linecap="round"/></svg>';
 var AVATARS = {
