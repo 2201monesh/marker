@@ -4,7 +4,8 @@ import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import BusinessCardStudio from "../../components/BusinessCardStudio";
 import ConferencePostcardStudio from "../../components/ConferencePostcardStudio";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 
 const ASSETS = [
   {
@@ -34,18 +35,18 @@ const asset = Astro.params.asset;
 const isIndex = !asset;
 const isKnownAsset =
   asset === "business-card" || asset === "conference-postcard";
-const businessCardGuideSrc = `data:image/jpeg;base64,${readFileSync(
-  new URL(
-    "../../../.context/attachments/US Sized Business Cards-Square-Landscape-Artwork Guidelines.jpg",
-    import.meta.url
-  )
-).toString("base64")}`;
-const postcardGuideSrc = `data:image/jpeg;base64,${readFileSync(
-  new URL(
-    "../../../.context/attachments/Standard Postcard-Landscape-Artwork Guidelines.jpg",
-    import.meta.url
-  )
-).toString("base64")}`;
+function tryReadGuide(relativePath: string): string | undefined {
+  const url = new URL(relativePath, import.meta.url);
+  const filePath = fileURLToPath(url);
+  if (!existsSync(filePath)) return undefined;
+  return `data:image/jpeg;base64,${readFileSync(filePath).toString("base64")}`;
+}
+const businessCardGuideSrc = tryReadGuide(
+  "../../assets/branded-assets/moo-business-card-guide.png"
+);
+const postcardGuideSrc = tryReadGuide(
+  "../../assets/branded-assets/moo-postcard-guide.png"
+);
 ---
 
 <Layout title="Marker Branded Assets" noindex fontSource="local">

@@ -69,10 +69,7 @@ const FrontCardArt = forwardRef<HTMLDivElement>(function FrontCardArt(_, ref) {
               Your always-on
             </p>
             <p className={`${FRONT_HEADLINE_CLASS} mt-[8px] text-primary`}>
-              supply chain
-            </p>
-            <p className={`${FRONT_HEADLINE_CLASS} mt-[8px] text-foreground`}>
-              coordinator
+              supply chain coordinator
             </p>
           </div>
         </div>

@@ -17,15 +17,15 @@ const TRIM_PANEL_CLASS = "absolute overflow-hidden bg-white";
 const INSET_CLASS =
   "relative flex h-full flex-col px-[112px] pb-[248px] pt-[92px]";
 const FOOTER_WRAP_CLASS =
-  "absolute bottom-[86px] left-[112px] right-[112px] flex justify-end border-t border-foreground/10 pt-[28px]";
+  "absolute bottom-[86px] left-[112px] right-[112px] flex items-center justify-between border-t border-foreground/10 pt-[28px]";
 const HEADLINE_CLASS =
   "text-[136px] font-bold leading-[0.92] tracking-tight text-foreground";
 const BODY_CLASS = "text-[52px] font-medium leading-[1.18] text-muted-foreground";
 const FOOTER_CLASS = "text-[62px] font-semibold tracking-tight text-primary";
 const BACK_HEADLINE_CLASS =
-  "text-[110px] font-bold leading-[0.92] tracking-tight text-foreground";
+  "text-[90px] font-bold leading-[1.1] tracking-tight text-foreground";
 const BULLET_TEXT_CLASS =
-  "text-[50px] font-medium leading-[1.14] tracking-tight text-foreground";
+  "whitespace-pre-wrap text-[50px] font-medium leading-[1.14] tracking-tight text-foreground";
 const CONTACT_CLASS =
   "text-[42px] font-medium tracking-tight text-foreground no-underline";
 
@@ -39,19 +39,15 @@ const FrontPostcardArt = forwardRef<HTMLDivElement>(function FrontPostcardArt(
         <div className={INSET_CLASS}>
           <img src="/logo.png" alt="Marker" className="w-[300px]" />
 
-          <div className="mt-[132px] max-w-[1220px]">
+          <div className="mt-[132px] max-w-[1620px]">
             <p className={HEADLINE_CLASS}>Your always-on</p>
             <p className={`${HEADLINE_CLASS} mt-[14px] text-primary`}>
-              supply chain
-            </p>
-            <p className={`${HEADLINE_CLASS} mt-[14px] text-primary`}>
-              coordinator
+              supply chain coordinator
             </p>
           </div>
 
-          <p className={`mt-[52px] max-w-[980px] ${BODY_CLASS}`}>
-            AI orchestration that keeps retail handoffs, follow-ups, and next
-            steps moving before they turn into misses.
+          <p className={`mt-[52px] ${BODY_CLASS}`}>
+            AI agents purpose-built for sourcing and supply chain teams
           </p>
         </div>
 
@@ -76,17 +72,17 @@ const BackPostcardArt = forwardRef<HTMLDivElement>(function BackPostcardArt(
 
           <div className="mt-[128px] max-w-[1180px]">
             <h2 className={BACK_HEADLINE_CLASS}>
-              Keep every
+              Do the work without
               <br />
-              handoff moving.
+              your team doing the work
             </h2>
           </div>
 
           <div className="mt-[60px] max-w-[1220px] space-y-[22px]">
             {[
-              "Sync data across teams and systems.",
-              "Track blockers before they become misses.",
-              "Move work forward without waiting on follow-up.",
+              "Automate workflows across dozens of systems",
+              "Track, validate and follow-up without lifting a finger",
+              "Shave weeks off your timelines",
             ].map((item) => (
               <div key={item} className="flex items-start gap-[22px]">
                 <div className="mt-[18px] h-[16px] w-[16px] rounded-full bg-primary" />
@@ -95,14 +91,12 @@ const BackPostcardArt = forwardRef<HTMLDivElement>(function BackPostcardArt(
             ))}
           </div>
 
-          <div className="mt-[64px] flex flex-wrap gap-x-[28px] gap-y-[14px]">
-            <a href="mailto:sales@onmarker.com" className={CONTACT_CLASS}>
-              sales@onmarker.com
-            </a>
-          </div>
         </div>
 
         <div className={FOOTER_WRAP_CLASS}>
+          <a href="mailto:founders@onmarker.com" className={CONTACT_CLASS}>
+            founders@onmarker.com
+          </a>
           <p className={FOOTER_CLASS}>onmarker.com</p>
         </div>
       </div>
