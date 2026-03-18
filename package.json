@@ -13,7 +13,9 @@
     "test": "npx playwright test",
     "test:a11y": "npx playwright test tests/accessibility.spec.ts",
     "test:forms-smoke": "npx playwright test tests/forms.spec.ts",
-    "test:not-found-smoke": "npx playwright test tests/not-found.spec.ts"
+    "test:not-found-smoke": "npx playwright test tests/not-found.spec.ts",
+    "test:broken-links": "npx playwright test tests/broken-links.spec.ts",
+    "test:external-smoke": "npx playwright test --config tests/external-smoke.config.ts tests/external-smoke.spec.ts"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.0",
