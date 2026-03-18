@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { CALENDAR_HTML } from "./calendarHtml";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -967,14 +968,17 @@ function SidebarButton({
   label,
   active = false,
   expanded = false,
+  onClick,
 }: {
   icon: React.ReactNode;
   label: string;
   active?: boolean;
   expanded?: boolean;
+  onClick?: () => void;
 }) {
   return (
     <button
+      onClick={onClick}
       className="w-full h-10 rounded-lg flex items-center gap-2.5 px-2.5 transition-colors shrink-0"
       style={{
         background: active ? C.sage : "transparent",
@@ -1003,6 +1007,62 @@ function SidebarButton({
       </span>
     </button>
   );
+}
+
+/** Sourcing calendar Gantt chart view */
+function SourcingCalendar() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const cssVars: Record<string, string> = {
+      "--color-text-primary": C.text,
+      "--color-text-secondary": C.textMuted,
+      "--color-text-tertiary": C.textLight,
+      "--color-text-info": C.sage,
+      "--color-text-warning": C.ochre,
+      "--color-text-success": "#4E9A6A",
+      "--color-background-primary": C.cream,
+      "--color-background-secondary": C.parchment,
+      "--color-background-info": C.sageLight,
+      "--color-background-warning": C.ochreLight,
+      "--color-background-success": C.sageLight,
+      "--color-border-secondary": C.border,
+      "--color-border-tertiary": C.borderLight,
+      "--color-border-info": C.sageBorder,
+      "--color-border-warning": C.ochreBorder,
+      "--border-radius-md": "8px",
+      "--border-radius-lg": "12px",
+      "--font-sans": "inherit",
+    };
+    for (const [k, v] of Object.entries(cssVars)) {
+      el.style.setProperty(k, v);
+    }
+
+    el.innerHTML = CALENDAR_HTML;
+
+    // Execute the calendar script, exposing a cleanup hook via a global
+    const scriptEl = el.querySelector("script");
+    if (scriptEl) {
+      const wrappedScript = scriptEl.textContent + "\nwindow.__calendarTT = TT;";
+      const fn = new Function(wrappedScript);
+      fn();
+    }
+
+    return () => {
+      // Clear any running simulation timeouts
+      const tt = (window as unknown as Record<string, ReturnType<typeof setTimeout>[]>).__calendarTT;
+      if (tt) {
+        tt.forEach(clearTimeout);
+        delete (window as unknown as Record<string, unknown>).__calendarTT;
+      }
+      el.innerHTML = "";
+    };
+  }, []);
+
+  return <div ref={containerRef} className="px-6 py-4" />;
 }
 
 function MarkerLogo() {
@@ -1040,6 +1100,7 @@ function UserAvatar() {
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function AgentDemo() {
+  const [activeView, setActiveView] = useState<"chat" | "workflows">("chat");
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [workflowsCollapsed, setWorkflowsCollapsed] = useState(false);
   const [automatedCollapsed, setAutomatedCollapsed] = useState(true);
@@ -1257,6 +1318,7 @@ export default function AgentDemo() {
     setAckDone(false);
     setTypewriterText({});
     setTypewriterDone({});
+    setActiveView("chat");
   };
 
   // Step type → style mapping for the botanical palette
@@ -1322,7 +1384,7 @@ export default function AgentDemo() {
       </header>
 
       {/* Body: sidebar + main */}
-      <div className="flex flex-1 min-h-0">
+      <div className="flex flex-1 min-h-0 min-w-0 overflow-hidden">
         {/* Sidebar */}
         <nav
           className="hidden sm:flex flex-col shrink-0 py-3 px-2 transition-all duration-200 overflow-hidden"
@@ -1401,7 +1463,9 @@ export default function AgentDemo() {
                 </svg>
               }
               label="Workflows"
+              active={activeView === "workflows"}
               expanded={sidebarExpanded}
+              onClick={() => setActiveView(activeView === "workflows" ? "chat" : "workflows")}
             />
             <SidebarButton
               icon={
@@ -1434,10 +1498,16 @@ export default function AgentDemo() {
           </div>
         </nav>
 
-        {/* Chat area */}
-        <div className="flex-1 flex flex-col min-h-0 relative">
+        {/* Main content area */}
+        <div className="flex-1 flex flex-col min-h-0 min-w-0 relative">
+          {/* Workflows calendar view */}
+          {activeView === "workflows" && (
+            <div className="flex-1 overflow-y-auto min-h-0" style={{ contain: "inline-size" }}>
+              <SourcingCalendar />
+            </div>
+          )}
           {/* Workflow progress bar — fixed at top of chat area */}
-          {selectedScenario && (
+          {activeView === "chat" && selectedScenario && (
             <div
               className="z-10 shrink-0 py-3 px-4 backdrop-blur-md"
               style={{
@@ -1458,6 +1528,7 @@ export default function AgentDemo() {
           <div
             ref={scrollRef}
             className="flex-1 overflow-y-auto min-h-0"
+            style={{ display: activeView === "chat" ? undefined : "none" }}
           >
         <div className="px-4 py-8 max-w-3xl mx-auto w-full">
         {/* Greeting */}
