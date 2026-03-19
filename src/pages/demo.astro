@@ -1,0 +1,10 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AgentDemo from "../components/AgentDemo";
+---
+
+<Layout title="Marker | Supply Chain Coordinator Demo" noindex={true}>
+  <main id="main-content">
+    <AgentDemo client:load />
+  </main>
+</Layout>
