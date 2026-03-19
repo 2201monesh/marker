@@ -12,34 +12,31 @@ const {
   noindex = false,
   fontSource = "google",
 } = Astro.props;
-const LOCAL_INTER_CSS = `
+const LOCAL_FONT_CSS = `
   @font-face {
-    font-family: "Inter";
-    src: url("/fonts/Inter-Regular.ttf") format("truetype");
+    font-family: "Space Grotesk";
+    src: url("/fonts/SpaceGrotesk-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
   }
-
   @font-face {
-    font-family: "Inter";
-    src: url("/fonts/Inter-Medium.ttf") format("truetype");
+    font-family: "Space Grotesk";
+    src: url("/fonts/SpaceGrotesk-Medium.ttf") format("truetype");
     font-weight: 500;
     font-style: normal;
     font-display: swap;
   }
-
   @font-face {
-    font-family: "Inter";
-    src: url("/fonts/Inter-SemiBold.ttf") format("truetype");
+    font-family: "Space Grotesk";
+    src: url("/fonts/SpaceGrotesk-SemiBold.ttf") format("truetype");
     font-weight: 600;
     font-style: normal;
     font-display: swap;
   }
-
   @font-face {
-    font-family: "Inter";
-    src: url("/fonts/Inter-Bold.ttf") format("truetype");
+    font-family: "Space Grotesk";
+    src: url("/fonts/SpaceGrotesk-Bold.ttf") format("truetype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -58,14 +55,14 @@ const LOCAL_INTER_CSS = `
     <meta name="description" content="Marker is an AI-powered orchestrator that acts as your always-on retail supply chain coordinator. It syncs data, tracks handoffs, and moves work forward autonomously." />
     {noindex && <meta name="robots" content="noindex, nofollow, noarchive" />}
     {fontSource === "local" ? (
-      <style is:inline>{LOCAL_INTER_CSS}</style>
+      <style is:inline>{LOCAL_FONT_CSS}</style>
     ) : (
       <>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
         />
       </>
     )}

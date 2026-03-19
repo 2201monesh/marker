@@ -21,16 +21,15 @@ const steps = [
 ];
 ---
 
-<div class="molding-divider" aria-hidden="true"></div>
-<section class="relative bg-muted bg-diagonals-fine wash-sage-bl py-24 md:py-32" aria-labelledby="how-it-works-heading">
+<section class="relative bg-muted bg-linen-strong py-24 md:py-32 section-inset" aria-labelledby="how-it-works-heading">
   <div class="mx-auto max-w-7xl px-8">
-    <h2 id="how-it-works-heading" class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+    <h2 id="how-it-works-heading" class="text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
       How it works
     </h2>
     <div class="mt-12 grid gap-10 md:grid-cols-3">
       {steps.map((step) => (
         <div class="flex flex-col">
-          <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+          <div class="circle-raised flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
             {step.number}
           </div>
           <h3 class="mt-4 text-lg font-semibold text-foreground">{step.title}</h3>
@@ -40,4 +39,3 @@ const steps = [
     </div>
   </div>
 </section>
-<div class="molding-divider" aria-hidden="true"></div>

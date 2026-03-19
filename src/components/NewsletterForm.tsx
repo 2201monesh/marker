@@ -38,10 +38,10 @@ export default function NewsletterForm() {
   }
 
   return (
-    <section className="relative py-24 md:py-32 wash-ochre-tr">
+    <section className="relative py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-8">
         <div className="mx-auto max-w-lg text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
             Stay in the loop
           </h2>
           <p className="mt-4 text-muted-foreground">

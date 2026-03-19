@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
 
@@ -43,6 +43,24 @@
   }
 }
 
+/* ─── Nav molding — 3D bottom edge ────────────────────────────────────────── */
+/* Architectural molding on the navbar: light ridge + shadow channel + soft
+   drop shadow so the header feels physically above the page content */
+.nav-molding {
+  box-shadow:
+    /* fine highlight ridge along bottom edge */
+    0 1px 0 rgba(255, 255, 255, 0.3),
+    /* dark molding line */
+    0 2px 0 rgba(45, 36, 24, 0.15),
+    /* second fine highlight */
+    0 3px 0 rgba(255, 255, 255, 0.2),
+    /* deeper dark line */
+    0 4px 0 rgba(45, 36, 24, 0.1),
+    /* soft drop shadow — the "above" feeling */
+    0 8px 16px rgba(45, 36, 24, 0.07),
+    0 3px 6px rgba(45, 36, 24, 0.05);
+}
+
 /* ─── Fine-line molding divider ───────────────────────────────────────────── */
 /* CSS-only 3D architectural molding effect between sections */
 .molding-divider {
@@ -80,101 +98,285 @@
     0 4px 0 rgba(221, 210, 192, 0.1);
 }
 
-/* Variant for lighter section transitions */
-.molding-divider-subtle::before {
-  background: rgba(221, 210, 192, 0.4);
+/* ─── Recessed section — inset shadow ─────────────────────────────────────── */
+/* Makes the section look like it sits behind the sections above and below,
+   like an inset/inner shadow in Photoshop */
+.section-inset {
+  /* Fine 3D border: dark edge line on top/bottom with a light highlight
+     just inside — mimics a beveled channel cut into the page */
+  border-top: 1px solid rgba(45, 36, 24, 0.12);
+  border-bottom: 1px solid rgba(45, 36, 24, 0.12);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.4);
+    /* inner highlight just below top edge — light catching the ledge */
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    /* inner highlight just above bottom edge */
+    inset 0 -1px 0 rgba(255, 255, 255, 0.3),
+    /* soft inset shadow from top */
+    inset 0 12px 20px -8px rgba(45, 36, 24, 0.15),
+    inset 0 4px 6px -4px rgba(45, 36, 24, 0.1),
+    /* soft inset shadow from bottom */
+    inset 0 -12px 20px -8px rgba(45, 36, 24, 0.15),
+    inset 0 -4px 6px -4px rgba(45, 36, 24, 0.1);
 }
 
-.molding-divider-subtle::after {
-  background: rgba(184, 168, 140, 0.3);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.3);
+/* ─── Linen / canvas weave texture ────────────────────────────────────────── */
+/* Fine crosshatch that reads as woven fabric or plaster — architectural feel */
+.bg-linen {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 7px,
+      rgba(170, 155, 130, 0.07) 7px,
+      rgba(170, 155, 130, 0.07) 8px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 7px,
+      rgba(170, 155, 130, 0.07) 7px,
+      rgba(170, 155, 130, 0.07) 8px
+    );
 }
 
-/* ─── Diagonal line background pattern ────────────────────────────────────── */
-.bg-diagonals {
-  background-image: repeating-linear-gradient(
-    -55deg,
-    transparent,
-    transparent 28px,
-    rgba(184, 168, 140, 0.07) 28px,
-    rgba(184, 168, 140, 0.07) 29px
-  );
+/* Slightly more visible variant */
+.bg-linen-strong {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 7px,
+      rgba(170, 155, 130, 0.09) 7px,
+      rgba(170, 155, 130, 0.09) 8px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 7px,
+      rgba(170, 155, 130, 0.09) 7px,
+      rgba(170, 155, 130, 0.09) 8px
+    );
 }
 
-/* Finer diagonal variant */
-.bg-diagonals-fine {
-  background-image: repeating-linear-gradient(
-    -55deg,
-    transparent,
-    transparent 18px,
-    rgba(184, 168, 140, 0.05) 18px,
-    rgba(184, 168, 140, 0.05) 19px
-  );
-}
-
-/* ─── Vertical content rails ──────────────────────────────────────────────── */
-/* Thin vertical lines framing the content area */
-.content-rails {
-  position: relative;
-}
-
-.content-rails::before,
-.content-rails::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(221, 210, 192, 0.4) 15%,
-    rgba(221, 210, 192, 0.4) 85%,
-    transparent
-  );
-  pointer-events: none;
-}
-
-.content-rails::before {
-  left: max(1rem, calc((100% - 72rem) / 2));
-}
-
-.content-rails::after {
-  right: max(1rem, calc((100% - 72rem) / 2));
+/* ─── Hero light bloom ────────────────────────────────────────────────────── */
+/* Bright wash that makes the hero feel sunlit rather than flat */
+.hero-bloom {
+  background:
+    radial-gradient(
+      ellipse 80% 70% at 55% 25%,
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(255, 253, 249, 0.35) 35%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 50% 60% at 25% 75%,
+      rgba(255, 253, 249, 0.2) 0%,
+      transparent 55%
+    );
 }
 
 /* ─── Watercolor wash utilities ───────────────────────────────────────────── */
+/* Layered multi-stop washes — overlapping radial gradients that pool
+   and thin like real watercolor, not single clean ellipses */
+
 .wash-sage-tr {
-  background-image: radial-gradient(
-    ellipse 50% 60% at 90% 10%,
-    rgba(58, 125, 86, 0.04) 0%,
-    transparent 70%
-  );
+  background-image:
+    radial-gradient(
+      ellipse 45% 55% at 88% 8%,
+      rgba(58, 125, 86, 0.045) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 30% 40% at 78% 18%,
+      rgba(58, 125, 86, 0.035) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 55% 35% at 95% 25%,
+      rgba(78, 154, 106, 0.025) 0%,
+      transparent 60%
+    );
 }
 
 .wash-ochre-bl {
-  background-image: radial-gradient(
-    ellipse 45% 50% at 10% 85%,
-    rgba(184, 134, 11, 0.035) 0%,
-    transparent 70%
-  );
+  background-image:
+    radial-gradient(
+      ellipse 40% 45% at 12% 82%,
+      rgba(184, 134, 11, 0.04) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 30% 35% at 5% 72%,
+      rgba(184, 134, 11, 0.03) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 50% 30% at 18% 92%,
+      rgba(196, 146, 42, 0.025) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 25% 25% at 8% 88%,
+      rgba(210, 170, 100, 0.02) 0%,
+      transparent 50%
+    );
 }
 
 .wash-sage-bl {
-  background-image: radial-gradient(
-    ellipse 40% 50% at 5% 90%,
-    rgba(58, 125, 86, 0.035) 0%,
-    transparent 70%
-  );
+  background-image:
+    radial-gradient(
+      ellipse 38% 45% at 8% 85%,
+      rgba(58, 125, 86, 0.04) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 28% 35% at 15% 75%,
+      rgba(58, 125, 86, 0.03) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 45% 28% at 3% 92%,
+      rgba(78, 154, 106, 0.025) 0%,
+      transparent 55%
+    );
 }
 
 .wash-ochre-tr {
-  background-image: radial-gradient(
-    ellipse 50% 55% at 85% 15%,
-    rgba(184, 134, 11, 0.03) 0%,
-    transparent 70%
-  );
+  background-image:
+    radial-gradient(
+      ellipse 45% 50% at 85% 12%,
+      rgba(184, 134, 11, 0.035) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 30% 35% at 75% 22%,
+      rgba(184, 134, 11, 0.025) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 50% 30% at 92% 5%,
+      rgba(196, 146, 42, 0.02) 0%,
+      transparent 55%
+    );
+}
+
+/* ─── 3D raised elements ──────────────────────────────────────────────────── */
+/* Buttons, cards, badges — light top edge, dark bottom edge, subtle lift */
+
+/* Raised button — molding curvature: soft light gradate on top,
+   soft shadow gradate on bottom, like a rounded physical surface */
+.btn-raised {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow:
+    /* top edge catching light — blurred so it reads as curvature */
+    inset 0 1px 3px rgba(255, 255, 255, 0.12),
+    /* bottom edge falling into shadow */
+    inset 0 -1px 3px rgba(0, 0, 0, 0.1),
+    /* grounding shadow below */
+    0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-raised:hover {
+  box-shadow:
+    inset 0 1px 3px rgba(255, 255, 255, 0.14),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.12),
+    0 2px 5px rgba(0, 0, 0, 0.12);
+}
+
+.btn-raised:active {
+  box-shadow:
+    inset 0 1px 4px rgba(0, 0, 0, 0.12),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.05);
+}
+
+/* Raised outline button — for secondary actions */
+.btn-raised-outline {
+  border: 1px solid rgba(45, 36, 24, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 1px 2px rgba(45, 36, 24, 0.08);
+}
+
+.btn-raised-outline:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 2px 4px rgba(45, 36, 24, 0.1),
+    0 4px 8px rgba(45, 36, 24, 0.05);
+}
+
+/* Raised card — sits slightly above the surface */
+.card-raised {
+  border: 1px solid rgba(45, 36, 24, 0.08);
+  box-shadow:
+    /* light inner highlight along top edge */
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    /* dark line at bottom edge — grounds it */
+    0 1px 0 rgba(45, 36, 24, 0.06),
+    /* soft lift shadow */
+    0 2px 6px rgba(45, 36, 24, 0.05),
+    0 4px 12px rgba(45, 36, 24, 0.03);
+}
+
+.card-raised:hover {
+  border-color: rgba(45, 36, 24, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 1px 0 rgba(45, 36, 24, 0.06),
+    0 4px 12px rgba(45, 36, 24, 0.08),
+    0 8px 24px rgba(45, 36, 24, 0.05);
+}
+
+/* Raised circle — same molding curvature as buttons */
+.circle-raised {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow:
+    inset 0 1px 3px rgba(255, 255, 255, 0.12),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon badge — small raised container for icons */
+.badge-raised {
+  border: 1px solid rgba(45, 36, 24, 0.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 1px 2px rgba(45, 36, 24, 0.06);
+}
+
+/* Inset input — field that sits below the surface */
+.input-inset {
+  border: 1px solid rgba(45, 36, 24, 0.12);
+  box-shadow:
+    inset 0 1px 3px rgba(45, 36, 24, 0.08),
+    inset 0 1px 1px rgba(45, 36, 24, 0.04);
+}
+
+.input-inset:focus {
+  border-color: rgba(58, 125, 86, 0.4);
+  box-shadow:
+    inset 0 1px 3px rgba(45, 36, 24, 0.06),
+    0 0 0 2px rgba(58, 125, 86, 0.12);
+}
+
+/* Social icon — raised circular button */
+.social-raised {
+  border: 1px solid rgba(45, 36, 24, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 1px 2px rgba(45, 36, 24, 0.06);
+}
+
+.social-raised:hover {
+  border-color: rgba(58, 125, 86, 0.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 2px 4px rgba(45, 36, 24, 0.08);
+}
+
+/* Footer divider — 3D molding style top border */
+.footer-molding {
+  border-top: 1px solid rgba(45, 36, 24, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 -1px 0 rgba(255, 255, 255, 0.3);
 }
