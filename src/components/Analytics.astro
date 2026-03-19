@@ -57,8 +57,10 @@ if (enableLocal) {
           }
         });
         window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));
+        var isDebug = env !== 'production';
         window.amplitude.init('f5e0953df77a321bb7647f2268a9ed7b', {
           fetchRemoteConfig: true,
+          logLevel: isDebug ? 3 : 0, // 3 = DEBUG, 0 = NONE
           autocapture: {
             attribution: true,
             fileDownloads: true,
@@ -76,6 +78,18 @@ if (enableLocal) {
             }
           }
         });
+
+        // Log debug info in non-production environments
+        if (isDebug) {
+          console.log(
+            '%c[Amplitude Debug]',
+            'color: #7c3aed; font-weight: bold;',
+            '\n  Environment:', env,
+            '\n  Device ID:', window.amplitude.getDeviceId(),
+            '\n  Session ID:', window.amplitude.getSessionId(),
+            '\n  User ID:', window.amplitude.getUserId() || '(anonymous)'
+          );
+        }
       };
       document.head.appendChild(s);
     }
