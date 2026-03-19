@@ -1,0 +1,73 @@
+---
+const enableLocal = import.meta.env.PUBLIC_ENABLE_LOCAL_ANALYTICS === 'true';
+const allowedHosts = ['onmarker.com', 'www.onmarker.com'];
+if (enableLocal) {
+  allowedHosts.push('localhost');
+}
+---
+
+<!-- HubSpot -->
+<script is:inline define:vars={{ allowedHosts }}>
+  (function() {
+    if (allowedHosts.indexOf(window.location.hostname) !== -1) {
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.id = 'hs-script-loader';
+      s.async = true;
+      s.defer = true;
+      s.src = '//js-na2.hs-scripts.com/245531796.js';
+      document.head.appendChild(s);
+    }
+  })();
+</script>
+
+<!-- Amplitude -->
+<script is:inline define:vars={{ allowedHosts }}>
+  (function() {
+    if (allowedHosts.indexOf(window.location.hostname) !== -1) {
+      var s = document.createElement('script');
+      s.src = 'https://cdn.amplitude.com/script/f5e0953df77a321bb7647f2268a9ed7b.js';
+      s.onload = function() {
+        window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));
+        window.amplitude.init('f5e0953df77a321bb7647f2268a9ed7b', {
+          fetchRemoteConfig: true,
+          autocapture: {
+            attribution: true,
+            fileDownloads: true,
+            formInteractions: true,
+            pageViews: true,
+            sessions: true,
+            elementInteractions: true,
+            networkTracking: true,
+            webVitals: true,
+            frustrationInteractions: {
+              thrashedCursor: true,
+              errorClicks: true,
+              deadClicks: true,
+              rageClicks: true
+            }
+          }
+        });
+      };
+      document.head.appendChild(s);
+    }
+  })();
+</script>
+
+<!-- Amplitude cross-domain tracking: append device/session IDs to info.onmarker.com links -->
+<script is:inline>
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href*="info.onmarker.com"]');
+    if (!link || !window.amplitude) return;
+
+    var deviceId = window.amplitude.getDeviceId();
+    var sessionId = window.amplitude.getSessionId();
+    if (!deviceId || !sessionId) return;
+
+    var url = new URL(link.href);
+    url.searchParams.set('ampDeviceId', deviceId);
+    url.searchParams.set('ampSessionId', sessionId);
+    url.searchParams.set('ampTimestamp', String(Date.now() + 60000));
+    link.href = url.toString();
+  });
+</script>
