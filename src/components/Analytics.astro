@@ -39,6 +39,23 @@ if (enableLocal) {
       var s = document.createElement('script');
       s.src = 'https://cdn.amplitude.com/script/f5e0953df77a321bb7647f2268a9ed7b.js';
       s.onload = function() {
+        // Tag all events with the environment they came from
+        var h = window.location.hostname;
+        var env = (h === 'onmarker.com' || h === 'www.onmarker.com')
+          ? 'production'
+          : h === 'localhost'
+            ? 'development'
+            : 'preview';
+        window.amplitude.add({
+          name: 'environment-tagger',
+          type: 'enrichment',
+          execute: function(event) {
+            event.event_properties = Object.assign({}, event.event_properties, {
+              environment: env
+            });
+            return event;
+          }
+        });
         window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));
         window.amplitude.init('f5e0953df77a321bb7647f2268a9ed7b', {
           fetchRemoteConfig: true,
