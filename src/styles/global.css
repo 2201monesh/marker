@@ -47,22 +47,11 @@
   }
 }
 
-/* ─── Nav molding — 3D bottom edge ────────────────────────────────────────── */
-/* Architectural molding on the navbar: light ridge + shadow channel + soft
-   drop shadow so the header feels physically above the page content */
+/* ─── Nav molding — minimal bottom edge ───────────────────────────────────── */
+/* Just a subtle bottom border — the real divider effect comes from the
+   molding-divider element placed after the nav */
 .nav-molding {
-  box-shadow:
-    /* fine highlight ridge along bottom edge */
-    0 1px 0 rgba(255, 255, 255, 0.3),
-    /* dark molding line */
-    0 2px 0 rgba(45, 36, 24, 0.15),
-    /* second fine highlight */
-    0 3px 0 rgba(255, 255, 255, 0.2),
-    /* deeper dark line */
-    0 4px 0 rgba(45, 36, 24, 0.1),
-    /* soft drop shadow — the "above" feeling */
-    0 8px 16px rgba(45, 36, 24, 0.07),
-    0 3px 6px rgba(45, 36, 24, 0.05);
+  border-bottom: 1px solid rgba(45, 36, 24, 0.06);
 }
 
 /* ─── Fine-line molding divider ───────────────────────────────────────────── */
@@ -84,6 +73,67 @@
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.4),
     0 2px 0 rgba(45, 36, 24, 0.06);
+}
+
+/* Flipped variant — true vertical mirror of the default */
+.molding-divider-flip::before {
+  top: auto;
+  bottom: 0;
+  /* Mirror: dark line (background) is at bottom, light above it, dark above that */
+  background: rgba(45, 36, 24, 0.06);
+  box-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.4),
+    0 -2px 0 rgba(45, 36, 24, 0.1);
+}
+
+/* ─── Button: Molding border ──────────────────────────────────────────────── */
+/* Concentric rectangle using the same 3-line stepped pattern as the
+   section molding dividers. Normal = shadow outward, flip = shadow inward. */
+.btn-molding {
+  position: relative;
+  background: transparent;
+  border: 1px solid rgba(45, 36, 24, 0.25);
+  box-shadow:
+    /* outer light line */
+    0 0 0 1px rgba(255, 255, 255, 0.5),
+    /* outer dark line */
+    0 0 0 2px rgba(45, 36, 24, 0.15),
+    /* inner light line */
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    /* inner dark line */
+    inset 0 0 0 2px rgba(45, 36, 24, 0.15);
+}
+
+.btn-molding:hover {
+  border-color: rgba(45, 36, 24, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.5),
+    0 0 0 2px rgba(45, 36, 24, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 0 0 2px rgba(45, 36, 24, 0.2);
+}
+
+/* Flipped — swap the dark/light order */
+.btn-molding-flip {
+  border-color: rgba(45, 36, 24, 0.15);
+  box-shadow:
+    /* outer dark line */
+    0 0 0 1px rgba(45, 36, 24, 0.25),
+    /* outer light line */
+    0 0 0 2px rgba(255, 255, 255, 0.5),
+    /* inner dark line */
+    inset 0 0 0 1px rgba(45, 36, 24, 0.25),
+    /* inner light line */
+    inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.btn-molding-flip:hover {
+  border-color: rgba(45, 36, 24, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(45, 36, 24, 0.35),
+    0 0 0 2px rgba(255, 255, 255, 0.5),
+    inset 0 0 0 1px rgba(45, 36, 24, 0.35),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.5);
 }
 
 /* ─── Recessed section — inset shadow ─────────────────────────────────────── */

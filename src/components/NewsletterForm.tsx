@@ -66,14 +66,9 @@ export default function NewsletterForm() {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="btn-circled relative inline-flex items-center px-6 py-2 text-base font-bold text-primary transition-colors hover:text-primary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer"
+                className="btn-molding btn-molding-flip inline-flex h-10 items-center justify-center px-6 text-sm font-semibold uppercase tracking-[0.08em] text-primary transition-colors hover:text-primary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer"
               >
-                <svg className="absolute inset-[-4px] w-[calc(100%+8px)] h-[calc(100%+8px)]" viewBox="0 0 200 56" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M 4,3.5 L 196.5,3 L 197,52.5 L 3.5,53 Z" fill="white" opacity="0.45" />
-                  <path d="M 4,3.5 L 196.5,3 L 197,52.5 L 3.5,53 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" opacity="0.55" />
-                  <path d="M 3.5,4 L 196,3.5 L 196.5,52 L 4,52.5 Z" stroke="currentColor" strokeWidth="0.8" strokeLinejoin="round" opacity="0.22" />
-                </svg>
-                <span className="relative z-10">{status === "loading" ? "Subscribing..." : "Subscribe"}</span>
+                {status === "loading" ? "Subscribing..." : "Subscribe"}
               </button>
             </form>
           )}
