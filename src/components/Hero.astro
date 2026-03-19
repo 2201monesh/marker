@@ -58,11 +58,17 @@
   function render() {
     const canvas = document.getElementById('hero-marker-canvas') as HTMLCanvasElement;
     const section = canvas?.closest('section');
-    if (!canvas || !section) return;
+    const heading = document.getElementById('hero-heading');
+    if (!canvas || !section || !heading) return;
 
     const dpr = window.devicePixelRatio || 1;
     const W = section.clientWidth;
     const H = section.clientHeight;
+    const sectionTop = section.getBoundingClientRect().top;
+    const headingRect = heading.getBoundingClientRect();
+
+    // Center of the heading relative to the section
+    const headingCenterY = (headingRect.top + headingRect.height / 2) - sectionTop;
 
     canvas.width = W * dpr;
     canvas.height = H * dpr;
@@ -70,8 +76,16 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
 
+    // Space strokes evenly: one above heading, one on heading, one below
+    const spacing = H * 0.28;
+    const positions = [
+      headingCenterY - spacing,
+      headingCenterY,
+      headingCenterY + spacing,
+    ];
+
     STROKES.forEach((s, i) => {
-      const cy = H * s.yPct;
+      const cy = positions[i];
       const angleRad = s.angle * (Math.PI / 180);
       const sx = W * s.x0;
       const ex = W * s.x1;
