@@ -11,6 +11,8 @@ if (enableLocal) {
   window.__isAnalyticsAllowed = function() {
     var h = window.location.hostname;
     return allowedHosts.indexOf(h) !== -1
+      // Allow Firebase preview deploys (e.g. marker-site--pr-37-abc123.web.app)
+      // so we can test analytics on PR preview URLs
       || (h.startsWith('marker-site') && h.endsWith('.web.app'));
   };
 </script>
