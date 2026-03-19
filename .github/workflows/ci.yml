@@ -151,7 +151,7 @@ jobs:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ONMARKER_SITE }}
       - id: firebase_preview
         run: |
-          npx firebase-tools@15.10.0 hosting:channel:deploy "pr-${{ github.event.pull_request.number }}" --project onmarker-site --expires 7d --json > deploy-result.json
+          npx firebase-tools@15.11.0 hosting:channel:deploy "pr-${{ github.event.pull_request.number }}" --project onmarker-site --expires 7d --json > deploy-result.json
           cat deploy-result.json
 
           preview_url="$(jq -r '.. | .url? // empty' deploy-result.json | head -n 1)"
