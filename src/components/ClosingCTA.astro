@@ -1,0 +1,177 @@
+---
+
+---
+
+<section class="relative py-24 md:py-32 overflow-hidden" aria-labelledby="closing-cta-heading">
+  <canvas
+    id="closing-cta-canvas"
+    class="absolute inset-0 w-full h-full pointer-events-none"
+    aria-hidden="true"
+  ></canvas>
+  <div class="relative z-10 mx-auto max-w-7xl px-8">
+    <div class="mx-auto max-w-lg text-center">
+      <h2 id="closing-cta-heading" class="ink-reveal text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
+        See Marker in action
+      </h2>
+      <p class="ink-reveal mt-4 text-muted-foreground md:text-lg" style="--reveal-delay: 100">
+        30-minute walkthrough tailored to your supply chain.
+      </p>
+      <div class="ink-reveal mt-8" style="--reveal-delay: 200">
+        <a
+          href="https://info.onmarker.com/book-a-demo"
+          class="btn-molding btn-molding-flip inline-flex h-12 items-center justify-center px-10 text-sm font-extrabold uppercase tracking-[0.08em] text-primary transition-colors hover:text-primary/80 cursor-pointer"
+        >
+          Book a Demo
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { drawHighlightStroke } from '../lib/marker-background.js';
+
+  const COLORS = ['#e8dcc8', '#dfd3bc', '#ede2d0'];
+  const STROKES = [
+    { yPct: 0.38, angle:  0.8, thickPct: 0.38, direction: 1 },
+    { yPct: 0.62, angle: -0.6, thickPct: 0.36, direction: -1 },
+  ];
+
+  function getStrokeLayout(section: HTMLElement, W: number, H: number) {
+    const content = section.querySelector('.max-w-lg') as HTMLElement;
+    const sectionRect = section.getBoundingClientRect();
+    let contentLeft = 0;
+    let contentRight = W;
+    if (content) {
+      const contentRect = content.getBoundingClientRect();
+      contentLeft = contentRect.left - sectionRect.left;
+      contentRight = contentRect.right - sectionRect.left;
+    }
+    const overshoot = (contentRight - contentLeft) * 0.08;
+
+    return STROKES.map((s, i) => {
+      const cy = H * s.yPct;
+      const angleRad = s.angle * (Math.PI / 180);
+      const sx = contentLeft - overshoot;
+      const ex = contentRight + overshoot;
+      const strokeLen = ex - sx;
+      const rise = Math.sin(angleRad) * strokeLen * 0.5;
+      return {
+        sx, sy: cy - rise, ex, ey: cy + rise,
+        color: COLORS[i % COLORS.length],
+        thickness: H * s.thickPct,
+        opacity: 0.17,
+        direction: s.direction,
+      };
+    });
+  }
+
+  function renderFull() {
+    const canvas = document.getElementById('closing-cta-canvas') as HTMLCanvasElement;
+    const section = canvas?.closest('section');
+    if (!canvas || !section) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const W = section.clientWidth;
+    const H = section.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext('2d')!;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+
+    getStrokeLayout(section, W, H).forEach(p => drawHighlightStroke(ctx, p));
+  }
+
+  function renderAnimated() {
+    const canvas = document.getElementById('closing-cta-canvas') as HTMLCanvasElement;
+    const section = canvas?.closest('section');
+    if (!canvas || !section) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const W = section.clientWidth;
+    const H = section.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext('2d')!;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const params = getStrokeLayout(section, W, H);
+
+    const offscreens = params.map(p => {
+      const off = document.createElement('canvas');
+      off.width = canvas.width;
+      off.height = canvas.height;
+      const octx = off.getContext('2d')!;
+      octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawHighlightStroke(octx, p);
+      return off;
+    });
+
+    const DURATION = 850;
+    const STAGGER = 120;
+    const startTime = performance.now();
+
+    function ease(t: number) {
+      return t < 0.15 ? t * t / 0.15 : 1 - Math.pow(1 - t, 2.5);
+    }
+
+    function animate(now: number) {
+      ctx.clearRect(0, 0, W, H);
+      let allDone = true;
+
+      params.forEach((p, i) => {
+        const elapsed = now - startTime - i * STAGGER;
+        if (elapsed <= 0) { allDone = false; return; }
+        const t = Math.min(1, elapsed / DURATION);
+        if (t < 1) allDone = false;
+        const eased = ease(t);
+
+        const strokeWidth = p.ex - p.sx;
+        const revealWidth = strokeWidth * eased;
+        if (revealWidth <= 0) return;
+
+        ctx.save();
+        ctx.beginPath();
+        if (p.direction === 1) {
+          ctx.rect(p.sx - 2, 0, revealWidth + 4, H);
+        } else {
+          ctx.rect(p.ex - revealWidth - 2, 0, revealWidth + 4, H);
+        }
+        ctx.clip();
+        ctx.drawImage(offscreens[i], 0, 0, offscreens[i].width, offscreens[i].height, 0, 0, W, H);
+        ctx.restore();
+      });
+
+      if (!allDone) {
+        requestAnimationFrame(animate);
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  const section = document.getElementById('closing-cta-heading')?.closest('section');
+  if (section) {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let hasAnimated = false;
+
+    if (prefersReduced) {
+      renderFull();
+    } else {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            hasAnimated = true;
+            renderAnimated();
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.2 }
+      );
+      observer.observe(section);
+    }
+
+    window.addEventListener('resize', () => { if (hasAnimated) renderFull(); });
+  }
+</script>

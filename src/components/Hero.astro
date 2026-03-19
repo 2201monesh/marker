@@ -9,29 +9,503 @@
     aria-hidden="true"
   ></canvas>
   <div class="relative z-10 mx-auto max-w-7xl px-8 py-28 md:py-36">
-    <div class="max-w-4xl">
-      <h1 id="hero-heading" class="text-5xl font-bold tracking-tight text-foreground leading-[1.1] md:text-6xl lg:text-7xl">
-        <span data-marker-line>Your always-on</span>
-        <br />
-        <span class="text-primary"><span data-marker-line>supply chain coordinator</span></span>
-      </h1>
-      <p id="hero-subtext" class="mt-10 mb-2 text-lg text-muted-foreground md:text-xl leading-relaxed">
-        Marker is an AI-powered orchestrator that keeps things moving before
-        you have to. It syncs data across your systems, tracks handoffs and
-        deadlines, and moves work forward autonomously.
-      </p>
-      <div id="hero-cta" class="mt-10 flex flex-wrap items-center gap-6">
-        <a
-          href="https://info.onmarker.com/book-a-demo"
-          class="btn-molding btn-molding-flip inline-flex h-12 items-center justify-center px-10 text-sm font-extrabold uppercase tracking-[0.08em] text-primary transition-colors hover:text-primary/80 cursor-pointer"
-        >
-          Book a Demo
-        </a>
+    <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+      <!-- Left column: text -->
+      <div>
+        <h1 id="hero-heading" class="text-5xl font-bold tracking-tight text-foreground leading-[1.1] md:text-6xl lg:text-7xl">
+          <span data-marker-line>Your always-on</span>
+          <br />
+          <span class="text-primary"><span data-marker-line>supply chain coordinator</span></span>
+        </h1>
+        <p id="hero-subtext" class="mt-10 mb-2 text-lg text-muted-foreground md:text-xl leading-relaxed">
+          Marker connects your systems and moves work forward automatically — so your team can focus on decisions, not follow-ups.
+        </p>
+        <div id="hero-cta" class="mt-10 flex flex-wrap items-center gap-6">
+          <a
+            href="https://info.onmarker.com/book-a-demo"
+            class="btn-molding btn-molding-flip inline-flex h-12 items-center justify-center px-10 text-sm font-extrabold uppercase tracking-[0.08em] text-primary transition-colors hover:text-primary/80 cursor-pointer"
+          >
+            Book a Demo
+          </a>
+        </div>
+
+        <!-- Trust badges -->
+        <div class="mt-6 flex flex-wrap items-center gap-4">
+          <span class="trust-badge">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+            </svg>
+            SOC 2
+          </span>
+          <span class="trust-badge">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+            </svg>
+            ISO 27001
+          </span>
+          <span class="trust-badge">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <rect x="2" y="5" width="20" height="14" rx="2" fill="currentColor" opacity="0.15" />
+              <text x="12" y="15" text-anchor="middle" font-size="10" font-weight="bold" fill="currentColor">Y</text>
+            </svg>
+            Backed by Y Combinator
+          </span>
+        </div>
       </div>
+
+      <!-- Right column: Gantt chart snapshot — bleeds off right edge -->
+      <div class="hero-gantt-wrap" aria-hidden="true">
+        <div class="hero-gantt-frame">
+
+          <!-- Window chrome dots -->
+          <div class="gantt-chrome">
+            <span class="gantt-dot" style="background:#E8DFD0"></span>
+            <span class="gantt-dot" style="background:#E8DFD0"></span>
+            <span class="gantt-dot" style="background:#E8DFD0"></span>
+            <span class="gantt-chrome-title">SS26 wovens — sourcing calendar</span>
+          </div>
+
+          <!-- Metrics bar -->
+          <div class="gantt-metrics">
+            <div class="gantt-met">
+              <span class="gantt-met-n" style="color:#3A7D56">7</span>
+              <span class="gantt-met-l">auto<br/>steps</span>
+            </div>
+            <div class="gantt-met">
+              <span class="gantt-met-n" style="color:#B8860B">5</span>
+              <span class="gantt-met-l">human<br/>steps</span>
+            </div>
+          </div>
+
+          <!-- Board -->
+          <div class="gantt-board">
+            <!-- Phase header row -->
+            <div class="gantt-phase-row">
+              <div class="gantt-lane-hd"></div>
+              <div class="gantt-phase-label" style="left:0">Development</div>
+              <div class="gantt-phase-label" style="left:calc(5 * var(--col-w))">Costing + spec</div>
+            </div>
+
+            <!-- Lane: PD -->
+            <div class="gantt-lane">
+              <div class="gantt-lane-hd"><span class="gantt-lane-name">PD</span></div>
+              <div class="gantt-lane-track">
+                <div class="gc gc-agent gc-done" style="--gc-col:0">
+                  <div class="gc-icon gc-icon-agent"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg></div>
+                  <div class="gc-text"><span class="gc-who">Agent</span><span class="gc-name">Collect fabric data</span></div>
+                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
+                </div>
+                <div class="gc gc-human gc-done" style="--gc-col:1">
+                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
+                  <div class="gc-text"><span class="gc-who">PD</span><span class="gc-name">Review fabric details</span></div>
+                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
+                </div>
+                <div class="gc gc-human gc-done" style="--gc-col:2">
+                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
+                  <div class="gc-text"><span class="gc-who">PD</span><span class="gc-name">Collect trim details</span></div>
+                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
+                </div>
+                <div class="gc gc-agent gc-active" style="--gc-col:6">
+                  <div class="gc-icon gc-icon-agent"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg></div>
+                  <div class="gc-text"><span class="gc-who">Agent</span><span class="gc-name">Request vendor costing</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lane: Design -->
+            <div class="gantt-lane">
+              <div class="gantt-lane-hd"><span class="gantt-lane-name">Design</span></div>
+              <div class="gantt-lane-track">
+                <div class="gc gc-human gc-done" style="--gc-col:1">
+                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
+                  <div class="gc-text"><span class="gc-who">Design</span><span class="gc-name">Design direction</span></div>
+                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
+                </div>
+                <div class="gc gc-agent gc-done" style="--gc-col:3">
+                  <div class="gc-icon gc-icon-agent"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg></div>
+                  <div class="gc-text"><span class="gc-who">Agent</span><span class="gc-name">Assign style numbers</span></div>
+                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
+                </div>
+                <div class="gc gc-human gc-done" style="--gc-col:4">
+                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
+                  <div class="gc-text"><span class="gc-who">Design</span><span class="gc-name">Front + back sketches</span></div>
+                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
+                </div>
+                <div class="gc gc-human gc-pending" style="--gc-col:5">
+                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
+                  <div class="gc-text"><span class="gc-who">Design</span><span class="gc-name">Build bill of materials</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lane: TD -->
+            <div class="gantt-lane">
+              <div class="gantt-lane-hd"><span class="gantt-lane-name">TD</span></div>
+              <div class="gantt-lane-track">
+                <div class="gc gc-agent gc-done" style="--gc-col:4">
+                  <div class="gc-icon gc-icon-agent"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg></div>
+                  <div class="gc-text"><span class="gc-who">Agent</span><span class="gc-name">Load spec templates</span></div>
+                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
+                </div>
+                <div class="gc gc-human gc-pending" style="--gc-col:5">
+                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
+                  <div class="gc-text"><span class="gc-who">TD</span><span class="gc-name">Build initial spec pkg</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lane: Merch -->
+            <div class="gantt-lane">
+              <div class="gantt-lane-hd"><span class="gantt-lane-name">Merch</span></div>
+              <div class="gantt-lane-track">
+                <div class="gc gc-human gc-waiting" style="--gc-col:5">
+                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
+                  <div class="gc-text"><span class="gc-who">Merch</span><span class="gc-name">Seasonal buy plan</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lane: Prod -->
+            <div class="gantt-lane">
+              <div class="gantt-lane-hd"><span class="gantt-lane-name">Prod</span></div>
+              <div class="gantt-lane-track">
+                <!-- empty at this stage -->
+              </div>
+            </div>
+
+            <!-- Now-cursor -->
+            <div class="gantt-cursor"></div>
+          </div>
+
+          <!-- Bottom stat -->
+          <div class="gantt-stat">
+            <span>12 of 35 steps automated (34%)</span>
+            <div class="gantt-stat-bar"><div class="gantt-stat-fill" style="width:34%"></div></div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-
 </section>
+
+<style>
+  /* Trust badges */
+  .trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted-foreground, #7D6B4F);
+    opacity: 0.7;
+  }
+
+  /* ── Gantt snapshot ── */
+  .hero-gantt-wrap {
+    opacity: 0;
+    animation: gantt-fade-in 0.8s ease-out 0.15s forwards;
+    /* Bleed off right edge */
+    margin-right: calc(-1 * (100vw - 100%));
+    overflow: hidden;
+  }
+
+  @keyframes gantt-fade-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-gantt-frame {
+    background: #FAF6F0;
+    border: 1px solid #E8DFD0;
+    border-radius: 12px 0 0 12px;
+    border-right: none;
+    box-shadow: 0 4px 24px #E8DFD040, 0 1px 4px #E8DFD060;
+    overflow: hidden;
+    font-family: var(--font-sans, system-ui, sans-serif);
+  }
+
+  /* Chrome bar */
+  .gantt-chrome {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: #F5EDE0;
+    border-bottom: 1px solid #E8DFD0;
+  }
+  .gantt-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .gantt-chrome-title {
+    margin-left: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #7D6B4F;
+  }
+
+  /* Metrics */
+  .gantt-metrics {
+    display: flex;
+    gap: 8px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #E8DFD0;
+  }
+  .gantt-met {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: #F5EDE0;
+  }
+  .gantt-met-n {
+    font-size: 16px;
+    font-weight: 500;
+    min-width: 16px;
+  }
+  .gantt-met-l {
+    font-size: 9px;
+    color: #7D6B4F;
+    line-height: 1.3;
+  }
+
+  /* Board */
+  .gantt-board {
+    --col-w: 80px;
+    position: relative;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  /* Phase header */
+  .gantt-phase-row {
+    display: flex;
+    height: 22px;
+    border-bottom: 1px solid #E8DFD0;
+    background: #F5EDE0;
+    position: relative;
+  }
+  .gantt-lane-hd {
+    width: 56px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #E8DFD0;
+    background: #F5EDE0;
+  }
+  .gantt-phase-label {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: calc(56px + 6px);
+    font-size: 9px;
+    font-weight: 500;
+    color: #7D6B4F;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .gantt-phase-label:not(:first-of-type) {
+    border-left: 1px dashed #E8DFD080;
+    padding-left: 6px;
+  }
+
+  .gantt-lane-name {
+    font-size: 10px;
+    font-weight: 500;
+    color: #2D2418;
+  }
+
+  /* Lanes */
+  .gantt-lane {
+    display: flex;
+    min-height: 56px;
+    border-bottom: 1px solid #E8DFD0;
+  }
+  .gantt-lane:last-of-type {
+    border-bottom: none;
+  }
+  .gantt-lane-track {
+    flex: 1;
+    position: relative;
+    min-height: 56px;
+    min-width: calc(8 * var(--col-w));
+  }
+
+  /* Gantt cards */
+  .gc {
+    position: absolute;
+    left: calc(var(--gc-col) * var(--col-w) + 4px);
+    top: 4px;
+    width: calc(var(--col-w) - 6px);
+    height: calc(100% - 8px);
+    border-radius: 6px;
+    padding: 4px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    font-size: 9px;
+    transition: opacity 0.4s, box-shadow 0.4s;
+    overflow: hidden;
+  }
+
+  .gc-human {
+    background: #FFFBF5;
+    border: 1px solid #E8DFD0;
+  }
+  .gc-agent {
+    background: #E8F5EC;
+    border: 1.5px solid #A8D5BA;
+    border-left: 3px solid #3A7D56;
+  }
+
+  .gc-done.gc-human {
+    background: #F5EDE0;
+  }
+  .gc-done.gc-agent {
+    background: #E8F5EC;
+  }
+
+  .gc-active {
+    animation: gantt-pulse-green 1.5s ease-in-out infinite;
+  }
+  @keyframes gantt-pulse-green {
+    0%, 100% { box-shadow: 0 0 0 0 transparent; }
+    50% { box-shadow: 0 0 0 3px rgba(58,125,86,0.2); }
+  }
+
+  .gc-pending {
+    border-color: #B8860B40;
+    opacity: 0.7;
+  }
+  .gc-waiting {
+    opacity: 0.25;
+  }
+
+  .gc-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .gc-icon svg {
+    width: 10px;
+    height: 10px;
+  }
+  .gc-icon-agent {
+    background: #3A7D56;
+  }
+  .gc-icon-human {
+    background: #D4A574;
+  }
+
+  .gc-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .gc-who {
+    font-size: 7px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: #7D6B4F;
+  }
+  .gc-agent .gc-who {
+    color: #3A7D56;
+  }
+  .gc-name {
+    font-size: 8px;
+    font-weight: 500;
+    color: #2D2418;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .gc-check {
+    position: absolute;
+    top: 2px;
+    right: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #E8F5EC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .gc-check svg {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Now cursor */
+  .gantt-cursor {
+    position: absolute;
+    top: 22px;
+    bottom: 0;
+    left: calc(56px + 5.8 * var(--col-w));
+    width: 2px;
+    background: #3A7D56;
+    opacity: 0.35;
+    border-radius: 1px;
+    pointer-events: none;
+  }
+
+  /* Bottom stat */
+  .gantt-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-top: 1px solid #E8DFD0;
+    font-size: 10px;
+    color: #7D6B4F;
+  }
+  .gantt-stat-bar {
+    width: 60px;
+    height: 4px;
+    border-radius: 2px;
+    background: #E8DFD0;
+    overflow: hidden;
+  }
+  .gantt-stat-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: #3A7D56;
+  }
+
+  /* Mobile: stack and show gantt below, still bleeds right */
+  @media (max-width: 767px) {
+    .hero-gantt-wrap {
+      margin-top: 2rem;
+      margin-right: -2rem;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-gantt-wrap {
+      opacity: 1;
+      animation: none;
+    }
+    .gc-active {
+      animation: none;
+    }
+  }
+</style>
 
 <script>
   import { drawHighlightStroke } from '../lib/marker-background.js';
@@ -46,9 +520,9 @@
     const cta = document.getElementById('hero-cta');
 
     const targets = [
-      { el: heading, angle: -0.5, thickScale: 1.8, overshootRight: 0.08, anchor: 'bottom' },
-      { el: subtext, angle: 1.0, thickScale: 1.8, overshootRight: 0.14, anchor: 'center' },
-      { el: cta, angle: -0.6, thickScale: 2.5, overshootRight: 0.04, anchor: 'top' },
+      { el: heading, angle: -0.5, thickScale: 1.8, maxThick: 280, overshootRight: 0.08, anchor: 'bottom' },
+      { el: subtext, angle: 1.0, thickScale: 1.8, maxThick: 120, overshootRight: 0.14, anchor: 'center' },
+      { el: cta, angle: -0.6, thickScale: 4.0, maxThick: 220, overshootRight: 0.04, anchor: 'top' },
     ];
 
     return targets.map((t, i) => {
@@ -56,7 +530,7 @@
       const rect = t.el.getBoundingClientRect();
       const x = rect.left - sectionRect.left;
       const y = rect.top - sectionRect.top;
-      const thickness = rect.height * t.thickScale;
+      const thickness = Math.min(rect.height * t.thickScale, t.maxThick);
       // Anchor: 'bottom' grows upward from below element, 'top' grows downward from above element
       let cy;
       if (t.anchor === 'bottom') {

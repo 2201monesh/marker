@@ -137,8 +137,7 @@ const steps: Step[] = [
 ];
 ---
 
-<div class="molding-divider molding-divider-flip" aria-hidden="true"></div>
-<section class="relative bg-muted bg-paper py-24 md:py-32 overflow-hidden section-inset-soft" aria-labelledby="workflow-heading">
+<section class="relative py-24 md:py-32 overflow-hidden" aria-labelledby="workflow-heading">
   <div class="mx-auto max-w-7xl px-8">
     <div class="max-w-2xl mb-12">
       <h2 id="workflow-heading" class="ink-reveal text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
@@ -146,9 +145,14 @@ const steps: Step[] = [
         <span class="text-primary">Marker runs them.</span>
       </h2>
       <p class="ink-reveal mt-5 text-muted-foreground md:text-lg leading-relaxed" style="--reveal-delay: 100">
-        Every organization is different. You define the triggers, connections, gates, and handoffs — Marker executes them around the clock. No two workflows are the same, and that's the point.
+
+        Every organization is different. You define the triggers, connections, gates, and handoffs — Marker executes them around the clock.
       </p>
     </div>
+  </div>
+
+  <div class="mx-auto max-w-7xl px-8 mb-4">
+    <span class="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground/60">Example: Seasonal Fabric Data Collection</span>
   </div>
 
   <!-- Horizontal scrolling workflow strip -->
@@ -227,7 +231,6 @@ const steps: Step[] = [
   <!-- Subtle dot-grid background overlay -->
   <div class="workflow-dot-grid" aria-hidden="true"></div>
 </section>
-<div class="molding-divider" aria-hidden="true"></div>
 
 <style>
   /* Dot-grid background — matches the demo builder canvas */
