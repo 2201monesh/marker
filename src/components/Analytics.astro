@@ -75,16 +75,24 @@ const allowedHosts = ['onmarker.com', 'www.onmarker.com'];
           }
         });
 
-        // Log debug info in non-production environments
+        // Log debug info once Amplitude has fully initialized
         if (isDebug) {
-          console.log(
-            '%c[Amplitude Debug]',
-            'color: #7c3aed; font-weight: bold;',
-            '\n  Environment:', env,
-            '\n  Device ID:', window.amplitude.getDeviceId(),
-            '\n  Session ID:', window.amplitude.getSessionId(),
-            '\n  User ID:', window.amplitude.getUserId() || '(anonymous)'
-          );
+          var debugPoll = setInterval(function() {
+            var deviceId = window.amplitude.getDeviceId();
+            if (deviceId) {
+              clearInterval(debugPoll);
+              console.log(
+                '%c[Amplitude Debug]',
+                'color: #7c3aed; font-weight: bold;',
+                '\n  Environment:', env,
+                '\n  Device ID:', deviceId,
+                '\n  Session ID:', window.amplitude.getSessionId(),
+                '\n  User ID:', window.amplitude.getUserId() || '(anonymous)'
+              );
+            }
+          }, 200);
+          // Stop polling after 10s to avoid leaking
+          setTimeout(function() { clearInterval(debugPoll); }, 10000);
         }
       };
       document.head.appendChild(s);
