@@ -9,8 +9,8 @@ const emailSchema = z.string().email("Please enter a valid email address");
 
 const COLORS = ['#e8dcc8', '#dfd3bc', '#ede2d0'];
 const STROKES = [
-  { yPct: 0.38, angle:  0.8, thickPct: 0.38 },
-  { yPct: 0.62, angle: -0.6, thickPct: 0.36 },
+  { yPct: 0.38, angle:  0.8, thickPct: 0.38, direction: 1 as const },   // left → right
+  { yPct: 0.62, angle: -0.6, thickPct: 0.36, direction: -1 as const },  // right → left
 ];
 
 export default function NewsletterForm() {
@@ -21,23 +21,9 @@ export default function NewsletterForm() {
   const [error, setError] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const hasAnimatedRef = useRef(false);
 
-  const renderStrokes = useCallback(() => {
-    const canvas = canvasRef.current;
-    const section = sectionRef.current;
-    if (!canvas || !section) return;
-
-    const dpr = window.devicePixelRatio || 1;
-    const W = section.clientWidth;
-    const H = section.clientHeight;
-
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    const ctx = canvas.getContext('2d')!;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, W, H);
-
-    // Measure the centered content container
+  function getStrokeLayout(section: HTMLElement, W: number, H: number) {
     const content = section.querySelector('.max-w-lg') as HTMLElement;
     const sectionRect = section.getBoundingClientRect();
     let contentLeft = 0;
@@ -49,31 +35,147 @@ export default function NewsletterForm() {
     }
     const overshoot = (contentRight - contentLeft) * 0.08;
 
-    STROKES.forEach((s, i) => {
+    return STROKES.map((s, i) => {
       const cy = H * s.yPct;
       const angleRad = s.angle * (Math.PI / 180);
       const sx = contentLeft - overshoot;
       const ex = contentRight + overshoot;
       const strokeLen = ex - sx;
       const rise = Math.sin(angleRad) * strokeLen * 0.5;
-
-      drawHighlightStroke(ctx, {
-        sx,
-        sy: cy - rise,
-        ex,
-        ey: cy + rise,
+      return {
+        sx, sy: cy - rise, ex, ey: cy + rise,
         color: COLORS[i % COLORS.length],
         thickness: H * s.thickPct,
         opacity: 0.13,
-      });
+        direction: s.direction,
+      };
     });
+  }
+
+  // Instant render (resize / reduced motion)
+  const renderFull = useCallback(() => {
+    const canvas = canvasRef.current;
+    const section = sectionRef.current;
+    if (!canvas || !section) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const W = section.clientWidth;
+    const H = section.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext('2d')!;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+
+    getStrokeLayout(section, W, H).forEach(p => drawHighlightStroke(ctx, p));
+  }, []);
+
+  // Animated draw-in triggered by IntersectionObserver
+  const renderAnimated = useCallback(() => {
+    const canvas = canvasRef.current;
+    const section = sectionRef.current;
+    if (!canvas || !section) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const W = section.clientWidth;
+    const H = section.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext('2d')!;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const params = getStrokeLayout(section, W, H);
+
+    // Each stroke on its own offscreen canvas
+    const offscreens = params.map(p => {
+      const off = document.createElement('canvas');
+      off.width = canvas.width;
+      off.height = canvas.height;
+      const octx = off.getContext('2d')!;
+      octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawHighlightStroke(octx, p);
+      return off;
+    });
+
+    const DURATION = 850;
+    const STAGGER = 120;
+    const startTime = performance.now();
+
+    function ease(t: number) {
+      return t < 0.15 ? t * t / 0.15 : 1 - Math.pow(1 - t, 2.5);
+    }
+
+    function animate(now: number) {
+      ctx.clearRect(0, 0, W, H);
+      let allDone = true;
+
+      params.forEach((p, i) => {
+        const elapsed = now - startTime - i * STAGGER;
+        if (elapsed <= 0) { allDone = false; return; }
+        const t = Math.min(1, elapsed / DURATION);
+        if (t < 1) allDone = false;
+        const eased = ease(t);
+
+        const strokeWidth = p.ex - p.sx;
+        const revealWidth = strokeWidth * eased;
+        if (revealWidth <= 0) return;
+
+        ctx.save();
+        ctx.beginPath();
+        if (p.direction === 1) {
+          // Left to right
+          ctx.rect(p.sx - 2, 0, revealWidth + 4, H);
+        } else {
+          // Right to left
+          ctx.rect(p.ex - revealWidth - 2, 0, revealWidth + 4, H);
+        }
+        ctx.clip();
+        ctx.drawImage(offscreens[i], 0, 0, offscreens[i].width, offscreens[i].height, 0, 0, W, H);
+        ctx.restore();
+      });
+
+      if (!allDone) {
+        requestAnimationFrame(animate);
+      }
+    }
+
+    requestAnimationFrame(animate);
   }, []);
 
   useEffect(() => {
-    renderStrokes();
-    window.addEventListener('resize', renderStrokes);
-    return () => window.removeEventListener('resize', renderStrokes);
-  }, [renderStrokes]);
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReduced) {
+      renderFull();
+    } else {
+      // Trigger animation when section scrolls into view
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !hasAnimatedRef.current) {
+              hasAnimatedRef.current = true;
+              renderAnimated();
+              observer.unobserve(section);
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+      observer.observe(section);
+
+      return () => observer.disconnect();
+    }
+  }, [renderFull, renderAnimated]);
+
+  useEffect(() => {
+    // On resize, just re-render fully (no re-animation)
+    const onResize = () => { if (hasAnimatedRef.current) renderFull(); };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [renderFull]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

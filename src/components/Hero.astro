@@ -48,14 +48,32 @@
 
   const COLORS = ['#e8dcc8', '#dfd3bc', '#ede2d0'];
 
-  // Each stroke: y position, angle, thickness, x start/end (% of width)
   const STROKES = [
     { yPct: 0.20, angle: -0.5, thickPct: 0.30, x0: -0.05, x1: 0.68 },
     { yPct: 0.48, angle:  1.3, thickPct: 0.32, x0: -0.05, x1: 0.72 },
     { yPct: 0.78, angle: -0.8, thickPct: 0.30, x0: -0.05, x1: 0.65 },
   ];
 
-  function render() {
+  function getStrokeParams(W: number, H: number) {
+    return STROKES.map((s, i) => {
+      const cy = H * s.yPct;
+      const angleRad = s.angle * (Math.PI / 180);
+      const sx = W * s.x0;
+      const ex = W * s.x1;
+      const strokeLen = ex - sx;
+      const rise = Math.sin(angleRad) * strokeLen * 0.5;
+      return {
+        sx, sy: cy - rise, ex, ey: cy + rise,
+        color: COLORS[i % COLORS.length],
+        thickness: H * s.thickPct,
+        opacity: 0.13,
+        cy, halfClip: H * s.thickPct * 0.8,
+      };
+    });
+  }
+
+  // Instant render (used on resize and when motion is reduced)
+  function renderFull() {
     const canvas = document.getElementById('hero-marker-canvas') as HTMLCanvasElement;
     const section = canvas?.closest('section');
     if (!canvas || !section) return;
@@ -63,33 +81,89 @@
     const dpr = window.devicePixelRatio || 1;
     const W = section.clientWidth;
     const H = section.clientHeight;
-
     canvas.width = W * dpr;
     canvas.height = H * dpr;
     const ctx = canvas.getContext('2d')!;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
 
-    STROKES.forEach((s, i) => {
-      const cy = H * s.yPct;
-      const angleRad = s.angle * (Math.PI / 180);
-      const sx = W * s.x0;
-      const ex = W * s.x1;
-      const strokeLen = ex - sx;
-      const rise = Math.sin(angleRad) * strokeLen * 0.5;
-
-      drawHighlightStroke(ctx, {
-        sx,
-        sy: cy - rise,
-        ex,
-        ey: cy + rise,
-        color: COLORS[i % COLORS.length],
-        thickness: H * s.thickPct,
-        opacity: 0.13,
-      });
-    });
+    getStrokeParams(W, H).forEach(p => drawHighlightStroke(ctx, p));
   }
 
-  render();
-  window.addEventListener('resize', render);
+  // Animated draw-in: strokes reveal left-to-right like a hand drawing them
+  function renderAnimated() {
+    const canvas = document.getElementById('hero-marker-canvas') as HTMLCanvasElement;
+    const section = canvas?.closest('section');
+    if (!canvas || !section) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const W = section.clientWidth;
+    const H = section.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext('2d')!;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const params = getStrokeParams(W, H);
+
+    // Render each stroke to its own offscreen canvas (prevents vertical overlap bleed)
+    const offscreens = params.map(p => {
+      const off = document.createElement('canvas');
+      off.width = canvas.width;
+      off.height = canvas.height;
+      const octx = off.getContext('2d')!;
+      octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawHighlightStroke(octx, p);
+      return off;
+    });
+
+    const DURATION = 850;
+    const STAGGER = 160;
+    const INITIAL_DELAY = 150;
+    const startTime = performance.now() + INITIAL_DELAY;
+
+    function ease(t: number) {
+      return t < 0.15
+        ? t * t / 0.15
+        : 1 - Math.pow(1 - t, 2.5);
+    }
+
+    function animate(now: number) {
+      ctx.clearRect(0, 0, W, H);
+      let allDone = true;
+
+      params.forEach((p, i) => {
+        const elapsed = now - startTime - i * STAGGER;
+        if (elapsed <= 0) { allDone = false; return; }
+        const t = Math.min(1, elapsed / DURATION);
+        if (t < 1) allDone = false;
+        const eased = ease(t);
+
+        const revealWidth = (p.ex - p.sx) * eased;
+        if (revealWidth <= 0) return;
+
+        // Horizontal clip — each stroke is on its own canvas, no vertical bleed
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(p.sx - 2, 0, revealWidth + 4, H);
+        ctx.clip();
+        ctx.drawImage(offscreens[i], 0, 0, offscreens[i].width, offscreens[i].height, 0, 0, W, H);
+        ctx.restore();
+      });
+
+      if (!allDone) {
+        requestAnimationFrame(animate);
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    renderFull();
+  } else {
+    renderAnimated();
+  }
+  window.addEventListener('resize', renderFull);
 </script>

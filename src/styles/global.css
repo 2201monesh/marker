@@ -537,6 +537,26 @@
     0 2px 4px rgba(45, 36, 24, 0.08);
 }
 
+/* ─── Scroll reveal — gentle fade ────────────────────────────────────────── */
+/* Elements start transparent; IntersectionObserver adds .is-visible. */
+
+.ink-reveal {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  transition-delay: calc(var(--reveal-delay, 0) * 1ms);
+}
+
+.ink-reveal.is-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-reveal {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}
+
 /* Footer divider — 3D molding style top border */
 .footer-molding {
   border-top: 1px solid rgba(45, 36, 24, 0.1);
