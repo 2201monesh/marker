@@ -19,11 +19,6 @@ function hexToRgb(h) {
 function lerp(a, b, t) { return a + (b - a) * t; }
 function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 
-// Chisel tip angle — subtle tilt from perpendicular
-const CHISEL_ANGLE = 18 * (Math.PI / 180);
-const CHISEL_COS = Math.cos(CHISEL_ANGLE);
-const CHISEL_SIN = Math.sin(CHISEL_ANGLE);
-
 function getNormal(pts, i) {
   let dx, dy;
   if (i < pts.length - 1) {
@@ -34,13 +29,7 @@ function getNormal(pts, i) {
     dy = pts[i].y - pts[i - 1].y;
   }
   const len = Math.sqrt(dx * dx + dy * dy) || 1;
-  const nx = -dy / len;
-  const ny = dx / len;
-  // Rotate the normal by the chisel angle
-  return {
-    x: nx * CHISEL_COS - ny * CHISEL_SIN,
-    y: nx * CHISEL_SIN + ny * CHISEL_COS,
-  };
+  return { x: -dy / len, y: dx / len };
 }
 
 function generatePath(sx, sy, ex, ey) {
@@ -61,17 +50,16 @@ function generatePath(sx, sy, ex, ey) {
   return pts;
 }
 
-function generateEdge(pts, halfWidth, side) {
+function generateEdge(pts, halfWidth, side, trimStart, trimEnd) {
+  // trimStart/trimEnd: how many path points to cut from each end of this edge
   const edge = [];
   let notch = 0;
   let hold = 0;
-  for (let i = 0; i < pts.length; i++) {
+  const iStart = trimStart;
+  const iEnd = pts.length - 1 - trimEnd;
+  for (let i = iStart; i <= iEnd; i++) {
     const t = i / (pts.length - 1);
-    // Chisel tip: full width almost immediately, blunt ends
-    let pressure;
-    if (t < 0.01) pressure = lerp(0.92, 1, t / 0.01);
-    else if (t > 0.99) pressure = lerp(1, 0.92, (t - 0.99) / 0.01);
-    else pressure = 1;
+    let pressure = 1;
 
     // Rougher edge — more frequent notches, larger jumps
     if (hold <= 0) {
@@ -97,8 +85,9 @@ function generateEdge(pts, halfWidth, side) {
 function drawMarkerStroke(ctx, pts, color, width, masterAlpha) {
   const [cr, cg, cb] = hexToRgb(color);
   const hw = width * 0.5;
-  const topEdge = generateEdge(pts, hw, 1);
-  const botEdge = generateEdge(pts, hw, -1);
+  // Top edge is shorter — diagonal chisel cut at each cap
+  const topEdge = generateEdge(pts, hw, 1, 3, 2);
+  const botEdge = generateEdge(pts, hw, -1, 0, 0);
 
   // Solid filled body — dense, fully saturated
   ctx.save();
@@ -126,54 +115,6 @@ function drawMarkerStroke(ctx, pts, color, width, masterAlpha) {
     ctx.restore();
   }
 
-  // Chisel end caps — uneven segments like nib fibers terminating
-  for (const end of [0, 1]) {
-    const idx = end === 0 ? 0 : pts.length - 1;
-    const p = pts[idx];
-    const n = getNormal(pts, idx);
-    // Direction along the stroke (for offsetting segments forward/back)
-    let dx, dy;
-    if (end === 0) {
-      dx = pts[1].x - pts[0].x;
-      dy = pts[1].y - pts[0].y;
-    } else {
-      dx = pts[pts.length - 1].x - pts[pts.length - 2].x;
-      dy = pts[pts.length - 1].y - pts[pts.length - 2].y;
-    }
-    const dLen = Math.sqrt(dx * dx + dy * dy) || 1;
-    const tx = dx / dLen;
-    const ty = dy / dLen;
-
-    // Split the cap into 4-6 segments, each offset slightly along stroke direction
-    const segments = randInt(4, 7);
-    ctx.save();
-    ctx.globalAlpha = masterAlpha;
-    ctx.fillStyle = `rgb(${cr},${cg},${cb})`;
-    for (let s = 0; s < segments; s++) {
-      const t0 = s / segments;
-      const t1 = (s + 1) / segments;
-      // Each segment juts out a slightly different amount
-      const jut = rand(-2.5, 2.5) * (end === 0 ? -1 : 1);
-      const y0x = p.x + n.x * lerp(hw, -hw, t0) + tx * jut;
-      const y0y = p.y + n.y * lerp(hw, -hw, t0) + ty * jut;
-      const y1x = p.x + n.x * lerp(hw, -hw, t1) + tx * jut;
-      const y1y = p.y + n.y * lerp(hw, -hw, t1) + ty * jut;
-      // Draw a small rect from the base cap line to the jutted position
-      const baseJut = 0;
-      const b0x = p.x + n.x * lerp(hw, -hw, t0) + tx * baseJut;
-      const b0y = p.y + n.y * lerp(hw, -hw, t0) + ty * baseJut;
-      const b1x = p.x + n.x * lerp(hw, -hw, t1) + tx * baseJut;
-      const b1y = p.y + n.y * lerp(hw, -hw, t1) + ty * baseJut;
-      ctx.beginPath();
-      ctx.moveTo(b0x, b0y);
-      ctx.lineTo(y0x, y0y);
-      ctx.lineTo(y1x, y1y);
-      ctx.lineTo(b1x, b1y);
-      ctx.closePath();
-      ctx.fill();
-    }
-    ctx.restore();
-  }
 }
 
 function addPaperTexture(ctx, w, h) {

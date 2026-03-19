@@ -15,12 +15,12 @@
         <br />
         <span class="text-primary"><span data-marker-line>supply chain coordinator</span></span>
       </h1>
-      <p class="mt-8 text-lg text-muted-foreground md:text-xl leading-relaxed">
+      <p id="hero-subtext" class="mt-10 mb-2 text-lg text-muted-foreground md:text-xl leading-relaxed">
         Marker is an AI-powered orchestrator that keeps things moving before
         you have to. It syncs data across your systems, tracks handoffs and
         deadlines, and moves work forward autonomously.
       </p>
-      <div class="mt-12 flex flex-wrap items-center gap-6">
+      <div id="hero-cta" class="mt-10 flex flex-wrap items-center gap-6">
         <a
           href="https://info.onmarker.com/book-a-demo"
           class="btn-molding btn-molding-flip inline-flex h-12 items-center justify-center px-10 text-sm font-extrabold uppercase tracking-[0.08em] text-primary transition-colors hover:text-primary/80 cursor-pointer"
@@ -38,28 +38,47 @@
 
   const COLORS = ['#e8d4b8', '#dfc8a8', '#edd5b5'];
 
-  const STROKES = [
-    { yPct: 0.20, angle: -0.5, thickPct: 0.30, x0: -0.05, x1: 0.68 },
-    { yPct: 0.48, angle:  1.3, thickPct: 0.38, x0: -0.05, x1: 0.72 },
-    { yPct: 0.78, angle: -0.8, thickPct: 0.30, x0: -0.05, x1: 0.65 },
-  ];
+  function getStrokeParams(section: HTMLElement) {
+    const sectionRect = section.getBoundingClientRect();
+    const W = section.clientWidth;
+    const heading = document.getElementById('hero-heading');
+    const subtext = document.getElementById('hero-subtext');
+    const cta = document.getElementById('hero-cta');
 
-  function getStrokeParams(W: number, H: number) {
-    return STROKES.map((s, i) => {
-      const cy = H * s.yPct;
-      const angleRad = s.angle * (Math.PI / 180);
-      const sx = W * s.x0;
-      const ex = W * s.x1;
+    const targets = [
+      { el: heading, angle: -0.5, thickScale: 1.8, overshootRight: 0.08, anchor: 'bottom' },
+      { el: subtext, angle: 1.0, thickScale: 1.8, overshootRight: 0.14, anchor: 'center' },
+      { el: cta, angle: -0.6, thickScale: 2.5, overshootRight: 0.04, anchor: 'top' },
+    ];
+
+    return targets.map((t, i) => {
+      if (!t.el) return null;
+      const rect = t.el.getBoundingClientRect();
+      const x = rect.left - sectionRect.left;
+      const y = rect.top - sectionRect.top;
+      const thickness = rect.height * t.thickScale;
+      // Anchor: 'bottom' grows upward from below element, 'top' grows downward from above element
+      let cy;
+      if (t.anchor === 'bottom') {
+        cy = y + rect.height - thickness * 0.5 + 30;
+      } else if (t.anchor === 'top') {
+        cy = y + thickness * 0.5 - 30;
+      } else {
+        cy = y + rect.height * 0.5;
+      }
+      const angleRad = t.angle * (Math.PI / 180);
+      const sx = -sectionRect.left - 20;
+      const ex = x + rect.width + rect.width * t.overshootRight;
       const strokeLen = ex - sx;
       const rise = Math.sin(angleRad) * strokeLen * 0.5;
+
       return {
         sx, sy: cy - rise, ex, ey: cy + rise,
         color: COLORS[i % COLORS.length],
-        thickness: H * s.thickPct,
-        opacity: 0.17,
-        cy, halfClip: H * s.thickPct * 0.8,
+        thickness,
+        opacity: 0.15,
       };
-    });
+    }).filter(Boolean);
   }
 
   // Instant render (used on resize and when motion is reduced)
@@ -77,7 +96,7 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
 
-    getStrokeParams(W, H).forEach(p => drawHighlightStroke(ctx, p));
+    getStrokeParams(section).forEach(p => drawHighlightStroke(ctx, p));
   }
 
   // Animated draw-in: strokes reveal left-to-right like a hand drawing them
@@ -94,7 +113,7 @@
     const ctx = canvas.getContext('2d')!;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    const params = getStrokeParams(W, H);
+    const params = getStrokeParams(section);
 
     // Render each stroke to its own offscreen canvas (prevents vertical overlap bleed)
     const offscreens = params.map(p => {
