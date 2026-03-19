@@ -56,7 +56,7 @@ const allowedHosts = ['onmarker.com', 'www.onmarker.com'];
         var isDebug = env !== 'production';
         window.amplitude.init('f5e0953df77a321bb7647f2268a9ed7b', {
           fetchRemoteConfig: true,
-          logLevel: isDebug ? 3 : 0, // 3 = DEBUG, 0 = NONE
+          logLevel: 0, // keep console clean; our custom [Amplitude Debug] log is enough
           autocapture: {
             attribution: true,
             fileDownloads: true,
