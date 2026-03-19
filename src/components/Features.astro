@@ -5,23 +5,26 @@ const features = [
     description:
       "Connects the tools you already use — ERPs, PLM, spreadsheets, instant messengers, email — and keeps data in sync automatically. No more copy-paste.",
     icon: "M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244",
+    color: "accent" as const,
   },
   {
     title: "Tracks Handoffs and Deadlines",
     description:
       "Knows what's due, who's responsible, and what's stalled. Surfaces issues before they become delays — no status meetings required.",
     icon: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z",
+    color: "accent" as const,
   },
   {
     title: "Moves Work Forward Autonomously",
     description:
       "Marker acts before you have to. It nudges the right people, triggers the next step, and keeps your supply chain moving around the clock.",
     icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z",
+    color: "accent" as const,
   },
 ];
 ---
 
-<section class="relative py-24 md:py-32" aria-labelledby="features-heading">
+<section class="relative py-24 md:py-32 wash-kumquat-tr" aria-labelledby="features-heading">
   <div class="mx-auto max-w-7xl px-8">
     <h2 id="features-heading" class="text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
       What Marker does for you
@@ -29,8 +32,8 @@ const features = [
     <div class="mt-12 grid gap-8 md:grid-cols-3">
       {features.map((feature) => (
         <div class="card-raised group relative rounded-xl bg-background p-7 transition-all duration-300 hover:-translate-y-1">
-          <div class="badge-raised mb-4 flex h-10 w-10 items-center justify-center rounded-lg" style="background: rgba(58,125,86,0.08);">
-            <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <div class="badge-raised mb-4 flex h-10 w-10 items-center justify-center rounded-lg" style="background: rgba(196,122,52,0.1);">
+            <svg class="h-5 w-5 text-accent-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d={feature.icon} />
             </svg>
           </div>

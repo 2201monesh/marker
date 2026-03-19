@@ -21,7 +21,7 @@ const steps = [
 ];
 ---
 
-<section class="relative bg-muted bg-linen-strong py-24 md:py-32 section-inset" aria-labelledby="how-it-works-heading">
+<section class="relative bg-muted bg-paper-strong py-24 md:py-32 section-inset" aria-labelledby="how-it-works-heading">
   <div class="mx-auto max-w-7xl px-8">
     <h2 id="how-it-works-heading" class="text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
       How it works
@@ -29,7 +29,7 @@ const steps = [
     <div class="mt-12 grid gap-10 md:grid-cols-3">
       {steps.map((step) => (
         <div class="flex flex-col">
-          <div class="circle-raised flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+          <div class="circle-raised flex h-10 w-10 items-center justify-center rounded-full bg-accent-light text-sm font-bold text-accent-light-foreground">
             {step.number}
           </div>
           <h3 class="mt-4 text-lg font-semibold text-foreground">{step.title}</h3>

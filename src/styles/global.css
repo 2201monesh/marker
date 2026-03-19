@@ -5,12 +5,16 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
 
-  /* Botanical-inspired palette — calm off-whites, sage greens, warm ochre */
-  --color-background: #FAF6F0;
+  /* Botanical-inspired palette — bright cream, sage greens, warm kumquat */
+  --color-background: #FDFAF5;
   --color-foreground: #2D2418;
   --color-primary: #3A7D56;
   --color-primary-foreground: #ffffff;
-  --color-muted: #F3EDE3;
+  --color-accent: #9A5F2E;
+  --color-accent-foreground: #ffffff;
+  --color-accent-light: #C47A34;
+  --color-accent-light-foreground: #ffffff;
+  --color-muted: #F5F0E8;
   --color-muted-foreground: #6B5638;
   --color-border: #DDD2C0;
   --color-ring: #3A7D56;
@@ -62,40 +66,24 @@
 }
 
 /* ─── Fine-line molding divider ───────────────────────────────────────────── */
-/* CSS-only 3D architectural molding effect between sections */
+/* Single-ridge 3D molding — similar weight to nav molding bottom edge */
 .molding-divider {
   position: relative;
-  height: 11px;
+  height: 4px;
   width: 100%;
 }
 
-.molding-divider::before,
-.molding-divider::after {
+.molding-divider::before {
   content: "";
   position: absolute;
+  top: 0;
   left: 0;
   right: 0;
-}
-
-/* Top ridge — catches light */
-.molding-divider::before {
-  top: 0;
   height: 1px;
-  background: rgba(221, 210, 192, 0.7);
+  background: rgba(45, 36, 24, 0.1);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.6),
-    0 2px 0 rgba(221, 210, 192, 0.3);
-}
-
-/* Bottom channel — shadow depth */
-.molding-divider::after {
-  top: 5px;
-  height: 1px;
-  background: rgba(184, 168, 140, 0.5);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.5),
-    0 2px 0 rgba(221, 210, 192, 0.2),
-    0 4px 0 rgba(221, 210, 192, 0.1);
+    0 1px 0 rgba(255, 255, 255, 0.4),
+    0 2px 0 rgba(45, 36, 24, 0.06);
 }
 
 /* ─── Recessed section — inset shadow ─────────────────────────────────────── */
@@ -117,6 +105,14 @@
     /* soft inset shadow from bottom */
     inset 0 -12px 20px -8px rgba(45, 36, 24, 0.15),
     inset 0 -4px 6px -4px rgba(45, 36, 24, 0.1);
+}
+
+/* Lighter inset — just enough shadow to ease the background transition
+   without the hard beveled-channel look of .section-inset */
+.section-inset-soft {
+  box-shadow:
+    inset 0 8px 16px -8px rgba(45, 36, 24, 0.08),
+    inset 0 -8px 16px -8px rgba(45, 36, 24, 0.08);
 }
 
 /* ─── Linen / canvas weave texture ────────────────────────────────────────── */
@@ -155,6 +151,33 @@
       transparent 7px,
       rgba(170, 155, 130, 0.09) 7px,
       rgba(170, 155, 130, 0.09) 8px
+    );
+}
+
+/* ─── Paper texture ──────────────────────────────────────────────────────── */
+/* Faint horizontal ruled lines — wide spacing like premium stationery.
+   Leans into the Marker/paper motif without competing with content. */
+
+.bg-paper {
+  background-image:
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 39px,
+      rgba(170, 155, 130, 0.04) 39px,
+      rgba(170, 155, 130, 0.04) 40px
+    );
+}
+
+/* Slightly more visible variant */
+.bg-paper-strong {
+  background-image:
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 39px,
+      rgba(170, 155, 130, 0.06) 39px,
+      rgba(170, 155, 130, 0.06) 40px
     );
 }
 
@@ -260,33 +283,87 @@
     );
 }
 
+.wash-kumquat-tr {
+  background-image:
+    radial-gradient(
+      ellipse 40% 45% at 82% 10%,
+      rgba(196, 122, 52, 0.04) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 28% 35% at 72% 20%,
+      rgba(196, 122, 52, 0.03) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 45% 28% at 90% 5%,
+      rgba(196, 122, 52, 0.02) 0%,
+      transparent 55%
+    );
+}
+
 /* ─── 3D raised elements ──────────────────────────────────────────────────── */
 /* Buttons, cards, badges — light top edge, dark bottom edge, subtle lift */
 
-/* Raised button — molding curvature: soft light gradate on top,
-   soft shadow gradate on bottom, like a rounded physical surface */
-.btn-raised {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow:
-    /* top edge catching light — blurred so it reads as curvature */
-    inset 0 1px 3px rgba(255, 255, 255, 0.12),
-    /* bottom edge falling into shadow */
-    inset 0 -1px 3px rgba(0, 0, 0, 0.1),
-    /* grounding shadow below */
-    0 1px 3px rgba(0, 0, 0, 0.1);
+/* ─── Button variant A: Letterpress ──────────────────────────────────────── */
+/* Uppercase tracking, debossed text, subtle gradient like dyed cardstock,
+   noise texture, reduced radius */
+.btn-a {
+  position: relative;
+  isolation: isolate;
+  border: none;
+  border-radius: 0.25rem;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background: linear-gradient(135deg, #3A7D56 0%, #3D8259 50%, #357950 100%);
 }
 
-.btn-raised:hover {
-  box-shadow:
-    inset 0 1px 3px rgba(255, 255, 255, 0.14),
-    inset 0 -1px 3px rgba(0, 0, 0, 0.12),
-    0 2px 5px rgba(0, 0, 0, 0.12);
+.btn-a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
 }
 
-.btn-raised:active {
+.btn-a:hover {
+  background: linear-gradient(135deg, #3D8259 0%, #408C5E 50%, #3A7D56 100%);
+}
+
+/* ─── Button variant B: Framed invitation ───────────────────────────────── */
+/* Cream fill, green text, double-rule frame like an engraved invitation */
+/* Uses box-shadow for the outer rule so it matches the inner border-radius */
+.btn-b {
+  border: 1.5px solid rgba(58, 125, 86, 0.4);
+  border-radius: 0.125rem;
+  box-shadow: 0 0 0 4px #FBF7F0, 0 0 0 5.5px rgba(58, 125, 86, 0.15);
+}
+
+.btn-b:hover {
+  border-color: rgba(58, 125, 86, 0.55);
+  box-shadow: 0 0 0 4px #FBF7F0, 0 0 0 5.5px rgba(58, 125, 86, 0.25);
+}
+
+/* ─── Button variant C: Engraved ────────────────────────────────────────── */
+/* Green fill, uppercase, inset double-rule frame, letterpress text */
+.btn-c {
+  position: relative;
+  border: none;
+  border-radius: 0.25rem;
   box-shadow:
-    inset 0 1px 4px rgba(0, 0, 0, 0.12),
-    inset 0 -1px 2px rgba(255, 255, 255, 0.05);
+    inset 0 0 0 1.5px rgba(255, 255, 255, 0.18),
+    inset 0 0 0 3.5px rgba(0, 0, 0, 0.06),
+    inset 0 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.btn-c:hover {
+  box-shadow:
+    inset 0 0 0 1.5px rgba(255, 255, 255, 0.25),
+    inset 0 0 0 3.5px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 5px rgba(255, 255, 255, 0.14);
 }
 
 /* Raised outline button — for secondary actions */
