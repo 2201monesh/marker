@@ -1,9 +1,12 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { CALENDAR_HTML } from "./calendarHtml";
+import { ALL_WORKFLOWS } from "./workflowData";
+import { PERSONAS, DEFAULT_PERSONA_ID } from "./personaData";
+import type { PersonaDef } from "./personaData";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-interface StepDef {
+export interface StepDef {
   type: "system_read" | "reasoning" | "data_pull" | "human_input" | "result";
   label: string;
   detail: string;
@@ -16,7 +19,7 @@ interface StepDef {
   approvalButtons?: [string, string];
 }
 
-interface ScenarioDef {
+export interface ScenarioDef {
   id: string;
   title: string;
   subtitle: string;
@@ -1486,21 +1489,31 @@ function AgentAvatar() {
   );
 }
 
-/** The "R" avatar for Richard's messages */
-function UserAvatar() {
+/** User avatar for chat messages — uses first letter of active persona name */
+function UserAvatar({ initial = "R" }: { initial?: string }) {
   return (
     <div
       className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 mt-0.5"
       style={{ background: C.brown }}
     >
-      R
+      {initial}
     </div>
   );
 }
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
+// ─── Workflow lookup by ID ────────────────────────────────────────────────────
+
+const WORKFLOW_BY_ID: Record<string, ScenarioDef> = {};
+// Include the original hardcoded scenarios
+for (const s of SCENARIOS) WORKFLOW_BY_ID[s.id] = s;
+// Include all workflows from the registry (registry wins on collisions)
+for (const w of ALL_WORKFLOWS) WORKFLOW_BY_ID[w.id] = w;
+
 export default function AgentDemo() {
+  const [activePersonaId, setActivePersonaId] = useState(DEFAULT_PERSONA_ID);
+  const [personaDropdownOpen, setPersonaDropdownOpen] = useState(false);
   const [activeView, setActiveView] = useState<"chat" | "workflows" | "calendars" | "workflow-builder">("chat");
   const [builderWorkflowId, setBuilderWorkflowId] = useState<string | null>(null);
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
@@ -1508,6 +1521,20 @@ export default function AgentDemo() {
   const [automatedCollapsed, setAutomatedCollapsed] = useState(true);
   const [selectedScenario, setSelectedScenario] = useState<ScenarioDef | null>(
     null
+  );
+
+  const activePersona = useMemo(
+    () => PERSONAS.find((p) => p.id === activePersonaId) ?? PERSONAS[0],
+    [activePersonaId]
+  );
+
+  // Resolve the persona's workflow IDs into full ScenarioDef objects
+  const personaWorkflows = useMemo(
+    () =>
+      activePersona.prebuiltWorkflowIds
+        .map((id) => WORKFLOW_BY_ID[id])
+        .filter(Boolean),
+    [activePersona]
   );
   const [visibleSteps, setVisibleSteps] = useState<number>(0);
   const [currentStepDone, setCurrentStepDone] = useState(false);
@@ -1773,19 +1800,89 @@ export default function AgentDemo() {
         }}
       >
         <MarkerLogo />
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3 relative">
+          <button
+            onClick={() => setPersonaDropdownOpen(!personaDropdownOpen)}
+            className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 -mr-2 transition-colors"
+            style={{ background: personaDropdownOpen ? C.creamDark : "transparent" }}
+            onMouseEnter={(e) => { if (!personaDropdownOpen) e.currentTarget.style.background = C.creamDark; }}
+            onMouseLeave={(e) => { if (!personaDropdownOpen) e.currentTarget.style.background = "transparent"; }}
+          >
             <div className="text-right">
-              <p className="text-xs font-medium leading-tight" style={{ color: C.text }}>Richard Berwick</p>
-              <p className="text-[10px] leading-tight" style={{ color: C.textLight }}>VP Supply Chain</p>
+              <p className="text-xs font-medium leading-tight" style={{ color: C.text }}>{activePersona.name}</p>
+              <p className="text-[10px] leading-tight" style={{ color: C.textLight }}>{activePersona.title}</p>
             </div>
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold"
               style={{ background: C.brown }}
             >
-              RB
+              {activePersona.initials}
             </div>
-          </div>
+            <svg className="w-3.5 h-3.5" style={{ color: C.textLight }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+          {personaDropdownOpen && (
+            <>
+              <div className="fixed inset-0 z-20" onClick={() => setPersonaDropdownOpen(false)} />
+              <div
+                className="absolute right-0 top-full mt-1 z-30 rounded-xl py-1 overflow-hidden"
+                style={{
+                  background: C.cream,
+                  border: `1px solid ${C.border}`,
+                  boxShadow: `0 4px 24px ${C.border}66`,
+                  minWidth: 240,
+                }}
+              >
+                <p className="text-[10px] uppercase tracking-wider font-medium px-3 py-2" style={{ color: C.textLight }}>
+                  Switch persona
+                </p>
+                {PERSONAS.map((p) => (
+                  <button
+                    key={p.id}
+                    onClick={() => {
+                      setActivePersonaId(p.id);
+                      setPersonaDropdownOpen(false);
+                      // Reset the demo state when switching personas
+                      setSelectedScenario(null);
+                      setVisibleSteps(0);
+                      setCurrentStepDone(false);
+                      setWaitingForApproval(false);
+                      setAllDone(false);
+                      setAckText("");
+                      setAckDone(false);
+                      setTypewriterText({});
+                      setTypewriterDone({});
+                      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+                      if (activeView === "workflow-builder") setActiveView("workflows");
+                    }}
+                    className="w-full flex items-center gap-2.5 px-3 py-2 transition-colors text-left"
+                    style={{
+                      background: p.id === activePersonaId ? C.sageLight : "transparent",
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = p.id === activePersonaId ? C.sageLight : C.creamDark; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = p.id === activePersonaId ? C.sageLight : "transparent"; }}
+                  >
+                    <div
+                      className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0"
+                      style={{ background: p.id === activePersonaId ? C.sage : C.brown }}
+                    >
+                      {p.initials}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-medium leading-tight truncate" style={{ color: C.text }}>{p.name}</p>
+                      <p className="text-[10px] leading-tight truncate" style={{ color: C.textLight }}>{p.title}</p>
+                    </div>
+                    {p.id === activePersonaId && (
+                      <svg className="w-3.5 h-3.5 shrink-0" style={{ color: C.sage }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </header>
 
@@ -1834,15 +1931,7 @@ export default function AgentDemo() {
                     Recent
                   </p>
                   <div className="space-y-0.5">
-                    {[
-                      { title: "Weekly status report", time: "2 hours ago" },
-                      { title: "Landed-cost — Refresh line", time: "Yesterday" },
-                      { title: "Q2 supplier risk assessment", time: "Yesterday" },
-                      { title: "Fleet Feet order expedite", time: "Mar 14" },
-                      { title: "Zhenmei lead time analysis", time: "Mar 13" },
-                      { title: "Weekly status report", time: "Mar 10" },
-                      { title: "Packaging cost comparison", time: "Mar 8" },
-                    ].map((run, i) => (
+                    {activePersona.recentRuns.map((run, i) => (
                       <button
                         key={i}
                         className="w-full text-left rounded-lg px-2.5 py-2 transition-colors"
@@ -2051,7 +2140,7 @@ export default function AgentDemo() {
             </button>
             {!workflowsCollapsed && (
             <div className="grid gap-3">
-            {SCENARIOS.map((s) => (
+            {personaWorkflows.map((s) => (
               <button
                 key={s.id}
                 onClick={() => handleSelectScenario(s)}
@@ -2118,72 +2207,86 @@ export default function AgentDemo() {
             </button>
             {!automatedCollapsed && (
             <div className="grid gap-3">
-              {/* Scheduled: Weekly status */}
-              <div
-                className="p-4 rounded-xl"
-                style={{ border: `1px solid ${C.borderLight}` }}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <p className="font-medium" style={{ color: C.text }}>
-                    Produce the weekly status update for leadership
-                  </p>
-                  <span
-                    className="text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 shrink-0 mt-1"
-                    style={{
-                      color: C.textLight,
-                      border: `1px solid ${C.borderLight}`,
-                    }}
+              {activePersona.scheduledWorkflows.map((sw) => {
+                const wf = WORKFLOW_BY_ID[sw.workflowId];
+                if (!wf) return null;
+                return (
+                  <div
+                    key={`sched-${sw.workflowId}`}
+                    className="p-4 rounded-xl"
+                    style={{ border: `1px solid ${C.borderLight}` }}
                   >
-                    Apparel & Footwear
-                  </span>
-                </div>
-                <WorkflowDiagram steps={SCENARIOS[0].steps} />
-                <div className="flex items-center gap-4 mt-3 pt-3" style={{ borderTop: `1px solid ${C.borderLight}` }}>
-                  <div className="flex items-center gap-1.5">
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke={C.sage} strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span className="text-xs font-medium" style={{ color: C.sage }}>
-                      Every Monday, 10:00 AM
-                    </span>
+                    <div className="flex items-start justify-between gap-4">
+                      <p className="font-medium" style={{ color: C.text }}>
+                        {wf.title}
+                      </p>
+                      <span
+                        className="text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 shrink-0 mt-1"
+                        style={{
+                          color: C.textLight,
+                          border: `1px solid ${C.borderLight}`,
+                        }}
+                      >
+                        {wf.industry}
+                      </span>
+                    </div>
+                    <WorkflowDiagram steps={wf.steps} />
+                    <div className="flex items-center gap-4 mt-3 pt-3" style={{ borderTop: `1px solid ${C.borderLight}` }}>
+                      <div className="flex items-center gap-1.5">
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke={C.sage} strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="text-xs font-medium" style={{ color: C.sage }}>
+                          {sw.schedule}
+                        </span>
+                      </div>
+                      <span className="text-[10px]" style={{ color: C.textLight }}>
+                        Last run: {sw.lastRun}
+                      </span>
+                    </div>
                   </div>
-                  <span className="text-[10px]" style={{ color: C.textLight }}>
-                    Last run: Mar 17, 10:01 AM
-                  </span>
-                </div>
-              </div>
-
-              {/* Triggered: Order escalation */}
-              <div
-                className="p-4 rounded-xl"
-                style={{ border: `1px solid ${C.borderLight}` }}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <p className="font-medium" style={{ color: C.text }}>
-                    Investigate and expedite a delayed wholesale order
-                  </p>
-                  <span
-                    className="text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 shrink-0 mt-1"
-                    style={{
-                      color: C.textLight,
-                      border: `1px solid ${C.borderLight}`,
-                    }}
+                );
+              })}
+              {activePersona.triggeredWorkflows.map((tw) => {
+                const wf = WORKFLOW_BY_ID[tw.workflowId];
+                if (!wf) return null;
+                return (
+                  <div
+                    key={`trig-${tw.workflowId}`}
+                    className="p-4 rounded-xl"
+                    style={{ border: `1px solid ${C.borderLight}` }}
                   >
-                    Sports Retailer
-                  </span>
-                </div>
-                <WorkflowDiagram steps={SCENARIOS[3].steps} />
-                <div className="flex items-center gap-4 mt-3 pt-3" style={{ borderTop: `1px solid ${C.borderLight}` }}>
-                  <div className="flex items-center gap-1.5">
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke={C.ochre} strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-                    </svg>
-                    <span className="text-xs font-medium" style={{ color: C.ochre }}>
-                      Triggered when a customer order is flagged at-risk in CRM
-                    </span>
+                    <div className="flex items-start justify-between gap-4">
+                      <p className="font-medium" style={{ color: C.text }}>
+                        {wf.title}
+                      </p>
+                      <span
+                        className="text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 shrink-0 mt-1"
+                        style={{
+                          color: C.textLight,
+                          border: `1px solid ${C.borderLight}`,
+                        }}
+                      >
+                        {wf.industry}
+                      </span>
+                    </div>
+                    <WorkflowDiagram steps={wf.steps} />
+                    <div className="flex items-center gap-4 mt-3 pt-3" style={{ borderTop: `1px solid ${C.borderLight}` }}>
+                      <div className="flex items-center gap-1.5">
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke={C.ochre} strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                        </svg>
+                        <span className="text-xs font-medium" style={{ color: C.ochre }}>
+                          Triggered: {tw.trigger}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                );
+              })}
+              {activePersona.scheduledWorkflows.length === 0 && activePersona.triggeredWorkflows.length === 0 && (
+                <p className="text-xs py-2" style={{ color: C.textLight }}>No scheduled or triggered workflows configured yet.</p>
+              )}
             </div>
             )}
 
@@ -2250,7 +2353,7 @@ export default function AgentDemo() {
             >
               <p style={{ color: C.text }}>{selectedScenario.title}</p>
             </div>
-            <UserAvatar />
+            <UserAvatar initial={activePersona.name[0]} />
           </div>
         )}
 
