@@ -1298,21 +1298,27 @@ function WorkflowBuilderView({
           borderBottom: `1px solid ${C.borderLight}`,
         }}
       >
-        <h2 className="text-lg font-semibold" style={{ color: C.text }}>{workflow.title}</h2>
-        <div
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ml-3"
-          style={{ background: `${C.sage}14`, border: `1px solid ${C.sage}30`, color: C.sage }}
+        <button
+          onClick={onBack}
+          className="flex items-center gap-1.5 text-xs font-medium rounded-lg px-2.5 py-1.5 transition-all hover:brightness-95"
+          style={{ color: C.textMuted, background: `${C.borderLight}80` }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = C.borderLight; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = `${C.borderLight}80`; }}
         >
-          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
           </svg>
-          Automated workflow
-        </div>
-        <div className="flex-1" />
-        {/* Zoom controls */}
+          Calendar
+        </button>
+        <h2 className="text-lg font-semibold" style={{ color: C.text }}>{workflow.title}</h2>
+      </div>
+
+      {/* Canvas wrapper — relative for floating zoom controls */}
+      <div className="flex-1 min-h-0 relative">
+        {/* Zoom controls — fixed overlay top-right */}
         <div
-          className="flex items-center gap-1 rounded-lg px-1 py-0.5"
-          style={{ background: `${C.borderLight}60` }}
+          className="absolute top-3 right-4 z-10 flex items-center gap-1 rounded-lg px-1 py-0.5"
+          style={{ background: `${C.cream}ee`, border: `1px solid ${C.borderLight}`, boxShadow: `0 1px 4px ${C.borderLight}60` }}
         >
           <button
             onClick={zoomOut}
@@ -1353,36 +1359,39 @@ function WorkflowBuilderView({
             </svg>
           </button>
         </div>
-      </div>
-
-      {/* Canvas — zoomable + scrollable */}
-      <div
-        ref={canvasRef}
-        className="flex-1 overflow-auto min-h-0"
-      >
+        {/* Scrollable canvas */}
         <div
-          className="flex items-start gap-0 pl-8 py-8 min-w-max"
-          style={{
-            minHeight: "100%",
-            transform: `scale(${zoom})`,
-            transformOrigin: "top left",
-          }}
+          ref={canvasRef}
+          className="absolute inset-0 overflow-auto"
+          style={{ overscrollBehavior: "contain" }}
         >
-          {workflow.steps.map((step, i) => (
-            <div key={i} className="flex items-start">
-              {/* Connector line */}
-              {i > 0 && (
-                <div className="flex items-center self-center shrink-0" style={{ marginTop: 0 }}>
-                  <div className="w-6 h-px" style={{ background: C.borderLight }} />
-                  <svg className="w-2 h-2 -ml-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke={C.borderLight} strokeWidth={3}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                  </svg>
-                </div>
-              )}
-              <BuilderStepCard step={step} />
-            </div>
-          ))}
-          <div className="shrink-0 w-8" aria-hidden />
+          <div
+            className="flex items-start gap-0 min-w-max"
+            style={{
+              minHeight: "100%",
+              transform: `scale(${zoom})`,
+              transformOrigin: "top left",
+              paddingLeft: 32 / zoom,
+              paddingTop: 56 / zoom,
+              paddingBottom: 32 / zoom,
+            }}
+          >
+            {workflow.steps.map((step, i) => (
+              <div key={i} className="flex items-start">
+                {/* Connector line */}
+                {i > 0 && (
+                  <div className="flex items-center self-center shrink-0" style={{ marginTop: 0 }}>
+                    <div className="w-6 h-px" style={{ background: C.borderLight }} />
+                    <svg className="w-2 h-2 -ml-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke={C.borderLight} strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                  </div>
+                )}
+                <BuilderStepCard step={step} />
+              </div>
+            ))}
+            <div className="shrink-0 w-8" aria-hidden />
+          </div>
         </div>
       </div>
     </div>
