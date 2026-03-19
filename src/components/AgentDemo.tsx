@@ -1238,7 +1238,7 @@ function BuilderStepCard({ step }: { step: BuilderStep }) {
   );
 }
 
-/** Workflow builder canvas view — horizontal card layout */
+/** Workflow builder canvas view — horizontal card layout with zoom */
 function WorkflowBuilderView({
   workflow,
   onBack,
@@ -1246,6 +1246,41 @@ function WorkflowBuilderView({
   workflow: BuilderWorkflow;
   onBack: () => void;
 }) {
+  const [zoom, setZoom] = useState(1);
+  const canvasRef = useRef<HTMLDivElement>(null);
+
+  const clampZoom = (z: number) => Math.min(1.5, Math.max(0.3, z));
+
+  // Wheel zoom (Ctrl/Cmd + scroll or pinch)
+  useEffect(() => {
+    const el = canvasRef.current;
+    if (!el) return;
+    const handleWheel = (e: WheelEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        setZoom((prev) => clampZoom(prev - e.deltaY * 0.002));
+      }
+    };
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    return () => el.removeEventListener("wheel", handleWheel);
+  }, []);
+
+  const zoomIn = () => setZoom((z) => clampZoom(z + 0.15));
+  const zoomOut = () => setZoom((z) => clampZoom(z - 0.15));
+  const zoomReset = () => setZoom(1);
+  const zoomFit = () => {
+    const el = canvasRef.current;
+    if (!el) return;
+    const inner = el.firstElementChild as HTMLElement | null;
+    if (!inner) return;
+    const fitScale = Math.min(
+      el.clientWidth / inner.scrollWidth,
+      el.clientHeight / inner.scrollHeight,
+      1.5
+    );
+    setZoom(clampZoom(fitScale));
+  };
+
   return (
     <div
       className="flex-1 flex flex-col min-h-0"
@@ -1273,11 +1308,66 @@ function WorkflowBuilderView({
           </svg>
           Automated workflow
         </div>
+        <div className="flex-1" />
+        {/* Zoom controls */}
+        <div
+          className="flex items-center gap-1 rounded-lg px-1 py-0.5"
+          style={{ background: `${C.borderLight}60` }}
+        >
+          <button
+            onClick={zoomOut}
+            className="w-6 h-6 flex items-center justify-center rounded hover:opacity-70"
+            style={{ color: C.textMuted }}
+            title="Zoom out"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" />
+            </svg>
+          </button>
+          <button
+            onClick={zoomReset}
+            className="px-1.5 h-6 flex items-center justify-center rounded text-[10px] font-medium hover:opacity-70"
+            style={{ color: C.textMuted, minWidth: 40 }}
+            title="Reset zoom"
+          >
+            {Math.round(zoom * 100)}%
+          </button>
+          <button
+            onClick={zoomIn}
+            className="w-6 h-6 flex items-center justify-center rounded hover:opacity-70"
+            style={{ color: C.textMuted }}
+            title="Zoom in"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </button>
+          <button
+            onClick={zoomFit}
+            className="w-6 h-6 flex items-center justify-center rounded hover:opacity-70"
+            style={{ color: C.textMuted }}
+            title="Fit to view"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {/* Canvas — horizontally scrollable cards */}
-      <div className="flex-1 overflow-x-auto overflow-y-auto min-h-0">
-        <div className="flex items-start gap-0 pl-8 py-8 min-w-max" style={{ minHeight: "100%" }}>
+      {/* Canvas — zoomable + scrollable */}
+      <div
+        ref={canvasRef}
+        className="flex-1 overflow-auto min-h-0"
+      >
+        <div
+          className="flex items-start gap-0 pl-8 py-8 min-w-max"
+          style={{
+            minHeight: "100%",
+            transform: `scale(${zoom})`,
+            transformOrigin: "top left",
+          }}
+        >
           {workflow.steps.map((step, i) => (
             <div key={i} className="flex items-start">
               {/* Connector line */}
