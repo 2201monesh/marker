@@ -76,7 +76,11 @@ const LOCAL_FONT_CSS = `
     </a>
     <slot />
     <script>
-      // Ink-soak scroll reveal — triggers .is-visible when elements enter viewport
+      import { initButtonTrace } from '../lib/button-trace.js';
+      initButtonTrace();
+    </script>
+    <script>
+      // Scroll reveal — triggers .is-visible when elements enter viewport
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         const observer = new IntersectionObserver(
           (entries) => {

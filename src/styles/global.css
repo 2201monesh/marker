@@ -113,6 +113,8 @@
     inset 0 0 0 2px rgba(45, 36, 24, 0.2);
 }
 
+/* Pencil-trace animation is handled by button-trace.js (canvas overlay) */
+
 /* Flipped — swap the dark/light order */
 .btn-molding-flip {
   border-color: rgba(45, 36, 24, 0.15);

@@ -46,7 +46,7 @@ export default function NewsletterForm() {
         sx, sy: cy - rise, ex, ey: cy + rise,
         color: COLORS[i % COLORS.length],
         thickness: H * s.thickPct,
-        opacity: 0.13,
+        opacity: 0.17,
         direction: s.direction,
       };
     });
