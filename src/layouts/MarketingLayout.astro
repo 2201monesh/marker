@@ -1,0 +1,14 @@
+---
+import Layout from "./Layout.astro";
+import "../styles/marketing.css";
+
+interface Props {
+  title: string;
+  noindex?: boolean;
+  fontSource?: "google" | "local";
+}
+const { title, noindex, fontSource } = Astro.props;
+---
+<Layout title={title} noindex={noindex} fontSource={fontSource}>
+  <slot />
+</Layout>
