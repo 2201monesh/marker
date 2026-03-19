@@ -5,15 +5,16 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
 
-  --color-background: #ffffff;
-  --color-foreground: #1a1a1a;
-  --color-primary: #2e7d57;
+  /* Botanical-inspired palette — calm off-whites, sage greens, warm ochre */
+  --color-background: #FAF6F0;
+  --color-foreground: #2D2418;
+  --color-primary: #3A7D56;
   --color-primary-foreground: #ffffff;
-  --color-muted: #f9fafb;
-  --color-muted-foreground: #6b7280;
-  --color-border: #e5e7eb;
-  --color-ring: #2e7d57;
-  --color-input: #e5e7eb;
+  --color-muted: #F3EDE3;
+  --color-muted-foreground: #6B5638;
+  --color-border: #DDD2C0;
+  --color-ring: #3A7D56;
+  --color-input: #DDD2C0;
 
   --radius-sm: 0.25rem;
   --radius-md: 0.375rem;
@@ -24,4 +25,156 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
+}
+
+/* ─── Paper texture overlay ───────────────────────────────────────────────── */
+/* Subtle noise texture across the body for a warm, tactile feel */
+@layer base {
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.3;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+}
+
+/* ─── Fine-line molding divider ───────────────────────────────────────────── */
+/* CSS-only 3D architectural molding effect between sections */
+.molding-divider {
+  position: relative;
+  height: 11px;
+  width: 100%;
+}
+
+.molding-divider::before,
+.molding-divider::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+/* Top ridge — catches light */
+.molding-divider::before {
+  top: 0;
+  height: 1px;
+  background: rgba(221, 210, 192, 0.7);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6),
+    0 2px 0 rgba(221, 210, 192, 0.3);
+}
+
+/* Bottom channel — shadow depth */
+.molding-divider::after {
+  top: 5px;
+  height: 1px;
+  background: rgba(184, 168, 140, 0.5);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.5),
+    0 2px 0 rgba(221, 210, 192, 0.2),
+    0 4px 0 rgba(221, 210, 192, 0.1);
+}
+
+/* Variant for lighter section transitions */
+.molding-divider-subtle::before {
+  background: rgba(221, 210, 192, 0.4);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.molding-divider-subtle::after {
+  background: rgba(184, 168, 140, 0.3);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* ─── Diagonal line background pattern ────────────────────────────────────── */
+.bg-diagonals {
+  background-image: repeating-linear-gradient(
+    -55deg,
+    transparent,
+    transparent 28px,
+    rgba(184, 168, 140, 0.07) 28px,
+    rgba(184, 168, 140, 0.07) 29px
+  );
+}
+
+/* Finer diagonal variant */
+.bg-diagonals-fine {
+  background-image: repeating-linear-gradient(
+    -55deg,
+    transparent,
+    transparent 18px,
+    rgba(184, 168, 140, 0.05) 18px,
+    rgba(184, 168, 140, 0.05) 19px
+  );
+}
+
+/* ─── Vertical content rails ──────────────────────────────────────────────── */
+/* Thin vertical lines framing the content area */
+.content-rails {
+  position: relative;
+}
+
+.content-rails::before,
+.content-rails::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(221, 210, 192, 0.4) 15%,
+    rgba(221, 210, 192, 0.4) 85%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.content-rails::before {
+  left: max(1rem, calc((100% - 72rem) / 2));
+}
+
+.content-rails::after {
+  right: max(1rem, calc((100% - 72rem) / 2));
+}
+
+/* ─── Watercolor wash utilities ───────────────────────────────────────────── */
+.wash-sage-tr {
+  background-image: radial-gradient(
+    ellipse 50% 60% at 90% 10%,
+    rgba(58, 125, 86, 0.04) 0%,
+    transparent 70%
+  );
+}
+
+.wash-ochre-bl {
+  background-image: radial-gradient(
+    ellipse 45% 50% at 10% 85%,
+    rgba(184, 134, 11, 0.035) 0%,
+    transparent 70%
+  );
+}
+
+.wash-sage-bl {
+  background-image: radial-gradient(
+    ellipse 40% 50% at 5% 90%,
+    rgba(58, 125, 86, 0.035) 0%,
+    transparent 70%
+  );
+}
+
+.wash-ochre-tr {
+  background-image: radial-gradient(
+    ellipse 50% 55% at 85% 15%,
+    rgba(184, 134, 11, 0.03) 0%,
+    transparent 70%
+  );
 }

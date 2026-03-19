@@ -38,8 +38,8 @@ export default function NewsletterForm() {
   }
 
   return (
-    <section className="py-20">
-      <div className="mx-auto max-w-5xl px-6">
+    <section className="relative py-24 md:py-32 wash-ochre-tr">
+      <div className="mx-auto max-w-7xl px-8">
         <div className="mx-auto max-w-lg text-center">
           <h2 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
             Stay in the loop
