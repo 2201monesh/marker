@@ -1,8 +1,8 @@
-// ─── Persona Definitions ─────────────────────────────────────────────────────
-// Each persona references workflow IDs from workflowData.ts.
-// A workflow can appear under multiple personas.
+// ─── Role Definitions ────────────────────────────────────────────────────────
+// Each role references workflow IDs from workflowData.ts.
+// A workflow can appear under multiple roles.
 
-export interface PersonaDef {
+export interface RoleDef {
   id: string;
   name: string;
   title: string;
@@ -24,7 +24,7 @@ export interface PersonaDef {
   recentRuns: { title: string; time: string }[];
 }
 
-export const PERSONAS: PersonaDef[] = [
+export const ROLES: RoleDef[] = [
   {
     id: "richard-berwick",
     name: "Richard Berwick",
@@ -61,9 +61,9 @@ export const PERSONAS: PersonaDef[] = [
   },
   {
     id: "catherine-wu",
-    name: "Catherine Wu",
+    name: "Richard Berwick",
     title: "CEO",
-    initials: "CW",
+    initials: "RB",
     prebuiltWorkflowIds: [
       "weekly-eta-report",
       "create-purchase-order",
@@ -95,9 +95,9 @@ export const PERSONAS: PersonaDef[] = [
   },
   {
     id: "sarah-chen",
-    name: "Sarah Chen",
+    name: "Richard Berwick",
     title: "Product Developer",
-    initials: "SC",
+    initials: "RB",
     prebuiltWorkflowIds: [
       "pre-costing-fabric-vetting",
       "multi-round-costing",
@@ -123,9 +123,9 @@ export const PERSONAS: PersonaDef[] = [
   },
   {
     id: "marcus-torres",
-    name: "Marcus Torres",
+    name: "Richard Berwick",
     title: "Director, Production & Planning",
-    initials: "MT",
+    initials: "RB",
     prebuiltWorkflowIds: [
       "wip-tracking",
       "calendar-production-tracking",
@@ -157,9 +157,9 @@ export const PERSONAS: PersonaDef[] = [
   },
   {
     id: "diana-okafor",
-    name: "Diana Okafor",
+    name: "Richard Berwick",
     title: "Manager, Sourcing & Production",
-    initials: "DO",
+    initials: "RB",
     prebuiltWorkflowIds: [
       "email-triage-delegation",
       "email-triage-assignment",
@@ -195,9 +195,9 @@ export const PERSONAS: PersonaDef[] = [
   },
   {
     id: "lea-moreau",
-    name: "Léa Moreau",
+    name: "Richard Berwick",
     title: "Senior Designer",
-    initials: "LM",
+    initials: "RB",
     prebuiltWorkflowIds: [
       "pre-costing-fabric-vetting",
       "visual-assortment-planning",
@@ -220,9 +220,9 @@ export const PERSONAS: PersonaDef[] = [
   },
   {
     id: "james-whitfield",
-    name: "James Whitfield",
+    name: "Richard Berwick",
     title: "Technical Designer",
-    initials: "JW",
+    initials: "RB",
     prebuiltWorkflowIds: [
       "ebom-mbom-reconciliation",
       "approvals-management",
@@ -253,9 +253,9 @@ export const PERSONAS: PersonaDef[] = [
   },
   {
     id: "priya-sharma",
-    name: "Priya Sharma",
+    name: "Richard Berwick",
     title: "Merchandiser",
-    initials: "PS",
+    initials: "RB",
     prebuiltWorkflowIds: [
       "budget-file-alignment",
       "brand-buy-signoff",
@@ -287,9 +287,9 @@ export const PERSONAS: PersonaDef[] = [
   },
   {
     id: "tom-gallagher",
-    name: "Tom Gallagher",
+    name: "Richard Berwick",
     title: "VP Finance & Planning",
-    initials: "TG",
+    initials: "RB",
     prebuiltWorkflowIds: [
       "invoice-reconciliation",
       "late-item-chargeback",
@@ -319,9 +319,9 @@ export const PERSONAS: PersonaDef[] = [
   },
   {
     id: "rachel-kim",
-    name: "Rachel Kim",
+    name: "Richard Berwick",
     title: "Director, Ops & Strategy",
-    initials: "RK",
+    initials: "RB",
     prebuiltWorkflowIds: [
       "supplier-data-standardization",
       "supplier-compliance-tracking",
@@ -353,9 +353,9 @@ export const PERSONAS: PersonaDef[] = [
   },
   {
     id: "alex-novak",
-    name: "Alex Novak",
+    name: "Richard Berwick",
     title: "Head of IT & Security",
-    initials: "AN",
+    initials: "RB",
     prebuiltWorkflowIds: [
       "cross-system-po-flow",
       "supplier-data-standardization",
@@ -378,4 +378,4 @@ export const PERSONAS: PersonaDef[] = [
   },
 ];
 
-export const DEFAULT_PERSONA_ID = "richard-berwick";
+export const DEFAULT_ROLE_ID = "richard-berwick";

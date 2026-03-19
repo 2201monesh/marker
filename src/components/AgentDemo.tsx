@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { CALENDAR_HTML } from "./calendarHtml";
 import { ALL_WORKFLOWS } from "./workflowData";
-import { PERSONAS, DEFAULT_PERSONA_ID } from "./personaData";
-import type { PersonaDef } from "./personaData";
+import { ROLES, DEFAULT_ROLE_ID } from "./personaData";
+import type { RoleDef } from "./personaData";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -1489,7 +1489,7 @@ function AgentAvatar() {
   );
 }
 
-/** User avatar for chat messages — uses first letter of active persona name */
+/** User avatar for chat messages — uses first letter of active role name */
 function UserAvatar({ initial = "R" }: { initial?: string }) {
   return (
     <div
@@ -1512,8 +1512,8 @@ for (const s of SCENARIOS) WORKFLOW_BY_ID[s.id] = s;
 for (const w of ALL_WORKFLOWS) WORKFLOW_BY_ID[w.id] = w;
 
 export default function AgentDemo() {
-  const [activePersonaId, setActivePersonaId] = useState(DEFAULT_PERSONA_ID);
-  const [personaDropdownOpen, setPersonaDropdownOpen] = useState(false);
+  const [activeRoleId, setActiveRoleId] = useState(DEFAULT_ROLE_ID);
+  const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
   const [activeView, setActiveView] = useState<"chat" | "workflows" | "calendars" | "workflow-builder">("chat");
   const [builderWorkflowId, setBuilderWorkflowId] = useState<string | null>(null);
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
@@ -1523,18 +1523,18 @@ export default function AgentDemo() {
     null
   );
 
-  const activePersona = useMemo(
-    () => PERSONAS.find((p) => p.id === activePersonaId) ?? PERSONAS[0],
-    [activePersonaId]
+  const activeRole = useMemo(
+    () => ROLES.find((p) => p.id === activeRoleId) ?? ROLES[0],
+    [activeRoleId]
   );
 
-  // Resolve the persona's workflow IDs into full ScenarioDef objects
-  const personaWorkflows = useMemo(
+  // Resolve the role's workflow IDs into full ScenarioDef objects
+  const roleWorkflows = useMemo(
     () =>
-      activePersona.prebuiltWorkflowIds
+      activeRole.prebuiltWorkflowIds
         .map((id) => WORKFLOW_BY_ID[id])
         .filter(Boolean),
-    [activePersona]
+    [activeRole]
   );
   const [visibleSteps, setVisibleSteps] = useState<number>(0);
   const [currentStepDone, setCurrentStepDone] = useState(false);
@@ -1802,29 +1802,29 @@ export default function AgentDemo() {
         <MarkerLogo />
         <div className="flex items-center gap-3 relative">
           <button
-            onClick={() => setPersonaDropdownOpen(!personaDropdownOpen)}
+            onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
             className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 -mr-2 transition-colors"
-            style={{ background: personaDropdownOpen ? C.creamDark : "transparent" }}
-            onMouseEnter={(e) => { if (!personaDropdownOpen) e.currentTarget.style.background = C.creamDark; }}
-            onMouseLeave={(e) => { if (!personaDropdownOpen) e.currentTarget.style.background = "transparent"; }}
+            style={{ background: roleDropdownOpen ? C.creamDark : "transparent" }}
+            onMouseEnter={(e) => { if (!roleDropdownOpen) e.currentTarget.style.background = C.creamDark; }}
+            onMouseLeave={(e) => { if (!roleDropdownOpen) e.currentTarget.style.background = "transparent"; }}
           >
             <div className="text-right">
-              <p className="text-xs font-medium leading-tight" style={{ color: C.text }}>{activePersona.name}</p>
-              <p className="text-[10px] leading-tight" style={{ color: C.textLight }}>{activePersona.title}</p>
+              <p className="text-xs font-medium leading-tight" style={{ color: C.text }}>{activeRole.name}</p>
+              <p className="text-[10px] leading-tight" style={{ color: C.textLight }}>{activeRole.title}</p>
             </div>
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold"
               style={{ background: C.brown }}
             >
-              {activePersona.initials}
+              {activeRole.initials}
             </div>
             <svg className="w-3.5 h-3.5" style={{ color: C.textLight }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
             </svg>
           </button>
-          {personaDropdownOpen && (
+          {roleDropdownOpen && (
             <>
-              <div className="fixed inset-0 z-20" onClick={() => setPersonaDropdownOpen(false)} />
+              <div className="fixed inset-0 z-20" onClick={() => setRoleDropdownOpen(false)} />
               <div
                 className="absolute right-0 top-full mt-1 z-30 rounded-xl py-1 overflow-hidden"
                 style={{
@@ -1835,15 +1835,15 @@ export default function AgentDemo() {
                 }}
               >
                 <p className="text-[10px] uppercase tracking-wider font-medium px-3 py-2" style={{ color: C.textLight }}>
-                  Switch persona
+                  Switch role
                 </p>
-                {PERSONAS.map((p) => (
+                {ROLES.map((p) => (
                   <button
                     key={p.id}
                     onClick={() => {
-                      setActivePersonaId(p.id);
-                      setPersonaDropdownOpen(false);
-                      // Reset the demo state when switching personas
+                      setActiveRoleId(p.id);
+                      setRoleDropdownOpen(false);
+                      // Reset the demo state when switching roles
                       setSelectedScenario(null);
                       setVisibleSteps(0);
                       setCurrentStepDone(false);
@@ -1858,23 +1858,14 @@ export default function AgentDemo() {
                     }}
                     className="w-full flex items-center gap-2.5 px-3 py-2 transition-colors text-left"
                     style={{
-                      background: p.id === activePersonaId ? C.sageLight : "transparent",
+                      background: p.id === activeRoleId ? C.creamDark : "transparent",
                     }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = p.id === activePersonaId ? C.sageLight : C.creamDark; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = p.id === activePersonaId ? C.sageLight : "transparent"; }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = C.creamDark; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = p.id === activeRoleId ? C.creamDark : "transparent"; }}
                   >
-                    <div
-                      className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[10px] font-bold shrink-0"
-                      style={{ background: p.id === activePersonaId ? C.sage : C.brown }}
-                    >
-                      {p.initials}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium leading-tight truncate" style={{ color: C.text }}>{p.name}</p>
-                      <p className="text-[10px] leading-tight truncate" style={{ color: C.textLight }}>{p.title}</p>
-                    </div>
-                    {p.id === activePersonaId && (
-                      <svg className="w-3.5 h-3.5 shrink-0" style={{ color: C.sage }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <p className="flex-1 min-w-0 text-xs font-medium leading-tight truncate" style={{ color: C.text }}>{p.title}</p>
+                    {p.id === activeRoleId && (
+                      <svg className="w-3.5 h-3.5 shrink-0" style={{ color: C.textMuted }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       </svg>
                     )}
@@ -1931,7 +1922,7 @@ export default function AgentDemo() {
                     Recent
                   </p>
                   <div className="space-y-0.5">
-                    {activePersona.recentRuns.map((run, i) => (
+                    {activeRole.recentRuns.map((run, i) => (
                       <button
                         key={i}
                         className="w-full text-left rounded-lg px-2.5 py-2 transition-colors"
@@ -2140,7 +2131,7 @@ export default function AgentDemo() {
             </button>
             {!workflowsCollapsed && (
             <div className="grid gap-3">
-            {personaWorkflows.map((s) => (
+            {roleWorkflows.map((s) => (
               <button
                 key={s.id}
                 onClick={() => handleSelectScenario(s)}
@@ -2207,7 +2198,7 @@ export default function AgentDemo() {
             </button>
             {!automatedCollapsed && (
             <div className="grid gap-3">
-              {activePersona.scheduledWorkflows.map((sw) => {
+              {activeRole.scheduledWorkflows.map((sw) => {
                 const wf = WORKFLOW_BY_ID[sw.workflowId];
                 if (!wf) return null;
                 return (
@@ -2247,7 +2238,7 @@ export default function AgentDemo() {
                   </div>
                 );
               })}
-              {activePersona.triggeredWorkflows.map((tw) => {
+              {activeRole.triggeredWorkflows.map((tw) => {
                 const wf = WORKFLOW_BY_ID[tw.workflowId];
                 if (!wf) return null;
                 return (
@@ -2284,7 +2275,7 @@ export default function AgentDemo() {
                   </div>
                 );
               })}
-              {activePersona.scheduledWorkflows.length === 0 && activePersona.triggeredWorkflows.length === 0 && (
+              {activeRole.scheduledWorkflows.length === 0 && activeRole.triggeredWorkflows.length === 0 && (
                 <p className="text-xs py-2" style={{ color: C.textLight }}>No scheduled or triggered workflows configured yet.</p>
               )}
             </div>
@@ -2353,7 +2344,7 @@ export default function AgentDemo() {
             >
               <p style={{ color: C.text }}>{selectedScenario.title}</p>
             </div>
-            <UserAvatar initial={activePersona.name[0]} />
+            <UserAvatar initial={activeRole.name[0]} />
           </div>
         )}
 
