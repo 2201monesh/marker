@@ -132,24 +132,22 @@ test("book-a-demo links include Amplitude cross-domain params", async ({
   const demoLink = page.locator('a[href*="info.onmarker.com"]').first();
   await expect(demoLink).toBeVisible();
 
-  // Simulate the click event to trigger our cross-domain handler, then
-  // read the modified href before the browser navigates
-  const href = await demoLink.evaluate((el) => {
-    // Temporarily prevent navigation
-    const handler = (e: Event) => e.preventDefault();
-    el.addEventListener("click", handler, { capture: true });
-
-    // Dispatch a click to trigger our cross-domain param handler
-    el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-
-    // Read the now-modified href
-    const result = el.getAttribute("href");
-
-    // Clean up
-    el.removeEventListener("click", handler, { capture: true });
-    return result;
+  // Prevent navigation away from the page when the link is clicked
+  await page.evaluate(() => {
+    document.querySelectorAll('a[href*="info.onmarker.com"]').forEach((el) => {
+      el.addEventListener(
+        "click",
+        (e) => e.preventDefault(),
+        { capture: false } // runs after our cross-domain handler
+      );
+    });
   });
 
+  // Use Playwright's real click so the event target and bubbling work correctly
+  await demoLink.click();
+
+  // Read the href after our cross-domain handler modified it
+  const href = await demoLink.getAttribute("href");
   expect(href).toContain("ampDeviceId=");
   expect(href).toContain("ampSessionId=");
   expect(href).toContain("ampTimestamp=");
