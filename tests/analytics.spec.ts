@@ -125,8 +125,11 @@ test("book-a-demo links include Amplitude cross-domain params", async ({
 }) => {
   await page.goto("/");
 
-  // Wait for Amplitude to initialize
-  await page.waitForFunction(() => !!window.amplitude, { timeout: 15000 });
+  // Wait for Amplitude to fully initialize (deviceId available)
+  await page.waitForFunction(
+    () => window.amplitude && window.amplitude.getDeviceId(),
+    { timeout: 15000 }
+  );
 
   // Find a book-a-demo link
   const demoLink = page.locator('a[href*="info.onmarker.com"]').first();
