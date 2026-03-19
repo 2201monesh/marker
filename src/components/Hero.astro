@@ -8,7 +8,7 @@
     class="absolute inset-0 w-full h-full pointer-events-none"
     aria-hidden="true"
   ></canvas>
-  <div class="relative z-10 mx-auto max-w-7xl px-8 py-32 md:py-44">
+  <div class="relative z-10 mx-auto max-w-7xl px-8 py-20 md:py-28">
     <div class="max-w-3xl">
       <h1 id="hero-heading" class="text-5xl font-bold tracking-tight text-foreground leading-[1.1] md:text-6xl lg:text-7xl">
         <span data-marker-line>Your always-on</span>
@@ -26,14 +26,14 @@
         <!-- Molding border — normal variant -->
         <a
           href="https://info.onmarker.com/book-a-demo"
-          class="btn-molding inline-flex h-12 items-center justify-center px-10 text-sm font-semibold uppercase tracking-[0.08em] text-primary transition-colors hover:text-primary/80 cursor-pointer"
+          class="btn-molding inline-flex h-12 items-center justify-center px-10 text-sm font-extrabold uppercase tracking-[0.08em] text-primary transition-colors hover:text-primary/80 cursor-pointer"
         >
           Book a Demo
         </a>
         <!-- Molding border — flipped variant -->
         <a
           href="https://info.onmarker.com/book-a-demo"
-          class="btn-molding btn-molding-flip inline-flex h-12 items-center justify-center px-10 text-sm font-semibold uppercase tracking-[0.08em] text-primary transition-colors hover:text-primary/80 cursor-pointer"
+          class="btn-molding btn-molding-flip inline-flex h-12 items-center justify-center px-10 text-sm font-extrabold uppercase tracking-[0.08em] text-primary transition-colors hover:text-primary/80 cursor-pointer"
         >
           Book a Demo
         </a>
@@ -58,17 +58,11 @@
   function render() {
     const canvas = document.getElementById('hero-marker-canvas') as HTMLCanvasElement;
     const section = canvas?.closest('section');
-    const heading = document.getElementById('hero-heading');
-    if (!canvas || !section || !heading) return;
+    if (!canvas || !section) return;
 
     const dpr = window.devicePixelRatio || 1;
     const W = section.clientWidth;
     const H = section.clientHeight;
-    const sectionTop = section.getBoundingClientRect().top;
-    const headingRect = heading.getBoundingClientRect();
-
-    // Center of the heading relative to the section
-    const headingCenterY = (headingRect.top + headingRect.height / 2) - sectionTop;
 
     canvas.width = W * dpr;
     canvas.height = H * dpr;
@@ -76,16 +70,8 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
 
-    // Space strokes evenly: one above heading, one on heading, one below
-    const spacing = H * 0.28;
-    const positions = [
-      headingCenterY - spacing,
-      headingCenterY,
-      headingCenterY + spacing,
-    ];
-
     STROKES.forEach((s, i) => {
-      const cy = positions[i];
+      const cy = H * s.yPct;
       const angleRad = s.angle * (Math.PI / 180);
       const sx = W * s.x0;
       const ex = W * s.x1;

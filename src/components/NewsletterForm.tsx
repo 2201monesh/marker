@@ -130,13 +130,14 @@ export default function NewsletterForm() {
                 required
                 className="flex-1"
               />
-              <button
+              <Button
                 type="submit"
                 disabled={status === "loading"}
-                className="btn-molding btn-molding-flip inline-flex h-10 items-center justify-center px-6 text-sm font-semibold uppercase tracking-[0.08em] text-primary transition-colors hover:text-primary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer"
+                variant="molding-flip"
+                size="default"
               >
                 {status === "loading" ? "Subscribing..." : "Subscribe"}
-              </button>
+              </Button>
             </form>
           )}
           {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
