@@ -1,19 +1,15 @@
 ---
-const enableLocal = import.meta.env.PUBLIC_ENABLE_LOCAL_ANALYTICS === 'true';
+const enableAnalytics = import.meta.env.PUBLIC_ENABLE_ANALYTICS === 'true';
 const allowedHosts = ['onmarker.com', 'www.onmarker.com'];
-if (enableLocal) {
-  allowedHosts.push('localhost');
-}
 ---
 
 <!-- Analytics hostname check -->
-<script is:inline define:vars={{ allowedHosts }}>
+<script is:inline define:vars={{ allowedHosts, enableAnalytics }}>
   window.__isAnalyticsAllowed = function() {
-    var h = window.location.hostname;
-    return allowedHosts.indexOf(h) !== -1
-      // Allow Firebase preview deploys (e.g. marker-site--pr-37-abc123.web.app)
-      // so we can test analytics on PR preview URLs
-      || (h.startsWith('marker-site') && h.endsWith('.web.app'));
+    // PUBLIC_ENABLE_ANALYTICS=true allows analytics on any host
+    // (used for localhost dev, Firebase preview deploys, and CI tests)
+    if (enableAnalytics) return true;
+    return allowedHosts.indexOf(window.location.hostname) !== -1;
   };
 </script>
 

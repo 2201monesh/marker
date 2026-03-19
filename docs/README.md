@@ -12,7 +12,7 @@ npm run dev
 To enable Amplitude and HubSpot tracking on localhost:
 
 ```fish
-set -x PUBLIC_ENABLE_LOCAL_ANALYTICS true; npm run dev
+set -x PUBLIC_ENABLE_ANALYTICS true; npm run dev
 ```
 
 ## Scripts
