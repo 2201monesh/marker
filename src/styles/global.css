@@ -305,6 +305,43 @@
 /* ─── 3D raised elements ──────────────────────────────────────────────────── */
 /* Buttons, cards, badges — light top edge, dark bottom edge, subtle lift */
 
+/* ─── Button variant E: Tab ──────────────────────────────────────────────── */
+/* Clipped top-left corner — notebook tab / bookmark */
+.btn-tab {
+  clip-path: polygon(10px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 10px);
+  border: none;
+}
+
+/* ─── Button variant E2: Folded corner ───────────────────────────────────── */
+/* Page dog-ear: clipped corner with a triangular fold overlay */
+.btn-fold {
+  clip-path: polygon(0% 0%, calc(100% - 12px) 0%, 100% 12px, 100% 100%, 0% 100%);
+  border: none;
+}
+
+.btn-fold::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(225deg, rgba(255,255,255,0.25) 0%, rgba(0,0,0,0.08) 100%);
+  clip-path: polygon(0% 0%, 100% 100%, 100% 0%);
+  z-index: 1;
+}
+
+/* ─── Button variant F: Architect's circle ───────────────────────────────── */
+/* Nearly perfect ruling-pen oval — precise with barely perceptible warmth */
+.btn-circled svg {
+  color: var(--color-primary);
+  transition: opacity 0.2s;
+}
+
+.btn-circled:hover svg {
+  opacity: 0.7;
+}
+
 /* ─── Button variant A: Letterpress ──────────────────────────────────────── */
 /* Uppercase tracking, debossed text, subtle gradient like dyed cardstock,
    noise texture, reduced radius */
