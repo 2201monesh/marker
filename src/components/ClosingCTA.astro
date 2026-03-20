@@ -11,7 +11,7 @@
   <div class="relative z-10 mx-auto max-w-7xl px-8">
     <div class="mx-auto max-w-lg text-center">
       <h2 id="closing-cta-heading" class="ink-reveal text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
-        See Marker in action
+        <span data-marker-line>See Marker in action</span>
       </h2>
       <p class="ink-reveal mt-4 text-muted-foreground md:text-lg" style="--reveal-delay: 100">
         30-minute walkthrough tailored to your supply chain.
@@ -29,39 +29,34 @@
 </section>
 
 <script>
-  import { drawHighlightStroke } from '../lib/marker-background.js';
+  import { drawCleanUnderline } from '../lib/marker-background.js';
 
-  const COLORS = ['#e8dcc8', '#dfd3bc', '#ede2d0'];
-  const STROKES = [
-    { yPct: 0.38, angle:  0.8, thickPct: 0.38, direction: 1 },
-    { yPct: 0.62, angle: -0.6, thickPct: 0.36, direction: -1 },
-  ];
+  const HIGHLIGHT_COLOR = '#3A7D56';
 
-  function getStrokeLayout(section: HTMLElement, W: number, H: number) {
-    const content = section.querySelector('.max-w-lg') as HTMLElement;
+  function getStrokeParams(section: HTMLElement) {
     const sectionRect = section.getBoundingClientRect();
-    let contentLeft = 0;
-    let contentRight = W;
-    if (content) {
-      const contentRect = content.getBoundingClientRect();
-      contentLeft = contentRect.left - sectionRect.left;
-      contentRight = contentRect.right - sectionRect.left;
-    }
-    const overshoot = (contentRight - contentLeft) * 0.08;
+    const lines = section.querySelectorAll('[data-marker-line]');
+    if (!lines.length) return [];
 
-    return STROKES.map((s, i) => {
-      const cy = H * s.yPct;
-      const angleRad = s.angle * (Math.PI / 180);
-      const sx = contentLeft - overshoot;
-      const ex = contentRight + overshoot;
+    const angleRad = -0.3 * (Math.PI / 180);
+
+    return Array.from(lines).map((line) => {
+      const rect = line.getBoundingClientRect();
+      const thickness = 10;
+      const cy = rect.bottom - sectionRect.top + 1;
+      const sx = rect.left - sectionRect.left - 5;
+      const ex = rect.right - sectionRect.left + 5;
       const strokeLen = ex - sx;
       const rise = Math.sin(angleRad) * strokeLen * 0.5;
+
       return {
-        sx, sy: cy - rise, ex, ey: cy + rise,
-        color: COLORS[i % COLORS.length],
-        thickness: H * s.thickPct,
-        opacity: 0.17,
-        direction: s.direction,
+        sx,
+        sy: cy - rise,
+        ex,
+        ey: cy + rise,
+        color: HIGHLIGHT_COLOR,
+        thickness,
+        opacity: 1,
       };
     });
   }
@@ -80,7 +75,7 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
 
-    getStrokeLayout(section, W, H).forEach(p => drawHighlightStroke(ctx, p));
+    getStrokeParams(section).forEach(p => drawCleanUnderline(ctx, p));
   }
 
   function renderAnimated() {
@@ -96,7 +91,7 @@
     const ctx = canvas.getContext('2d')!;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    const params = getStrokeLayout(section, W, H);
+    const params = getStrokeParams(section);
 
     const offscreens = params.map(p => {
       const off = document.createElement('canvas');
@@ -104,16 +99,18 @@
       off.height = canvas.height;
       const octx = off.getContext('2d')!;
       octx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      drawHighlightStroke(octx, p);
+      drawCleanUnderline(octx, p);
       return off;
     });
 
-    const DURATION = 850;
-    const STAGGER = 120;
+    const DURATION = 650;
+    const STAGGER = 500;
     const startTime = performance.now();
 
     function ease(t: number) {
-      return t < 0.15 ? t * t / 0.15 : 1 - Math.pow(1 - t, 2.5);
+      return t < 0.15
+        ? t * t / 0.15
+        : 1 - Math.pow(1 - t, 2.5);
     }
 
     function animate(now: number) {
@@ -127,17 +124,12 @@
         if (t < 1) allDone = false;
         const eased = ease(t);
 
-        const strokeWidth = p.ex - p.sx;
-        const revealWidth = strokeWidth * eased;
+        const revealWidth = (p.ex - p.sx) * eased;
         if (revealWidth <= 0) return;
 
         ctx.save();
         ctx.beginPath();
-        if (p.direction === 1) {
-          ctx.rect(p.sx - 2, 0, revealWidth + 4, H);
-        } else {
-          ctx.rect(p.ex - revealWidth - 2, 0, revealWidth + 4, H);
-        }
+        ctx.rect(p.sx - 2, 0, revealWidth + 4, H);
         ctx.clip();
         ctx.drawImage(offscreens[i], 0, 0, offscreens[i].width, offscreens[i].height, 0, 0, W, H);
         ctx.restore();

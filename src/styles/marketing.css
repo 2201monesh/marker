@@ -29,7 +29,7 @@
 /* Just a subtle bottom border — the real divider effect comes from the
    molding-divider element placed after the nav */
 .nav-molding {
-  border-bottom: 1px solid rgba(45, 36, 24, 0.06);
+  border-bottom: none;
 }
 
 /* ─── Fine-line molding divider ───────────────────────────────────────────── */
