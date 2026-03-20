@@ -10,6 +10,7 @@ import HowItWorks from "../components/HowItWorks.astro";
 import ScoreLine from "../components/ScoreLine.astro";
 import EnterpriseSecurity from "../components/EnterpriseSecurity.astro";
 import WorksWhereYouDo from "../components/WorksWhereYouDo.astro";
+import GrainLayer from "../components/GrainLayer.astro";
 import ClosingCTA from "../components/ClosingCTA.astro";
 import Footer from "../components/Footer.astro";
 ---
@@ -19,15 +20,24 @@ import Footer from "../components/Footer.astro";
   <main id="main-content">
     <Hero />
     <Problem />
-    <HowItWorks />
-    <ScoreLine />
-    <WorkflowStrip />
-    <ScoreLine />
-    <SwimLane />
+    <div class="relative">
+      <GrainLayer />
+      <HowItWorks />
+      <ScoreLine />
+      <WorkflowStrip />
+      <ScoreLine />
+      <SwimLane />
+    </div>
     <BuiltForSupplyChain />
-    <EnterpriseSecurity />
+    <div class="relative">
+      <GrainLayer />
+      <EnterpriseSecurity />
+    </div>
     <WorksWhereYouDo />
-    <ClosingCTA />
+    <div class="relative">
+      <GrainLayer />
+      <ClosingCTA />
+    </div>
   </main>
   <Footer />
 

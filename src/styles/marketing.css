@@ -9,20 +9,20 @@
   }
 }
 
-/* ─── Paper texture overlay ───────────────────────────────────────────────── */
-/* Subtle noise texture across the body for a warm, tactile feel */
-@layer base {
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    pointer-events: none;
-    opacity: 0.3;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 256px 256px;
-  }
+/* ─── Paper grain texture ─────────────────────────────────────────────────── */
+/* Opt-in per-section via <div class="grain-layer"> as first child.
+   Uses feDiffuseLighting (defined in MarketingLayout.astro) to create
+   micro-shadows like real cardstock tooth. Sits at z-index:0 so section
+   content renders clean above it.                                           */
+.grain-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.11;
+  mix-blend-mode: multiply;
+  filter: url(#paper-grain);
+  background: #F5F0EB;
 }
 
 /* ─── Nav rule — simple bottom edge ───────────────────────────────────────── */
@@ -484,6 +484,25 @@
     inset 0 1px 3px rgba(255, 255, 255, 0.12),
     inset 0 -1px 3px rgba(0, 0, 0, 0.1),
     0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Debossed circle — pressed into the cardstock surface */
+.circle-debossed {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow:
+    /* Outer: light catches the top lip of the impression */
+    0 1px 0 rgba(255, 255, 255, 0.5),
+    /* Inner: shadow at the top where the surface dips in */
+    inset 0 2px 4px rgba(0, 0, 0, 0.2),
+    /* Inner: subtle light on the bottom inner wall */
+    inset 0 -1px 2px rgba(255, 255, 255, 0.08);
+}
+
+/* Debossed / letterpress text — pressed into the paper surface.
+   On dark text the shadow is invisible, so the effect comes entirely
+   from the light catch on the bottom lip of the impression.           */
+.text-debossed {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
 /* Icon badge — small raised container for icons */
