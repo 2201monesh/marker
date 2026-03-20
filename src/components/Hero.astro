@@ -648,7 +648,7 @@
     });
 
     const DURATION = 650;
-    const STAGGER = 500;
+    const GAP = 80; // brief pause between strokes, like lifting and repositioning
     const INITIAL_DELAY = 1000; // wait for Gantt fade-in to finish first
     const startTime = performance.now() + INITIAL_DELAY;
 
@@ -663,7 +663,7 @@
       let allDone = true;
 
       params.forEach((p, i) => {
-        const elapsed = now - startTime - i * STAGGER;
+        const elapsed = now - startTime - i * (DURATION + GAP);
         if (elapsed <= 0) { allDone = false; return; }
         const t = Math.min(1, elapsed / DURATION);
         if (t < 1) allDone = false;
