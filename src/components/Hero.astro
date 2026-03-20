@@ -211,6 +211,7 @@
     /* Bleed off right edge */
     margin-right: calc(-1 * (100vw - 100%));
     overflow: hidden;
+    filter: drop-shadow(0 12px 40px rgba(45, 36, 24, 0.25));
   }
 
   @keyframes gantt-fade-in {
@@ -223,7 +224,6 @@
     border: 1px solid #E8DFD0;
     border-radius: 12px 0 0 12px;
     border-right: none;
-    box-shadow: 0 4px 24px #E8DFD040, 0 1px 4px #E8DFD060;
     overflow: hidden;
     font-family: var(--font-sans, system-ui, sans-serif);
   }
@@ -519,40 +519,45 @@
     const subtext = document.getElementById('hero-subtext');
     const cta = document.getElementById('hero-cta');
 
-    const targets = [
-      { el: heading, angle: -0.5, thickScale: 1.8, maxThick: 280, overshootRight: 0.08, anchor: 'bottom' },
-      { el: subtext, angle: 1.0, thickScale: 1.8, maxThick: 120, overshootRight: 0.14, anchor: 'center' },
-      { el: cta, angle: -0.6, thickScale: 4.0, maxThick: 220, overshootRight: 0.04, anchor: 'top' },
-    ];
+    const badges = section.querySelector('.trust-badge')?.parentElement;
 
-    return targets.map((t, i) => {
-      if (!t.el) return null;
-      const rect = t.el.getBoundingClientRect();
-      const x = rect.left - sectionRect.left;
-      const y = rect.top - sectionRect.top;
-      const thickness = Math.min(rect.height * t.thickScale, t.maxThick);
-      // Anchor: 'bottom' grows upward from below element, 'top' grows downward from above element
-      let cy;
-      if (t.anchor === 'bottom') {
-        cy = y + rect.height - thickness * 0.5 + 30;
-      } else if (t.anchor === 'top') {
-        cy = y + thickness * 0.5 - 30;
-      } else {
-        cy = y + rect.height * 0.5;
-      }
-      const angleRad = t.angle * (Math.PI / 180);
+    // Find the gap midpoint between heading bottom and subtext top
+    const headingRect = heading?.getBoundingClientRect();
+    const subtextRect = subtext?.getBoundingClientRect();
+    const badgesRect = badges?.getBoundingClientRect();
+    const gapMid = headingRect && subtextRect
+      ? ((headingRect.bottom + subtextRect.top) / 2) - sectionRect.top
+      : 0;
+
+    // Stroke 1: covers heading, bottom edge meets gap midpoint
+    const stroke1 = (() => {
+      if (!headingRect) return null;
+      const headTop = headingRect.top - sectionRect.top;
+      const thickness = gapMid - headTop + 120; // extend well above heading
+      const cy = gapMid - thickness * 0.5; // bottom edge at gapMid, extra thickness goes upward
+      const angleRad = -0.5 * (Math.PI / 180);
       const sx = -sectionRect.left - 20;
-      const ex = x + rect.width + rect.width * t.overshootRight;
+      const ex = W + 20;
       const strokeLen = ex - sx;
       const rise = Math.sin(angleRad) * strokeLen * 0.5;
+      return { sx, sy: cy - rise, ex, ey: cy + rise, color: COLORS[0], thickness, opacity: 0.15 };
+    })();
 
-      return {
-        sx, sy: cy - rise, ex, ey: cy + rise,
-        color: COLORS[i % COLORS.length],
-        thickness,
-        opacity: 0.15,
-      };
-    }).filter(Boolean);
+    // Stroke 2: covers subtext through badges, top edge meets gap midpoint
+    const stroke2 = (() => {
+      if (!subtextRect || !badgesRect) return null;
+      const bottomY = badgesRect.bottom - sectionRect.top;
+      const thickness = bottomY - gapMid + 120; // extend well below badges
+      const cy = gapMid + thickness * 0.5; // top edge at gapMid, extra thickness goes downward
+      const angleRad = 0.8 * (Math.PI / 180);
+      const sx = -sectionRect.left - 20;
+      const ex = W + 20;
+      const strokeLen = ex - sx;
+      const rise = Math.sin(angleRad) * strokeLen * 0.5;
+      return { sx, sy: cy - rise, ex, ey: cy + rise, color: COLORS[1], thickness, opacity: 0.15 };
+    })();
+
+    return [stroke1, stroke2].filter(Boolean) as any[];
   }
 
   // Instant render (used on resize and when motion is reduced)
@@ -601,8 +606,8 @@
     });
 
     const DURATION = 650;
-    const STAGGER = 600;
-    const INITIAL_DELAY = 150;
+    const STAGGER = 500;
+    const INITIAL_DELAY = 1000; // wait for Gantt fade-in to finish first
     const startTime = performance.now() + INITIAL_DELAY;
 
     function ease(t: number) {
