@@ -218,3 +218,35 @@ export function drawHighlightStroke(ctx, { sx, sy, ex, ey, color, thickness, opa
   const path = generatePath(sx, sy, ex, ey);
   drawMarkerStroke(ctx, path, color, thickness, opacity);
 }
+
+/**
+ * Draw a clean, smooth underline stroke with very slight hand-drawn wobble.
+ */
+export function drawCleanUnderline(ctx, { sx, sy, ex, ey, color, thickness, opacity }) {
+  const [cr, cg, cb] = hexToRgb(color);
+  const hw = thickness / 2;
+  // Chisel cap width — how far the diagonal cut extends horizontally
+  const cap = thickness * 0.7;
+
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  ctx.fillStyle = `rgb(${cr},${cg},${cb})`;
+
+  const midY = (sy + ey) / 2;
+  const midX = (sx + ex) / 2;
+
+  ctx.beginPath();
+  // Start at bottom-left
+  ctx.moveTo(sx, sy + hw);
+  // Left chisel cap — diagonal up-right
+  ctx.lineTo(sx + cap, sy - hw);
+  // Top edge across (with subtle wobble)
+  ctx.quadraticCurveTo(midX, midY - hw + 1.5, ex, ey - hw);
+  // Right chisel cap — diagonal down-right
+  ctx.lineTo(ex + cap, ey + hw);
+  // Bottom edge back (with subtle wobble)
+  ctx.quadraticCurveTo(midX, midY + hw + 1.5, sx, sy + hw);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}

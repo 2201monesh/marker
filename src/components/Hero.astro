@@ -14,9 +14,11 @@
       <!-- Left column: text -->
       <div>
         <h1 id="hero-heading" class="text-5xl font-bold tracking-tight text-foreground leading-[1.1] md:text-6xl lg:text-7xl">
-          <span data-marker-line>Your always-on</span>
+          Your always-on
           <br />
-          <span class="text-primary"><span data-marker-line>supply chain coordinator</span></span>
+          <span data-marker-line>supply chain</span>
+          <br />
+          <span data-marker-line>coordinator</span>
         </h1>
         <p id="hero-subtext" class="mt-10 mb-2 text-lg text-muted-foreground md:text-xl leading-relaxed">
           Marker connects your systems and moves work forward automatically — so your team can focus on decisions, not follow-ups.
@@ -66,25 +68,13 @@
             <span class="gantt-chrome-title">SS26 wovens — sourcing calendar</span>
           </div>
 
-          <!-- Metrics bar -->
-          <div class="gantt-metrics">
-            <div class="gantt-met">
-              <span class="gantt-met-n" style="color:#3A7D56">7</span>
-              <span class="gantt-met-l">auto<br/>steps</span>
-            </div>
-            <div class="gantt-met">
-              <span class="gantt-met-n" style="color:#B8860B">5</span>
-              <span class="gantt-met-l">human<br/>steps</span>
-            </div>
-          </div>
-
           <!-- Board -->
           <div class="gantt-board">
             <!-- Phase header row -->
             <div class="gantt-phase-row">
               <div class="gantt-lane-hd"></div>
-              <div class="gantt-phase-label" style="left:0">Development</div>
-              <div class="gantt-phase-label" style="left:calc(5 * var(--col-w))">Costing + spec</div>
+              <div class="gantt-phase-label" style="left:56px">Development</div>
+              <div class="gantt-phase-label" style="left:calc(56px + 5 * var(--col-w))">Costing + spec</div>
             </div>
 
             <!-- Lane: PD -->
@@ -178,10 +168,50 @@
             <div class="gantt-cursor"></div>
           </div>
 
-          <!-- Bottom stat -->
-          <div class="gantt-stat">
-            <span>12 of 35 steps automated (34%)</span>
-            <div class="gantt-stat-bar"><div class="gantt-stat-fill" style="width:34%"></div></div>
+          <!-- Activity log feed -->
+          <div class="hero-feed">
+            <div class="hero-feed-title">Activity log</div>
+            <div class="hero-fi hero-fi-4">
+              <div class="hero-fic hero-fic-human">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg>
+              </div>
+              <span>James approved colorway</span>
+            </div>
+
+            <div class="hero-fi hero-fi-3">
+              <div class="hero-fic hero-fic-agent">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg>
+              </div>
+              <span>Sent costing requests to 3 vendors</span>
+            </div>
+
+            <div class="hero-fi hero-fi-2">
+              <div class="hero-fic hero-fic-human">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg>
+              </div>
+              <span>Sarah selected 3 fabric finalists</span>
+            </div>
+
+            <div class="hero-fi hero-fi-1">
+              <div class="hero-fic hero-fic-agent">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg>
+              </div>
+              <span>Cross-referenced MOQs against buy plan</span>
+            </div>
+
+            <div class="hero-fi hero-fi-0">
+              <div class="hero-fic hero-fic-agent">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg>
+              </div>
+              <span>Collected data sheets from 8 mills</span>
+            </div>
+
+            <div class="hero-fi hero-fi-fade">
+              <div class="hero-fic hero-fic-agent">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg>
+              </div>
+              <span>Opened vendor portal for 8 mills</span>
+            </div>
           </div>
         </div>
       </div>
@@ -306,7 +336,7 @@
     height: 100%;
     display: flex;
     align-items: center;
-    padding-left: calc(56px + 6px);
+    padding-left: 6px;
     font-size: 9px;
     font-weight: 500;
     color: #7D6B4F;
@@ -487,6 +517,56 @@
     background: #3A7D56;
   }
 
+  /* ── Activity log feed ── */
+  .hero-feed {
+    padding: 8px 12px 0;
+    border-top: 1px solid #E8DFD0;
+    max-height: 168px;
+    overflow: hidden;
+  }
+  .hero-feed-title {
+    font-size: 9px;
+    font-weight: 500;
+    color: #7D6B4F;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 2px;
+  }
+
+  .hero-fi {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 0;
+    font-size: 11px;
+    color: #5A4D42;
+    line-height: 1.3;
+  }
+  .hero-fi-fade {
+    opacity: 0 !important;
+  }
+
+  .hero-fic {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .hero-fic svg {
+    width: 10px;
+    height: 10px;
+  }
+  .hero-fic-agent {
+    background: #E8F5EC;
+  }
+  .hero-fic-human {
+    background: #D4A574;
+  }
+
+
   /* Mobile: stack and show gantt below, still bleeds right */
   @media (max-width: 767px) {
     .hero-gantt-wrap {
@@ -508,56 +588,36 @@
 </style>
 
 <script>
-  import { drawHighlightStroke } from '../lib/marker-background.js';
+  import { drawCleanUnderline } from '../lib/marker-background.js';
 
-  const COLORS = ['#e8d4b8', '#dfc8a8', '#edd5b5'];
+  const HIGHLIGHT_COLOR = '#3A7D56';
 
   function getStrokeParams(section: HTMLElement) {
     const sectionRect = section.getBoundingClientRect();
-    const W = section.clientWidth;
-    const heading = document.getElementById('hero-heading');
-    const subtext = document.getElementById('hero-subtext');
-    const cta = document.getElementById('hero-cta');
+    const lines = section.querySelectorAll('[data-marker-line]');
+    if (!lines.length) return [];
 
-    const badges = section.querySelector('.trust-badge')?.parentElement;
+    const angleRad = -0.3 * (Math.PI / 180);
 
-    // Find the gap midpoint between heading bottom and subtext top
-    const headingRect = heading?.getBoundingClientRect();
-    const subtextRect = subtext?.getBoundingClientRect();
-    const badgesRect = badges?.getBoundingClientRect();
-    const gapMid = headingRect && subtextRect
-      ? ((headingRect.bottom + subtextRect.top) / 2) - sectionRect.top
-      : 0;
-
-    // Stroke 1: covers heading, bottom edge meets gap midpoint
-    const stroke1 = (() => {
-      if (!headingRect) return null;
-      const headTop = headingRect.top - sectionRect.top;
-      const thickness = gapMid - headTop + 120; // extend well above heading
-      const cy = gapMid - thickness * 0.5; // bottom edge at gapMid, extra thickness goes upward
-      const angleRad = -0.5 * (Math.PI / 180);
-      const sx = -sectionRect.left - 20;
-      const ex = W + 20;
+    return Array.from(lines).map((line) => {
+      const rect = line.getBoundingClientRect();
+      const thickness = 14;
+      const cy = rect.bottom - sectionRect.top + 2;
+      const sx = rect.left - sectionRect.left - 8;
+      const ex = rect.right - sectionRect.left + 8;
       const strokeLen = ex - sx;
       const rise = Math.sin(angleRad) * strokeLen * 0.5;
-      return { sx, sy: cy - rise, ex, ey: cy + rise, color: COLORS[0], thickness, opacity: 0.15 };
-    })();
 
-    // Stroke 2: covers subtext through badges, top edge meets gap midpoint
-    const stroke2 = (() => {
-      if (!subtextRect || !badgesRect) return null;
-      const bottomY = badgesRect.bottom - sectionRect.top;
-      const thickness = bottomY - gapMid + 120; // extend well below badges
-      const cy = gapMid + thickness * 0.5; // top edge at gapMid, extra thickness goes downward
-      const angleRad = 0.8 * (Math.PI / 180);
-      const sx = -sectionRect.left - 20;
-      const ex = W + 20;
-      const strokeLen = ex - sx;
-      const rise = Math.sin(angleRad) * strokeLen * 0.5;
-      return { sx, sy: cy - rise, ex, ey: cy + rise, color: COLORS[1], thickness, opacity: 0.15 };
-    })();
-
-    return [stroke1, stroke2].filter(Boolean) as any[];
+      return {
+        sx,
+        sy: cy - rise,
+        ex,
+        ey: cy + rise,
+        color: HIGHLIGHT_COLOR,
+        thickness,
+        opacity: 1,
+      };
+    });
   }
 
   // Instant render (used on resize and when motion is reduced)
@@ -575,7 +635,7 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
 
-    getStrokeParams(section).forEach(p => drawHighlightStroke(ctx, p));
+    getStrokeParams(section).forEach(p => drawCleanUnderline(ctx, p));
   }
 
   // Animated draw-in: strokes reveal left-to-right like a hand drawing them
@@ -601,7 +661,7 @@
       off.height = canvas.height;
       const octx = off.getContext('2d')!;
       octx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      drawHighlightStroke(octx, p);
+      drawCleanUnderline(octx, p);
       return off;
     });
 

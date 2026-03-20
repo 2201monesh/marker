@@ -4,13 +4,14 @@ import HumanHub from "./HumanHub.astro";
 
 <div class="molding-divider molding-divider-flip" aria-hidden="true"></div>
 <section class="relative bg-muted bg-paper wash-ochre-bl py-24 md:py-32 section-inset-soft" aria-labelledby="problem-heading">
-  <div class="mx-auto max-w-7xl px-8">
+  <canvas data-underline-canvas class="absolute inset-0 pointer-events-none" aria-hidden="true"></canvas>
+  <div class="relative z-10 mx-auto max-w-7xl px-8">
     <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
 
       <!-- Left column: text -->
       <div class="max-w-xl">
         <h2 id="problem-heading" class="ink-reveal text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
-          Your team is the <span class="text-primary">glue between your systems.</span>
+          Your team is the <span data-marker-line>glue between your systems.</span>
           <br />
           It shouldn't be.
         </h2>

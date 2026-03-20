@@ -3,7 +3,8 @@
 ---
 
 <section class="relative py-24 md:py-32" aria-labelledby="works-where-heading">
-  <div class="mx-auto max-w-7xl px-8">
+  <canvas data-underline-canvas class="absolute inset-0 pointer-events-none" aria-hidden="true"></canvas>
+  <div class="relative z-10 mx-auto max-w-7xl px-8">
     <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
 
       <!-- Left: text -->
@@ -12,7 +13,7 @@
           Zero adoption friction
         </p>
         <h2 id="works-where-heading" class="ink-reveal text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
-          Your team doesn't learn <span class="text-primary">a new tool.</span>
+          Your team doesn't learn <span data-marker-line>a new tool.</span>
         </h2>
         <p class="ink-reveal mt-6 text-muted-foreground md:text-lg leading-relaxed" style="--reveal-delay: 120">
           Approvals, notifications, and escalations arrive in the tools your team already uses every day. No new login. No new dashboard to check. No training sessions. Marker fits into the flow — it doesn't replace it.

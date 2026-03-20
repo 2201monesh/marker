@@ -3,13 +3,14 @@
 ---
 
 <section class="relative bg-muted bg-paper wash-ochre-bl py-24 md:py-32 section-inset-soft" aria-labelledby="security-heading">
-  <div class="mx-auto max-w-7xl px-8">
+  <canvas data-underline-canvas class="absolute inset-0 pointer-events-none" aria-hidden="true"></canvas>
+  <div class="relative z-10 mx-auto max-w-7xl px-8">
     <div class="max-w-3xl">
       <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
         Enterprise-grade security
       </p>
       <h2 id="security-heading" class="ink-reveal text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
-        AI that your security team <span class="text-primary">will actually approve.</span>
+        AI that your security team <span data-marker-line>will actually approve.</span>
       </h2>
       <p class="ink-reveal mt-6 text-muted-foreground md:text-lg leading-relaxed" style="--reveal-delay: 120">
         We built Marker's architecture around a simple principle: intelligence and execution are separate concerns. Your systems of record stay protected by layers that go beyond what most platforms even consider.
