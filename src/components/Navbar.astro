@@ -9,27 +9,20 @@
     </a>
     <div class="flex items-center gap-6">
       <a
-        href="/#how-it-works"
-        class="text-base font-bold text-foreground transition-colors hover:text-foreground/80"
-      >
-        Product
-      </a>
-      <a
         href="/#security"
-        class="text-base font-bold text-foreground transition-colors hover:text-foreground/80"
+        class="text-base font-bold text-primary transition-colors hover:text-primary/80"
       >
         Security
       </a>
       <a
         href="/team"
-        class="text-base font-bold text-foreground transition-colors hover:text-foreground/80"
+        class="text-base font-bold text-primary transition-colors hover:text-primary/80"
       >
         Team
       </a>
       <a
-        id="nav-cta"
         href="https://info.onmarker.com/book-a-demo"
-        class="btn-molding inline-flex h-9 items-center justify-center px-6 text-sm font-semibold tracking-wide text-foreground transition-colors hover:text-primary cursor-pointer opacity-0 pointer-events-none"
+        class="btn-molding inline-flex h-9 items-center justify-center px-6 text-sm font-semibold tracking-wide text-primary transition-colors hover:text-primary/80 cursor-pointer"
       >
         Book a Demo
       </a>
@@ -37,29 +30,3 @@
   </div>
   <div class="nav-rule" aria-hidden="true"></div>
 </nav>
-
-<style>
-  #nav-cta {
-    transition: opacity 0.25s ease;
-  }
-  #nav-cta.visible {
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-</style>
-
-<script>
-  const navCta = document.getElementById('nav-cta');
-  const heroCtaTrigger = document.querySelector('[data-nav-cta-trigger]');
-
-  if (navCta && heroCtaTrigger) {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Show nav CTA when the hero CTA scrolls out of view
-        navCta.classList.toggle('visible', !entry.isIntersecting);
-      },
-      { threshold: 0 }
-    );
-    observer.observe(heroCtaTrigger);
-  }
-</script>

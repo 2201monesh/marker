@@ -170,7 +170,7 @@ const nodePositions = nodeAngles.map((deg) => {
         // Show story title first, let it breathe
         storyTitle.textContent = story.title;
         storyTitle.style.opacity = '1';
-        await sleep(1200);
+        await sleep(800);
 
         // Then fade dot in and start hops
         dot.style.opacity = '0.8';
@@ -184,22 +184,22 @@ const nodePositions = nodeAngles.map((deg) => {
           moveDot(target);
           highlightNode(hop.sys);
 
-          await sleep(reducedMotion ? 0 : 600); // travel time (CSS transition)
-          await sleep(1800); // hold at system
+          await sleep(reducedMotion ? 0 : 450); // travel time (CSS transition)
+          await sleep(1200); // hold at system
 
           // Travel back to center
-          caption.style.opacity = '0';
           moveDot(CENTER);
           highlightNode(null);
 
-          await sleep(reducedMotion ? 0 : 600); // travel back
-          await sleep(400); // brief pause at center
+          await sleep(reducedMotion ? 0 : 450); // travel back
+          caption.style.opacity = '0';
+          await sleep(250); // brief pause at center
         }
 
         // Fade dot and title out between stories
         dot.style.opacity = '0';
         storyTitle.style.opacity = '0';
-        await sleep(2000);
+        await sleep(1400);
       }
     }
   }
@@ -270,7 +270,7 @@ const nodePositions = nodeAngles.map((deg) => {
     opacity: 0;
     z-index: 1;
     pointer-events: none;
-    transition: left 0.6s ease-in-out, top 0.6s ease-in-out, opacity 0.3s ease;
+    transition: left 0.45s ease-in-out, top 0.45s ease-in-out, opacity 0.3s ease;
     left: 50%;
     top: 50%;
   }

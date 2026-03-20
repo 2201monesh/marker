@@ -7,45 +7,27 @@ import Footer from "../components/Footer.astro";
 <MarketingLayout title="Our Team - Marker">
   <Navbar />
   <main id="main-content">
-    <section class="relative wash-sage-tr mx-auto max-w-7xl px-8 pt-16 pb-8 md:pt-24 md:pb-12">
-      <h1 class="text-4xl font-bold tracking-tight text-foreground leading-[1.1] md:text-5xl">
-        Our Team
-      </h1>
-      <p class="mt-4 text-lg text-muted-foreground">
-        Marker was founded by a technical team of U.C. Berkeley graduates who
-        have worked together for over 15 years — building companies, shipping
-        products, and solving hard problems in retail.
+    <section class="mx-auto max-w-7xl px-8 py-24 md:py-32">
+      <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+        About us
       </p>
-    </section>
+      <h1 class="ink-reveal text-4xl font-bold tracking-tight text-foreground leading-[1.1] md:text-5xl max-w-2xl">
+        Built by operators, not observers
+      </h1>
 
-    <section class="mx-auto max-w-7xl px-8 pb-16 md:pb-24">
-      <div class="space-y-6 text-base text-muted-foreground leading-relaxed">
-        <p>
-          The founding team previously built Drapr, a virtual try-on company backed
-          by Y Combinator (S20), and sold it to Gap Inc. After the
-          acquisition, they spent over three years embedded inside the
-          company, gaining exposure to every function across the
-          organization — from individual contributors to the C-suite. They started and ran Gap Inc.'s Generative AI
-          program and led cross-functional and cross-brand initiatives,
-          including within supply chain.
+      <div class="mt-10 space-y-6 text-base text-muted-foreground leading-relaxed max-w-2xl">
+        <p class="ink-reveal" style="--reveal-delay: 100">
+          Marker's founders have been building companies together for over 15 years. Their last company, Drapr — a virtual try-on platform backed by Y Combinator — was acquired by Gap Inc.
         </p>
-        <p>
-          That broad, deep access revealed the pain points that matter most
-          and where technology can have the greatest impact. Through
-          conversations with peers across the industry — at conferences and
-          through personal networks — the team identified and validated a
-          set of significant, recurring challenges.
+        <p class="ink-reveal" style="--reveal-delay: 200">
+          After the acquisition, they spent three years inside Gap working across every function from individual contributors to the C-suite. They started and ran the company's Generative AI program and led cross-functional, cross-brand initiatives spanning product development, merchandising, and supply chain.
         </p>
-        <p>
-          With the emergence of large language models, the team believes supply chain processes can be
-          automated far beyond what was possible before.
-        </p>
-        <p>
-          Marker was founded to make that a reality.
+        <p class="ink-reveal" style="--reveal-delay: 300">
+          That experience made one thing clear: supply chain teams spend most of their time coordinating, not deciding. The tools they rely on weren't built for the complexity they face today. Marker was founded to close that gap.
         </p>
       </div>
 
-      <div class="mt-12 flex items-center justify-center gap-12">
+      <div class="ink-reveal mt-14 flex items-center gap-12" style="--reveal-delay: 400">
         <img
           src="/yc-logo.svg"
           alt="Y Combinator"
@@ -58,19 +40,21 @@ import Footer from "../components/Footer.astro";
         />
       </div>
 
-      <div class="card-raised mt-16 rounded-xl bg-primary/5 p-8 text-center">
-        <h2 class="text-2xl font-bold text-foreground">
+      <div class="ink-reveal mt-16 border-t border-border pt-10" style="--reveal-delay: 500">
+        <h2 class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
           Want to learn more?
         </h2>
         <p class="mt-2 text-muted-foreground">
-          We'd love to tell you about what we're building at Marker.
+          30-minute walkthrough tailored to your supply chain.
         </p>
-        <a
-          href="https://info.onmarker.com/book-a-demo"
-          class="btn-raised mt-6 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        >
-          Book a Demo
-        </a>
+        <div class="mt-6">
+          <a
+            href="https://info.onmarker.com/book-a-demo"
+            class="btn-molding inline-flex h-11 items-center justify-center px-8 text-sm font-semibold tracking-wide text-primary transition-colors cursor-pointer"
+          >
+            Book a Demo
+          </a>
+        </div>
       </div>
     </section>
   </main>
