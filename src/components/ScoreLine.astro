@@ -1,0 +1,34 @@
+---
+/* Score Line — a debossed rule like a stylus scored into fine cardstock.
+   Thin groove with a subtle light catch on the lower lip. Content-width only. */
+---
+
+<div class="score-rule-wrap" aria-hidden="true">
+  <div class="score-rule"></div>
+</div>
+
+<style>
+  .score-rule-wrap {
+    margin: 0 auto;
+    max-width: 80rem; /* matches max-w-7xl */
+    padding: 0 2rem;  /* matches px-8 */
+  }
+
+  .score-rule {
+    height: 3px;
+    background:
+      /* 1 — the groove: a thin shadow where the stylus pressed in */
+      linear-gradient(to bottom,
+        rgba(45, 36, 24, 0.10) 0px,
+        rgba(45, 36, 24, 0.10) 1px,
+        transparent 1px
+      ),
+      /* 2 — light catch: the far lip of the groove picks up ambient light */
+      linear-gradient(to bottom,
+        transparent 1px,
+        rgba(255, 255, 255, 0.50) 1px,
+        rgba(255, 255, 255, 0.50) 2px,
+        transparent 2px
+      );
+  }
+</style>
