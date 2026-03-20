@@ -196,13 +196,19 @@
 }
 
 /* ─── Paper texture ──────────────────────────────────────────────────────── */
-/* Faint horizontal ruled lines — wide spacing like premium stationery.
-   Leans into the Marker/paper motif without competing with content. */
+/* Regular square crosshatch — subtle graph-paper feel at 40px spacing. */
 
 .bg-paper {
   background-image:
     repeating-linear-gradient(
-      180deg,
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(170, 155, 130, 0.04) 39px,
+      rgba(170, 155, 130, 0.04) 40px
+    ),
+    repeating-linear-gradient(
+      90deg,
       transparent,
       transparent 39px,
       rgba(170, 155, 130, 0.04) 39px,
