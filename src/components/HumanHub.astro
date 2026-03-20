@@ -1,8 +1,7 @@
 ---
-/*  Human Hub → Marker Hub — scroll-driven morph.
-    Single graphic. Person at center slides down to become a 7th node
-    on the ring, revealing the Marker "M" icon behind it. System nodes
-    redistribute evenly to make room. Lines go solid green. */
+/*  Human Hub — radial diagram showing a person at the center of 6 systems,
+    with a single dot tracing multi-system journeys that illustrate the
+    human as "glue" between disconnected tools. */
 
 interface SystemNode {
   name: string;
@@ -36,76 +35,58 @@ const systems: SystemNode[] = [
   },
 ];
 
-/* ── Geometry ── */
-const R_PCT = 37.5;  // ring radius as % of container
-const R_SVG = 150;   // ring radius in SVG units (400×400 viewBox)
+// Positions for 6 nodes around a circle (in degrees)
+const angleOffsetDeg = -60;
+const nodeAngles = systems.map((_, i) => (i * 60 + angleOffsetDeg));
 
-const startAngles = [-60, 0, 60, 120, 180, 240]; // 6 nodes, 60° apart
-
-// Insert human at 90° (bottom). Redistribute 7 nodes evenly (360/7 ≈ 51.43°).
-// Offset chosen so human lands at exactly 90° with minimal movement for others.
-const humanEndAngle = 90;
-const endAngles = [-64.29, -12.86, 38.57, 141.43, 192.86, 244.29];
-
-function angleToPct(deg: number) {
+// Precompute node positions as percentages (for the dot and highlight)
+const nodePositions = nodeAngles.map((deg) => {
   const rad = (deg * Math.PI) / 180;
-  return { left: 50 + Math.cos(rad) * R_PCT, top: 50 + Math.sin(rad) * R_PCT };
-}
-function angleToSvg(deg: number) {
-  const rad = (deg * Math.PI) / 180;
-  return { x: 200 + Math.cos(rad) * R_SVG, y: 200 + Math.sin(rad) * R_SVG };
-}
-
-const startPositions = startAngles.map(angleToPct);
-const humanEndPct = angleToPct(humanEndAngle);
-const humanEndSvg = angleToSvg(humanEndAngle);
+  return {
+    left: 50 + Math.cos(rad) * 37.5,
+    top: 50 + Math.sin(rad) * 37.5,
+  };
+});
 ---
 
 <div class="hub-wrap ink-reveal" style="--reveal-delay: 200" aria-hidden="true">
   <!-- Phase label -->
-  <div class="hub-phase-label" id="hub-phase-label">Today</div>
+  <div class="hub-phase-label">Today</div>
 
   <div class="hub-graphic">
-    <!-- SVG connector lines: 6 system + 1 human -->
+
+    <!-- Connector lines -->
     <svg class="hub-svg-layer" viewBox="0 0 400 400" fill="none">
-      {startAngles.map((deg, i) => {
-        const s = angleToSvg(deg);
+      {nodeAngles.map((deg) => {
+        const rad = (deg * Math.PI) / 180;
         return (
-          <line class="hub-line" data-line-idx={i}
-            x1="200" y1="200" x2={s.x} y2={s.y}
-            stroke="#E8DFD0" stroke-width="1" stroke-dasharray="4 4" />
+          <line
+            x1="200" y1="200"
+            x2={200 + Math.cos(rad) * 150} y2={200 + Math.sin(rad) * 150}
+            stroke="#E8DFD0"
+            stroke-width="1"
+            stroke-dasharray="4 4"
+          />
         );
       })}
-      <!-- 7th line: to human's end position, starts hidden -->
-      <line class="hub-line" data-line-idx="human"
-        x1="200" y1="200" x2={humanEndSvg.x} y2={humanEndSvg.y}
-        stroke="#E8DFD0" stroke-width="1" stroke-dasharray="4 4" opacity="0" />
     </svg>
 
-    <!-- Marker M at center (sits behind person, always here) -->
-    <div class="hub-center-m" id="hub-center-m">
-      <div class="hub-marker-icon">
-        <span class="hub-marker-letter">m</span>
-      </div>
-    </div>
+    <!-- Traveling dot (HTML div, positioned via JS) -->
+    <div class="hub-dot" id="hub-dot"></div>
 
-    <!-- Person node (starts at center, slides to ring) -->
-    <div class="hub-person-node" id="hub-person-node" style="left:50%;top:50%">
-      <div class="hub-person-icon" id="hub-person-icon">
+    <!-- Center person icon -->
+    <div class="hub-center">
+      <div class="hub-person">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5">
           <circle cx="12" cy="8" r="4"/>
           <path d="M4 21v-1a6 6 0 0112 0v1"/>
         </svg>
       </div>
-      <span class="hub-person-label" id="hub-person-label">Your team</span>
     </div>
 
-    <!-- Traveling dot (Phase 1 hop animation) -->
-    <div class="hub-dot" id="hub-dot"></div>
-
-    <!-- 6 system nodes -->
+    <!-- System nodes -->
     {systems.map((sys, i) => {
-      const pos = startPositions[i];
+      const pos = nodePositions[i];
       return (
         <div class="hub-node" style={`left:${pos.left}%;top:${pos.top}%`} data-hub-node={i}>
           <div class="hub-node-icon">
@@ -117,58 +98,19 @@ const humanEndSvg = angleToSvg(humanEndAngle);
     })}
   </div>
 
-  <!-- Story title (Phase 1) -->
+  <!-- Story title above the diagram -->
   <div class="hub-story-title" id="hub-story-title"></div>
 
-  <!-- Caption -->
+  <!-- Caption below the diagram -->
   <div class="hub-caption" id="hub-caption"></div>
 </div>
 
-<script is:inline define:vars={{ startPositions, startAngles, endAngles, humanEndAngle }}>
-  window.__hubStartPositions = startPositions;
-  window.__hubStartAngles = startAngles;
-  window.__hubEndAngles = endAngles;
-  window.__hubHumanEndAngle = humanEndAngle;
+<!-- Pass node positions to client JS -->
+<script is:inline define:vars={{ nodePositions }}>
+  window.__hubNodePositions = nodePositions;
 </script>
 
 <script>
-  const R_PCT = 37.5;
-  const R_SVG = 150;
-
-  function angleToPct(deg: number) {
-    const rad = (deg * Math.PI) / 180;
-    return { left: 50 + Math.cos(rad) * R_PCT, top: 50 + Math.sin(rad) * R_PCT };
-  }
-  function angleToSvg(deg: number) {
-    const rad = (deg * Math.PI) / 180;
-    return { x: 200 + Math.cos(rad) * R_SVG, y: 200 + Math.sin(rad) * R_SVG };
-  }
-  function lerp(a: number, b: number, t: number) { return a + (b - a) * t; }
-
-  /* ── Data from server ── */
-  const startPositions: { left: number; top: number }[] = (window as any).__hubStartPositions;
-  const startAngles: number[] = (window as any).__hubStartAngles;
-  const endAngles: number[] = (window as any).__hubEndAngles;
-  const humanEndAngle: number = (window as any).__hubHumanEndAngle;
-
-  /* ── DOM refs ── */
-  const dot = document.getElementById('hub-dot')!;
-  const caption = document.getElementById('hub-caption')!;
-  const storyTitle = document.getElementById('hub-story-title')!;
-  const phaseLabel = document.getElementById('hub-phase-label')!;
-  const personNode = document.getElementById('hub-person-node')!;
-  const personIcon = document.getElementById('hub-person-icon')!;
-  const personLabel = document.getElementById('hub-person-label')!;
-  const centerM = document.getElementById('hub-center-m')!;
-  const spacer = document.querySelector('.problem-scroll-spacer') as HTMLElement;
-  const sysNodes = document.querySelectorAll<HTMLElement>('[data-hub-node]');
-  const sysLines = document.querySelectorAll<SVGLineElement>('.hub-line[data-line-idx]');
-  const humanLine = document.querySelector('.hub-line[data-line-idx="human"]') as SVGLineElement;
-
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const CENTER = { left: 50, top: 50 };
-
-  /* ── Phase 1: hop animation ── */
   const stories = [
     {
       title: "One spec field changes",
@@ -194,13 +136,26 @@ const humanEndSvg = angleToSvg(humanEndAngle);
     },
   ];
 
+  const dot = document.getElementById('hub-dot');
+  const caption = document.getElementById('hub-caption');
+  const storyTitle = document.getElementById('hub-story-title');
+  const nodes = document.querySelectorAll<HTMLElement>('[data-hub-node]');
+  const positions: { left: number; top: number }[] = (window as any).__hubNodePositions;
+
+  if (!dot || !caption || !storyTitle || !positions) throw new Error('Hub elements missing');
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Center position
+  const CENTER = { left: 50, top: 50 };
+
   function moveDot(pos: { left: number; top: number }) {
     dot.style.left = `${pos.left}%`;
     dot.style.top = `${pos.top}%`;
   }
 
   function highlightNode(sysIndex: number | null) {
-    sysNodes.forEach((n) => {
+    nodes.forEach((n) => {
       n.classList.toggle('hub-node--active', n.dataset.hubNode === String(sysIndex));
     });
   }
@@ -209,187 +164,64 @@ const humanEndSvg = angleToSvg(humanEndAngle);
     return new Promise((r) => setTimeout(r, ms));
   }
 
+  // Start at center, hidden
   moveDot(CENTER);
 
-  let hopCancelled = false;
-
-  async function runHopLoop() {
-    while (!hopCancelled) {
+  async function runLoop() {
+    while (true) {
       for (const story of stories) {
-        if (hopCancelled) break;
+        // Show story title first, let it breathe
         storyTitle.textContent = story.title;
         storyTitle.style.opacity = '1';
         await sleep(800);
-        if (hopCancelled) break;
 
+        // Then fade dot in and start hops
         dot.style.opacity = '0.8';
 
         for (const hop of story.hops) {
-          if (hopCancelled) break;
+          const target = positions[hop.sys];
+
+          // Show caption and travel to system
           caption.textContent = hop.label;
           caption.style.opacity = '1';
-          moveDot(startPositions[hop.sys]);
+          moveDot(target);
           highlightNode(hop.sys);
 
-          await sleep(reducedMotion ? 0 : 450);
-          if (hopCancelled) break;
-          await sleep(1200);
-          if (hopCancelled) break;
+          await sleep(reducedMotion ? 0 : 450); // travel time (CSS transition)
+          await sleep(1200); // hold at system
 
+          // Travel back to center
           moveDot(CENTER);
           highlightNode(null);
 
-          await sleep(reducedMotion ? 0 : 450);
-          if (hopCancelled) break;
+          await sleep(reducedMotion ? 0 : 450); // travel back
           caption.style.opacity = '0';
-          await sleep(250);
+          await sleep(250); // brief pause at center
         }
 
-        if (hopCancelled) break;
+        // Fade dot and title out between stories
         dot.style.opacity = '0';
         storyTitle.style.opacity = '0';
         await sleep(1400);
       }
     }
-
-    // Clean up
-    dot.style.opacity = '0';
-    caption.style.opacity = '0';
-    storyTitle.style.opacity = '0';
-    highlightNode(null);
   }
 
-  /* ── Scroll-driven morph ── */
-  function getScrollProgress(): number {
-    if (!spacer) return 0;
-    const rect = spacer.getBoundingClientRect();
-    const scrollRange = spacer.offsetHeight - window.innerHeight;
-    if (scrollRange <= 0) return 0;
-    return Math.max(0, Math.min(1, -rect.top / scrollRange));
-  }
-
-  let lastP = 0;
-
-  function onScroll() {
-    const p = getScrollProgress();
-
-    // Kill hop animation once scroll starts
-    if (p > 0.05 && !hopCancelled) {
-      hopCancelled = true;
-    }
-
-    // Ease the progress for smoother feel
-    const t = p;
-
-    /* ── Person: slide from center to ring bottom ── */
-    const humanEnd = angleToPct(humanEndAngle);
-    const pLeft = lerp(50, humanEnd.left, t);
-    const pTop = lerp(50, humanEnd.top, t);
-    personNode.style.left = `${pLeft}%`;
-    personNode.style.top = `${pTop}%`;
-
-    // Scale: 1.3 (52px apparent) → 1.0 (40px)
-    const pScale = lerp(1.3, 1.0, t);
-    personIcon.style.transform = `scale(${pScale})`;
-
-    // Shadow rings fade out as person moves to ring
-    const ringAlpha = 1 - t;
-    personIcon.style.boxShadow = `
-      0 0 0 ${lerp(4, 0, t)}px rgba(58, 125, 86, ${0.2 * ringAlpha}),
-      0 0 0 ${lerp(8, 0, t)}px rgba(58, 125, 86, ${0.08 * ringAlpha}),
-      0 2px 8px rgba(45, 36, 24, ${0.12 * ringAlpha})
-    `;
-
-    // Person label fades in
-    personLabel.style.opacity = String(Math.max(0, (t - 0.6) / 0.4));
-
-    /* ── M center: revealed as person moves away ── */
-    // Shadow rings grow in
-    const mAlpha = t;
-    centerM.style.opacity = '1';
-    const mIcon = centerM.querySelector('.hub-marker-icon') as HTMLElement;
-    if (mIcon) {
-      mIcon.style.boxShadow = `
-        0 0 0 ${lerp(0, 4, t)}px rgba(58, 125, 86, ${0.25 * mAlpha}),
-        0 0 0 ${lerp(0, 8, t)}px rgba(58, 125, 86, ${0.1 * mAlpha}),
-        0 2px 8px rgba(45, 36, 24, ${0.12 * mAlpha})
-      `;
-    }
-
-    /* ── System nodes: interpolate positions ── */
-    sysNodes.forEach((node, i) => {
-      const sAngle = startAngles[i];
-      const eAngle = endAngles[i];
-      const angle = lerp(sAngle, eAngle, t);
-      const pos = angleToPct(angle);
-      node.style.left = `${pos.left}%`;
-      node.style.top = `${pos.top}%`;
-
-      // Connected styling
-      node.classList.toggle('hub-node--connected', t > 0.5);
-    });
-
-    /* ── Connector lines: update endpoints ── */
-    sysLines.forEach((line) => {
-      const idx = line.dataset.lineIdx;
-      if (idx === 'human') return;
-
-      const i = Number(idx);
-      const angle = lerp(startAngles[i], endAngles[i], t);
-      const svgPos = angleToSvg(angle);
-      line.setAttribute('x2', String(svgPos.x));
-      line.setAttribute('y2', String(svgPos.y));
-    });
-
-    // Human connector line fades in
-    if (humanLine) {
-      humanLine.style.opacity = String(t);
-    }
-
-    /* ── Phase label ── */
-    if (t < 0.15) {
-      phaseLabel.textContent = 'Today';
-      phaseLabel.style.opacity = '1';
-    } else if (t > 0.35) {
-      phaseLabel.textContent = 'With Marker';
-      phaseLabel.style.opacity = '1';
-    } else {
-      phaseLabel.style.opacity = '0';
-    }
-
-    /* ── Caption ── */
-    if (t > 0.7) {
-      caption.textContent = 'Marker handles the busywork. Your team handles the thinking.';
-      caption.style.opacity = String(Math.min(1, (t - 0.7) / 0.2));
-    } else if (!hopCancelled || t > 0.05) {
-      caption.style.opacity = '0';
-    }
-
-    /* ── Dot: hide during transition ── */
-    if (t > 0.05) {
-      dot.style.opacity = '0';
-      storyTitle.style.opacity = '0';
-    }
-
-    lastP = p;
-  }
-
-  /* ── Init ── */
-  const section = document.getElementById('problem-section');
-
-  if (section && spacer) {
-    window.addEventListener('scroll', onScroll, { passive: true });
-
+  // Start when visible
+  const section = dot.closest('section') || dot.closest('.hub-wrap');
+  if (section) {
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           obs.disconnect();
-          runHopLoop();
+          runLoop();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
     obs.observe(section);
+  } else {
+    runLoop();
   }
 </script>
 
@@ -414,10 +246,9 @@ const humanEndSvg = angleToSvg(humanEndAngle);
     border: 1px solid #D4C9B8;
     border-radius: 3px;
     background: rgba(245, 237, 224, 0.6);
-    transition: opacity 0.3s ease;
   }
 
-  /* ── Story title ── */
+  /* ── Story title above diagram ── */
   .hub-story-title {
     font-size: 11px;
     font-weight: 600;
@@ -437,6 +268,7 @@ const humanEndSvg = angleToSvg(humanEndAngle);
     aspect-ratio: 1;
   }
 
+  /* ── SVG layer ── */
   .hub-svg-layer {
     position: absolute;
     inset: 0;
@@ -454,23 +286,23 @@ const humanEndSvg = angleToSvg(humanEndAngle);
     border-radius: 50%;
     background: #3A7D56;
     opacity: 0;
-    z-index: 5;
+    z-index: 1;
     pointer-events: none;
     transition: left 0.45s ease-in-out, top 0.45s ease-in-out, opacity 0.3s ease;
     left: 50%;
     top: 50%;
   }
 
-  /* ── Marker M at center ── */
-  .hub-center-m {
+  /* ── Center person ── */
+  .hub-center {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2;
+    z-index: 3;
   }
 
-  .hub-marker-icon {
+  .hub-person {
     width: 52px;
     height: 52px;
     border-radius: 50%;
@@ -478,60 +310,15 @@ const humanEndSvg = angleToSvg(humanEndAngle);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: none;
-    transition: box-shadow 0.3s ease;
-  }
-
-  .hub-marker-letter {
-    font-size: 24px;
-    font-weight: 800;
-    font-style: italic;
-    color: #fff;
-    line-height: 1;
-    /* Nudge to optically center the italic lowercase m */
-    margin-top: 1px;
-    margin-left: 1px;
-  }
-
-  /* ── Person node (starts at center) ── */
-  .hub-person-node {
-    position: absolute;
-    z-index: 4;
-    transform: translate(-50%, -50%);
-  }
-
-
-  .hub-person-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #3A7D56;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform: scale(1.3);
     box-shadow:
       0 0 0 4px rgba(58, 125, 86, 0.2),
       0 0 0 8px rgba(58, 125, 86, 0.08),
       0 2px 8px rgba(45, 36, 24, 0.12);
   }
 
-  .hub-person-icon svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .hub-person-label {
-    position: absolute;
-    top: 100%;
-    margin-top: 4px;
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #7D6B4F;
-    white-space: nowrap;
-    opacity: 0;
+  .hub-person svg {
+    width: 24px;
+    height: 24px;
   }
 
   /* ── System nodes ── */
@@ -542,7 +329,7 @@ const humanEndSvg = angleToSvg(humanEndAngle);
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    z-index: 3;
+    z-index: 2;
     transition: transform 0.2s ease;
   }
 
@@ -555,20 +342,6 @@ const humanEndSvg = angleToSvg(humanEndAngle);
     box-shadow: 0 0 0 3px rgba(58, 125, 86, 0.15), 0 1px 3px rgba(45, 36, 24, 0.08);
   }
 
-  .hub-node--connected {
-    transform: translate(-50%, -50%) scale(1.08);
-  }
-
-  .hub-node--connected .hub-node-icon {
-    border-color: #3A7D56;
-    background: #EBF5EF;
-    box-shadow: 0 0 0 3px rgba(58, 125, 86, 0.18), 0 1px 3px rgba(45, 36, 24, 0.08);
-  }
-
-  .hub-node--connected .hub-node-icon svg {
-    color: #3A7D56;
-  }
-
   .hub-node-icon {
     width: 40px;
     height: 40px;
@@ -579,14 +352,13 @@ const humanEndSvg = angleToSvg(humanEndAngle);
     align-items: center;
     justify-content: center;
     box-shadow: 0 1px 3px rgba(45, 36, 24, 0.08);
-    transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   .hub-node-icon svg {
     width: 18px;
     height: 18px;
     color: #7D6B4F;
-    transition: color 0.4s ease;
   }
 
   .hub-node-label {
@@ -598,7 +370,7 @@ const humanEndSvg = angleToSvg(humanEndAngle);
     white-space: nowrap;
   }
 
-  /* ── Caption ── */
+  /* ── Caption below diagram ── */
   .hub-caption {
     height: 1.6em;
     width: 100%;
@@ -615,13 +387,16 @@ const humanEndSvg = angleToSvg(humanEndAngle);
 
   /* ── Reduced motion ── */
   @media (prefers-reduced-motion: reduce) {
-    .hub-dot,
-    .hub-node,
-    .hub-node-icon,
-    .hub-node-icon svg,
-    .hub-caption,
-    .hub-marker-icon,
-    .hub-phase-label {
+    .hub-dot {
+      transition: none;
+    }
+    .hub-node {
+      transition: none;
+    }
+    .hub-node-icon {
+      transition: none;
+    }
+    .hub-caption {
       transition: none;
     }
   }
