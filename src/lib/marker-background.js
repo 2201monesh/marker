@@ -222,31 +222,98 @@ export function drawHighlightStroke(ctx, { sx, sy, ex, ey, color, thickness, opa
 /**
  * Draw a clean, smooth underline stroke with very slight hand-drawn wobble.
  */
+const MARKER_TUNING = {
+  baseFill: 0.82,
+  streakSpacing: 1.2,
+  streakMin: 0.2,
+  streakMax: 0.12,
+  streakGapChance: 0.25,
+  edgeDarken: 0.18,
+  edgeWidth: 1,
+};
+
 export function drawCleanUnderline(ctx, { sx, sy, ex, ey, color, thickness, opacity }) {
+  const T = MARKER_TUNING;
   const [cr, cg, cb] = hexToRgb(color);
   const hw = thickness / 2;
   // Chisel cap width — how far the diagonal cut extends horizontally
   const cap = thickness * 0.7;
 
-  ctx.save();
-  ctx.globalAlpha = opacity;
-  ctx.fillStyle = `rgb(${cr},${cg},${cb})`;
-
   const midY = (sy + ey) / 2;
   const midX = (sx + ex) / 2;
 
-  ctx.beginPath();
-  // Start at bottom-left
-  ctx.moveTo(sx, sy + hw);
-  // Left chisel cap — diagonal up-right
-  ctx.lineTo(sx + cap, sy - hw);
-  // Top edge across (with subtle wobble)
-  ctx.quadraticCurveTo(midX, midY - hw + 1.5, ex, ey - hw);
-  // Right chisel cap — diagonal down-right
-  ctx.lineTo(ex + cap, ey + hw);
-  // Bottom edge back (with subtle wobble)
-  ctx.quadraticCurveTo(midX, midY + hw + 1.5, sx, sy + hw);
-  ctx.closePath();
+  // Helper to define the stroke outline path
+  function strokePath() {
+    ctx.beginPath();
+    ctx.moveTo(sx, sy + hw);
+    ctx.lineTo(sx + cap, sy - hw);
+    ctx.quadraticCurveTo(midX, midY - hw + 1.5, ex, ey - hw);
+    ctx.lineTo(ex + cap, ey + hw);
+    ctx.quadraticCurveTo(midX, midY + hw + 1.5, sx, sy + hw);
+    ctx.closePath();
+  }
+
+  ctx.save();
+
+  // 1. Base fill — slightly transparent so paper grain shows through
+  ctx.globalAlpha = opacity * T.baseFill;
+  ctx.fillStyle = `rgb(${cr},${cg},${cb})`;
+  strokePath();
   ctx.fill();
+
+  // 2. Streaky texture — thin parallel lines along stroke direction
+  //    simulating chisel-tip felt fibers
+  ctx.save();
+  strokePath();
+  ctx.clip();
+
+  const angle = Math.atan2(ey - sy, ex - sx);
+  const cosA = Math.cos(angle);
+  const sinA = Math.sin(angle);
+  const strokeLen = Math.sqrt((ex - sx) ** 2 + (ey - sy) ** 2) + cap * 2;
+
+  // Draw streaks perpendicular spacing across the stroke width
+  const numStreaks = Math.ceil(thickness / T.streakSpacing);
+
+  for (let i = 0; i < numStreaks; i++) {
+    const frac = i / numStreaks;
+    // Vary opacity per streak — some streaks are darker (more ink), some lighter
+    const streakAlpha = opacity * (T.streakMin + Math.random() * T.streakMax);
+
+    // Position along the cross-axis of the stroke
+    const offset = -hw + frac * thickness;
+    const perpX = -sinA * offset;
+    const perpY = cosA * offset;
+
+    const x0 = sx - cosA * cap + perpX;
+    const y0 = sy - sinA * cap + perpY;
+    const x1 = x0 + cosA * strokeLen;
+    const y1 = y0 + sinA * strokeLen;
+
+    // Randomly make some streaks lighter (gaps in ink) or darker (pooled ink)
+    if (Math.random() < T.streakGapChance) {
+      // Lighter streak — slight gap
+      ctx.globalAlpha = streakAlpha * 0.3;
+      ctx.strokeStyle = `rgb(${Math.min(cr + 30, 255)},${Math.min(cg + 30, 255)},${Math.min(cb + 30, 255)})`;
+    } else {
+      ctx.globalAlpha = streakAlpha;
+      ctx.strokeStyle = `rgb(${clamp(cr - 15, 0, 255)},${clamp(cg - 15, 0, 255)},${clamp(cb - 15, 0, 255)})`;
+    }
+
+    ctx.lineWidth = 0.8 + Math.random() * 0.4;
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y1);
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // 3. Edge darkening — ink pools at the boundaries of a real marker stroke
+  ctx.globalAlpha = opacity * T.edgeDarken;
+  ctx.strokeStyle = `rgb(${clamp(cr - 25, 0, 255)},${clamp(cg - 25, 0, 255)},${clamp(cb - 25, 0, 255)})`;
+  ctx.lineWidth = T.edgeWidth;
+  strokePath();
+  ctx.stroke();
+
   ctx.restore();
 }
