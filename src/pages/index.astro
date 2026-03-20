@@ -18,7 +18,10 @@ import Footer from "../components/Footer.astro";
 <MarketingLayout title="Marker - Your Always-On Retail Supply Chain Coordinator">
   <Navbar />
   <main id="main-content">
-    <Hero />
+    <div class="relative">
+      <GrainLayer />
+      <Hero />
+    </div>
     <Problem />
     <div class="relative">
       <GrainLayer />
@@ -39,6 +42,9 @@ import Footer from "../components/Footer.astro";
       <ClosingCTA />
     </div>
   </main>
-  <Footer />
+  <div class="relative">
+    <GrainLayer />
+    <Footer />
+  </div>
 
 </MarketingLayout>

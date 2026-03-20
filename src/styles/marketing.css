@@ -25,6 +25,20 @@
   background: #F5F0EB;
 }
 
+/* Navbar grain — same texture applied via pseudo-element on the nav itself.
+   No position:relative here — the nav already has position:sticky.          */
+.nav-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.11;
+  mix-blend-mode: multiply;
+  filter: url(#paper-grain);
+  background: #F5F0EB;
+}
+
 /* ─── Nav rule — simple bottom edge ───────────────────────────────────────── */
 .nav-rule {
   height: 1px;
@@ -72,86 +86,42 @@
 }
 
 /* ─── Gallery mat bevel ───────────────────────────────────────────────────── */
-/* Mimics the 45-degree beveled cut of a gallery picture mat / mount board.
-   The page background is the mat surface; the tinted section is the artwork
-   recessed behind the mat window.  The bevel reveals the bright inner core
-   of the paper at an angle, catching light on top and casting a thin shadow
-   on bottom — just like a real mat cutter leaves behind.                      */
+/* The tinted section is recessed below the mat surface. An inset box-shadow
+   creates natural depth at the edges — light catches the outer lip while
+   shadow falls inside, just like a real window cut in mat board.             */
 
 .mat-bevel {
   position: relative;
+  box-shadow:
+    /* Inset shadow at top — mat surface casts shadow down into the recess */
+    inset 0 6px 8px -4px rgba(45, 36, 24, 0.13),
+    /* Inset shadow at bottom — mat surface casts shadow up into the recess */
+    inset 0 -6px 8px -4px rgba(45, 36, 24, 0.13);
 }
 
-/* Top bevel — the mat surface overhangs the recessed section.
-   Structure (top to bottom):
-   1. Sharp dark edge — where the mat surface ends
-   2. Bright narrow catch-light — the exposed paper core, lit from above
-   3. Shadow gradient — the angled face receding into the recess           */
+/* Light catch on the outer lip — the mat edge picks up light */
 .mat-bevel::before {
   content: "";
   position: absolute;
-  top: 0;
+  top: -1px;
   left: 0;
   right: 0;
-  height: 10px;
+  height: 1px;
   z-index: 2;
   pointer-events: none;
-  background:
-    /* 1 — crisp cut edge: thin dark line where mat surface was sliced */
-    linear-gradient(to bottom,
-      rgba(45, 36, 24, 0.13) 0px,
-      rgba(45, 36, 24, 0.13) 1px,
-      transparent 1px
-    ),
-    /* 2 — bright paper core: the inner ply of the mat board, catching light */
-    linear-gradient(to bottom,
-      transparent 1px,
-      rgba(255, 255, 255, 0.85) 1px,
-      rgba(255, 255, 255, 0.7) 3px,
-      transparent 3px
-    ),
-    /* 3 — bevel shadow: the angled face falling away from the light */
-    linear-gradient(to bottom,
-      transparent 3px,
-      rgba(45, 36, 24, 0.07) 4px,
-      rgba(45, 36, 24, 0.03) 7px,
-      transparent 10px
-    );
+  background: rgba(255, 255, 255, 0.5);
 }
 
-/* Bottom bevel — the recessed section rises back to the mat surface.
-   Structure (bottom to top): same layers, mirrored.
-   Light catches the lower lip where the bevel meets the mat surface.    */
 .mat-bevel::after {
   content: "";
   position: absolute;
-  bottom: 0;
+  bottom: -1px;
   left: 0;
   right: 0;
-  height: 10px;
+  height: 1px;
   z-index: 2;
   pointer-events: none;
-  background:
-    /* 1 — crisp cut edge at bottom */
-    linear-gradient(to top,
-      rgba(45, 36, 24, 0.13) 0px,
-      rgba(45, 36, 24, 0.13) 1px,
-      transparent 1px
-    ),
-    /* 2 — bright paper core catch-light */
-    linear-gradient(to top,
-      transparent 1px,
-      rgba(255, 255, 255, 0.85) 1px,
-      rgba(255, 255, 255, 0.7) 3px,
-      transparent 3px
-    ),
-    /* 3 — bevel shadow receding upward */
-    linear-gradient(to top,
-      transparent 3px,
-      rgba(45, 36, 24, 0.07) 4px,
-      rgba(45, 36, 24, 0.03) 7px,
-      transparent 10px
-    );
+  background: rgba(255, 255, 255, 0.5);
 }
 
 /* (section-inset classes removed — replaced by .mat-bevel) */
