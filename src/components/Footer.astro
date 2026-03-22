@@ -26,7 +26,7 @@ const year = new Date().getFullYear();
       <a href="/terms" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Terms of Service</a>
       <a href="https://trust.onmarker.com/" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Trust Center</a>
       <a href="/privacy#privacyrights" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Do Not Sell My Personal Information</a>
-      <button onclick="window.displayPreferenceModal && window.displayPreferenceModal()" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded bg-transparent border-none text-sm text-muted-foreground cursor-pointer p-0">Manage Cookies</button>
+      <a href="#" onclick="if(window.displayPreferenceModal){window.displayPreferenceModal();return false;}" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Manage Cookies</a>
     </nav>
     <nav class="mt-4 flex flex-wrap justify-center gap-3" aria-label="Social media">
       <a

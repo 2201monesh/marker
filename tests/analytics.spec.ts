@@ -120,13 +120,39 @@ test("newsletter form fires HubSpot submission and Amplitude identify", async ({
   ).toBe(true);
 });
 
+test("Manage Cookies link is present and calls displayPreferenceModal", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  const cookieLink = page.getByRole("link", { name: "Manage Cookies" });
+  await expect(cookieLink).toBeVisible();
+
+  // Verify the onclick handler references displayPreferenceModal
+  const onclick = await cookieLink.getAttribute("onclick");
+  expect(onclick).toContain("displayPreferenceModal");
+});
+
+test("Termly consent script is loaded", async ({ page }) => {
+  await page.goto("/");
+
+  // Verify the Termly resource blocker script tag is in the page
+  const termlyScript = page.locator(
+    'script[src*="app.termly.io/resource-blocker"]'
+  );
+  await expect(termlyScript).toBeAttached();
+});
+
 test("book-a-demo links include Amplitude cross-domain params", async ({
   page,
 }) => {
   await page.goto("/");
 
-  // Wait for Amplitude to initialize
-  await page.waitForFunction(() => !!window.amplitude, { timeout: 15000 });
+  // Wait for Amplitude to fully initialize (deviceId available)
+  await page.waitForFunction(
+    () => window.amplitude && window.amplitude.getDeviceId(),
+    { timeout: 15000 }
+  );
 
   // Find a book-a-demo link
   const demoLink = page.locator('a[href*="info.onmarker.com"]').first();
