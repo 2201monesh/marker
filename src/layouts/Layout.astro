@@ -76,6 +76,7 @@ const LOCAL_FONT_CSS = `
       Skip to main content
     </a>
     <slot />
+    <script is:inline>if ('scrollRestoration' in history) history.scrollRestoration = 'manual';</script>
     <script>
       // Scroll reveal — triggers .is-visible when elements enter viewport
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

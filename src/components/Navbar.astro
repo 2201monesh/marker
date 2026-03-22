@@ -2,31 +2,62 @@
 
 ---
 
-<nav class="nav-grain sticky top-0 z-50 bg-background">
+<nav class="nav-grain sticky top-0 z-50 bg-background relative">
   <div class="relative z-10 mx-auto flex h-16 max-w-7xl items-center justify-between px-8">
     <a href="/" class="flex items-center">
       <img src="/logo.png" alt="Marker - Go to homepage" class="h-8" />
     </a>
-    <div class="flex items-center gap-6">
-      <a
-        href="/#security"
-        class="text-base font-bold text-primary transition-colors hover:text-primary/80"
-      >
-        Security
-      </a>
-      <a
-        href="/team"
-        class="text-base font-bold text-primary transition-colors hover:text-primary/80"
-      >
-        Team
-      </a>
-      <a
-        href="https://info.onmarker.com/book-a-demo"
-        class="btn-molding inline-flex h-9 items-center justify-center px-6 text-sm font-semibold tracking-wide text-primary transition-colors hover:text-primary/80 cursor-pointer"
-      >
-        Book a Demo
-      </a>
+    <!-- Desktop nav -->
+    <div class="hidden md:flex items-center gap-6">
+      <a href="/#security" class="text-base font-bold text-primary transition-colors hover:text-primary/80">Security</a>
+      <a href="/team" class="text-base font-bold text-primary transition-colors hover:text-primary/80">Team</a>
+      <a href="https://info.onmarker.com/book-a-demo" class="btn-molding inline-flex h-9 items-center justify-center px-6 text-sm font-semibold tracking-wide text-primary transition-colors hover:text-primary/80 cursor-pointer">Book a Demo</a>
     </div>
+
+    <!-- Mobile hamburger -->
+    <button id="mobile-menu-btn" class="md:hidden flex items-center justify-center w-10 h-10 text-primary" aria-label="Open menu" aria-expanded="false">
+      <svg id="hamburger-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+      <svg id="close-icon" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
   </div>
   <div class="nav-rule relative z-10" aria-hidden="true"></div>
+
+  <!-- Mobile menu panel -->
+  <div id="mobile-menu" class="hidden md:hidden absolute left-0 right-0 top-full z-50 bg-background border-b border-border shadow-lg">
+    <div class="flex flex-col gap-4 px-8 py-6">
+      <a href="/#security" class="mobile-nav-link text-base font-bold text-primary">Security</a>
+      <a href="/team" class="mobile-nav-link text-base font-bold text-primary">Team</a>
+      <a href="https://info.onmarker.com/book-a-demo" class="mobile-nav-link btn-molding inline-flex h-9 items-center justify-center px-6 text-sm font-semibold tracking-wide text-primary cursor-pointer mt-2">Book a Demo</a>
+    </div>
+  </div>
 </nav>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn')!;
+  const menu = document.getElementById('mobile-menu')!;
+  const hamburger = document.getElementById('hamburger-icon')!;
+  const close = document.getElementById('close-icon')!;
+
+  function toggle() {
+    const open = menu.classList.toggle('hidden');
+    hamburger.classList.toggle('hidden');
+    close.classList.toggle('hidden');
+    btn.setAttribute('aria-expanded', String(!open));
+  }
+
+  btn.addEventListener('click', toggle);
+  menu.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      if (!menu.classList.contains('hidden')) toggle();
+    });
+  });
+  document.addEventListener('click', (e) => {
+    if (!menu.classList.contains('hidden') && !menu.contains(e.target as Node) && !btn.contains(e.target as Node)) {
+      toggle();
+    }
+  });
+</script>
