@@ -11,7 +11,7 @@ import ScoreLine from "../components/ScoreLine.astro";
 import EnterpriseSecurity from "../components/EnterpriseSecurity.astro";
 import WorksWhereYouDo from "../components/WorksWhereYouDo.astro";
 import GrainLayer from "../components/GrainLayer.astro";
-import ClosingCTA from "../components/ClosingCTA.astro";
+import NewsletterForm from "../components/NewsletterForm";
 import Footer from "../components/Footer.astro";
 ---
 
@@ -39,7 +39,7 @@ import Footer from "../components/Footer.astro";
     <WorksWhereYouDo />
     <div class="relative">
       <GrainLayer />
-      <ClosingCTA />
+      <NewsletterForm client:load />
     </div>
   </main>
   <div class="relative">
