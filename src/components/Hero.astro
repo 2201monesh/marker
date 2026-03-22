@@ -21,7 +21,7 @@
           <span data-marker-line>coordinator</span>
         </h1>
         <p id="hero-subtext" class="mt-10 mb-2 text-lg text-muted-foreground md:text-xl leading-relaxed">
-          Marker connects your systems and moves work forward automatically — so your team can focus on decisions, not follow-ups.
+          Marker connects your retail supply chain systems and moves work forward automatically — so your team can focus on decisions, not follow-ups.
         </p>
         <div id="hero-cta" class="mt-10 flex flex-wrap items-center gap-6">
           <a
@@ -648,7 +648,7 @@
     });
 
     const DURATION = 650;
-    const GAP = 80; // brief pause between strokes, like lifting and repositioning
+    const STAGGER = 500;
     const INITIAL_DELAY = 1000; // wait for Gantt fade-in to finish first
     const startTime = performance.now() + INITIAL_DELAY;
 
@@ -663,7 +663,7 @@
       let allDone = true;
 
       params.forEach((p, i) => {
-        const elapsed = now - startTime - i * (DURATION + GAP);
+        const elapsed = now - startTime - i * STAGGER;
         if (elapsed <= 0) { allDone = false; return; }
         const t = Math.min(1, elapsed / DURATION);
         if (t < 1) allDone = false;
