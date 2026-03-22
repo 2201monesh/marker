@@ -15,7 +15,8 @@
     "test:forms-smoke": "npx playwright test tests/forms.spec.ts",
     "test:not-found-smoke": "npx playwright test tests/not-found.spec.ts",
     "test:broken-links": "npx playwright test tests/broken-links.spec.ts",
-    "test:external-smoke": "npx playwright test --config tests/external-smoke.config.ts tests/external-smoke.spec.ts"
+    "test:external-smoke": "npx playwright test --config tests/external-smoke.config.ts tests/external-smoke.spec.ts",
+    "test:analytics": "npx playwright test tests/analytics.spec.ts"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.1",

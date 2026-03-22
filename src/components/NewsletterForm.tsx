@@ -195,6 +195,10 @@ export default function NewsletterForm() {
 
     if (response.success) {
       setStatus("success");
+      if (window.amplitude) {
+        window.amplitude.setUserId(email);
+        window.amplitude.track("Newsletter Subscribed");
+      }
     } else {
       setStatus("error");
       setError(response.error || "Something went wrong.");
