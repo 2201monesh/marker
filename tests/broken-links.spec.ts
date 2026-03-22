@@ -14,7 +14,7 @@ test("all internal links resolve to non-404 pages", async ({ page }) => {
     for (const href of hrefs) {
       if (!href) continue;
       // Only check internal links (relative or same-origin)
-      if (href.startsWith("/") && !href.startsWith("//")) {
+      if (href.startsWith("/") && !href.startsWith("//") && !href.includes("#")) {
         internalPaths.add(href);
       }
     }

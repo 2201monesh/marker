@@ -161,7 +161,7 @@ const steps: Step[] = [
 
   <!-- Horizontal scrolling workflow strip -->
   <div class="workflow-strip-wrapper">
-    <div class="workflow-strip" aria-label="Example workflow: Collect fabric data sheets">
+    <div class="workflow-strip" tabindex="0" role="region" aria-label="Example workflow: Collect fabric data sheets">
       {steps.map((step, i) => {
         const meta = STEP_META[step.type];
         const isApproval = step.permission === "approval";
