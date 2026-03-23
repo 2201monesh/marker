@@ -123,6 +123,23 @@ jobs:
       - run: npx playwright install chromium --with-deps
       - run: npm run test:analytics
 
+  cookie_compliance:
+    name: Cookie Compliance
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: 22
+      - run: npm ci
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: site-dist
+          path: dist
+      - run: npx playwright install chromium --with-deps
+      - run: npm run test:cookie-compliance
+
   external_smoke:
     name: External Links Smoke Test
     runs-on: ubuntu-latest
@@ -146,6 +163,7 @@ jobs:
       - broken_links
       - external_smoke
       - analytics
+      - cookie_compliance
     runs-on: ubuntu-latest
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
