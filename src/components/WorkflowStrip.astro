@@ -1,0 +1,454 @@
+---
+/*  Workflow Builder Strip
+    A static, scroll-animated horizontal workflow showing how a Marker workflow
+    is configured — step cards connected by arrows, revealing on scroll.
+    Reuses the visual language from the demo's WorkflowBuilderView.            */
+
+interface ConfigField {
+  label: string;
+  value: string;
+}
+
+interface Step {
+  type: "trigger" | "connect" | "send" | "wait" | "read" | "review" | "write" | "notify";
+  title: string;
+  config: ConfigField[];
+  permission?: "auto" | "approval";
+}
+
+const STEP_META: Record<Step["type"], { label: string; color: string; iconPath: string }> = {
+  trigger: {
+    label: "Trigger",
+    color: "#7D6B4F",
+    iconPath: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z",
+  },
+  connect: {
+    label: "Connect",
+    color: "#3A7D56",
+    iconPath: "M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244",
+  },
+  send: {
+    label: "Send",
+    color: "#3A7D56",
+    iconPath: "M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5",
+  },
+  wait: {
+    label: "Wait",
+    color: "#B8860B",
+    iconPath: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z",
+  },
+  read: {
+    label: "Read",
+    color: "#3A7D56",
+    iconPath: "M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4",
+  },
+  review: {
+    label: "Review",
+    color: "#6B4E2E",
+    iconPath: "M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0",
+  },
+  write: {
+    label: "Write",
+    color: "#3A7D56",
+    iconPath: "M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10",
+  },
+  notify: {
+    label: "Notify",
+    color: "#3A7D56",
+    iconPath: "M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0",
+  },
+};
+
+const steps: Step[] = [
+  {
+    type: "trigger",
+    title: "Season kickoff",
+    config: [
+      { label: "Trigger", value: "Manual or scheduled" },
+      { label: "Started by", value: "PD Lead" },
+    ],
+  },
+  {
+    type: "connect",
+    title: "Pull style list",
+    config: [
+      { label: "System", value: "Centric PLM" },
+      { label: "Query", value: "Active woven styles for SS26" },
+      { label: "Returns", value: "127 styles with fabric requirements" },
+    ],
+    permission: "auto",
+  },
+  {
+    type: "send",
+    title: "Request data from mills",
+    config: [
+      { label: "Via", value: "Outlook — Email" },
+      { label: "To", value: "8 mills (approved vendor list)" },
+      { label: "Attach", value: "Style list, spec requirements" },
+    ],
+    permission: "approval",
+  },
+  {
+    type: "wait",
+    title: "Await mill uploads",
+    config: [
+      { label: "Listen for", value: "Vendor portal uploads" },
+      { label: "Remind", value: "Auto-email at 48h, 1 week" },
+      { label: "Timeout", value: "10 business days" },
+    ],
+  },
+  {
+    type: "read",
+    title: "Extract fabric specs",
+    config: [
+      { label: "Source", value: "Uploaded PDFs" },
+      { label: "Extract", value: "Composition, weight, MOQ, lead time" },
+    ],
+    permission: "auto",
+  },
+  {
+    type: "write",
+    title: "Write specs to PLM",
+    config: [
+      { label: "System", value: "Centric PLM" },
+      { label: "Action", value: "Update fabric spec fields" },
+    ],
+    permission: "approval",
+  },
+  {
+    type: "review",
+    title: "Flag mismatches for PD",
+    config: [
+      { label: "Check", value: "MOQ vs. buy plan, pricing vs. targets" },
+      { label: "Route to", value: "PD Lead — Slack + email" },
+    ],
+    permission: "approval",
+  },
+  {
+    type: "notify",
+    title: "Confirm completion",
+    config: [
+      { label: "Via", value: "Outlook — Email" },
+      { label: "To", value: "PD Lead, Design Lead" },
+      { label: "Summary", value: "Styles matched, flags raised" },
+    ],
+    permission: "auto",
+  },
+];
+
+---
+
+<section class="relative py-24 md:py-32 overflow-hidden" aria-labelledby="workflow-heading">
+  <div class="relative z-10 mx-auto max-w-7xl px-8">
+    <div class="max-w-2xl mb-12">
+      <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+        Workflow automation
+      </p>
+      <h2 id="workflow-heading" class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
+        Design your workflows,<br />
+        Marker runs them.
+      </h2>
+      <p class="ink-reveal mt-5 text-muted-foreground md:text-lg leading-relaxed" style="--reveal-delay: 100">
+
+        Every organization is different. You define the triggers, connections, gates, and handoffs — Marker executes them around the clock.
+      </p>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-7xl px-8 mb-4">
+    <span class="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground/60">Example: Seasonal Fabric Data Collection</span>
+  </div>
+
+  <!-- Horizontal scrolling workflow strip -->
+  <div class="workflow-strip-wrapper">
+    <div class="workflow-strip" tabindex="0" role="region" aria-label="Example workflow: Collect fabric data sheets">
+      {steps.map((step, i) => {
+        const meta = STEP_META[step.type];
+        const isApproval = step.permission === "approval";
+        const hasPermission = step.permission !== undefined;
+
+        return (
+          <div class="workflow-step-group" style={`--step-index: ${i}`}>
+            {/* Connector arrow (skip for first) */}
+            {i > 0 && (
+              <div class="workflow-connector" aria-hidden="true">
+                <div class="workflow-connector-line"></div>
+                <svg class="workflow-connector-arrow" fill="none" viewBox="0 0 24 24" stroke="#E8DFD0" stroke-width="3">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </div>
+            )}
+
+            {/* Step card */}
+            <div class="workflow-card">
+              {/* Header */}
+              <div class="workflow-card-header" style={`border-bottom: 1px solid #E8DFD0`}>
+                <div class="workflow-card-icon" style={`background: ${meta.color}14; color: ${meta.color}`}>
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d={meta.iconPath} />
+                  </svg>
+                </div>
+                <div class="min-w-0 flex-1">
+                  <span class="workflow-card-type" style={`color: ${meta.color}`}>
+                    {meta.label}
+                  </span>
+                  <p class="workflow-card-title">{step.title}</p>
+                </div>
+              </div>
+
+              {/* Config fields */}
+              <div class="workflow-card-body">
+                {step.config.map((cfg) => (
+                  <div>
+                    <span class="workflow-field-label">{cfg.label}</span>
+                    <p class="workflow-field-value">{cfg.value}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Permission badge */}
+              {hasPermission && (
+                <div class="workflow-card-footer">
+                  <div class={`workflow-badge ${isApproval ? "workflow-badge--approval" : "workflow-badge--auto"}`}>
+                    {isApproval ? (
+                      <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                      </svg>
+                    ) : (
+                      <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                    {isApproval ? "Requires approval" : "Auto-approved"}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })}
+      {/* End spacer */}
+      <div class="shrink-0 w-12" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- Subtle dot-grid background overlay -->
+  <div class="workflow-dot-grid" aria-hidden="true"></div>
+</section>
+
+<style>
+  /* Dot-grid background — matches the demo builder canvas */
+  .workflow-dot-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: radial-gradient(circle, #E8DFD066 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Push content above the dot grid */
+  section > :not(.workflow-dot-grid):not(canvas) {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Strip wrapper — full width, allows horizontal scroll */
+  .workflow-strip-wrapper {
+    position: relative;
+    z-index: 1;
+    /* fade-out masks on left and right edges */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 92%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 3%, black 92%, transparent 100%);
+  }
+
+  .workflow-strip {
+    display: flex;
+    align-items: flex-start;
+    overflow-x: auto;
+    padding: 1rem 2rem 1.5rem;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .workflow-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .workflow-step-group {
+    display: flex;
+    align-items: flex-start;
+    flex-shrink: 0;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: wf-step-appear 0.5s ease-out forwards;
+    animation-delay: calc(var(--step-index) * 120ms + 200ms);
+  }
+
+  @keyframes wf-step-appear {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Connector */
+  .workflow-connector {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    flex-shrink: 0;
+  }
+  .workflow-connector-line {
+    width: 1.5rem;
+    height: 1px;
+    background: #E8DFD0;
+  }
+  .workflow-connector-arrow {
+    width: 0.5rem;
+    height: 0.75rem;
+    margin-left: -2px;
+    flex-shrink: 0;
+  }
+
+  /* Card */
+  .workflow-card {
+    width: 210px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.75rem;
+    background: #FFFBF5;
+    border: 1px solid #E8DFD0;
+    box-shadow: 0 1px 4px #E8DFD060;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .workflow-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px #E8DFD080;
+  }
+
+  /* Card header */
+  .workflow-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 0.75rem;
+  }
+  .workflow-card-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .workflow-card-type {
+    display: block;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .workflow-card-title {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #2D2418;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Card body */
+  .workflow-card-body {
+    padding: 0.5rem 0.75rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  .workflow-field-label {
+    display: block;
+    font-size: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #7D6B4F;
+  }
+  .workflow-field-value {
+    font-size: 10px;
+    line-height: 1.4;
+    color: #6B5638;
+  }
+
+  /* Card footer — permission badge */
+  .workflow-card-footer {
+    padding: 0.25rem 0.75rem 0.625rem;
+  }
+  .workflow-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 9px;
+    font-weight: 500;
+    width: fit-content;
+  }
+  .workflow-badge--auto {
+    background: #3A7D5610;
+    color: #3A7D56;
+    border: 1px solid #3A7D5625;
+  }
+  .workflow-badge--approval {
+    background: #B8860B10;
+    color: #B8860B;
+    border: 1px solid #B8860B25;
+  }
+
+  /* Pause animation until section is in view */
+  @media (prefers-reduced-motion: reduce) {
+    .workflow-step-group {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Re-trigger step animations when section scrolls into view
+  const section = document.getElementById('workflow-heading')?.closest('section');
+  if (section) {
+    const steps = section.querySelectorAll<HTMLElement>('.workflow-step-group');
+
+    // Initially pause animations — they'll fire from CSS immediately,
+    // so we reset and re-trigger on intersection.
+    const reset = () => {
+      steps.forEach(el => {
+        el.style.animation = 'none';
+        el.offsetHeight; // force reflow
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(12px)';
+      });
+    };
+    reset();
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          steps.forEach(el => {
+            el.style.animation = '';
+            el.style.opacity = '';
+            el.style.transform = '';
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(section);
+  }
+</script>

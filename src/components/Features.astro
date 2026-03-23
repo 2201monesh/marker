@@ -4,30 +4,41 @@ const features = [
     title: "Syncs Data Across Your Systems",
     description:
       "Connects the tools you already use — ERPs, PLM, spreadsheets, instant messengers, email — and keeps data in sync automatically. No more copy-paste.",
+    icon: "M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244",
+    color: "accent" as const,
   },
   {
     title: "Tracks Handoffs and Deadlines",
     description:
       "Knows what's due, who's responsible, and what's stalled. Surfaces issues before they become delays — no status meetings required.",
+    icon: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z",
+    color: "accent" as const,
   },
   {
     title: "Moves Work Forward Autonomously",
     description:
       "Marker acts before you have to. It nudges the right people, triggers the next step, and keeps your supply chain moving around the clock.",
+    icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z",
+    color: "accent" as const,
   },
 ];
 ---
 
-<section class="py-20" aria-labelledby="features-heading">
-  <div class="mx-auto max-w-5xl px-6">
-    <h2 id="features-heading" class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+<section class="relative py-24 md:py-32 wash-kumquat-tr" aria-labelledby="features-heading">
+  <div class="mx-auto max-w-7xl px-8">
+    <h2 id="features-heading" class="ink-reveal text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
       What Marker does for you
     </h2>
-    <div class="mt-10 grid gap-6 md:grid-cols-3">
-      {features.map((feature) => (
-        <div class="rounded-lg border border-border bg-background p-6">
+    <div class="mt-12 grid gap-8 md:grid-cols-3">
+      {features.map((feature, i) => (
+        <div class="ink-reveal card-raised group relative rounded-xl bg-background p-7 transition-all duration-300 hover:-translate-y-1" style={`--reveal-delay: ${150 + i * 100}`}>
+          <div class="badge-raised mb-4 flex h-10 w-10 items-center justify-center rounded-lg" style="background: rgba(58,125,86,0.08);">
+            <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d={feature.icon} />
+            </svg>
+          </div>
           <h3 class="text-lg font-semibold text-foreground">{feature.title}</h3>
-          <p class="mt-2 text-sm text-muted-foreground">{feature.description}</p>
+          <p class="mt-2 text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
         </div>
       ))}
     </div>

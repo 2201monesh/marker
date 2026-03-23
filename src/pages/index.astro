@@ -1,22 +1,50 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import MarketingLayout from "../layouts/MarketingLayout.astro";
 import Navbar from "../components/Navbar.astro";
 import Hero from "../components/Hero.astro";
 import Problem from "../components/Problem.astro";
-import Features from "../components/Features.astro";
+import WorkflowStrip from "../components/WorkflowStrip.astro";
+import SwimLane from "../components/SwimLane.astro";
+import BuiltForSupplyChain from "../components/BuiltForSupplyChain.astro";
 import HowItWorks from "../components/HowItWorks.astro";
+import ScoreLine from "../components/ScoreLine.astro";
+import EnterpriseSecurity from "../components/EnterpriseSecurity.astro";
+import WorksWhereYouDo from "../components/WorksWhereYouDo.astro";
+import GrainLayer from "../components/GrainLayer.astro";
 import NewsletterForm from "../components/NewsletterForm";
 import Footer from "../components/Footer.astro";
 ---
 
-<Layout title="Marker - Your Always-On Retail Supply Chain Coordinator">
+<MarketingLayout title="Marker - Your Always-On Retail Supply Chain Coordinator">
   <Navbar />
   <main id="main-content">
-    <Hero />
+    <div class="relative">
+      <GrainLayer />
+      <Hero />
+    </div>
     <Problem />
-    <Features />
-    <HowItWorks />
-    <NewsletterForm client:load />
+    <div class="relative">
+      <GrainLayer />
+      <HowItWorks />
+      <ScoreLine />
+      <WorkflowStrip />
+      <ScoreLine />
+      <SwimLane />
+    </div>
+    <BuiltForSupplyChain />
+    <div class="relative">
+      <GrainLayer />
+      <EnterpriseSecurity />
+    </div>
+    <WorksWhereYouDo />
+    <div class="relative">
+      <GrainLayer />
+      <NewsletterForm client:load />
+    </div>
   </main>
-  <Footer />
-</Layout>
+  <div class="relative">
+    <GrainLayer />
+    <Footer />
+  </div>
+
+</MarketingLayout>

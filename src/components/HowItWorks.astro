@@ -2,38 +2,41 @@
 const steps = [
   {
     number: "1",
-    title: "Connect the tools you already use",
+    title: "Connect",
     description:
-      "Simple integrations with your ERPs, PLM systems, spreadsheets, instant messengers, and email. No migration, no behavior change.",
+      "Plug in your ERPs, PLM, spreadsheets, messengers, and email. Setup takes days, not months.",
   },
   {
     number: "2",
-    title: "Marker learns your workflows",
+    title: "Design",
     description:
-      "It maps how work moves across your systems — who's responsible, what's due, and where things get stuck.",
+      "Map your workflows with triggers, gates, and handoffs. We help you get the first ones running.",
   },
   {
     number: "3",
-    title: "Work moves forward on its own",
+    title: "Run",
     description:
-      "Marker syncs data, tracks deadlines, and keeps things moving autonomously, shaving weeks off your timelines.",
+      "Marker executes 24/7. Your team reviews, approves, and decides — nothing else.",
   },
 ];
 ---
 
-<section class="bg-muted py-20" aria-labelledby="how-it-works-heading">
-  <div class="mx-auto max-w-5xl px-6">
-    <h2 id="how-it-works-heading" class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+<section id="how-it-works" class="relative py-24 md:py-32" aria-labelledby="how-it-works-heading">
+  <div class="mx-auto max-w-7xl px-8">
+    <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+      Getting started
+    </p>
+    <h2 id="how-it-works-heading" class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
       How it works
     </h2>
-    <div class="mt-10 grid gap-8 md:grid-cols-3">
-      {steps.map((step) => (
-        <div class="flex flex-col">
-          <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+    <div class="mt-12 grid gap-10 md:grid-cols-3">
+      {steps.map((step, i) => (
+        <div class="ink-reveal flex flex-col" style={`--reveal-delay: ${120 + i * 100}`}>
+          <div class="circle-debossed flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
             {step.number}
           </div>
           <h3 class="mt-4 text-lg font-semibold text-foreground">{step.title}</h3>
-          <p class="mt-2 text-sm text-muted-foreground">{step.description}</p>
+          <p class="mt-2 text-sm text-muted-foreground leading-relaxed">{step.description}</p>
         </div>
       ))}
     </div>

@@ -1,18 +1,26 @@
 ---
-
+import HumanHub from "./HumanHub.astro";
 ---
 
-<section class="bg-muted py-20" aria-labelledby="problem-heading">
-  <div class="mx-auto max-w-5xl px-6">
-    <div class="max-w-3xl">
-      <h2 id="problem-heading" class="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-        Your team is the <span class="text-primary">glue between your systems.</span>
-        <br />
-        It shouldn't be.
-      </h2>
-      <p class="mt-4 text-muted-foreground md:text-lg">
-        Retail supply chain teams spend their days chasing updates, syncing spreadsheets, and nudging work along across ERPs, PLM tools, instant messengers, and email. Deadlines slip. Handoffs get dropped. Your best people are stuck coordinating instead of deciding. The bigger you scale, the worse it gets.
-      </p>
+<section class="relative bg-muted bg-paper wash-ochre-bl py-16 md:py-20 mat-bevel" aria-labelledby="problem-heading">
+  <div class="relative z-10 mx-auto max-w-7xl px-8">
+    <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+      <!-- Left column: text -->
+      <div class="max-w-xl">
+        <h2 id="problem-heading" class="ink-reveal text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
+          Your team is the glue between your systems.
+          <br />
+          It shouldn't be.
+        </h2>
+        <p class="ink-reveal mt-6 text-muted-foreground md:text-lg leading-relaxed" style="--reveal-delay: 120">
+          Your team chases updates, syncs spreadsheets, and nudges work across ERPs, PLM, messengers, and email. Deadlines slip. Handoffs get dropped. It only gets worse as you scale.
+        </p>
+      </div>
+
+      <!-- Right column: Human Hub graphic -->
+      <HumanHub />
+
     </div>
   </div>
 </section>

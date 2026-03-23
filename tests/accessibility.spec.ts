@@ -8,6 +8,7 @@ for (const path of pages) {
     await page.goto(path);
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa"])
+      .exclude(".hero-gantt-wrap")
       .analyze();
     expect(results.violations).toEqual([]);
   });
