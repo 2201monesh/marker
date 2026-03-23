@@ -4,12 +4,13 @@ import "../styles/marketing.css";
 
 interface Props {
   title: string;
+  description?: string;
   noindex?: boolean;
   fontSource?: "google" | "local";
 }
-const { title, noindex, fontSource } = Astro.props;
+const { title, description, noindex, fontSource } = Astro.props;
 ---
-<Layout title={title} noindex={noindex} fontSource={fontSource}>
+<Layout title={title} description={description} noindex={noindex} fontSource={fontSource}>
   <!-- SVG filter for paper grain texture — uses diffuse lighting to create
        actual surface relief (micro-shadows) rather than flat noise overlay -->
   <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">

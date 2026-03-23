@@ -4,15 +4,21 @@ import Analytics from "../components/Analytics.astro";
 
 interface Props {
   title: string;
+  description?: string;
   noindex?: boolean;
   fontSource?: "google" | "local";
 }
 
+const defaultDescription = "Marker is an AI-powered orchestrator that acts as your always-on retail supply chain coordinator. It syncs data, tracks handoffs, and moves work forward autonomously.";
 const {
   title,
+  description = defaultDescription,
   noindex = false,
   fontSource = "google",
 } = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, "https://onmarker.com").href.replace(/\/$/, "") || "https://onmarker.com";
+const ogImage = "https://onmarker.com/logo.png";
 const LOCAL_FONT_CSS = `
   @font-face {
     font-family: "Plus Jakarta Sans";
@@ -53,8 +59,30 @@ const LOCAL_FONT_CSS = `
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Marker is an AI-powered orchestrator that acts as your always-on retail supply chain coordinator. It syncs data, tracks handoffs, and moves work forward autonomously." />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#FDFAF5" />
+    <link rel="canonical" href={canonicalUrl} />
     {noindex && <meta name="robots" content="noindex, nofollow, noarchive" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Marker" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@markerhq" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="https://js-na2.hs-scripts.com" />
+    <link rel="dns-prefetch" href="https://cdn.amplitude.com" />
+    <link rel="dns-prefetch" href="https://app.termly.io" />
     {fontSource === "local" ? (
       <style is:inline>{LOCAL_FONT_CSS}</style>
     ) : (
