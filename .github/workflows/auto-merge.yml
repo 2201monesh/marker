@@ -21,6 +21,10 @@ jobs:
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # --auto does not merge immediately. It sets a flag telling GitHub
+      # "merge this PR once all branch protection requirements are met."
+      # GitHub polls the PR's status checks and merges only when they all
+      # pass. If CI fails, the PR stays open for manual investigation.
       - name: "Enable auto-squash"
         if: steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch'
         run: gh pr merge --auto --squash "$PR_URL"
