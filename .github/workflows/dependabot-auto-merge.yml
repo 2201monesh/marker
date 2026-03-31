@@ -1,4 +1,4 @@
-name: auto-merge
+name: dependabot-auto-merge
 
 on: pull_request_target
 
@@ -7,7 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' }}
     permissions:
-      pull-requests: write
       contents: write
     steps:
       - name: "Fetch Dependabot metadata"
@@ -15,12 +14,6 @@ jobs:
         uses: dependabot/fetch-metadata@21025c705c08248db411dc16f3619e6b5f9ea21a # v2.5.0
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: "Auto-approve"
-        if: steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch'
-        run: gh pr review --approve "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # --auto does not merge immediately. It sets a flag telling GitHub
       # "merge this PR once all branch protection requirements are met."
       # GitHub polls the PR's status checks and merges only when they all
