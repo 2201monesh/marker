@@ -12,6 +12,7 @@ on:
       - "tsconfig.json"
       - "playwright.config.ts"
       - ".github/workflows/ci.yml"
+      - ".npmrc"
 
 concurrency:
   group: ci-${{ github.event.pull_request.number }}

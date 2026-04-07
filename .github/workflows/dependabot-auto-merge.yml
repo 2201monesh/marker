@@ -19,6 +19,9 @@ jobs:
       # "merge this PR once all branch protection requirements are met."
       # GitHub polls the PR's status checks and merges only when they all
       # pass. If CI fails, the PR stays open for manual investigation.
+      #
+      # For grouped PRs, fetch-metadata returns the highest semver change
+      # in the group (e.g. a group of patches + minors returns semver-minor).
       - name: "Enable auto-squash"
         if: steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch'
         run: gh pr merge --auto --squash "$PR_URL"
