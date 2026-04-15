@@ -9,7 +9,7 @@ import { useState, useEffect, type ReactNode } from "react";
 // │  Then paste the hash below.                         │
 // └─────────────────────────────────────────────────────┘
 const PASSWORD_HASH =
-  "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"; // "password"
+  "80c1fef0b4cb0084165173306f4a45ae7a84dcda19c79c365e964c30121ff345";
 
 const STORAGE_KEY = "marker-demos-auth";
 

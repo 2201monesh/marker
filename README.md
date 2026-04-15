@@ -39,6 +39,26 @@ published with the site.
 | `npm run build`   | Build production site to `./dist/`            |
 | `npm run preview` | Preview the production build locally          |
 
+## Demos
+
+Interactive demo prototypes live under `/demos`. All demo pages are
+password-protected with a client-side gate.
+
+- **Current password**: `*scribble-draw!`
+- **Demo index**: [onmarker.com/demos](https://onmarker.com/demos)
+
+### Changing the demo password
+
+1. Generate a SHA-256 hash of your new password:
+
+   ```sh
+   echo -n "your-new-password" | shasum -a 256
+   ```
+
+2. Paste the hash into `src/components/PasswordGate.tsx` (the `PASSWORD_HASH` constant).
+
+3. Update this README with the new password.
+
 ## Deployment
 
 - **Live site**: https://onmarker.com (custom domain) / https://onmarker-site.web.app (Firebase)
