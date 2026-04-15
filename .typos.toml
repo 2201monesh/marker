@@ -4,3 +4,12 @@ extend-exclude = [
   "src/pages/privacy.astro",
   "src/pages/terms.astro",
 ]
+
+# False positives: proper nouns and fabric article number prefixes
+[default.extend-words]
+# "PN-41555F" etc. are real fabric art numbers from Youngbo
+PN = "PN"
+# "Thien Nam" is a Vietnamese textile company
+Nam = "Nam"
+# "Nguyen Thi Lan" is a Vietnamese name
+Thi = "Thi"

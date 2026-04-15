@@ -1,0 +1,42 @@
+---
+import DemoLayout from "../../layouts/DemoLayout.astro";
+---
+
+<DemoLayout title="Marker | Demos">
+  <main id="main-content" class="mx-auto max-w-3xl px-6 py-16">
+    <h1 class="mb-2 text-2xl font-bold text-primary">Demos</h1>
+    <p class="mb-8 text-sm text-muted-foreground">
+      Interactive prototypes showcasing Marker capabilities.
+    </p>
+
+    <ul class="space-y-4">
+      <li>
+        <a
+          href="/demos/fabric-organizer"
+          class="block rounded-lg border border-border bg-white p-5 transition-colors hover:border-primary hover:bg-background"
+        >
+          <div class="text-sm font-semibold text-foreground">
+            Vendor Visibility &amp; Fabric Search
+          </div>
+          <div class="mt-1 text-xs text-muted-foreground">
+            Search fabrics, find mills, copy contacts, and manage vendor
+            relationships. Built for UNTUCKit.
+          </div>
+        </a>
+      </li>
+      <li>
+        <a
+          href="/demo"
+          class="block rounded-lg border border-border bg-white p-5 transition-colors hover:border-primary hover:bg-background"
+        >
+          <div class="text-sm font-semibold text-foreground">
+            Supply Chain Coordinator
+          </div>
+          <div class="mt-1 text-xs text-muted-foreground">
+            AI-powered supply chain coordination agent demo.
+          </div>
+        </a>
+      </li>
+    </ul>
+  </main>
+</DemoLayout>

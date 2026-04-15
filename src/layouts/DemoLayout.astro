@@ -1,0 +1,16 @@
+---
+import Layout from "./Layout.astro";
+import PasswordGate from "../components/PasswordGate";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<Layout title={title} noindex={true}>
+  <PasswordGate client:load>
+    <slot />
+  </PasswordGate>
+</Layout>
