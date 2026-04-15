@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { MILLS, FABRICS } from "./data";
-import type { View } from "./types";
+import type { View, Mill, Fabric } from "./types";
 
 interface MillsListProps {
+  mills: Mill[];
+  fabrics: Fabric[];
   onNavigate: (view: View) => void;
 }
 
-export function MillsList({ onNavigate }: MillsListProps) {
+export function MillsList({ mills, fabrics, onNavigate }: MillsListProps) {
   const [query, setQuery] = useState("");
 
-  const filtered = MILLS.filter((m) => {
+  const filtered = mills.filter((m) => {
     if (!query.trim()) return true;
     const q = query.toLowerCase();
     return (
@@ -19,7 +20,7 @@ export function MillsList({ onNavigate }: MillsListProps) {
   });
 
   const getFabricCount = (millId: string) =>
-    FABRICS.filter((f) => f.millId === millId).length;
+    fabrics.filter((f) => f.millId === millId).length;
 
   return (
     <div className="flex-1 p-6 md:p-7">

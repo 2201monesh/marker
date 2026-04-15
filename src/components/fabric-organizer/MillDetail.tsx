@@ -1,16 +1,17 @@
 import { useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
-import { MILLS } from "./data";
-import type { View, Note } from "./types";
+import type { View, Note, Mill, Fabric } from "./types";
 
 interface MillDetailProps {
   millId: string;
+  mills: Mill[];
+  fabrics: Fabric[];
   previousView: View;
   onNavigate: (view: View) => void;
 }
 
-export function MillDetail({ millId, previousView, onNavigate }: MillDetailProps) {
-  const mill = MILLS.find((m) => m.id === millId);
+export function MillDetail({ millId, mills, fabrics, previousView, onNavigate }: MillDetailProps) {
+  const mill = mills.find((m) => m.id === millId);
   const [notes, setNotes] = useState<Note[]>(mill?.notes ?? []);
   const [emailCopied, setEmailCopied] = useState(false);
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
@@ -123,6 +124,51 @@ export function MillDetail({ millId, previousView, onNavigate }: MillDetailProps
           ))}
         </div>
       </div>
+
+      {/* Fabrics */}
+      {(() => {
+        const millFabrics = fabrics.filter((f) => f.millId === millId);
+        if (millFabrics.length === 0) return null;
+        return (
+          <div className="mb-4 rounded-lg border border-border bg-white p-4 md:px-[18px]">
+            <div className="mb-2.5 text-[11px] font-bold uppercase tracking-wider text-primary">
+              Fabrics ({millFabrics.length})
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-[12px]">
+                <thead>
+                  <tr className="border-b border-border text-left text-[10px] uppercase tracking-wider text-muted-foreground">
+                    <th className="pb-2 pr-4 font-semibold">Art #</th>
+                    <th className="pb-2 pr-4 font-semibold">Name</th>
+                    <th className="pb-2 pr-4 font-semibold">Composition</th>
+                    <th className="pb-2 pr-4 font-semibold">Weight</th>
+                    <th className="pb-2 pr-4 font-semibold">Price</th>
+                    <th className="pb-2 pr-4 font-semibold">MOQ</th>
+                    <th className="pb-2 font-semibold">MOC</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {millFabrics.map((fabric) => (
+                    <tr key={fabric.id} className="border-b border-border/50 last:border-b-0">
+                      <td className="py-2 pr-4 font-medium">{fabric.artNumber}</td>
+                      <td className="py-2 pr-4">{fabric.name}</td>
+                      <td className={cn("py-2 pr-4", fabric.composition === "(pending)" && "italic text-muted-foreground")}>
+                        {fabric.composition}
+                      </td>
+                      <td className={cn("py-2 pr-4", fabric.weight === "-" && "text-muted-foreground")}>
+                        {fabric.weight}
+                      </td>
+                      <td className="py-2 pr-4">{fabric.price}</td>
+                      <td className="py-2 pr-4">{fabric.moq}</td>
+                      <td className="py-2">{fabric.moc}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Notes */}
       <div className="mb-4 rounded-lg border border-border bg-white p-4 md:px-[18px]">

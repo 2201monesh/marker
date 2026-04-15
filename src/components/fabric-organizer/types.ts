@@ -40,6 +40,8 @@ export interface Fabric {
   composition: string;
   weight: string;
   price: string;
+  moq: string;
+  moc: string;
   paymentTerms: string;
   contactEmail: string;
 }
