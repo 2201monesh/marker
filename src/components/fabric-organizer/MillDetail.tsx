@@ -5,10 +5,11 @@ import type { View, Note } from "./types";
 
 interface MillDetailProps {
   millId: string;
+  previousView: View;
   onNavigate: (view: View) => void;
 }
 
-export function MillDetail({ millId, onNavigate }: MillDetailProps) {
+export function MillDetail({ millId, previousView, onNavigate }: MillDetailProps) {
   const mill = MILLS.find((m) => m.id === millId);
   const [notes, setNotes] = useState<Note[]>(mill?.notes ?? []);
   const [emailCopied, setEmailCopied] = useState(false);
@@ -47,6 +48,7 @@ export function MillDetail({ millId, onNavigate }: MillDetailProps) {
   };
 
   const deleteNote = (noteId: string) => {
+    if (!window.confirm("Delete this note?")) return;
     setNotes((prev) => prev.filter((n) => n.id !== noteId));
   };
 
@@ -68,10 +70,10 @@ export function MillDetail({ millId, onNavigate }: MillDetailProps) {
     <div className="flex-1 overflow-y-auto p-6 md:p-7">
       {/* Back link */}
       <button
-        onClick={() => onNavigate({ page: "mills" })}
+        onClick={() => onNavigate(previousView)}
         className="mb-2 text-[12px] text-primary hover:underline"
       >
-        &larr; Back to Mills
+        &larr; {previousView.page === "search" ? "Back to Search" : "Back to Mills"}
       </button>
 
       {/* Mill Name */}
