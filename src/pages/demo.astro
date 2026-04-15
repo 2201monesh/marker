@@ -1,10 +1,10 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import DemoLayout from "../layouts/DemoLayout.astro";
 import AgentDemo from "../components/AgentDemo";
 ---
 
-<Layout title="Marker | Supply Chain Coordinator Demo" noindex={true}>
+<DemoLayout title="Marker | Supply Chain Coordinator Demo">
   <main id="main-content">
     <AgentDemo client:load />
   </main>
-</Layout>
+</DemoLayout>

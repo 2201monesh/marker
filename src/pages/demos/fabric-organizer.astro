@@ -1,10 +1,10 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import DemoLayout from "../../layouts/DemoLayout.astro";
 import FabricOrganizer from "../../components/fabric-organizer/FabricOrganizer";
 ---
 
-<Layout title="Marker | Fabric Organizer Demo" noindex={true}>
+<DemoLayout title="Marker | Fabric Organizer Demo">
   <main id="main-content">
     <FabricOrganizer client:load />
   </main>
-</Layout>
+</DemoLayout>
