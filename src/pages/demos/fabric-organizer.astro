@@ -1,0 +1,10 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import FabricOrganizer from "../../components/fabric-organizer/FabricOrganizer";
+---
+
+<Layout title="Marker | Fabric Organizer Demo" noindex={true}>
+  <main id="main-content">
+    <FabricOrganizer client:load />
+  </main>
+</Layout>
