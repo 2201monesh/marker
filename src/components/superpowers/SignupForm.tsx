@@ -289,11 +289,11 @@ export default function SignupForm() {
 
       <p className="signup-fineprint">
         By starting your trial you agree to our{" "}
-        <a href="/terms" className="signup-link">
+        <a href="/superpowers/terms" className="signup-link">
           Terms
         </a>{" "}
         and{" "}
-        <a href="/privacy" className="signup-link">
+        <a href="/superpowers/privacy" className="signup-link">
           Privacy Policy
         </a>
         . You can cancel any time before day 31 and you won't be charged.
