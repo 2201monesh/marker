@@ -1,0 +1,165 @@
+---
+
+---
+
+<section class="relative py-24 md:py-32 overflow-hidden" aria-labelledby="superpowers-cta-heading">
+  <canvas
+    id="superpowers-cta-canvas"
+    class="absolute inset-0 w-full h-full pointer-events-none"
+    aria-hidden="true"
+  ></canvas>
+  <div class="relative z-10 mx-auto max-w-7xl px-8">
+    <div class="mx-auto max-w-xl text-center">
+      <h2 id="superpowers-cta-heading" class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
+        <span data-marker-line>Get your superpowers</span>
+      </h2>
+      <p class="ink-reveal mt-4 text-muted-foreground md:text-lg" style="--reveal-delay: 100">
+        30 days free. Cancel anytime. Card on file, no charge until day 31.
+      </p>
+      <div class="ink-reveal mt-8 flex flex-wrap justify-center gap-4" style="--reveal-delay: 200">
+        <a
+          href="/superpowers/signup"
+          class="btn-molding inline-flex h-11 items-center justify-center px-8 text-sm font-semibold tracking-wide text-primary transition-colors hover:text-primary/80 cursor-pointer"
+        >
+          Try it now
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { drawCleanUnderline } from '../../lib/marker-background.js';
+
+  const HIGHLIGHT_COLOR = '#3A7D56';
+
+  function getStrokeParams(section: HTMLElement) {
+    const sectionRect = section.getBoundingClientRect();
+    const lines = section.querySelectorAll('[data-marker-line]');
+    if (!lines.length) return [];
+
+    const angleRad = -0.3 * (Math.PI / 180);
+
+    return Array.from(lines).map((line) => {
+      const rect = line.getBoundingClientRect();
+      const thickness = 10;
+      const cy = rect.bottom - sectionRect.top + 1;
+      const sx = rect.left - sectionRect.left - 5;
+      const ex = rect.right - sectionRect.left + 5;
+      const strokeLen = ex - sx;
+      const rise = Math.sin(angleRad) * strokeLen * 0.5;
+
+      return {
+        sx,
+        sy: cy - rise,
+        ex,
+        ey: cy + rise,
+        color: HIGHLIGHT_COLOR,
+        thickness,
+        opacity: 1,
+      };
+    });
+  }
+
+  function renderFull() {
+    const canvas = document.getElementById('superpowers-cta-canvas') as HTMLCanvasElement;
+    const section = canvas?.closest('section');
+    if (!canvas || !section) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const W = section.clientWidth;
+    const H = section.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext('2d')!;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+
+    getStrokeParams(section).forEach(p => drawCleanUnderline(ctx, p));
+  }
+
+  function renderAnimated() {
+    const canvas = document.getElementById('superpowers-cta-canvas') as HTMLCanvasElement;
+    const section = canvas?.closest('section');
+    if (!canvas || !section) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const W = section.clientWidth;
+    const H = section.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext('2d')!;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const params = getStrokeParams(section);
+
+    const offscreens = params.map(p => {
+      const off = document.createElement('canvas');
+      off.width = canvas.width;
+      off.height = canvas.height;
+      const octx = off.getContext('2d')!;
+      octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawCleanUnderline(octx, p);
+      return off;
+    });
+
+    const DURATION = 650;
+    const STAGGER = 500;
+    const startTime = performance.now();
+
+    function ease(t: number) {
+      return t < 0.15 ? t * t / 0.15 : 1 - Math.pow(1 - t, 2.5);
+    }
+
+    function animate(now: number) {
+      ctx.clearRect(0, 0, W, H);
+      let allDone = true;
+
+      params.forEach((p, i) => {
+        const elapsed = now - startTime - i * STAGGER;
+        if (elapsed <= 0) { allDone = false; return; }
+        const t = Math.min(1, elapsed / DURATION);
+        if (t < 1) allDone = false;
+        const eased = ease(t);
+
+        const revealWidth = (p.ex - p.sx) * eased;
+        if (revealWidth <= 0) return;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(p.sx - 2, 0, revealWidth + 4, H);
+        ctx.clip();
+        ctx.drawImage(offscreens[i], 0, 0, offscreens[i].width, offscreens[i].height, 0, 0, W, H);
+        ctx.restore();
+      });
+
+      if (!allDone) requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  const section = document.getElementById('superpowers-cta-heading')?.closest('section');
+  if (section) {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let hasAnimated = false;
+
+    if (prefersReduced) {
+      renderFull();
+    } else {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            hasAnimated = true;
+            renderAnimated();
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.2 }
+      );
+      observer.observe(section);
+    }
+
+    window.addEventListener('resize', () => { if (hasAnimated) renderFull(); });
+  }
+</script>

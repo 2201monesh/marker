@@ -1,0 +1,402 @@
+---
+import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import GrainLayer from "../../components/GrainLayer.astro";
+
+const params = Astro.url.searchParams;
+const name = params.get("name") || "";
+const email = params.get("email") || "";
+const company = params.get("company") || "";
+const firstName = name.split(" ")[0] || "";
+
+const HUBSPOT_MEETING_URL = "https://info.onmarker.com/meetings/richard-berwick/email-superpowers-onboarding-session";
+---
+
+<MarketingLayout
+  title="Welcome to Email Superpowers — book your onboarding"
+  description="Pick a 30-minute slot for guided onboarding. We'll have your inbox triaging supplier mail by the end of the call."
+  noindex={true}
+>
+  <Navbar logoHref="/superpowers/" wordmark="Email Superpowers" ctaLabel="Try it now" ctaHref="/superpowers/signup" showLinks={false} />
+  <main id="main-content">
+    <div class="relative">
+      <GrainLayer />
+      <section class="relative py-16 md:py-24">
+        <div class="relative z-10 mx-auto max-w-5xl px-8">
+          <!-- Confirmation banner -->
+          <div class="onboarding-banner">
+            <div class="onboarding-banner-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <polyline points="5 12 10 17 19 7"/>
+              </svg>
+            </div>
+            <div>
+              <p class="onboarding-banner-eyebrow">Trial started</p>
+              <h2
+                class="onboarding-banner-title"
+                data-banner-title
+                data-default="You're in."
+                data-template="You're in, {firstName}."
+              >
+                {firstName ? `You're in, ${firstName}.` : "You're in."}
+              </h2>
+              <p
+                class="onboarding-banner-sub"
+                data-banner-sub
+                data-default="30 days, no charge. We've sent a welcome email with install instructions."
+                data-template-with-email="{company} has 30 days, no charge. We've sent a welcome email to {email} with install instructions."
+                data-template-no-email="{company} has 30 days, no charge. We've sent a welcome email with install instructions."
+              >
+                {company
+                  ? `${company} has 30 days, no charge. We've sent a welcome email${email ? ` to ${email}` : ""} with install instructions.`
+                  : "30 days, no charge. We've sent a welcome email with install instructions."}
+              </p>
+            </div>
+          </div>
+
+          <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-16 mt-12 items-start">
+            <!-- Left: calendar embed -->
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+                One last step
+              </p>
+              <h1 class="text-4xl font-bold tracking-tight text-foreground leading-[1.1] md:text-5xl">
+                Book your onboarding.
+              </h1>
+              <p class="mt-4 text-muted-foreground md:text-lg leading-relaxed max-w-xl">
+                30 minutes, on your calendar. We'll install the sidebar live, train it on your last 90 days of supplier email, and walk you through your first triage. By the end you'll feel the "holy shit, that's my life" moment.
+              </p>
+
+              <div class="mt-8 onboarding-calendar">
+                {HUBSPOT_MEETING_URL ? (
+                  <iframe
+                    src={`${HUBSPOT_MEETING_URL}${HUBSPOT_MEETING_URL.includes("?") ? "&" : "?"}embed=true`}
+                    title="Book your onboarding"
+                    width="100%"
+                    height="720"
+                    frameborder="0"
+                    style="border:0"
+                  ></iframe>
+                ) : (
+                  <div class="onboarding-calendar-placeholder">
+                    <div class="onboarding-calendar-placeholder-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                        <rect x="3" y="5" width="18" height="16" rx="2"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                        <line x1="8" y1="3" x2="8" y2="7"/>
+                        <line x1="16" y1="3" x2="16" y2="7"/>
+                      </svg>
+                    </div>
+                    <h3 class="onboarding-calendar-placeholder-title">Calendar embed loads here</h3>
+                    <p class="onboarding-calendar-placeholder-sub">
+                      Once your HubSpot meeting link is plugged in, customers will pick a slot inline. In the meantime,
+                      <a href="https://info.onmarker.com/book-a-demo" class="onboarding-link">book via our demo calendar →</a>
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <!-- Right: what to expect -->
+            <aside class="onboarding-aside">
+              <div class="onboarding-card">
+                <h3 class="onboarding-card-title">What we'll cover</h3>
+                <ol class="onboarding-steps" role="list">
+                  <li>
+                    <span class="onboarding-step-num">1</span>
+                    <div>
+                      <strong>Install the sidebar</strong>
+                      <span>2 minutes. Connect Gmail or Outlook from the sidebar.</span>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="onboarding-step-num">2</span>
+                    <div>
+                      <strong>Train on your tone</strong>
+                      <span>Marker reads your last 90 days of sent mail to learn your templates and voice.</span>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="onboarding-step-num">3</span>
+                    <div>
+                      <strong>Run your first triage</strong>
+                      <span>We'll triage today's inbox live and watch the "reply now" pile drop to 3.</span>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="onboarding-step-num">4</span>
+                    <div>
+                      <strong>Invite your team</strong>
+                      <span>Add up to 5 teammates during trial — same 30 days, no extra card.</span>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+
+              <div class="onboarding-meta">
+                <p>Need a different time or got blocked installing?</p>
+                <a href="mailto:hello@onmarker.com" class="onboarding-link">hello@onmarker.com</a>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <div class="relative">
+    <GrainLayer />
+    <Footer pathPrefix="/superpowers" showBookDemo={false} />
+  </div>
+</MarketingLayout>
+
+<script>
+  // After Stripe redirect, the URL has session_id but loses our name/email/company
+  // params. Hydrate the banner from sessionStorage (set by SignupForm before redirect).
+  const params = new URLSearchParams(window.location.search);
+  const hasUrlContext = params.get("name") || params.get("email") || params.get("company");
+  if (!hasUrlContext) {
+    try {
+      const raw = sessionStorage.getItem("superpowers-trial");
+      if (raw) {
+        const data = JSON.parse(raw) as {
+          name?: string;
+          email?: string;
+          company?: string;
+        };
+        const firstName = (data.name || "").split(" ")[0];
+        const titleEl = document.querySelector<HTMLElement>("[data-banner-title]");
+        if (titleEl) {
+          const tpl = titleEl.dataset.template || "";
+          const def = titleEl.dataset.default || "";
+          titleEl.textContent = firstName ? tpl.replace("{firstName}", firstName) : def;
+        }
+        const subEl = document.querySelector<HTMLElement>("[data-banner-sub]");
+        if (subEl && data.company) {
+          const withEmail = subEl.dataset.templateWithEmail || "";
+          const noEmail = subEl.dataset.templateNoEmail || "";
+          subEl.textContent = data.email
+            ? withEmail.replace("{company}", data.company).replace("{email}", data.email)
+            : noEmail.replace("{company}", data.company);
+        }
+      }
+    } catch {
+      // sessionStorage unavailable or JSON malformed; fall back to default copy.
+    }
+  }
+</script>
+
+<style>
+  .onboarding-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(58, 125, 86, 0.25);
+    background: rgba(58, 125, 86, 0.06);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      0 1px 2px rgba(45, 36, 24, 0.04);
+  }
+
+  .onboarding-banner-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--color-primary, #3A7D56);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .onboarding-banner-icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .onboarding-banner-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-primary, #3A7D56);
+  }
+
+  .onboarding-banner-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--foreground, #2D2418);
+    margin-top: 0.125rem;
+  }
+
+  .onboarding-banner-sub {
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+    color: var(--muted-foreground, #6B5638);
+    line-height: 1.5;
+  }
+
+  .onboarding-calendar {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid rgba(45, 36, 24, 0.1);
+    background: #FFFBF5;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 4px 12px rgba(45, 36, 24, 0.05);
+  }
+
+  .onboarding-calendar-placeholder {
+    padding: 3rem 2rem;
+    text-align: center;
+    background:
+      repeating-linear-gradient(135deg,
+        transparent 0,
+        transparent 12px,
+        rgba(45, 36, 24, 0.025) 12px,
+        rgba(45, 36, 24, 0.025) 13px
+      ),
+      #FFFBF5;
+  }
+
+  .onboarding-calendar-placeholder-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: rgba(58, 125, 86, 0.1);
+    color: var(--color-primary, #3A7D56);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  .onboarding-calendar-placeholder-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .onboarding-calendar-placeholder-title {
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--foreground, #2D2418);
+  }
+
+  .onboarding-calendar-placeholder-sub {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--muted-foreground, #6B5638);
+    line-height: 1.5;
+    max-width: 28rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .onboarding-aside {
+    position: sticky;
+    top: 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .onboarding-card {
+    border: 1px solid rgba(45, 36, 24, 0.1);
+    border-radius: 0.75rem;
+    background: #FFFBF5;
+    padding: 1.5rem;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 4px 12px rgba(45, 36, 24, 0.05);
+  }
+
+  .onboarding-card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--foreground, #2D2418);
+  }
+
+  .onboarding-steps {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .onboarding-steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .onboarding-steps li > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .onboarding-steps strong {
+    font-size: 0.9rem;
+    color: var(--foreground, #2D2418);
+    font-weight: 600;
+  }
+
+  .onboarding-steps span {
+    font-size: 0.8rem;
+    color: var(--muted-foreground, #6B5638);
+    line-height: 1.45;
+  }
+
+  .onboarding-step-num {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--color-primary, #3A7D56);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+    box-shadow:
+      inset 0 1px 2px rgba(255, 255, 255, 0.2),
+      0 1px 2px rgba(45, 36, 24, 0.1);
+  }
+
+  .onboarding-meta {
+    border: 1px solid rgba(45, 36, 24, 0.08);
+    border-radius: 0.75rem;
+    background: rgba(58, 125, 86, 0.04);
+    padding: 1rem 1.25rem;
+    font-size: 0.8rem;
+    color: var(--muted-foreground, #6B5638);
+  }
+
+  .onboarding-meta p {
+    margin: 0;
+  }
+
+  .onboarding-link {
+    color: var(--color-primary, #3A7D56);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .onboarding-link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1023px) {
+    .onboarding-aside {
+      position: static;
+    }
+  }
+</style>

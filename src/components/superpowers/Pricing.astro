@@ -1,0 +1,162 @@
+---
+const includes = [
+  "Triage, smart templates, and auto-extract for every inbox",
+  "Open-commitment tracking and deadline nudges",
+  "Batch approvals and team-shared audit trail",
+  "Installs in Gmail / Outlook — no IT ticket",
+  "Unlimited supplier threads and styles",
+  "Cancel anytime during the trial — no charge",
+];
+---
+
+<section id="pricing" class="relative py-24 md:py-32" aria-labelledby="pricing-heading">
+  <div class="relative z-10 mx-auto max-w-7xl px-8">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+        Pricing
+      </p>
+      <h2 id="pricing-heading" class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
+        Simple, per-seat. Cancel any time in the first 30 days and pay nothing.
+      </h2>
+    </div>
+
+    <div class="ink-reveal mx-auto mt-12 max-w-xl pricing-card" style="--reveal-delay: 150">
+      <div class="pricing-card-head">
+        <span class="pricing-tag">30-day free trial</span>
+        <h3 class="pricing-name">Email Superpowers</h3>
+        <div class="pricing-amount-row">
+          <span class="pricing-amount">$49</span>
+          <span class="pricing-amount-suffix">/ user / month</span>
+        </div>
+        <p class="pricing-billed">After 30 days. Card on file, no charge until day 31. Cancel anytime.</p>
+      </div>
+
+      <ul class="pricing-list" role="list">
+        {includes.map((item) => (
+          <li class="pricing-item">
+            <svg class="pricing-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <polyline points="5 12 10 17 19 7"/>
+            </svg>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="pricing-cta-wrap">
+        <a
+          href="/superpowers/signup"
+          class="btn-molding inline-flex h-12 w-full items-center justify-center px-8 text-sm font-semibold tracking-wide text-primary transition-colors cursor-pointer"
+        >
+          Try it now
+        </a>
+        <p class="pricing-fineprint">
+          You'll add a credit card to start. We won't charge a cent until day 31, and we'll email a reminder 7 days before.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing-card {
+    border-radius: 1rem;
+    border: 1px solid rgba(45, 36, 24, 0.12);
+    background: #FFFBF5;
+    overflow: hidden;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 4px 12px rgba(45, 36, 24, 0.06),
+      0 12px 32px rgba(45, 36, 24, 0.05);
+  }
+
+  .pricing-card-head {
+    padding: 2rem 2rem 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(45, 36, 24, 0.08);
+    background: linear-gradient(180deg, rgba(58, 125, 86, 0.04), transparent);
+  }
+
+  .pricing-tag {
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.25rem;
+    background: rgba(58, 125, 86, 0.12);
+    color: var(--color-primary, #3A7D56);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .pricing-name {
+    margin-top: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--foreground, #2D2418);
+  }
+
+  .pricing-amount-row {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.375rem;
+  }
+
+  .pricing-amount {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--foreground, #2D2418);
+    letter-spacing: -0.02em;
+  }
+
+  .pricing-amount-suffix {
+    font-size: 0.95rem;
+    color: var(--muted-foreground, #6B5638);
+  }
+
+  .pricing-billed {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--muted-foreground, #6B5638);
+  }
+
+  .pricing-list {
+    list-style: none;
+    padding: 1.5rem 2rem 0.5rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pricing-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    font-size: 0.9rem;
+    color: var(--foreground, #2D2418);
+    line-height: 1.45;
+  }
+
+  .pricing-check {
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-primary, #3A7D56);
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  .pricing-cta-wrap {
+    padding: 1.25rem 2rem 2rem;
+  }
+
+  .pricing-fineprint {
+    margin-top: 0.875rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--muted-foreground, #6B5638);
+    line-height: 1.5;
+  }
+</style>

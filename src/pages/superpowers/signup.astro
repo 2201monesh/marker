@@ -1,0 +1,286 @@
+---
+import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import GrainLayer from "../../components/GrainLayer.astro";
+import SignupForm from "../../components/superpowers/SignupForm";
+---
+
+<MarketingLayout
+  title="Start your 30-day free trial — Email Superpowers by Marker"
+  description="Add a card to start your 30-day free trial of Marker's Email Superpowers. No charge until day 31. Cancel anytime."
+  noindex={true}
+>
+  <Navbar logoHref="/superpowers/" wordmark="Email Superpowers" ctaLabel="Try it now" ctaHref="/superpowers/signup" showLinks={false} />
+  <main id="main-content">
+    <div class="relative">
+      <GrainLayer />
+      <section class="relative py-16 md:py-24">
+        <div class="relative z-10 mx-auto max-w-2xl px-8">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+              Register your account
+            </p>
+            <h1 class="text-4xl font-bold tracking-tight text-foreground leading-[1.1] md:text-5xl">
+              Set up your Superpowers
+            </h1>
+            <p class="mt-4 text-muted-foreground md:text-lg leading-relaxed">
+              Tell us a bit about you and we'll get your account ready.
+            </p>
+
+            <div class="mt-10">
+              <SignupForm client:load />
+            </div>
+
+            <div class="signup-talk mt-10">
+              <p class="signup-talk-eyebrow">Have questions?</p>
+              <a
+                href="https://info.onmarker.com/meetings/richard-berwick/book-time-with-richard-re-email-superpowers"
+                class="signup-talk-link"
+              >
+                Book time with Richard, one of our founders →
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <div class="relative">
+    <GrainLayer />
+    <Footer pathPrefix="/superpowers" showBookDemo={false} />
+  </div>
+</MarketingLayout>
+
+<style is:global>
+  /* ── Signup form — local styles, scoped via the .signup-form root class ── */
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .signup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .signup-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .signup-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    grid-column: span 1;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .signup-field > .signup-field-label {
+    padding: 0;
+  }
+
+  .signup-field:nth-child(1),
+  .signup-field:nth-child(6) {
+    grid-column: span 2;
+  }
+
+  @media (max-width: 600px) {
+    .signup-field,
+    .signup-field:nth-child(1),
+    .signup-field:nth-child(6) {
+      grid-column: span 1;
+    }
+  }
+
+  .signup-field-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--foreground, #2D2418);
+  }
+
+  .signup-field-error {
+    font-size: 0.75rem;
+    color: #B5341E;
+  }
+
+  .signup-select {
+    height: 2.5rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    background: var(--color-background);
+    padding: 0 0.75rem;
+    font-size: 0.875rem;
+    color: var(--foreground, #2D2418);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%237D6B4F' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2rem;
+  }
+
+  .signup-radio-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .signup-radio {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(45, 36, 24, 0.12);
+    background: var(--color-background);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--muted-foreground, #6B5638);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .signup-radio:hover {
+    border-color: rgba(58, 125, 86, 0.4);
+  }
+
+  .signup-radio.is-active {
+    border-color: var(--color-primary, #3A7D56);
+    background: rgba(58, 125, 86, 0.08);
+    color: var(--foreground, #2D2418);
+    box-shadow: inset 0 0 0 1px rgba(58, 125, 86, 0.4);
+  }
+
+  .signup-radio:has(input:focus-visible) {
+    outline: 2px solid var(--color-primary, #3A7D56);
+    outline-offset: 2px;
+  }
+
+  .signup-radio input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .signup-error {
+    background: #F8DCD2;
+    color: #8C2A1E;
+    border-radius: 0.5rem;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.85rem;
+  }
+
+  .signup-fineprint {
+    font-size: 0.75rem;
+    color: var(--muted-foreground, #6B5638);
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .signup-link {
+    color: var(--color-primary, #3A7D56);
+    text-decoration: underline;
+  }
+
+  .signup-talk {
+    border: 1px solid rgba(45, 36, 24, 0.08);
+    border-radius: 0.75rem;
+    background: rgba(58, 125, 86, 0.04);
+    padding: 1rem 1.25rem;
+  }
+
+  .signup-talk-eyebrow {
+    font-size: 0.75rem;
+    color: var(--muted-foreground, #6B5638);
+  }
+
+  .signup-talk-link {
+    margin-top: 0.25rem;
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-primary, #3A7D56);
+  }
+
+  /* ── Redirect modal ── */
+  .signup-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 36, 24, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 1.5rem;
+  }
+
+  .signup-modal {
+    max-width: 28rem;
+    width: 100%;
+    background: #FFFBF5;
+    border: 1px solid rgba(45, 36, 24, 0.1);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(45, 36, 24, 0.25);
+  }
+
+  .signup-modal-icon {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto 1rem;
+    border-radius: 999px;
+    background: rgba(58, 125, 86, 0.12);
+    color: var(--color-primary, #3A7D56);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .signup-modal-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .signup-modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--foreground, #2D2418);
+  }
+
+  .signup-modal-body {
+    margin-top: 0.625rem;
+    font-size: 0.9rem;
+    color: var(--muted-foreground, #6B5638);
+    line-height: 1.5;
+  }
+
+  .signup-modal-spinner {
+    margin: 1.25rem auto 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid rgba(58, 125, 86, 0.2);
+    border-top-color: var(--color-primary, #3A7D56);
+    border-radius: 999px;
+    animation: signup-modal-spin 0.8s linear infinite;
+  }
+
+  @keyframes signup-modal-spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
+

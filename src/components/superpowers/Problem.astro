@@ -1,0 +1,70 @@
+---
+const stats = [
+  { value: "4 hrs", label: "average time per day in email", source: "Head of PD, $200M menswear brand" },
+  { value: "500+", label: "supplier emails per day per team", source: "VP PD, $200M menswear brand" },
+  { value: "50+", label: "messages buried in a single thread", source: "Supply Chain, $700M lifestyle brand" },
+];
+---
+
+<section class="relative bg-muted bg-paper wash-ochre-bl py-20 md:py-24 mat-bevel" aria-labelledby="problem-heading">
+  <div class="relative z-10 mx-auto max-w-7xl px-8">
+    <div class="max-w-3xl">
+      <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+        The evil email cycle
+      </p>
+      <h2 id="problem-heading" class="ink-reveal text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
+        Your inbox is evil.
+        <br />
+        Beat it with Email Superpowers.
+      </h2>
+      <p class="ink-reveal mt-6 text-muted-foreground md:text-lg leading-relaxed" style="--reveal-delay: 120">
+        Every supplier handoff, lab result, tracking number, and approval lives in your inbox. Threads blur across styles. Deadlines slip without anyone noticing. By Friday you've spent half your week chasing replies you already sent.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-6 md:grid-cols-3">
+      {stats.map((stat, i) => (
+        <div class="ink-reveal stat-card" style={`--reveal-delay: ${200 + i * 100}`}>
+          <div class="stat-value">{stat.value}</div>
+          <div class="stat-label">{stat.label}</div>
+          <div class="stat-source">— {stat.source}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .stat-card {
+    padding: 1.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid #E8DFD0;
+    background: #FFFBF5;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 1px 0 rgba(45, 36, 24, 0.04),
+      0 2px 6px rgba(45, 36, 24, 0.04);
+  }
+
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-primary, #3A7D56);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-label {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--foreground, #2D2418);
+    line-height: 1.4;
+  }
+
+  .stat-source {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--muted-foreground, #6B5638);
+  }
+</style>

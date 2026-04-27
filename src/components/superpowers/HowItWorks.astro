@@ -1,0 +1,44 @@
+---
+const steps = [
+  {
+    number: "1",
+    title: "Install in 2 minutes",
+    description:
+      "Connect Gmail or Outlook. Marker reads your inbox and drafts replies in your voice — nothing sends without your click. No IT ticket required.",
+  },
+  {
+    number: "2",
+    title: "30 days, free",
+    description:
+      "Marker learns your tone, your suppliers, your styles. By week two you're saving hours a day. Cancel anytime.",
+  },
+  {
+    number: "3",
+    title: "Give your colleagues superpowers",
+    description:
+      "Once you're flying, invite the people you work with most — across PD, sourcing, production, and merch. They'll thank you.",
+  },
+];
+---
+
+<section id="how-it-works" class="relative py-24 md:py-32" aria-labelledby="how-it-works-heading">
+  <div class="mx-auto max-w-7xl px-8">
+    <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+      Getting started
+    </p>
+    <h2 id="how-it-works-heading" class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
+      How it works
+    </h2>
+    <div class="mt-12 grid gap-10 md:grid-cols-3">
+      {steps.map((step, i) => (
+        <div class="ink-reveal flex flex-col" style={`--reveal-delay: ${120 + i * 100}`}>
+          <div class="circle-debossed flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+            {step.number}
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-foreground">{step.title}</h3>
+          <p class="mt-2 text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

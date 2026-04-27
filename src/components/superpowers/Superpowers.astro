@@ -1,0 +1,77 @@
+---
+const powers = [
+  {
+    name: "Triage",
+    title: "Reply now. Waiting on them. For your team.",
+    description: "Every incoming supplier email is auto-sorted into three buckets so the morning triage hour is gone. You walk into 3 things to handle, not 80.",
+    icon: "M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5",
+    accent: "primary",
+  },
+  {
+    name: "Smart templates",
+    title: "Replies in your own voice — written for you.",
+    description: "Marker reads your past sent mail and surfaces a draft reply for every thread. The tone, the boilerplate, the spec language — all yours, just faster.",
+    icon: "M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125",
+    accent: "primary",
+  },
+  {
+    name: "Auto-extract",
+    title: "Tracking numbers, lab results, tech packs — typed and tracked.",
+    description: "Marker pulls structured data out of the body, the attachments, and the PDFs. No more copy-paste from a 50-message thread into a tracker. It's already done.",
+    icon: "M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z",
+    accent: "primary",
+  },
+  {
+    name: "Deadline nudges",
+    title: "Nobody misses a date silently again.",
+    description: "Open commitments — \"vendor will send fabric data sheet by Friday\" — get tracked. When someone slips, the right person is nudged before the deadline blows.",
+    icon: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z",
+    accent: "primary",
+  },
+  {
+    name: "Audit trail",
+    title: "Every supplier exchange, searchable in seconds.",
+    description: "Every commitment, spec, and approval is captured and structured. Find the right thread in seconds — no more digging through 50-message chains for the lab result you swear you saw.",
+    icon: "M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z",
+    accent: "primary",
+  },
+  {
+    name: "Batch approvals",
+    title: "Approve 12 things in one shot, not 12 emails.",
+    description: "Marker rolls up open vendor requests into a single morning digest. Approve, edit, or send back — then the agent fires off your responses.",
+    icon: "M5 13l4 4L19 7",
+    accent: "primary",
+  },
+];
+---
+
+<section id="features" class="relative py-24 md:py-32" aria-labelledby="superpowers-heading">
+  <div class="relative z-10 mx-auto max-w-7xl px-8">
+    <div class="max-w-3xl">
+      <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+        Six superpowers
+      </p>
+      <h2 id="superpowers-heading" class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
+        What your inbox does for you now.
+      </h2>
+      <p class="ink-reveal mt-6 text-muted-foreground md:text-lg leading-relaxed" style="--reveal-delay: 120">
+        Each one earns its keep on day one. Together they collapse hours of triage and follow-up into minutes.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {powers.map((power, i) => (
+        <div class="ink-reveal card-raised group relative rounded-xl bg-background p-7 transition-all duration-300 hover:-translate-y-1" style={`--reveal-delay: ${150 + i * 80}`}>
+          <div class="badge-raised mb-4 flex h-10 w-10 items-center justify-center rounded-lg" style="background: rgba(58,125,86,0.08);">
+            <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d={power.icon} />
+            </svg>
+          </div>
+          <p class="text-xs font-semibold uppercase tracking-[0.1em] text-primary/70">{power.name}</p>
+          <h3 class="mt-1 text-lg font-semibold text-foreground leading-snug">{power.title}</h3>
+          <p class="mt-2 text-sm text-muted-foreground leading-relaxed">{power.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

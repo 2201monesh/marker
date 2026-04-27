@@ -1,0 +1,577 @@
+---
+
+---
+
+<section class="relative overflow-hidden hero-bloom">
+  <canvas
+    id="superpowers-hero-canvas"
+    class="absolute inset-0 w-full h-full pointer-events-none"
+    aria-hidden="true"
+  ></canvas>
+  <div class="relative z-10 mx-auto max-w-7xl px-8 py-28 md:py-36">
+    <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+      <!-- Left column: text -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+          Email Superpowers — by Marker
+        </p>
+        <h1 id="hero-heading" class="text-5xl font-bold tracking-tight text-foreground leading-[1.1] md:text-6xl lg:text-7xl">
+          10x your productivity in
+          <br />
+          <span data-marker-line>email</span>
+        </h1>
+        <p id="hero-subtext" class="mt-10 mb-2 text-lg text-muted-foreground md:text-xl leading-relaxed">
+          An AI sidebar that triages supplier email, surfaces smart templates from your own past replies, and extracts tracking numbers, lab results, and tech packs — automatically.
+        </p>
+        <div id="hero-cta" class="mt-10 flex flex-wrap items-center gap-6">
+          <a
+            href="/superpowers/signup"
+            class="btn-molding inline-flex h-11 items-center justify-center px-8 text-sm font-semibold tracking-wide text-primary transition-colors cursor-pointer"
+          >
+            Try it now
+          </a>
+          <a
+            href="#how-it-works"
+            class="text-sm font-semibold tracking-wide text-foreground/80 hover:text-foreground transition-colors"
+          >
+            See how it works →
+          </a>
+        </div>
+
+        <!-- Trust badges -->
+        <div class="mt-6 flex flex-wrap items-center gap-4">
+          <span class="trust-badge">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            Installs in 2 minutes
+          </span>
+          <span class="trust-badge">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            Nothing ever auto-sends
+          </span>
+          <span class="trust-badge">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            Cancel anytime
+          </span>
+        </div>
+      </div>
+
+      <!-- Right column: Inbox sidebar mockup -->
+      <div class="hero-inbox-wrap" role="img" aria-label="Decorative inbox illustration">
+        <div class="hero-inbox-frame" aria-hidden="true">
+
+          <!-- Window chrome dots -->
+          <div class="inbox-chrome">
+            <span class="inbox-dot" style="background:#E8DFD0"></span>
+            <span class="inbox-dot" style="background:#E8DFD0"></span>
+            <span class="inbox-dot" style="background:#E8DFD0"></span>
+            <span class="inbox-chrome-title">Inbox — Marker sidebar</span>
+          </div>
+
+          <div class="inbox-body">
+            <!-- Inbox list (left) -->
+            <div class="inbox-list">
+              <div class="inbox-list-section">
+                <div class="inbox-section-label">
+                  <span class="inbox-pill inbox-pill--reply">Reply now</span>
+                  <span class="inbox-section-count">3</span>
+                </div>
+                <div class="inbox-row inbox-row--active">
+                  <div class="inbox-avatar" style="background:#3A7D56">FT</div>
+                  <div class="inbox-row-text">
+                    <span class="inbox-row-from">Foshan Textile</span>
+                    <span class="inbox-row-subj">Lab dip — color drift on M21 navy</span>
+                  </div>
+                </div>
+                <div class="inbox-row">
+                  <div class="inbox-avatar" style="background:#9A5F2E">JX</div>
+                  <div class="inbox-row-text">
+                    <span class="inbox-row-from">Jixian Apparel</span>
+                    <span class="inbox-row-subj">PO 4421 — confirmed ship date 04/29</span>
+                  </div>
+                </div>
+                <div class="inbox-row">
+                  <div class="inbox-avatar" style="background:#B8860B">AC</div>
+                  <div class="inbox-row-text">
+                    <span class="inbox-row-from">Anhui Cotton</span>
+                    <span class="inbox-row-subj">Tech pack v3 — questions before sample</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="inbox-list-section">
+                <div class="inbox-section-label">
+                  <span class="inbox-pill inbox-pill--waiting">Waiting on them</span>
+                  <span class="inbox-section-count">5</span>
+                </div>
+                <div class="inbox-row inbox-row--muted">
+                  <div class="inbox-avatar" style="background:#7D6B4F">VS</div>
+                  <div class="inbox-row-text">
+                    <span class="inbox-row-from">Vietnam Stitch</span>
+                    <span class="inbox-row-subj">Tracking — ETA 04/22 expected</span>
+                    <span class="inbox-row-meta">Nudge sent 2d ago</span>
+                  </div>
+                </div>
+                <div class="inbox-row inbox-row--muted">
+                  <div class="inbox-avatar" style="background:#7D6B4F">SF</div>
+                  <div class="inbox-row-text">
+                    <span class="inbox-row-from">Surya Fabrics</span>
+                    <span class="inbox-row-subj">Re: lab results — moisture %</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="inbox-list-section">
+                <div class="inbox-section-label">
+                  <span class="inbox-pill inbox-pill--team">For your team</span>
+                  <span class="inbox-section-count">2</span>
+                </div>
+                <div class="inbox-row inbox-row--muted">
+                  <div class="inbox-avatar" style="background:#3A7D56">EM</div>
+                  <div class="inbox-row-text">
+                    <span class="inbox-row-from">Emma (Costing)</span>
+                    <span class="inbox-row-subj">Re: SS26 wovens — vendor responses</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sidebar (right) -->
+            <div class="inbox-sidebar">
+              <div class="inbox-side-section">
+                <div class="inbox-side-title">Smart reply</div>
+                <div class="inbox-side-card inbox-side-card--reply">
+                  <div class="inbox-side-text">"Approved — please proceed with the dye lot from sample #2. Confirm shipping label by Friday."</div>
+                  <div class="inbox-side-meta">From your past replies · 87% match</div>
+                </div>
+              </div>
+
+              <div class="inbox-side-section">
+                <div class="inbox-side-title">Extracted</div>
+                <div class="inbox-side-row">
+                  <span class="inbox-side-key">Tracking #</span>
+                  <span class="inbox-side-val">DHL 8221‑4471</span>
+                </div>
+                <div class="inbox-side-row">
+                  <span class="inbox-side-key">Lab result</span>
+                  <span class="inbox-side-val">Pantone 19‑3933 · ΔE 1.2</span>
+                </div>
+                <div class="inbox-side-row">
+                  <span class="inbox-side-key">Style #</span>
+                  <span class="inbox-side-val">M21‑NVY‑W</span>
+                </div>
+              </div>
+
+              <div class="inbox-side-section">
+                <div class="inbox-side-title">Open commitments</div>
+                <div class="inbox-side-nudge">
+                  <span class="inbox-side-nudge-dot"></span>
+                  Vietnam Stitch is 3d late on PO 4309
+                </div>
+                <div class="inbox-side-nudge">
+                  <span class="inbox-side-nudge-dot inbox-side-nudge-dot--soft"></span>
+                  Surya Fabrics owes lab dip · due tomorrow
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted-foreground, #7D6B4F);
+    opacity: 0.7;
+  }
+
+  .hero-inbox-wrap {
+    opacity: 0;
+    animation: inbox-fade-in 0.8s ease-out 0.15s forwards;
+    overflow: hidden;
+    filter: drop-shadow(0 12px 40px rgba(45, 36, 24, 0.25));
+    max-width: 596px;
+    position: relative;
+  }
+
+  @keyframes inbox-fade-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-inbox-frame {
+    background: #FAF6F0;
+    border: 1px solid #E8DFD0;
+    border-radius: 12px 0 0 12px;
+    border-right: none;
+    overflow: hidden;
+    font-family: var(--font-sans, system-ui, sans-serif);
+  }
+
+  .inbox-chrome {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: #F5EDE0;
+    border-bottom: 1px solid #E8DFD0;
+  }
+  .inbox-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .inbox-chrome-title {
+    margin-left: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #7D6B4F;
+  }
+
+  .inbox-body {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    min-height: 380px;
+  }
+
+  .inbox-list {
+    padding: 10px 6px 10px 10px;
+    border-right: 1px solid #E8DFD0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #FFFBF5;
+  }
+
+  .inbox-section-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .inbox-pill {
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .inbox-pill--reply {
+    background: #E8F5EC;
+    color: #2F6645;
+    border: 1px solid #A8D5BA;
+  }
+  .inbox-pill--waiting {
+    background: #FBF3DE;
+    color: #8C660B;
+    border: 1px solid #E8D9A8;
+  }
+  .inbox-pill--team {
+    background: #FCE8DD;
+    color: #9A5F2E;
+    border: 1px solid #ECC8AC;
+  }
+  .inbox-section-count {
+    font-size: 9px;
+    color: #7D6B4F;
+    font-weight: 600;
+  }
+
+  .inbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+  .inbox-row--active {
+    background: #F5EDE0;
+    box-shadow: inset 2px 0 0 #3A7D56;
+  }
+  .inbox-row--muted { opacity: 0.7; }
+
+  .inbox-avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .inbox-row-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+  }
+  .inbox-row-from {
+    font-size: 10px;
+    font-weight: 700;
+    color: #2D2418;
+  }
+  .inbox-row-subj {
+    font-size: 10px;
+    color: #5A4D42;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+  .inbox-row-meta {
+    font-size: 8px;
+    color: #B8860B;
+    margin-top: 2px;
+  }
+
+  .inbox-sidebar {
+    padding: 10px 12px;
+    background: #FAF6F0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .inbox-side-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .inbox-side-title {
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #7D6B4F;
+  }
+
+  .inbox-side-card {
+    background: #fff;
+    border: 1px solid #E8DFD0;
+    border-radius: 6px;
+    padding: 8px 9px;
+  }
+  .inbox-side-card--reply {
+    border-left: 3px solid #3A7D56;
+  }
+  .inbox-side-text {
+    font-size: 10px;
+    color: #2D2418;
+    line-height: 1.4;
+  }
+  .inbox-side-meta {
+    font-size: 8px;
+    color: #7D6B4F;
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .inbox-side-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px dashed #E8DFD080;
+    font-size: 9px;
+  }
+  .inbox-side-row:last-child { border-bottom: none; }
+  .inbox-side-key {
+    color: #7D6B4F;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+  .inbox-side-val {
+    color: #2D2418;
+    font-weight: 500;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+  }
+
+  .inbox-side-nudge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    color: #5A4D42;
+    line-height: 1.4;
+    padding: 4px 0;
+  }
+  .inbox-side-nudge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #C44535;
+    flex-shrink: 0;
+  }
+  .inbox-side-nudge-dot--soft {
+    background: #B8860B;
+  }
+
+  @media (max-width: 767px) {
+    .hero-inbox-wrap {
+      margin-top: 2rem;
+      margin-right: -2rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-inbox-wrap {
+      opacity: 1;
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import { drawCleanUnderline } from '../../lib/marker-background.js';
+
+  const HIGHLIGHT_COLOR = '#3A7D56';
+
+  function getStrokeParams(section: HTMLElement) {
+    const sectionRect = section.getBoundingClientRect();
+    const lines = section.querySelectorAll('[data-marker-line]');
+    if (!lines.length) return [];
+
+    const angleRad = -0.3 * (Math.PI / 180);
+
+    return Array.from(lines).map((line) => {
+      const rect = line.getBoundingClientRect();
+      const thickness = 14;
+      const cy = rect.bottom - sectionRect.top + 2;
+      const sx = rect.left - sectionRect.left - 8;
+      const ex = rect.right - sectionRect.left + 8;
+      const strokeLen = ex - sx;
+      const rise = Math.sin(angleRad) * strokeLen * 0.5;
+
+      return {
+        sx,
+        sy: cy - rise,
+        ex,
+        ey: cy + rise,
+        color: HIGHLIGHT_COLOR,
+        thickness,
+        opacity: 1,
+      };
+    });
+  }
+
+  function renderFull() {
+    const canvas = document.getElementById('superpowers-hero-canvas') as HTMLCanvasElement;
+    const section = canvas?.closest('section');
+    if (!canvas || !section) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const W = section.clientWidth;
+    const H = section.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext('2d')!;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+
+    getStrokeParams(section).forEach(p => drawCleanUnderline(ctx, p));
+  }
+
+  function renderAnimated() {
+    const canvas = document.getElementById('superpowers-hero-canvas') as HTMLCanvasElement;
+    const section = canvas?.closest('section');
+    if (!canvas || !section) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const W = section.clientWidth;
+    const H = section.clientHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext('2d')!;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const params = getStrokeParams(section);
+
+    const offscreens = params.map(p => {
+      const off = document.createElement('canvas');
+      off.width = canvas.width;
+      off.height = canvas.height;
+      const octx = off.getContext('2d')!;
+      octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawCleanUnderline(octx, p);
+      return off;
+    });
+
+    const DURATION = 650;
+    const STAGGER = 500;
+    const INITIAL_DELAY = 1000;
+    const startTime = performance.now() + INITIAL_DELAY;
+
+    function ease(t: number) {
+      return t < 0.15 ? t * t / 0.15 : 1 - Math.pow(1 - t, 2.5);
+    }
+
+    function animate(now: number) {
+      ctx.clearRect(0, 0, W, H);
+      let allDone = true;
+
+      params.forEach((p, i) => {
+        const elapsed = now - startTime - i * STAGGER;
+        if (elapsed <= 0) { allDone = false; return; }
+        const t = Math.min(1, elapsed / DURATION);
+        if (t < 1) allDone = false;
+        const eased = ease(t);
+
+        const revealWidth = (p.ex - p.sx) * eased;
+        if (revealWidth <= 0) return;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(p.sx - 2, 0, revealWidth + 4, H);
+        ctx.clip();
+        ctx.drawImage(offscreens[i], 0, 0, offscreens[i].width, offscreens[i].height, 0, 0, W, H);
+        ctx.restore();
+      });
+
+      if (!allDone) requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    renderFull();
+  } else {
+    renderAnimated();
+  }
+  window.addEventListener('resize', renderFull);
+
+  function clipInbox() {
+    const wrap = document.querySelector('.hero-inbox-wrap') as HTMLElement;
+    if (!wrap) return;
+    wrap.style.left = '0px';
+    const rect = wrap.getBoundingClientRect();
+    const shift = window.innerWidth - rect.right;
+    wrap.style.left = shift + 'px';
+  }
+  clipInbox();
+  window.addEventListener('resize', clipInbox);
+</script>

@@ -1,0 +1,104 @@
+---
+const quotes = [
+  {
+    body: "I spend 4 hours a day in email — the evil email cycle.",
+    role: "Head of PD, $200M menswear brand",
+  },
+  {
+    body: "500–600 emails a day; 1-hour morning triage just to flag what matters.",
+    role: "VP PD, $200M menswear brand",
+  },
+  {
+    body: "Nobody knows that they miss deadlines — threads are 50 messages long.",
+    role: "Supply Chain, $700M lifestyle brand",
+  },
+  {
+    body: "There's never a true understanding of where the information is.",
+    role: "Founder, $20M DTC footwear brand",
+  },
+  {
+    body: "What if I could get an email with a bunch of messages to approve, then send them to vendors in one batch?",
+    role: "Supply Chain, $400M activewear brand",
+  },
+  {
+    body: "Half my job is writing the same five replies over and over again.",
+    role: "Sourcing Manager, $150M apparel brand",
+  },
+];
+---
+
+<section class="relative bg-muted bg-paper wash-sage-bl py-24 md:py-32 mat-bevel" aria-labelledby="quotes-heading">
+  <div class="relative z-10 mx-auto max-w-7xl px-8">
+    <div class="max-w-3xl">
+      <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+        From the operators we built it with
+      </p>
+      <h2 id="quotes-heading" class="ink-reveal text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
+        Every part of this product came from someone who lives in email.
+      </h2>
+    </div>
+
+    <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {quotes.map((quote, i) => (
+        <figure class="ink-reveal quote-card" style={`--reveal-delay: ${150 + i * 80}`}>
+          <svg class="quote-mark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.547-.984 4.911-3.064 4.911-5.4-2.114 0-3.916-1.625-3.916-3.788V3h8.983zm14 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.547-.984 4.911-3.064 4.911-5.4-2.114 0-3.913-1.625-3.913-3.788V3h9z"/>
+          </svg>
+          <blockquote class="quote-body">{quote.body}</blockquote>
+          <figcaption class="quote-attr">
+            <span class="quote-role">{quote.role}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .quote-card {
+    padding: 1.5rem 1.5rem 1.25rem;
+    border-radius: 0.75rem;
+    border: 1px solid #E8DFD0;
+    background: #FFFBF5;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 1px 0 rgba(45, 36, 24, 0.04),
+      0 2px 6px rgba(45, 36, 24, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .quote-mark {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: rgba(58, 125, 86, 0.4);
+  }
+
+  .quote-body {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--foreground, #2D2418);
+    font-style: italic;
+  }
+
+  .quote-attr {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px dashed rgba(45, 36, 24, 0.1);
+  }
+
+  .quote-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--foreground, #2D2418);
+  }
+
+  .quote-role {
+    font-size: 0.75rem;
+    color: var(--muted-foreground, #6B5638);
+  }
+</style>

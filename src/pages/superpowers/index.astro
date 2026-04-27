@@ -1,0 +1,53 @@
+---
+import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import GrainLayer from "../../components/GrainLayer.astro";
+import ScoreLine from "../../components/ScoreLine.astro";
+import Hero from "../../components/superpowers/Hero.astro";
+import Problem from "../../components/superpowers/Problem.astro";
+import Superpowers from "../../components/superpowers/Superpowers.astro";
+import HowItWorks from "../../components/superpowers/HowItWorks.astro";
+import Quotes from "../../components/superpowers/Quotes.astro";
+import BuiltFor from "../../components/superpowers/BuiltFor.astro";
+import Pricing from "../../components/superpowers/Pricing.astro";
+import Security from "../../components/superpowers/Security.astro";
+import FAQ from "../../components/superpowers/FAQ.astro";
+import ClosingCTA from "../../components/superpowers/ClosingCTA.astro";
+---
+
+<MarketingLayout
+  title="Email Superpowers — 10x your supplier email by Marker"
+  description="The Superhuman for retail supply chain teams. Triage, smart templates, auto-extract, and deadline nudges for every supplier email. 30-day free trial — $49/user/month."
+>
+  <Navbar logoHref="/superpowers/" wordmark="Email Superpowers" ctaLabel="Try it now" ctaHref="/superpowers/signup" showLinks={false} />
+  <main id="main-content">
+    <div class="relative">
+      <GrainLayer />
+      <Hero />
+    </div>
+    <Problem />
+    <div class="relative">
+      <GrainLayer />
+      <Superpowers />
+      <ScoreLine />
+      <HowItWorks />
+    </div>
+    <Quotes />
+    <div class="relative">
+      <GrainLayer />
+      <BuiltFor />
+    </div>
+    <Pricing />
+    <div class="relative">
+      <GrainLayer />
+      <Security />
+      <FAQ />
+      <ClosingCTA />
+    </div>
+  </main>
+  <div class="relative">
+    <GrainLayer />
+    <Footer pathPrefix="/superpowers" showBookDemo={false} />
+  </div>
+</MarketingLayout>

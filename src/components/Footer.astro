@@ -1,4 +1,9 @@
 ---
+interface Props {
+  pathPrefix?: string;
+  showBookDemo?: boolean;
+}
+const { pathPrefix = "", showBookDemo = true } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
@@ -19,12 +24,14 @@ const year = new Date().getFullYear();
       </span>
     </div>
     <nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground" aria-label="Footer">
-      <a href="https://info.onmarker.com/book-a-demo" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Book a Demo</a>
-      <a href="/privacy" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Privacy Policy</a>
-      <a href="/cookies" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Cookie Policy</a>
-      <a href="/terms" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Terms of Service</a>
+      {showBookDemo && (
+        <a href="https://info.onmarker.com/book-a-demo" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Book a Demo</a>
+      )}
+      <a href={`${pathPrefix}/privacy`} class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Privacy Policy</a>
+      <a href={`${pathPrefix}/cookies`} class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Cookie Policy</a>
+      <a href={`${pathPrefix}/terms`} class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Terms of Service</a>
       <a href="https://trust.onmarker.com/" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Trust Center</a>
-      <a href="/privacy#privacyrights" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Do Not Sell My Personal Information</a>
+      <a href={`${pathPrefix}/privacy#privacyrights`} class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Do Not Sell My Personal Information</a>
       <a href="#" onclick="if(window.displayPreferenceModal){window.displayPreferenceModal();return false;}" class="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded">Manage Cookies</a>
     </nav>
     <nav class="mt-4 flex flex-wrap justify-center gap-3" aria-label="Social media">
