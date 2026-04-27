@@ -1,17 +1,35 @@
 ---
-
+interface Props {
+  logoHref?: string;
+  wordmark?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  showLinks?: boolean;
+}
+const {
+  logoHref = "/",
+  wordmark = "",
+  ctaLabel = "Book a Demo",
+  ctaHref = "https://info.onmarker.com/book-a-demo",
+  showLinks = true,
+} = Astro.props;
 ---
 
 <nav class="nav-grain sticky top-0 z-50 bg-background relative">
   <div class="relative z-10 mx-auto flex h-16 max-w-7xl items-center justify-between px-8">
-    <a href="/" class="flex items-center">
-      <img src="/logo.png" alt="Marker - Go to homepage" class="h-8" />
+    <a href={logoHref} class="flex items-center gap-2.5">
+      <img src="/logo.png" alt={wordmark ? "Marker" : "Marker - Go to homepage"} class="h-8" />
+      {wordmark && <span class="italic text-base font-medium text-primary/80">{wordmark}</span>}
     </a>
     <!-- Desktop nav -->
     <div class="hidden md:flex items-center gap-6">
-      <a href="/#security" class="text-base font-bold text-primary transition-colors hover:text-primary/80">Security</a>
-      <a href="/team" class="text-base font-bold text-primary transition-colors hover:text-primary/80">Team</a>
-      <a href="https://info.onmarker.com/book-a-demo" class="btn-molding inline-flex h-9 items-center justify-center px-6 text-sm font-semibold tracking-wide text-primary transition-colors hover:text-primary/80 cursor-pointer">Book a Demo</a>
+      {showLinks && (
+        <>
+          <a href="/#security" class="text-base font-bold text-primary transition-colors hover:text-primary/80">Security</a>
+          <a href="/team" class="text-base font-bold text-primary transition-colors hover:text-primary/80">Team</a>
+        </>
+      )}
+      <a href={ctaHref} class="btn-molding inline-flex h-9 items-center justify-center px-6 text-sm font-semibold tracking-wide text-primary transition-colors hover:text-primary/80 cursor-pointer">{ctaLabel}</a>
     </div>
 
     <!-- Mobile hamburger -->
@@ -29,9 +47,13 @@
   <!-- Mobile menu panel -->
   <div id="mobile-menu" class="hidden md:hidden absolute left-0 right-0 top-full z-50 bg-background border-b border-border shadow-lg">
     <div class="flex flex-col gap-4 px-8 py-6">
-      <a href="/#security" class="mobile-nav-link text-base font-bold text-primary">Security</a>
-      <a href="/team" class="mobile-nav-link text-base font-bold text-primary">Team</a>
-      <a href="https://info.onmarker.com/book-a-demo" class="mobile-nav-link btn-molding inline-flex h-9 items-center justify-center px-6 text-sm font-semibold tracking-wide text-primary cursor-pointer mt-2">Book a Demo</a>
+      {showLinks && (
+        <>
+          <a href="/#security" class="mobile-nav-link text-base font-bold text-primary">Security</a>
+          <a href="/team" class="mobile-nav-link text-base font-bold text-primary">Team</a>
+        </>
+      )}
+      <a href={ctaHref} class="mobile-nav-link btn-molding inline-flex h-9 items-center justify-center px-6 text-sm font-semibold tracking-wide text-primary cursor-pointer mt-2">{ctaLabel}</a>
     </div>
   </div>
 </nav>
