@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { HUBSPOT_FORMS, submitHubSpotForm } from "@/lib/hubspot";
@@ -38,20 +38,87 @@ const ROLE_OPTIONS = [
 
 const TEAM_SIZES = ["Just me", "2–5", "6–15", "16–25", "26+"];
 
+const STORAGE_KEY = "superpowers-trial";
+
+const EMPTY_FORM: FormState = {
+  fullName: "",
+  email: "",
+  company: "",
+  role: "",
+  teamSize: "",
+  inboxProvider: "gmail",
+};
+
+function readPersistedForm(): FormState {
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (!raw) return EMPTY_FORM;
+    const parsed = JSON.parse(raw) as Partial<{
+      name: string;
+      fullName: string;
+      email: string;
+      company: string;
+      role: string;
+      teamSize: string;
+      inboxProvider: FormState["inboxProvider"];
+    }>;
+    return {
+      fullName: parsed.fullName ?? parsed.name ?? "",
+      email: parsed.email ?? "",
+      company: parsed.company ?? "",
+      role: parsed.role ?? "",
+      teamSize: parsed.teamSize ?? "",
+      inboxProvider:
+        parsed.inboxProvider === "gmail" ||
+        parsed.inboxProvider === "outlook" ||
+        parsed.inboxProvider === "other"
+          ? parsed.inboxProvider
+          : "gmail",
+    };
+  } catch {
+    return EMPTY_FORM;
+  }
+}
+
+function persistForm(form: FormState) {
+  try {
+    sessionStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        // Keep `name` for backward compatibility with the onboarding banner.
+        name: form.fullName,
+        fullName: form.fullName,
+        email: form.email,
+        company: form.company,
+        role: form.role,
+        teamSize: form.teamSize,
+        inboxProvider: form.inboxProvider,
+      })
+    );
+  } catch {
+    // sessionStorage unavailable (private mode); non-fatal.
+  }
+}
+
 export default function SignupForm() {
-  const [form, setForm] = useState<FormState>({
-    fullName: "",
-    email: "",
-    company: "",
-    role: "",
-    teamSize: "",
-    inboxProvider: "gmail",
-  });
+  const [form, setForm] = useState<FormState>(EMPTY_FORM);
+  const [hydrated, setHydrated] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>(
     {}
   );
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [showRedirect, setShowRedirect] = useState(false);
+
+  useEffect(() => {
+    setForm(readPersistedForm());
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    persistForm(form);
+  }, [form, hydrated]);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -74,22 +141,7 @@ export default function SignupForm() {
     }
 
     setSubmitting(true);
-
-    try {
-      sessionStorage.setItem(
-        "superpowers-trial",
-        JSON.stringify({
-          name: form.fullName,
-          email: form.email,
-          company: form.company,
-          role: form.role,
-          teamSize: form.teamSize,
-          inboxProvider: form.inboxProvider,
-        })
-      );
-    } catch {
-      // sessionStorage may be unavailable (private mode); non-fatal.
-    }
+    persistForm(form);
 
     // Best-effort HubSpot lead capture before redirecting to Stripe — if
     // HubSpot fails or times out we still send the user to checkout, since
@@ -116,6 +168,22 @@ export default function SignupForm() {
       /* best-effort */
     });
 
+    // Per ADR-0002, link the anonymous Amplitude device to the known email so
+    // pre-trial browsing history merges with the identified user.
+    if (window.amplitude) {
+      try {
+        window.amplitude.setUserId(form.email);
+        window.amplitude.track("Superpowers Trial Started", {
+          company: form.company,
+          role: form.role,
+          team_size: form.teamSize,
+          inbox_provider: form.inboxProvider,
+        });
+      } catch {
+        /* non-fatal */
+      }
+    }
+
     try {
       const url = new URL(STRIPE_PAYMENT_LINK);
       url.searchParams.set("prefilled_email", form.email);
@@ -128,7 +196,11 @@ export default function SignupForm() {
           200
         )
       );
-      window.location.href = url.toString();
+      const stripeUrl = url.toString();
+      setShowRedirect(true);
+      setTimeout(() => {
+        window.location.href = stripeUrl;
+      }, 6000);
     } catch {
       setSubmitting(false);
       setSubmitError(
@@ -205,7 +277,7 @@ export default function SignupForm() {
           </select>
         </Field>
 
-        <Field label="Where you read email" error={errors.inboxProvider}>
+        <Field label="Where you read email" error={errors.inboxProvider} as="fieldset">
           <div className="signup-radio-row">
             <label
               className={`signup-radio ${form.inboxProvider === "gmail" ? "is-active" : ""}`}
@@ -247,36 +319,6 @@ export default function SignupForm() {
         </Field>
       </div>
 
-      <div className="signup-card-block">
-        <div className="signup-card-block-head">
-          <p className="signup-card-eyebrow">Step 2 of 2</p>
-          <h3 className="signup-card-title">Card on file via Stripe</h3>
-          <p className="signup-card-sub">
-            On the next screen, Stripe captures your card on a secure,
-            PCI-compliant page. We won't charge a cent until day 31, and
-            we'll email you 7 days before so you can cancel before the charge.
-          </p>
-        </div>
-
-        <ul className="signup-card-bullets">
-          <li>
-            <Check /> $49 per active seat / month, billed monthly
-          </li>
-          <li>
-            <Check /> 30 days free, then auto-converts unless cancelled
-          </li>
-          <li>
-            <Check /> Reminder email 7 days before first charge
-          </li>
-          <li>
-            <Check /> Card capture handled by Stripe — 256-bit SSL, PCI DSS
-          </li>
-          <li>
-            <Check /> OK to use a personal card — swap to a company card before trial is over
-          </li>
-        </ul>
-      </div>
-
       {submitError && <p className="signup-error">{submitError}</p>}
 
       <button
@@ -284,11 +326,11 @@ export default function SignupForm() {
         disabled={submitting}
         className="btn-molding inline-flex h-12 w-full items-center justify-center px-8 text-sm font-semibold tracking-wide text-primary transition-colors cursor-pointer disabled:opacity-50"
       >
-        {submitting ? "Starting your trial…" : "Start 30-day free trial"}
+        {submitting ? "Registering…" : "Register your account"}
       </button>
 
       <p className="signup-fineprint">
-        By starting your trial you agree to our{" "}
+        By registering you agree to our{" "}
         <a href="/superpowers/terms" className="signup-link">
           Terms
         </a>{" "}
@@ -296,8 +338,32 @@ export default function SignupForm() {
         <a href="/superpowers/privacy" className="signup-link">
           Privacy Policy
         </a>
-        . You can cancel any time before day 31 and you won't be charged.
+        .
       </p>
+
+      {showRedirect && (
+        <div
+          className="signup-modal-backdrop"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="signup-modal-title"
+        >
+          <div className="signup-modal">
+            <div className="signup-modal-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="5 12 10 17 19 7" />
+              </svg>
+            </div>
+            <h2 id="signup-modal-title" className="signup-modal-title">
+              Account registered
+            </h2>
+            <p className="signup-modal-body">
+              Redirecting you to Stripe to add a card on file. We won't charge anything until day 31 — cancel any time before then and pay nothing.
+            </p>
+            <div className="signup-modal-spinner" aria-hidden="true" />
+          </div>
+        </div>
+      )}
     </form>
   );
 }
@@ -306,31 +372,20 @@ function Field({
   label,
   error,
   children,
+  as: Wrapper = "label",
 }: {
   label: string;
   error?: string;
   children: React.ReactNode;
+  as?: "label" | "div" | "fieldset";
 }) {
+  const LabelTag = Wrapper === "fieldset" ? "legend" : "span";
   return (
-    <label className="signup-field">
-      <span className="signup-field-label">{label}</span>
+    <Wrapper className="signup-field">
+      <LabelTag className="signup-field-label">{label}</LabelTag>
       {children}
       {error && <span className="signup-field-error">{error}</span>}
-    </label>
+    </Wrapper>
   );
 }
 
-function Check() {
-  return (
-    <svg
-      className="signup-bullet-check"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      aria-hidden="true"
-    >
-      <polyline points="5 12 10 17 19 7" />
-    </svg>
-  );
-}
