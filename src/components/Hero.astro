@@ -14,14 +14,12 @@
       <!-- Left column: text -->
       <div>
         <h1 id="hero-heading" class="text-5xl font-bold tracking-tight text-foreground leading-[1.1] md:text-6xl lg:text-7xl">
-          Your always-on
+          Sourcing
           <br />
-          <span data-marker-line>supply chain</span>
-          <br />
-          <span data-marker-line>coordinator</span>
+          <span data-marker-line>lives in email.</span>
         </h1>
         <p id="hero-subtext" class="mt-10 mb-2 text-lg text-muted-foreground md:text-xl leading-relaxed">
-          Marker connects your retail supply chain systems and moves work forward automatically — so your team can focus on decisions, not follow-ups.
+          Half your team's week disappears in there. So do the answers about your seasons, your vendors, your team.
         </p>
         <div id="hero-cta" class="mt-10 flex flex-wrap items-center gap-6">
           <a
@@ -49,149 +47,197 @@
         </div>
       </div>
 
-      <!-- Right column: Gantt chart snapshot — bleeds off right edge -->
-      <div class="hero-gantt-wrap" role="img" aria-label="Decorative Gantt chart illustration">
-        <div class="hero-gantt-frame" aria-hidden="true">
+      <!-- Right column: faux inbox snapshot — bleeds off right edge -->
+      <div class="hero-inbox-wrap" role="img" aria-label="Decorative sourcing inbox illustration with Marker annotations">
+        <div class="hero-inbox-frame" aria-hidden="true">
 
-          <!-- Window chrome dots -->
-          <div class="gantt-chrome">
-            <span class="gantt-dot" style="background:#E8DFD0"></span>
-            <span class="gantt-dot" style="background:#E8DFD0"></span>
-            <span class="gantt-dot" style="background:#E8DFD0"></span>
-            <span class="gantt-chrome-title">SS26 wovens — sourcing calendar</span>
+          <!-- Window chrome -->
+          <div class="inbox-chrome">
+            <div class="chrome-dots">
+              <span class="chrome-dot"></span>
+              <span class="chrome-dot"></span>
+              <span class="chrome-dot"></span>
+            </div>
+            <span class="chrome-title">Sourcing inbox</span>
+            <span class="chrome-divider">/</span>
+            <span class="chrome-sub">SS26 wovens</span>
+            <span class="chrome-spacer"></span>
+            <span class="chrome-count">87 threads</span>
           </div>
 
-          <!-- Board -->
-          <div class="gantt-board">
-            <!-- Phase header row -->
-            <div class="gantt-phase-row">
-              <div class="gantt-lane-hd"></div>
-              <div class="gantt-phase-label" style="left:56px">Development</div>
-              <div class="gantt-phase-label" style="left:calc(56px + 5 * var(--col-w))">Costing + spec</div>
-            </div>
-
-            <!-- Lane: PD -->
-            <div class="gantt-lane">
-              <div class="gantt-lane-hd"><span class="gantt-lane-name">PD</span></div>
-              <div class="gantt-lane-track">
-                <div class="gc gc-agent gc-done" style="--gc-col:0">
-                  <div class="gc-icon gc-icon-agent"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg></div>
-                  <div class="gc-text"><span class="gc-who">Agent</span><span class="gc-name">Collect fabric data</span></div>
-                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
-                </div>
-                <div class="gc gc-human gc-done" style="--gc-col:1">
-                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
-                  <div class="gc-text"><span class="gc-who">PD</span><span class="gc-name">Review fabric details</span></div>
-                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
-                </div>
-                <div class="gc gc-human gc-done" style="--gc-col:2">
-                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
-                  <div class="gc-text"><span class="gc-who">PD</span><span class="gc-name">Collect trim details</span></div>
-                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
-                </div>
-                <div class="gc gc-agent gc-active" style="--gc-col:6">
-                  <div class="gc-icon gc-icon-agent"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg></div>
-                  <div class="gc-text"><span class="gc-who">Agent</span><span class="gc-name">Request vendor costing</span></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Lane: Design -->
-            <div class="gantt-lane">
-              <div class="gantt-lane-hd"><span class="gantt-lane-name">Design</span></div>
-              <div class="gantt-lane-track">
-                <div class="gc gc-human gc-done" style="--gc-col:1">
-                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
-                  <div class="gc-text"><span class="gc-who">Design</span><span class="gc-name">Design direction</span></div>
-                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
-                </div>
-                <div class="gc gc-agent gc-done" style="--gc-col:3">
-                  <div class="gc-icon gc-icon-agent"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg></div>
-                  <div class="gc-text"><span class="gc-who">Agent</span><span class="gc-name">Assign style numbers</span></div>
-                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
-                </div>
-                <div class="gc gc-human gc-done" style="--gc-col:4">
-                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
-                  <div class="gc-text"><span class="gc-who">Design</span><span class="gc-name">Front + back sketches</span></div>
-                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
-                </div>
-                <div class="gc gc-human gc-pending" style="--gc-col:5">
-                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
-                  <div class="gc-text"><span class="gc-who">Design</span><span class="gc-name">Build bill of materials</span></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Lane: TD -->
-            <div class="gantt-lane">
-              <div class="gantt-lane-hd"><span class="gantt-lane-name">TD</span></div>
-              <div class="gantt-lane-track">
-                <div class="gc gc-agent gc-done" style="--gc-col:4">
-                  <div class="gc-icon gc-icon-agent"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#fff" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg></div>
-                  <div class="gc-text"><span class="gc-who">Agent</span><span class="gc-name">Load spec templates</span></div>
-                  <div class="gc-check"><svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="3"><polyline points="5 12 10 17 19 7"/></svg></div>
-                </div>
-                <div class="gc gc-human gc-pending" style="--gc-col:5">
-                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
-                  <div class="gc-text"><span class="gc-who">TD</span><span class="gc-name">Build initial spec pkg</span></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Lane: Merch -->
-            <div class="gantt-lane">
-              <div class="gantt-lane-hd"><span class="gantt-lane-name">Merch</span></div>
-              <div class="gantt-lane-track">
-                <div class="gc gc-human gc-waiting" style="--gc-col:5">
-                  <div class="gc-icon gc-icon-human"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div>
-                  <div class="gc-text"><span class="gc-who">Merch</span><span class="gc-name">Seasonal buy plan</span></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Lane: Prod -->
-            <div class="gantt-lane">
-              <div class="gantt-lane-hd"><span class="gantt-lane-name">Prod</span></div>
-              <div class="gantt-lane-track">
-                <!-- empty at this stage -->
-              </div>
-            </div>
-
-            <!-- Now-cursor -->
-            <div class="gantt-cursor"></div>
+          <!-- Filter rail -->
+          <div class="inbox-filters">
+            <span class="filter-pill is-active">All <em>87</em></span>
+            <span class="filter-pill is-marker">
+              <svg viewBox="0 0 20 20" class="filter-icon" aria-hidden="true">
+                <path d="M 13 3 L 17 7 L 7 17 L 3 13 Z" fill="currentColor"/>
+                <path d="M 13 3 L 17 7 L 15 9 L 11 5 Z" fill="currentColor" opacity="0.55"/>
+              </svg>
+              Marker handling <em>54</em>
+            </span>
+            <span class="filter-pill">Needs you <em>13</em></span>
+            <span class="filter-pill">Snoozed <em>20</em></span>
           </div>
 
-          <!-- Activity log feed -->
-          <div class="hero-feed">
-            <div class="hero-feed-title">Activity log</div>
-            <div class="hero-fi">
-              <div class="hero-fic hero-fic-agent">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg>
-              </div>
-              <span>Agent updated spec package templates</span>
-            </div>
+          <!-- Thread list -->
+          <ul class="inbox-list">
 
-            <div class="hero-fi">
-              <div class="hero-fic hero-fic-agent">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg>
+            <!-- 1. Atelier Verde — extracted: FOB underline + AUC chip -->
+            <li class="thread thread-extracted" style="--thread-i:0">
+              <span class="thread-avatar" style="--av:#7E8B6F">AV</span>
+              <div class="thread-body">
+                <div class="thread-row1">
+                  <span class="thread-from">Maria Lopes <em>· Atelier Verde</em></span>
+                  <span class="thread-time">9:42</span>
+                </div>
+                <div class="thread-row2">
+                  <span class="thread-subj">Updated quote — linen blend, SS26-W-014</span>
+                  <span class="thread-snip"> — Per our call, revised to <span class="anno-mark anno-mark-fob"><span class="anno-target">FOB&nbsp;$14.20</span><svg class="anno-svg anno-svg-underline" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M 5 9 L 11 1 Q 100 0, 195 3 L 199 11 Q 100 13, 5 9 Z" fill="currentColor"/></svg></span> on 1200 yds…</span>
+                </div>
               </div>
-              <span>Agent requested costing from 3 vendors</span>
-            </div>
+              <div class="thread-marks">
+                <span class="anno-chip anno-chip-warn" style="--chip-delay:1850ms">
+                  <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M 6 1 L 11 10 L 1 10 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M 6 5 L 6 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="6" cy="9" r="0.7" fill="currentColor"/></svg>
+                  +9% over target AUC
+                </span>
+              </div>
+            </li>
 
-            <div class="hero-fi">
-              <div class="hero-fic hero-fic-human">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg>
+            <!-- 2. Suzhou Lin — handled -->
+            <li class="thread thread-handled" style="--thread-i:1">
+              <span class="thread-avatar" style="--av:#A87C5D">SL</span>
+              <div class="thread-body">
+                <div class="thread-row1">
+                  <span class="thread-from">Daniel Wu <em>· Suzhou Lin Mills</em></span>
+                  <span class="thread-time">9:14</span>
+                </div>
+                <div class="thread-row2">
+                  <span class="thread-subj">Re: SS26 oxford — bulk production schedule</span>
+                  <span class="thread-snip"> — Confirming we can hit the 6/15 ship date if PO lands by EOW…</span>
+                </div>
               </div>
-              <span>Sarah merged seasonal buy plan</span>
-            </div>
+              <div class="thread-marks">
+                <span class="mark-handled" style="--mark-delay:1700ms">
+                  <span class="mark-handled-tick" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><polyline points="5 12 10 17 19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  Marker drafted reply
+                </span>
+              </div>
+            </li>
 
-            <div class="hero-fi hero-fi-fade">
-              <div class="hero-fic hero-fic-agent">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#3A7D56" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="3"/><rect x="7" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><rect x="14" y="9" width="3" height="2" rx="0.5" fill="#3A7D56" stroke="none"/><path d="M9 14h6" stroke-linecap="round"/></svg>
+            <!-- 3. Hangzhou Silk — extracted: "14d slip" circled + chip -->
+            <li class="thread thread-extracted" style="--thread-i:2">
+              <span class="thread-avatar" style="--av:#9E6E5C">HS</span>
+              <div class="thread-body">
+                <div class="thread-row1">
+                  <span class="thread-from">Lin Zhao <em>· Hangzhou Silk Co.</em></span>
+                  <span class="thread-time">8:58</span>
+                </div>
+                <div class="thread-row2">
+                  <span class="thread-subj">Sample 3 <span class="anno-mark anno-mark-slip"><span class="anno-target">delayed&nbsp;14d</span><svg class="anno-svg anno-svg-circle" viewBox="0 0 200 36" preserveAspectRatio="none" aria-hidden="true"><path d="M 18 14 Q 5 22, 36 30 Q 100 36, 168 28 Q 195 22, 165 12 Q 100 2, 18 14 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> — SS26-W-009 now 6/30</span>
+                  <span class="thread-snip"> — Logistics issue at Ningbo, full tracking attached…</span>
+                </div>
               </div>
-              <span>Collected data sheets from 8 mills</span>
-            </div>
-          </div>
+              <div class="thread-marks">
+                <span class="anno-chip anno-chip-alert" style="--chip-delay:2100ms">
+                  <svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M 6 4 L 6 6.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="6" cy="8" r="0.7" fill="currentColor"/></svg>
+                  3rd slip this season
+                </span>
+              </div>
+            </li>
+
+            <!-- 4. Anastasia Kim — active (Marker working) -->
+            <li class="thread thread-active" style="--thread-i:3">
+              <span class="thread-avatar" style="--av:#8B7558">AK</span>
+              <div class="thread-body">
+                <div class="thread-row1">
+                  <span class="thread-from">Anastasia Kim <em>· PD, internal</em></span>
+                  <span class="thread-time">8:41</span>
+                </div>
+                <div class="thread-row2">
+                  <span class="thread-subj">Q on bulk approval — ribbed crewneck</span>
+                  <span class="thread-snip"> — Need confirmation on the trim swap before I send back…</span>
+                </div>
+              </div>
+              <div class="thread-marks">
+                <span class="mark-handled mark-active">
+                  <span class="mark-active-pulse" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                  </span>
+                  Marker composing reply
+                </span>
+              </div>
+            </li>
+
+            <!-- 5. Bharat Textiles — extracted: MOQ underline + chip -->
+            <li class="thread thread-extracted" style="--thread-i:4">
+              <span class="thread-avatar" style="--av:#A07246">BT</span>
+              <div class="thread-body">
+                <div class="thread-row1">
+                  <span class="thread-from">Rajiv Mehta <em>· Bharat Textiles</em></span>
+                  <span class="thread-time">8:22</span>
+                </div>
+                <div class="thread-row2">
+                  <span class="thread-subj">Counter offer: <span class="anno-mark anno-mark-moq"><span class="anno-target">1500 MOQ</span><svg class="anno-svg anno-svg-underline" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M 5 9 L 11 1 Q 100 0, 195 3 L 199 11 Q 100 13, 5 9 Z" fill="currentColor"/></svg></span> at $11.80</span>
+                  <span class="thread-snip"> — As discussed, lower MOQ available if FOB +$0.40…</span>
+                </div>
+              </div>
+              <div class="thread-marks">
+                <span class="anno-chip anno-chip-good" style="--chip-delay:2350ms">
+                  <svg viewBox="0 0 12 12" aria-hidden="true"><polyline points="2 7 5 10 10 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  MOQ −40% vs current
+                </span>
+              </div>
+            </li>
+
+            <!-- 6. Carla Restrepo — handled -->
+            <li class="thread thread-handled" style="--thread-i:5">
+              <span class="thread-avatar" style="--av:#8B7558">CR</span>
+              <div class="thread-body">
+                <div class="thread-row1">
+                  <span class="thread-from">Carla Restrepo <em>· TD, internal</em></span>
+                  <span class="thread-time">7:55</span>
+                </div>
+                <div class="thread-row2">
+                  <span class="thread-subj">Tech pack v2 — SS26-W-004</span>
+                  <span class="thread-snip"> — Updated POMs based on fit comments, sleeve length tweaked…</span>
+                </div>
+              </div>
+              <div class="thread-marks">
+                <span class="mark-handled" style="--mark-delay:2500ms">
+                  <span class="mark-handled-tick" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><polyline points="5 12 10 17 19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  Marker filed in PLM
+                </span>
+              </div>
+            </li>
+
+            <!-- 7. Daegu Knit — handled, fade tail -->
+            <li class="thread thread-handled thread-tail" style="--thread-i:6">
+              <span class="thread-avatar" style="--av:#9E7748">DK</span>
+              <div class="thread-body">
+                <div class="thread-row1">
+                  <span class="thread-from">Min-Joo Park <em>· Daegu Knit Works</em></span>
+                  <span class="thread-time">Yesterday</span>
+                </div>
+                <div class="thread-row2">
+                  <span class="thread-subj">Re: Lead time confirmation — SS26 cardigans</span>
+                  <span class="thread-snip"> — Confirmed 60-day cycle from PO, holiday closures noted…</span>
+                </div>
+              </div>
+              <div class="thread-marks">
+                <span class="mark-handled" style="--mark-delay:2700ms">
+                  <span class="mark-handled-tick" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><polyline points="5 12 10 17 19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  Marker confirmed lead time
+                </span>
+              </div>
+            </li>
+
+          </ul>
         </div>
       </div>
 
@@ -213,358 +259,470 @@
     opacity: 0.7;
   }
 
-  /* ── Gantt snapshot ── */
-  .hero-gantt-wrap {
+  /* ── Inbox shell ── */
+  .hero-inbox-wrap {
     opacity: 0;
-    animation: gantt-fade-in 0.8s ease-out 0.15s forwards;
+    animation: inbox-fade-in 0.8s ease-out 0.15s forwards;
     overflow: hidden;
-    filter: drop-shadow(0 12px 40px rgba(45, 36, 24, 0.25));
-    /* Fixed width clips at ~75% of blinking card; JS pushes right edge to viewport edge */
+    filter: drop-shadow(0 14px 44px rgba(45, 36, 24, 0.18))
+            drop-shadow(0 4px 12px rgba(45, 36, 24, 0.06));
     max-width: 596px;
     position: relative;
   }
 
-  @keyframes gantt-fade-in {
-    from { opacity: 0; transform: translateY(12px); }
+  @keyframes inbox-fade-in {
+    from { opacity: 0; transform: translateY(14px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .hero-gantt-frame {
-    background: #FAF6F0;
+  .hero-inbox-frame {
+    background: #FDFAF5;
     border: 1px solid #E8DFD0;
-    border-radius: 12px 0 0 12px;
+    border-radius: 14px 0 0 14px;
     border-right: none;
     overflow: hidden;
-    font-family: var(--font-sans, system-ui, sans-serif);
-  }
-
-  /* Chrome bar */
-  .gantt-chrome {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
-    background: #F5EDE0;
-    border-bottom: 1px solid #E8DFD0;
-  }
-  .gantt-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
-  .gantt-chrome-title {
-    margin-left: 8px;
-    font-size: 10px;
-    font-weight: 600;
-    color: #7D6B4F;
-  }
-
-  /* Metrics */
-  .gantt-metrics {
-    display: flex;
-    gap: 8px;
-    padding: 8px 12px;
-    border-bottom: 1px solid #E8DFD0;
-  }
-  .gantt-met {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    border-radius: 6px;
-    background: #F5EDE0;
-  }
-  .gantt-met-n {
-    font-size: 16px;
-    font-weight: 500;
-    min-width: 16px;
-  }
-  .gantt-met-l {
-    font-size: 9px;
-    color: #7D6B4F;
-    line-height: 1.3;
-  }
-
-  /* Board */
-  .gantt-board {
-    --col-w: 80px;
-    position: relative;
-    overflow: hidden;
-    min-width: 0;
-  }
-
-  /* Phase header */
-  .gantt-phase-row {
-    display: flex;
-    height: 22px;
-    border-bottom: 1px solid #E8DFD0;
-    background: #F5EDE0;
-    position: relative;
-  }
-  .gantt-lane-hd {
-    width: 56px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid #E8DFD0;
-    background: #F5EDE0;
-  }
-  .gantt-phase-label {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding-left: 6px;
-    font-size: 9px;
-    font-weight: 500;
-    color: #7D6B4F;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-  .gantt-phase-label:not(:first-of-type) {
-    border-left: 1px dashed #E8DFD080;
-    padding-left: 6px;
-  }
-
-  .gantt-lane-name {
-    font-size: 10px;
-    font-weight: 500;
+    font-family: var(--font-sans, "Plus Jakarta Sans", system-ui, sans-serif);
     color: #2D2418;
+    width: 100%;
   }
 
-  /* Lanes */
-  .gantt-lane {
-    display: flex;
-    min-height: 56px;
-    border-bottom: 1px solid #E8DFD0;
-  }
-  .gantt-lane:last-of-type {
-    border-bottom: none;
-  }
-  .gantt-lane-track {
-    flex: 1;
-    position: relative;
-    min-height: 56px;
-    min-width: calc(8 * var(--col-w));
-  }
-
-  /* Gantt cards */
-  .gc {
-    position: absolute;
-    left: calc(var(--gc-col) * var(--col-w) + 4px);
-    top: 4px;
-    width: calc(var(--col-w) - 6px);
-    height: calc(100% - 8px);
-    border-radius: 6px;
-    padding: 4px 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    font-size: 9px;
-    transition: opacity 0.4s, box-shadow 0.4s;
-    overflow: hidden;
-  }
-
-  .gc-human {
-    background: #FFFBF5;
-    border: 1px solid #E8DFD0;
-  }
-  .gc-agent {
-    background: #E8F5EC;
-    border: 1.5px solid #A8D5BA;
-    border-left: 3px solid #3A7D56;
-  }
-
-  .gc-done.gc-human {
-    background: #F5EDE0;
-  }
-  .gc-done.gc-agent {
-    background: #E8F5EC;
-  }
-
-  .gc-active {
-    animation: gantt-pulse-green 1.5s ease-in-out infinite;
-  }
-  @keyframes gantt-pulse-green {
-    0%, 100% { box-shadow: 0 0 0 0 transparent; }
-    50% { box-shadow: 0 0 0 3px rgba(58,125,86,0.2); }
-  }
-
-  .gc-pending {
-    border-color: #B8860B40;
-    opacity: 0.7;
-  }
-  .gc-waiting {
-    opacity: 0.25;
-  }
-
-  .gc-icon {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
+  /* Window chrome */
+  .inbox-chrome {
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    gap: 10px;
+    padding: 11px 16px;
+    background: #F5EDE0;
+    border-bottom: 1px solid #E8DFD0;
   }
-  .gc-icon svg {
-    width: 10px;
-    height: 10px;
-  }
-  .gc-icon-agent {
-    background: #3A7D56;
-  }
-  .gc-icon-human {
-    background: #D4A574;
-  }
-
-  .gc-text {
+  .chrome-dots {
     display: flex;
-    flex-direction: column;
-    min-width: 0;
+    gap: 5px;
+    margin-right: 6px;
   }
-  .gc-who {
-    font-size: 7px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
+  .chrome-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #E0D3BC;
+    box-shadow: inset 0 0 0 0.5px rgba(45, 36, 24, 0.05);
+  }
+  .chrome-dot:nth-child(1) { background: #E5C9B7; }
+  .chrome-dot:nth-child(2) { background: #E9DBB5; }
+  .chrome-dot:nth-child(3) { background: #C8D9BB; }
+
+  .chrome-title {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #2D2418;
+    letter-spacing: 0.005em;
+  }
+  .chrome-divider {
+    color: #B5A687;
+    font-weight: 400;
+  }
+  .chrome-sub {
+    font-size: 11.5px;
+    font-weight: 500;
     color: #7D6B4F;
   }
-  .gc-agent .gc-who {
+  .chrome-spacer {
+    flex: 1;
+  }
+  .chrome-count {
+    font-size: 10.5px;
+    color: #9A8B6E;
+    font-feature-settings: "tnum" 1;
+    letter-spacing: 0.04em;
+  }
+
+  /* Filter rail */
+  .inbox-filters {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    background: #FBF6EC;
+    border-bottom: 1px solid #EFE5D2;
+  }
+  .filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 22px;
+    padding: 0 9px;
+    border-radius: 999px;
+    background: transparent;
+    border: 1px solid #E0D3BC;
+    font-size: 10.5px;
+    font-weight: 500;
+    color: #6B5C44;
+    letter-spacing: 0.005em;
+    white-space: nowrap;
+  }
+  .filter-pill em {
+    font-style: normal;
+    font-weight: 600;
+    color: #9A8B6E;
+    font-feature-settings: "tnum" 1;
+  }
+  .filter-pill.is-active {
+    background: #2D2418;
+    border-color: #2D2418;
+    color: #FDFAF5;
+  }
+  .filter-pill.is-active em {
+    color: #C9BFA8;
+  }
+  .filter-pill.is-marker {
+    background: #EAF2E5;
+    border-color: #B7CFA9;
+    color: #2D5C3D;
+  }
+  .filter-pill.is-marker em {
+    color: #4A8865;
+  }
+  .filter-icon {
+    width: 11px;
+    height: 11px;
     color: #3A7D56;
   }
-  .gc-name {
-    font-size: 8px;
-    font-weight: 500;
+
+  /* Thread list */
+  .inbox-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .thread {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px 12px 16px;
+    border-bottom: 1px solid #EFE5D2;
+    background: #FDFAF5;
+    /* Cascade in after frame fade */
+    opacity: 0;
+    transform: translateY(4px);
+    animation: thread-in 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    animation-delay: calc(0.55s + var(--thread-i) * 70ms);
+  }
+  .thread:last-child {
+    border-bottom: none;
+  }
+  .thread.thread-tail {
+    mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 100%);
+  }
+
+  @keyframes thread-in {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Avatar */
+  .thread-avatar {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--av, #B5A687);
+    color: #FDFAF5;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  }
+
+  /* Body */
+  .thread-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .thread-row1 {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    line-height: 1.2;
+  }
+  .thread-from {
+    font-size: 12px;
+    font-weight: 600;
     color: #2D2418;
+    letter-spacing: 0.005em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
-  .gc-check {
-    position: absolute;
-    top: 2px;
-    right: 3px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #E8F5EC;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .thread-from em {
+    font-style: normal;
+    font-weight: 400;
+    color: #8B7B5D;
   }
-  .gc-check svg {
-    width: 8px;
-    height: 8px;
-  }
-
-  /* Now cursor */
-  .gantt-cursor {
-    position: absolute;
-    top: 22px;
-    bottom: 0;
-    left: calc(56px + 5.8 * var(--col-w));
-    width: 2px;
-    background: #3A7D56;
-    opacity: 0.35;
-    border-radius: 1px;
-    pointer-events: none;
-  }
-
-  /* Bottom stat */
-  .gantt-stat {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    border-top: 1px solid #E8DFD0;
+  .thread-time {
+    flex-shrink: 0;
     font-size: 10px;
-    color: #7D6B4F;
-  }
-  .gantt-stat-bar {
-    width: 60px;
-    height: 4px;
-    border-radius: 2px;
-    background: #E8DFD0;
-    overflow: hidden;
-  }
-  .gantt-stat-fill {
-    height: 100%;
-    border-radius: 2px;
-    background: #3A7D56;
+    color: #A89878;
+    font-feature-settings: "tnum" 1;
+    letter-spacing: 0.02em;
   }
 
-  /* ── Activity log feed ── */
-  .hero-feed {
-    padding: 8px 12px 0;
-    border-top: 1px solid #E8DFD0;
-    max-height: 120px;
+  .thread-row2 {
+    font-size: 11.5px;
+    line-height: 1.45;
+    color: #2D2418;
     overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
-  .hero-feed-title {
-    font-size: 9px;
+  .thread-subj {
     font-weight: 500;
-    color: #7D6B4F;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    margin-bottom: 2px;
+  }
+  .thread-snip {
+    color: #8B7B5D;
+    font-weight: 400;
   }
 
-  .hero-fi {
+  /* ── Right-side mark column ── */
+  .thread-marks {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: 7px;
-    padding: 5px 0;
-    font-size: 11px;
-    color: #5A4D42;
-    line-height: 1.3;
-  }
-  .hero-fi-fade {
-    opacity: 0.25;
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), transparent);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), transparent);
+    margin-left: 4px;
+    padding-left: 8px;
+    border-left: 1px dashed #E0D3BC;
+    align-self: stretch;
   }
 
-  .hero-fic {
-    width: 18px;
-    height: 18px;
+  /* Handled badge — sage check pill */
+  .mark-handled {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 9px 4px 6px;
+    border-radius: 999px;
+    background: #EAF2E5;
+    border: 1px solid #C5DCB3;
+    font-size: 10px;
+    font-weight: 600;
+    color: #2D5C3D;
+    letter-spacing: 0.005em;
+    white-space: nowrap;
+    opacity: 0;
+    animation: mark-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    animation-delay: var(--mark-delay, 1500ms);
+  }
+  @keyframes mark-in {
+    from { opacity: 0; transform: translateX(4px) scale(0.96); }
+    to { opacity: 1; transform: translateX(0) scale(1); }
+  }
+  .mark-handled-tick {
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
+    background: #3A7D56;
+    color: #FDFAF5;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
   }
-  .hero-fic svg {
-    width: 10px;
-    height: 10px;
-  }
-  .hero-fic-agent {
-    background: #E8F5EC;
-  }
-  .hero-fic-human {
-    background: #D4A574;
+  .mark-handled-tick svg {
+    width: 9px;
+    height: 9px;
   }
 
+  /* Active state: pulsing */
+  .mark-active {
+    background: #FFFBEC;
+    border-color: #E8D7A0;
+    color: #6B5224;
+    opacity: 1;
+    animation: none;
+  }
+  .mark-active-pulse {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    width: 14px;
+    height: 14px;
+    justify-content: center;
+  }
+  .mark-active-pulse span {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #B8860B;
+    animation: dot-pulse 1.2s ease-in-out infinite;
+  }
+  .mark-active-pulse span:nth-child(2) { animation-delay: 0.18s; }
+  .mark-active-pulse span:nth-child(3) { animation-delay: 0.36s; }
+  @keyframes dot-pulse {
+    0%, 80%, 100% { opacity: 0.25; transform: scale(0.85); }
+    40% { opacity: 1; transform: scale(1); }
+  }
 
-  /* Mobile: stack and show gantt below, still bleeds right */
+  .thread.thread-active {
+    background: linear-gradient(90deg, #FDFAF5 0%, #FBF4DD 88%, #FBF4DD 100%);
+  }
+  .thread.thread-active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #B8860B;
+    opacity: 0.45;
+    animation: active-bar 1.6s ease-in-out infinite;
+  }
+  @keyframes active-bar {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+
+  /* ── Marker annotations ── */
+  .anno-mark {
+    position: relative;
+    display: inline-block;
+    color: #3A7D56;
+    font-weight: 600;
+  }
+  .anno-target {
+    position: relative;
+    z-index: 1;
+  }
+  .anno-svg {
+    position: absolute;
+    pointer-events: none;
+    color: #3A7D56;
+    /* Reveal left-to-right via clip-path */
+    clip-path: inset(0 100% 0 0);
+    animation: anno-reveal 0.62s cubic-bezier(0.25, 0.7, 0.25, 1) forwards;
+  }
+  @keyframes anno-reveal {
+    to { clip-path: inset(0 -2% 0 0); }
+  }
+
+  /* Underline variant */
+  .anno-svg-underline {
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    width: calc(100% + 6px);
+    height: 9px;
+    opacity: 0.78;
+  }
+
+  /* Circle variant — wraps the word, slight downward sit */
+  .anno-mark-slip {
+    color: #B8860B;
+  }
+  .anno-svg-circle {
+    left: -8px;
+    right: -8px;
+    top: -4px;
+    width: calc(100% + 16px);
+    height: calc(100% + 8px);
+    opacity: 0.78;
+  }
+
+  /* Per-annotation timing — sequence the draw-ins */
+  .thread:nth-child(1) .anno-svg { animation-delay: 1500ms; }
+  .thread:nth-child(3) .anno-svg { animation-delay: 1750ms; }
+  .thread:nth-child(5) .anno-svg { animation-delay: 2000ms; }
+
+  /* Subtle "ink wet" shimmer on freshly-drawn marks */
+  .thread:nth-child(1) .anno-target,
+  .thread:nth-child(3) .anno-target,
+  .thread:nth-child(5) .anno-target {
+    transition: color 0.4s 1.9s;
+  }
+
+  /* Pull-out callout chips — extracted data */
+  .anno-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 9px 4px 7px;
+    border-radius: 999px;
+    background: #FFFBF5;
+    border: 1px solid #E0D3BC;
+    font-size: 10px;
+    font-weight: 600;
+    color: #2D2418;
+    letter-spacing: 0.005em;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(4px);
+    animation: chip-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    animation-delay: var(--chip-delay, 1900ms);
+    box-shadow: 0 1px 2px rgba(45, 36, 24, 0.04);
+  }
+  .anno-chip svg {
+    width: 11px;
+    height: 11px;
+  }
+  @keyframes chip-in {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .anno-chip-warn {
+    background: #FBF4DD;
+    border-color: #E8D7A0;
+    color: #6B5224;
+  }
+  .anno-chip-alert {
+    background: #FBEFE6;
+    border-color: #E8C4A4;
+    color: #7A3F1A;
+  }
+  .anno-chip-good {
+    background: #EAF2E5;
+    border-color: #C5DCB3;
+    color: #2D5C3D;
+  }
+
+  /* ── Mobile: stack and bleed right ── */
   @media (max-width: 767px) {
-    .hero-gantt-wrap {
-      margin-top: 2rem;
+    .hero-inbox-wrap {
+      margin-top: 2.5rem;
       margin-right: -2rem;
+      max-width: none;
+    }
+    .hero-inbox-frame {
+      min-width: 0;
+      width: 100%;
+    }
+    .thread-marks {
+      display: none;
     }
   }
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .hero-gantt-wrap {
-      opacity: 1;
-      animation: none;
+    .hero-inbox-wrap,
+    .thread,
+    .mark-handled,
+    .anno-chip,
+    .anno-svg {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+      clip-path: none !important;
     }
-    .gc-active {
-      animation: none;
+    .mark-active-pulse span,
+    .thread.thread-active::before {
+      animation: none !important;
     }
   }
 </style>
@@ -649,7 +807,7 @@
 
     const DURATION = 650;
     const STAGGER = 500;
-    const INITIAL_DELAY = 1000; // wait for Gantt fade-in to finish first
+    const INITIAL_DELAY = 1000; // wait for inbox fade-in to finish first
     const startTime = performance.now() + INITIAL_DELAY;
 
     function ease(t: number) {
@@ -672,7 +830,6 @@
         const revealWidth = (p.ex - p.sx) * eased;
         if (revealWidth <= 0) return;
 
-        // Horizontal clip — each stroke is on its own canvas, no vertical bleed
         ctx.save();
         ctx.beginPath();
         ctx.rect(p.sx - 2, 0, revealWidth + 4, H);
@@ -697,22 +854,17 @@
   }
   window.addEventListener('resize', renderFull);
 
-  // ── Gantt right-edge clipping ──
-  // The wrap bleeds to the viewport edge via negative margin-right.
-  // We want the card content to clip ~75% through the blinking card (col 6),
-  // while the frame background fills the remaining space to the viewport edge.
-  // CSS alone can't do this because the frame only sizes to its content.
-  // So we use JS to stretch the frame to fill the wrap and clip the board.
-  function clipGantt() {
-    const wrap = document.querySelector('.hero-gantt-wrap') as HTMLElement;
+  // ── Inbox right-edge clipping ──
+  // The wrap bleeds to the viewport edge via JS-set offset.
+  // The frame is intentionally wider than the wrap so its right edge clips.
+  function clipInbox() {
+    const wrap = document.querySelector('.hero-inbox-wrap') as HTMLElement;
     if (!wrap) return;
-    // Reset to measure natural position
     wrap.style.left = '0px';
     const rect = wrap.getBoundingClientRect();
-    // Shift wrap right so its right edge is flush with the viewport right edge
     const shift = window.innerWidth - rect.right;
     wrap.style.left = shift + 'px';
   }
-  clipGantt();
-  window.addEventListener('resize', clipGantt);
+  clipInbox();
+  window.addEventListener('resize', clipInbox);
 </script>
