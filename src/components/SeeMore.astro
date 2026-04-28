@@ -1,0 +1,118 @@
+---
+const callouts = [
+  {
+    eyebrow: "Where time goes",
+    statement: "Knit basics: 4% of sales, 22% of PD time.",
+    context: "",
+  },
+  {
+    eyebrow: "Team × vendors",
+    statement:
+      "Your top PD writes 2.4 negotiation rounds. Your newest writes 0.4. It costs 7% in margins.",
+    context: "",
+  },
+  {
+    eyebrow: "Trace back",
+    statement: "Trace any number back to the email that decided it.",
+    context: "",
+  },
+  {
+    eyebrow: "PO integrity",
+    statement:
+      "1 in 8 of your POs has a discrepancy with the email thread that wrote it.",
+    context: "",
+  },
+];
+---
+
+<section
+  id="see-more"
+  class="relative py-24 md:py-32"
+  aria-labelledby="see-more-heading"
+>
+  <div class="mx-auto max-w-6xl px-8">
+    <p
+      class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4"
+    >
+      See more
+    </p>
+    <h2
+      id="see-more-heading"
+      class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl"
+    >
+      See the company you actually run.
+    </h2>
+    <p
+      class="ink-reveal mt-6 text-muted-foreground md:text-lg leading-relaxed max-w-2xl"
+      style="--reveal-delay: 120"
+    >
+      Marker reads every email and shows you the patterns you couldn't see.
+    </p>
+
+    <div class="callouts mt-12 md:mt-16">
+      {callouts.map((c, i) => (
+        <article class="callout ink-reveal" style={`--reveal-delay: ${200 + i * 100}`}>
+          <p class="callout-eyebrow">{c.eyebrow}</p>
+          <p class="callout-statement">{c.statement}</p>
+          {c.context && <p class="callout-context">{c.context}</p>}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .callouts {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 4rem;
+    row-gap: 1.75rem;
+  }
+  @media (min-width: 768px) {
+    .callouts {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 5rem;
+      row-gap: 2rem;
+    }
+  }
+
+  .callout-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: #7d6b4f;
+    margin-bottom: 0.875rem;
+  }
+
+  .callout-statement {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    color: #2d2418;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.875rem;
+  }
+  @media (min-width: 768px) {
+    .callout-statement {
+      font-size: 1.75rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .callout-statement {
+      font-size: 2rem;
+    }
+  }
+
+  .callout-context {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: #7d6b4f;
+    font-style: italic;
+  }
+  @media (min-width: 768px) {
+    .callout-context {
+      font-size: 1rem;
+    }
+  }
+</style>
