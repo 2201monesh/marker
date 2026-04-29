@@ -2,9 +2,9 @@
 const tasks = [
   { label: "Inbox triage", before: "87 threads", after: "13 left" },
   { label: "Vendor reply", before: "20 min", after: "40 seconds" },
-  { label: "Fabric label QA", before: "2 hours", after: "8 minutes" },
+  { label: "Compliance QA", before: "2 hours", after: "8 minutes" },
   { label: "Dev cost roll-up", before: "1 hour", after: "5 minutes" },
-  { label: "PLM fabric entry", before: "1 hour", after: "5 minutes" },
+  { label: "PLM materials entry", before: "1 hour", after: "5 minutes" },
 ];
 
 const phrases = [
@@ -51,6 +51,9 @@ const longestPhrase = phrases.reduce((a, b) => (a.length > b.length ? a : b));
               </span>
             </li>
           ))}
+          <li class="task--etc" aria-label="and so on">
+            <span aria-hidden="true">⋮</span>
+          </li>
           <li class="task task--sum">
             <span class="task-name">Per person, per week</span>
             <span class="task-savings">
@@ -153,18 +156,26 @@ const longestPhrase = phrases.reduce((a, b) => (a.length > b.length ? a : b));
     font-weight: 600;
   }
 
-  /* Sum row — top rule + bold ledger weight */
+  /* Etc row — single centered vertical ellipsis */
+  .task--etc {
+    display: flex;
+    justify-content: center;
+    padding: 1.1rem 0;
+    color: #7d6b4f;
+    font-size: 1.75rem;
+    line-height: 0.5;
+  }
+
+  /* Sum row — bold ledger weight, larger type for hierarchy */
   .task--sum {
-    border-top: 2px solid #2d2418;
-    margin-top: 0.5rem;
-    padding-top: 1.1rem;
+    margin-top: 1rem;
   }
   .task--sum .task-name {
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
   .task--sum .task-savings {
-    font-size: 1.05rem;
+    font-size: 1.2rem;
     font-weight: 700;
   }
   .task--sum .task-savings .before {

@@ -38,11 +38,11 @@ const parseTurns = (s: string): Turn[] =>
   });
 
 const W = 760;
-const ROW_H = 64;
+const ROW_H = 52;
 const ML = 180;
 const MR = 22;
-const MT = 52;
-const MB = 18;
+const MT = 44;
+const MB = 14;
 const MAX_DAY = 64;
 const N = STYLES.length;
 const H = MT + N * ROW_H + MB;
@@ -50,7 +50,7 @@ const PLOT_W = W - ML - MR;
 
 const xFor = (d: number) => ML + (d / MAX_DAY) * PLOT_W;
 
-const COLOR_MSG = "#5C4A32";
+const COLOR_MSG = "#C2B7A4";
 const COLOR_DECISION = "#9A5F2E";
 const COLOR_GRID = "rgba(45, 36, 24, 0.07)";
 const COLOR_AXIS = "rgba(45, 36, 24, 0.16)";
@@ -76,11 +76,16 @@ const rows = STYLES.map((s, i) => {
 
 <div class="ink-reveal cal-wrap" style="--reveal-delay: 200" aria-hidden="true">
   <div class="cal-card">
+    <header class="cal-header">
+      <h3 class="cal-title">Every message between brand and vendor, plotted day by day.</h3>
+      <p class="cal-subtitle">One inbox. One vendor. 9 styles.</p>
+    </header>
+
     <svg
       viewBox={`0 0 ${W} ${H}`}
       xmlns="http://www.w3.org/2000/svg"
       role="img"
-      aria-label="Timeline of 276 PD-factory messages over 65 days, with 13 product decisions"
+      aria-label="Timeline of 276 brand-vendor messages over 65 days, with 13 product decisions"
     >
       {TICKS.map((t) => {
         const x = xFor(t.d);
@@ -112,14 +117,6 @@ const rows = STYLES.map((s, i) => {
 
       {rows.map((r) => (
         <>
-          <line
-            x1={ML}
-            y1={r.yCenter}
-            x2={W - MR}
-            y2={r.yCenter}
-            stroke={COLOR_AXIS}
-            stroke-width="0.4"
-          />
           <text
             x={ML - 20}
             y={r.yCenter + 5}
@@ -193,6 +190,33 @@ const rows = STYLES.map((s, i) => {
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.6),
       0 1px 2px rgba(45, 36, 24, 0.04);
+  }
+
+  /* ── Chart header ──
+     Anchors what the visualization is to anyone who skims past the
+     section copy: lives inside the card, separated from the plot
+     by a thin rule. */
+  .cal-header {
+    margin: 2px 0 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(45, 36, 24, 0.08);
+  }
+  .cal-title {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #2D2418;
+    letter-spacing: 0.005em;
+    line-height: 1.25;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .cal-subtitle {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 400;
+    color: #6B5638;
+    letter-spacing: 0.005em;
+    line-height: 1.55;
   }
 
   .cal-card svg {
