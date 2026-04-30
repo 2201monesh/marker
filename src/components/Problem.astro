@@ -1,25 +1,34 @@
 ---
-import HumanHub from "./HumanHub.astro";
+import CommsCalendar from "./CommsCalendar.astro";
 ---
 
-<section class="relative bg-muted bg-paper wash-ochre-bl py-16 md:py-20 mat-bevel" aria-labelledby="problem-heading">
+<section class="relative bg-muted bg-paper wash-ochre-bl py-24 md:py-32 mat-bevel" aria-labelledby="problem-heading">
   <div class="relative z-10 mx-auto max-w-7xl px-8">
-    <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+    <div class="grid lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.6fr)] gap-12 lg:gap-16 items-center">
 
       <!-- Left column: text -->
       <div class="max-w-xl">
-        <h2 id="problem-heading" class="ink-reveal text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
-          Your team is the glue between your systems.
+        <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/70 mb-7">
+          The reality
+        </p>
+        <h2 id="problem-heading" class="ink-reveal text-4xl font-bold tracking-tight text-foreground leading-[1.05] md:text-5xl lg:text-6xl">
+          276 messages.
           <br />
-          It shouldn't be.
+          14 needed a person.
         </h2>
-        <p class="ink-reveal mt-6 text-muted-foreground md:text-lg leading-relaxed" style="--reveal-delay: 120">
-          Your team chases updates, syncs spreadsheets, and nudges work across ERPs, PLM, messengers, and email. Deadlines slip. Handoffs get dropped. It only gets worse as you scale.
+        <p class="ink-reveal mt-8 text-muted-foreground md:text-lg leading-relaxed" style="--reveal-delay: 120">
+          The other 262 were ops — chasing, formatting, forwarding.
+        </p>
+        <p class="ink-reveal mt-5 text-muted-foreground md:text-lg leading-relaxed" style="--reveal-delay: 160">
+          × 25 vendors × 4 seasons × every stage from sketch to ship.
+        </p>
+        <p class="ink-reveal mt-7 text-foreground italic md:text-xl leading-snug" style="--reveal-delay: 220">
+          Marker takes the 262.
         </p>
       </div>
 
-      <!-- Right column: Human Hub graphic -->
-      <HumanHub />
+      <!-- Right column: comms calendar -->
+      <CommsCalendar />
 
     </div>
   </div>

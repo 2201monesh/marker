@@ -1,0 +1,226 @@
+---
+const tasks = [
+  { label: "Inbox triage", before: "87 threads", after: "13 left" },
+  { label: "Vendor reply", before: "20 min", after: "40 seconds" },
+  { label: "Compliance QA", before: "2 hours", after: "8 minutes" },
+  { label: "Dev cost roll-up", before: "1 hour", after: "5 minutes" },
+  { label: "PLM materials entry", before: "1 hour", after: "5 minutes" },
+];
+
+const phrases = [
+  "open the category you keep saying no to.",
+  "say yes to the retail partnership.",
+  "buy two weeks closer to market.",
+  "slow your hiring curve.",
+  "raise the bar on every product.",
+];
+
+const longestPhrase = phrases.reduce((a, b) => (a.length > b.length ? a : b));
+---
+
+<section id="do-more" class="relative py-24 md:py-32" aria-labelledby="do-more-heading">
+  <div class="mx-auto max-w-6xl px-8">
+    <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+      Do more
+    </p>
+    <h2
+      id="do-more-heading"
+      class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl"
+    >
+      Hand your sourcing team half their week back.
+    </h2>
+    <p
+      class="ink-reveal mt-6 text-muted-foreground md:text-lg leading-relaxed max-w-2xl"
+      style="--reveal-delay: 120"
+    >
+      Most of their time goes to work that doesn't need them. Marker takes it.
+    </p>
+
+    <div class="do-more-grid mt-16 md:mt-20">
+      <!-- Left: static list -->
+      <div class="ink-reveal task-list" style="--reveal-delay: 200">
+        <p class="col-eyebrow">What Marker handles</p>
+        <ul>
+          {tasks.map((t) => (
+            <li class="task">
+              <span class="task-name">{t.label}</span>
+              <span class="task-savings">
+                <span class="before">{t.before}</span>
+                <span class="arrow" aria-hidden="true">→</span>
+                <span class="after">{t.after}</span>
+              </span>
+            </li>
+          ))}
+          <li class="task--etc" aria-label="and so on">
+            <span aria-hidden="true">⋮</span>
+          </li>
+          <li class="task task--sum">
+            <span class="task-name">Per person, per week</span>
+            <span class="task-savings">
+              <span class="before">3 days</span>
+              <span class="arrow" aria-hidden="true">→</span>
+              <span class="after">2 hours</span>
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right: single rotating phrase -->
+      <div class="ink-reveal phrase-col" style="--reveal-delay: 300">
+        <p class="col-eyebrow phrase-eyebrow">Now you can</p>
+        <div class="rotator-block">
+          <span class="rotator-spacer" aria-hidden="true">{longestPhrase}</span>
+          {phrases.map((p, i) => (
+            <span class={`rotator-item${i === 0 ? " is-active" : ""}`}>{p}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const items = document.querySelectorAll<HTMLElement>(
+    "#do-more .rotator-item"
+  );
+  if (items.length > 1) {
+    let idx = 0;
+    window.setInterval(() => {
+      items[idx].classList.remove("is-active");
+      idx = (idx + 1) % items.length;
+      items[idx].classList.add("is-active");
+    }, 2800);
+  }
+</script>
+
+<style>
+  .do-more-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .do-more-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      gap: 5rem;
+    }
+  }
+
+  .col-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #7d6b4f;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Task list */
+  .task-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .task {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding: 0.625rem 0;
+  }
+  .task-name {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2d2418;
+  }
+  .task-savings {
+    font-size: 0.9rem;
+    font-feature-settings: "tnum";
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .task-savings .before {
+    color: #b0a288;
+    text-decoration: line-through;
+    text-decoration-color: rgba(176, 162, 136, 0.5);
+  }
+  .task-savings .arrow {
+    color: #b0a288;
+    font-weight: 500;
+  }
+  .task-savings .after {
+    color: #3a7d56;
+    font-weight: 600;
+  }
+
+  /* Etc row — single centered vertical ellipsis */
+  .task--etc {
+    display: flex;
+    justify-content: center;
+    padding: 1.1rem 0;
+    color: #7d6b4f;
+    font-size: 1.75rem;
+    line-height: 0.5;
+  }
+
+  /* Sum row — bold ledger weight, larger type for hierarchy */
+  .task--sum {
+    margin-top: 1rem;
+  }
+  .task--sum .task-name {
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+  .task--sum .task-savings {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  .task--sum .task-savings .before {
+    color: #2d2418;
+    text-decoration-color: rgba(45, 36, 24, 0.4);
+  }
+  .task--sum .task-savings .arrow {
+    color: #2d2418;
+  }
+
+  /* Phrase column */
+  .phrase-eyebrow {
+    color: #7d6b4f;
+  }
+  .rotator-block {
+    position: relative;
+    font-size: 2.25rem;
+    line-height: 1.15;
+    color: #3a7d56;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+  @media (min-width: 768px) {
+    .rotator-block {
+      font-size: 2.75rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .rotator-block {
+      font-size: 3.25rem;
+    }
+  }
+  .rotator-spacer {
+    visibility: hidden;
+    white-space: normal;
+  }
+  .rotator-item {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .rotator-item.is-active {
+    opacity: 1;
+  }
+</style>

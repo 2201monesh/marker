@@ -1,0 +1,300 @@
+---
+/* CommsCalendar — "PD touches" timeline.
+   276 PD↔factory messages across 9 sample-development styles over ~65 days.
+   The orange dots are the real product decisions. */
+
+type StyleRow = { name: string; turns: string };
+
+// Each turn encoded as `<day><kind>`:
+//   b = brand (PD) message · plotted above row centerline
+//   f = factory message    · plotted below row centerline
+//   d = PD decision        · plotted above, larger, accent color
+const STYLES: StyleRow[] = [
+  { name: "Shirt",
+    turns: "2b,5b,5f,8b,12b,12f,13b,13f,14b,14f,21b,21f,26f,30f,34b,35b,35f,44d,44f,48b,48f,54f,56b,56f,57f,62b,64f" },
+  { name: "Trouser · sage",
+    turns: "0b,5b,5f,8b,12b,12f,14b,14f,15b,15f,21b,21f,26f,27d,28b,28f,30f,30f,34b,35d,35f,37b,37f,40b,40f,41f,44b,48b,48f,49f,54f,56b,56f,62f,63b,63b,64f" },
+  { name: "Trouser · navy",
+    turns: "2b,5b,5f,13f,14b,14f,15b,15f,21b,21f,26f,27b,28f,30f,34b,35d,35f,37d,37f,40b,40f,41f,44b,56b,56f" },
+  { name: "Trouser · forest",
+    turns: "5f,13f,14f,15f,21f,26f,27b,28f,40b,41f,44b,56b,56f" },
+  { name: "Blazer · sage",
+    turns: "2b,5b,5f,8b,12b,13b,13f,13f,14b,14f,15b,15f,21b,21f,26f,27b,28b,28f,30f,34b,35b,35f,37d,37f,40b,40f,41f,44b,48b,49f,54f,56b,56f,62b,62f,63b,63f,64b,64f" },
+  { name: "Blazer · navy",
+    turns: "2b,5b,5f,8b,12b,13b,13f,13f,14b,14f,15f,21d,21f,26f,27b,28b,28f,30f,34b,35d,35f,37f,48b,49f,54f,56b,56f,57f,62b,64b,64f" },
+  { name: "Jacket",
+    turns: "2b,5b,5f,8b,12b,13b,13f,13f,14b,14f,15b,19f,20b,21b,21f,26f,27d,28b,28f,34b,35b,35f,37d,37f,40b,40f,41f,44b,48b,48f,54f,56b,56f,62b,62f,64f" },
+  { name: "Skirt",
+    turns: "2b,5b,5f,8b,12b,13f,14b,15b,19f,21b,21b,21f,26f,27d,28b,28f,34b,35b,35f,37b,37f,40b,40f,41f,44b,44f,48d,48f,54f,56b,56f,64f" },
+  { name: "Bomber",
+    turns: "2b,5b,5f,8b,12b,13b,13f,13f,14b,14f,15b,19f,21b,21b,21f,26f,27d,28b,28f,34b,35b,35f,37b,37f,40b,40f,41f,44b,48b,48f,54f,56f,62b,62f,64b,64f" },
+];
+
+type Turn = { d: number; k: "b" | "f" | "d" };
+const parseTurns = (s: string): Turn[] =>
+  s.split(",").map((t) => {
+    const k = t.slice(-1) as "b" | "f" | "d";
+    return { d: parseInt(t.slice(0, -1), 10), k };
+  });
+
+const W = 760;
+const ROW_H = 52;
+const ML = 180;
+const MR = 22;
+const MT = 44;
+const MB = 14;
+const MAX_DAY = 64;
+const N = STYLES.length;
+const H = MT + N * ROW_H + MB;
+const PLOT_W = W - ML - MR;
+
+const xFor = (d: number) => ML + (d / MAX_DAY) * PLOT_W;
+
+const COLOR_MSG = "#C2B7A4";
+const COLOR_DECISION = "#9A5F2E";
+const COLOR_GRID = "rgba(45, 36, 24, 0.07)";
+const COLOR_AXIS = "rgba(45, 36, 24, 0.16)";
+const COLOR_LABEL = "#3F3522";
+const COLOR_AXIS_LABEL = "#8A7A5C";
+
+const TICKS = [
+  { d: 0, label: "Mar 26" },
+  { d: 14, label: "Apr 9" },
+  { d: 28, label: "Apr 23" },
+  { d: 42, label: "May 7" },
+  { d: 56, label: "May 21" },
+];
+
+const rows = STYLES.map((s, i) => {
+  const turns = parseTurns(s.turns);
+  const yCenter = MT + i * ROW_H + ROW_H / 2;
+  const decisions = turns.filter((t) => t.k === "d");
+  const others = turns.filter((t) => t.k !== "d");
+  return { style: s, yCenter, decisions, others };
+});
+---
+
+<div class="ink-reveal cal-wrap" style="--reveal-delay: 200" aria-hidden="true">
+  <div class="cal-card">
+    <header class="cal-header">
+      <h3 class="cal-title">Every message between brand and vendor, plotted day by day.</h3>
+      <p class="cal-subtitle">One inbox. One vendor. 9 styles.</p>
+    </header>
+
+    <svg
+      viewBox={`0 0 ${W} ${H}`}
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="Timeline of 276 brand-vendor messages over 65 days, with 13 product decisions"
+    >
+      {TICKS.map((t) => {
+        const x = xFor(t.d);
+        return (
+          <>
+            <line
+              x1={x}
+              y1={MT - 8}
+              x2={x}
+              y2={H - MB + 4}
+              stroke={COLOR_GRID}
+              stroke-width="0.5"
+            />
+            <text
+              x={x}
+              y={MT - 22}
+              font-size="11"
+              font-weight="600"
+              letter-spacing="1.4"
+              text-anchor="middle"
+              fill={COLOR_AXIS_LABEL}
+              font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif"
+            >
+              {t.label.toUpperCase()}
+            </text>
+          </>
+        );
+      })}
+
+      {rows.map((r) => (
+        <>
+          <text
+            x={ML - 20}
+            y={r.yCenter + 5}
+            font-size="15"
+            text-anchor="end"
+            fill={COLOR_LABEL}
+            font-weight="500"
+            font-style="italic"
+            font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif"
+          >
+            {r.style.name}
+          </text>
+
+          {r.others.map((t) => {
+            const dy = t.k === "f" ? 8 : -8;
+            return (
+              <circle
+                cx={xFor(t.d)}
+                cy={r.yCenter + dy}
+                r="5"
+                fill={COLOR_MSG}
+              />
+            );
+          })}
+
+          {r.decisions.map((t) => (
+            <circle
+              cx={xFor(t.d)}
+              cy={r.yCenter - 8}
+              r="9.5"
+              fill={COLOR_DECISION}
+            />
+          ))}
+        </>
+      ))}
+    </svg>
+  </div>
+
+  <dl class="cal-key">
+    <div class="cal-key-col cal-key-col--decisions">
+      <dt class="cal-key-head">
+        <span class="cal-key-mark" style={`background:${COLOR_DECISION}`}></span>
+        <span class="cal-key-label">Decisions</span>
+      </dt>
+      <dd class="cal-key-body">
+        Fabric selection, MOQ tradeoffs, color calls — the judgment work only the PD can do.
+      </dd>
+    </div>
+    <div class="cal-key-col cal-key-col--ops">
+      <dt class="cal-key-head">
+        <span class="cal-key-mark cal-key-mark--ops" style={`background:${COLOR_MSG}`}></span>
+        <span class="cal-key-label">Ops</span>
+      </dt>
+      <dd class="cal-key-body">
+        Chasing, confirming, inputting trims, restating policy, logging shipments, negotiating slipped dates.
+      </dd>
+    </div>
+  </dl>
+</div>
+
+<style>
+  .cal-wrap {
+    width: 100%;
+  }
+
+  .cal-card {
+    background: rgba(255, 253, 248, 0.7);
+    border: 1px solid rgba(45, 36, 24, 0.1);
+    border-radius: 12px;
+    padding: 22px 26px 18px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 1px 2px rgba(45, 36, 24, 0.04);
+  }
+
+  /* ── Chart header ──
+     Anchors what the visualization is to anyone who skims past the
+     section copy: lives inside the card, separated from the plot
+     by a thin rule. */
+  .cal-header {
+    margin: 2px 0 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(45, 36, 24, 0.08);
+  }
+  .cal-title {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #2D2418;
+    letter-spacing: 0.005em;
+    line-height: 1.25;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .cal-subtitle {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 400;
+    color: #6B5638;
+    letter-spacing: 0.005em;
+    line-height: 1.55;
+  }
+
+  .cal-card svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ── Editorial key ──────────────────────────────────────────────
+     Two columns of equal weight beneath the chart. Eyebrow-style
+     small caps for the key labels (matching the rest of the site's
+     section eyebrows), with chart-scaled marks anchoring each.    */
+  .cal-key {
+    margin: 28px 0 0;
+    padding-top: 22px;
+    border-top: 1px solid rgba(45, 36, 24, 0.1);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 56px;
+  }
+
+  .cal-key-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cal-key-head {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+
+  .cal-key-col--decisions .cal-key-label {
+    color: #9A5F2E;
+  }
+
+  .cal-key-col--ops .cal-key-label {
+    color: #5C4A32;
+  }
+
+  .cal-key-body {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #6B5638;
+    max-width: 36ch;
+  }
+
+  .cal-key-mark {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-block;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      0 1px 2px rgba(45, 36, 24, 0.12);
+  }
+
+  .cal-key-mark--ops {
+    width: 9px;
+    height: 9px;
+    margin: 0 3.5px;
+    box-shadow: 0 1px 1px rgba(45, 36, 24, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    .cal-key {
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+    .cal-key-body {
+      max-width: none;
+    }
+  }
+</style>
