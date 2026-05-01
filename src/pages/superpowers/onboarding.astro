@@ -18,6 +18,20 @@ const HUBSPOT_MEETING_URL = "https://info.onmarker.com/meetings/richard-berwick/
   description="Pick a 30-minute slot for guided onboarding. We'll have your inbox triaging supplier mail by the end of the call."
   noindex={true}
 >
+  <script is:inline>
+    // Stripe redirects here with name/email/company in the query string. Strip
+    // them before async analytics (LinkedIn Insight Tag, Amplitude) fire their
+    // first pageview so PII is never sent to third parties. SignupForm has
+    // already mirrored these values into sessionStorage for banner hydration.
+    if (window.location.search) {
+      try {
+        var p = new URLSearchParams(window.location.search);
+        if (p.has('email') || p.has('name') || p.has('company')) {
+          history.replaceState({}, '', window.location.pathname);
+        }
+      } catch (e) {}
+    }
+  </script>
   <Navbar logoHref="/superpowers/" wordmark="Email Superpowers" ctaLabel="Try it now" ctaHref="/superpowers/signup" showLinks={false} />
   <main id="main-content">
     <div class="relative">
