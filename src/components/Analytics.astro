@@ -100,6 +100,21 @@ const allowedHosts = ['onmarker.com', 'www.onmarker.com'];
   })();
 </script>
 
+<!-- Google Ads (gtag.js) -->
+<script is:inline>
+  (function() {
+    if (!window.__isAnalyticsAllowed()) return;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18156733249';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function() { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', 'AW-18156733249');
+  })();
+</script>
+
 <!-- LinkedIn Insight Tag -->
 <script is:inline>
   (function() {
