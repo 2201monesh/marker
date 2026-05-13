@@ -140,6 +140,16 @@ const allowedHosts = ['onmarker.com', 'www.onmarker.com'];
   <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=9264476&fmt=gif" />
 </noscript>
 
+<!-- Reddit Pixel -->
+<script is:inline>
+  (function() {
+    if (!window.__isAnalyticsAllowed()) return;
+    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js?pixel_id=a2_izy4qulrbm2q",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
+    window.rdt('init','a2_izy4qulrbm2q');
+    window.rdt('track', 'PageVisit');
+  })();
+</script>
+
 <!-- Amplitude cross-domain tracking: append device/session IDs to info.onmarker.com links -->
 <script is:inline>
   document.addEventListener('click', function(e) {
