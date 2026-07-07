@@ -1,0 +1,126 @@
+---
+const proofs = [
+  "Two-time YC founders",
+  "Sold our last company to Gap Inc.",
+  "Started Gap's office of AI",
+];
+---
+
+<section id="credibility" class="relative py-20 md:py-28" aria-labelledby="credibility-heading">
+  <div class="mx-auto max-w-5xl px-8">
+    <div class="ink-reveal yc-eyebrow">
+      <img src="/yc-logo.svg" alt="Y Combinator" width="26" height="26" />
+      <span>Backed by Y Combinator</span>
+    </div>
+    <h2
+      id="credibility-heading"
+      class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.1] md:text-5xl max-w-3xl mt-5"
+    >
+      We've built AI inside a Fortune 500.
+    </h2>
+
+    <ul class="proofs">
+      {proofs.map((p, i) => (
+        <li class="proof ink-reveal" style={`--reveal-delay: ${200 + i * 90}`}>
+          <span class="proof-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><polyline points="4 12 10 18 20 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="proof-text">{p}</span>
+        </li>
+      ))}
+    </ul>
+
+    <p
+      class="ink-reveal mt-10 text-base text-muted-foreground leading-relaxed max-w-2xl md:text-lg"
+      style="--reveal-delay: 450"
+    >
+      Three years inside, from individual contributor to the C-suite. We know exactly where transformations go to die, which is why Marker builds instead of advises.
+    </p>
+  </div>
+</section>
+
+<style>
+  .yc-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+  .yc-eyebrow img {
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .yc-eyebrow span {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #6b5638;
+  }
+
+  .proofs {
+    list-style: none;
+    margin: 2.75rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 768px) {
+    .proofs {
+      margin-top: 3.5rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+  }
+
+  .proof {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.25rem 0;
+  }
+  @media (min-width: 768px) {
+    .proof {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0 2rem;
+      border-left: 1px solid #e0d6c4;
+    }
+    .proof:first-child {
+      padding-left: 0;
+      border-left: none;
+    }
+  }
+
+  .proof-mark {
+    flex-shrink: 0;
+    width: 1.85rem;
+    height: 1.85rem;
+    border-radius: 50%;
+    background: #eaf2e5;
+    border: 1px solid #c5dcb3;
+    color: #3a7d56;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .proof-mark svg {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+
+  .proof-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: #2d2418;
+  }
+  @media (min-width: 768px) {
+    .proof-text {
+      font-size: 1.3rem;
+    }
+  }
+</style>
