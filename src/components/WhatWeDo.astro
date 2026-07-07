@@ -1,0 +1,125 @@
+---
+const rows = [
+  { old: "Twelve months of discovery", now: "Working software in weeks" },
+  { old: "A deck and a roadmap", now: "Automations in production" },
+  { old: "Billable hours", now: "A savings target, up front" },
+  { old: "An army of juniors", now: "A few senior people who build" },
+  { old: "They leave, it decays", now: "Post-engagement, it runs itself" },
+];
+---
+
+<section id="what-we-do" class="relative py-24 md:py-32" aria-labelledby="what-we-do-heading">
+  <div class="mx-auto max-w-5xl px-8">
+    <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+      What we do
+    </p>
+    <h2
+      id="what-we-do-heading"
+      class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.1] md:text-5xl max-w-2xl"
+    >
+      We do the work, not the deck.
+    </h2>
+    <p
+      class="ink-reveal mt-6 text-muted-foreground md:text-lg leading-relaxed max-w-xl"
+      style="--reveal-delay: 120"
+    >
+      A small senior team, embedded in your org, shipping automations into production.
+    </p>
+
+    <div class="ink-reveal contrast mt-12 md:mt-16" style="--reveal-delay: 200">
+      <div class="contrast-head contrast-head--old">The old playbook</div>
+      <div class="contrast-head contrast-head--new">With Marker</div>
+      {rows.map((r) => (
+        <>
+          <div class="contrast-cell contrast-cell--old">
+            <span class="old-text">{r.old}</span>
+          </div>
+          <div class="contrast-cell contrast-cell--new">
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+            <span class="new-text">{r.now}</span>
+          </div>
+        </>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .contrast {
+    display: grid;
+    grid-template-columns: 1fr;
+    border: 1px solid #e2d8c7;
+    border-radius: 0.85rem;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .contrast {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .contrast-head {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    padding: 1rem 1.6rem;
+    border-bottom: 1px solid #e2d8c7;
+  }
+  .contrast-head--old {
+    color: #a2957b;
+    background: #f3eee5;
+  }
+  .contrast-head--new {
+    color: #3a7d56;
+    background: #eef4e9;
+  }
+
+  .contrast-cell {
+    padding: 1.1rem 1.6rem;
+    border-bottom: 1px solid #ece3d3;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+  .contrast-cell--old {
+    background: #faf6ef;
+  }
+  .contrast-cell--new {
+    background: #fbfdf9;
+  }
+  @media (min-width: 768px) {
+    .contrast-cell--new {
+      border-left: 1px solid #e2d8c7;
+    }
+  }
+
+  /* Last visual row: drop the bottom borders */
+  .contrast-cell:nth-last-child(1),
+  .contrast-cell:nth-last-child(2) {
+    border-bottom: none;
+  }
+
+  .old-text {
+    color: #ab9e84;
+    text-decoration: line-through;
+    text-decoration-color: rgba(171, 158, 132, 0.5);
+  }
+
+  .contrast-cell--new .arrow {
+    color: #b0a288;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  @media (min-width: 768px) {
+    .contrast-cell--new .arrow {
+      display: none;
+    }
+  }
+  .new-text {
+    color: #2f6a47;
+    font-weight: 600;
+  }
+</style>

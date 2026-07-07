@@ -1,0 +1,78 @@
+---
+const callouts = [
+  { label: "Economics", line: "Software margins, in a company that ships real things." },
+  { label: "Speed", line: "Decisions in days. Launches in weeks." },
+  { label: "Your benchmark", line: "Every model release, tested against your workflows within a day." },
+  { label: "A company brain", line: "Ask org-specific questions, get instant answers." },
+];
+---
+
+<section id="end-state" class="relative py-24 md:py-32" aria-labelledby="end-state-heading">
+  <div class="mx-auto max-w-6xl px-8">
+    <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+      The end state
+    </p>
+    <h2
+      id="end-state-heading"
+      class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.1] md:text-5xl max-w-2xl"
+    >
+      The goal isn't survival.
+    </h2>
+    <p
+      class="ink-reveal mt-6 text-muted-foreground md:text-lg leading-relaxed max-w-xl"
+      style="--reveal-delay: 120"
+    >
+      AI-native isn't a cost reduction program. It's a different company.
+    </p>
+
+    <div class="payoffs mt-14 md:mt-16">
+      {callouts.map((c, i) => (
+        <article class="payoff ink-reveal" style={`--reveal-delay: ${200 + i * 100}`}>
+          <p class="payoff-label">{c.label}</p>
+          <p class="payoff-line">{c.line}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .payoffs {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  @media (min-width: 768px) {
+    .payoffs {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 4rem;
+    }
+  }
+
+  .payoff {
+    padding: 1.6rem 0;
+    border-top: 2px solid #3a7d56;
+  }
+
+  .payoff-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #3a7d56;
+    margin-bottom: 0.7rem;
+  }
+
+  .payoff-line {
+    font-size: 1.35rem;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: #2d2418;
+  }
+  @media (min-width: 1024px) {
+    .payoff-line {
+      font-size: 1.6rem;
+    }
+  }
+</style>

@@ -1,0 +1,112 @@
+---
+const steps = [
+  {
+    title: "Start where it hurts",
+    body: "We take one expensive, manual workflow and beat the team doing it today. Target: 70 to 80 percent less manual work.",
+  },
+  {
+    title: "Expand across the org",
+    body: "Every workflow we rebuild encodes how your company actually operates. Workflow twelve ships faster than workflow two.",
+  },
+  {
+    title: "Go on offense",
+    body: "Capacity moves from process to product. Faster launches, better service, moves your competitors can't match.",
+  },
+];
+---
+
+<section id="how-it-runs" class="relative py-24 md:py-32" aria-labelledby="how-it-runs-heading">
+  <div class="mx-auto max-w-6xl px-8">
+    <div class="max-w-4xl">
+      <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-primary/70 mb-4">
+        How it works
+      </p>
+      <h2 id="how-it-runs-heading" class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.1] md:text-5xl">
+        Wedge in. Spread out. Go on offense.
+      </h2>
+      <p class="ink-reveal mt-6 text-muted-foreground md:text-lg leading-relaxed" style="--reveal-delay: 120">
+        First automation live in weeks. Whole functions in a quarter.
+      </p>
+    </div>
+
+    <ol class="steps">
+      {steps.map((s, i) => (
+        <li class="step ink-reveal" style={`--reveal-delay: ${200 + i * 110}`}>
+          <span class="step-num" aria-hidden="true">{i + 1}</span>
+          <h3 class="step-title">{s.title}</h3>
+          <p class="step-body">{s.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .steps {
+    list-style: none;
+    margin: 3.5rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .steps {
+      margin-top: 5rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+  }
+
+  .step {
+    position: relative;
+  }
+  /* Progression connector between steps on desktop */
+  @media (min-width: 768px) {
+    .step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 1.35rem;
+      right: -1.75rem;
+      width: 1rem;
+      height: 1px;
+      background: #c9bca4;
+    }
+    .step:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      top: calc(1.35rem - 3px);
+      right: -1.75rem;
+      width: 7px;
+      height: 7px;
+      border-right: 1px solid #c9bca4;
+      border-top: 1px solid #c9bca4;
+      transform: rotate(45deg);
+    }
+  }
+
+  .step-num {
+    display: block;
+    font-size: 2.75rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #3a7d56;
+    letter-spacing: -0.02em;
+    font-feature-settings: "tnum" 1;
+  }
+
+  .step-title {
+    margin-top: 1rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2d2418;
+    letter-spacing: -0.01em;
+  }
+
+  .step-body {
+    margin-top: 0.6rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #6b5638;
+  }
+</style>

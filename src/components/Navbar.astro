@@ -9,7 +9,7 @@ interface Props {
 const {
   logoHref = "/",
   wordmark = "",
-  ctaLabel = "Book a Demo",
+  ctaLabel = "Book a call",
   ctaHref = "https://info.onmarker.com/book-a-demo",
   showLinks = true,
 } = Astro.props;
@@ -24,10 +24,7 @@ const {
     <!-- Desktop nav -->
     <div class="hidden md:flex items-center gap-6">
       {showLinks && (
-        <>
-          <a href="/#security" class="text-base font-bold text-primary transition-colors hover:text-primary/80">Security</a>
-          <a href="/team" class="text-base font-bold text-primary transition-colors hover:text-primary/80">Team</a>
-        </>
+        <a href="/team" class="text-base font-bold text-primary transition-colors hover:text-primary/80">Team</a>
       )}
       <a href={ctaHref} class="btn-molding inline-flex h-9 items-center justify-center px-6 text-sm font-semibold tracking-wide text-primary transition-colors hover:text-primary/80 cursor-pointer">{ctaLabel}</a>
     </div>
@@ -48,10 +45,7 @@ const {
   <div id="mobile-menu" class="hidden md:hidden absolute left-0 right-0 top-full z-50 bg-background border-b border-border shadow-lg">
     <div class="flex flex-col gap-4 px-8 py-6">
       {showLinks && (
-        <>
-          <a href="/#security" class="mobile-nav-link text-base font-bold text-primary">Security</a>
-          <a href="/team" class="mobile-nav-link text-base font-bold text-primary">Team</a>
-        </>
+        <a href="/team" class="mobile-nav-link text-base font-bold text-primary">Team</a>
       )}
       <a href={ctaHref} class="mobile-nav-link btn-molding inline-flex h-9 items-center justify-center px-6 text-sm font-semibold tracking-wide text-primary cursor-pointer mt-2">{ctaLabel}</a>
     </div>

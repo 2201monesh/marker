@@ -1,0 +1,220 @@
+---
+/* DivergenceChart — hero right-column illustration.
+   Two trajectories from a shared "today" origin: an AI-native company
+   pulling up and away, a status-quo company flat-to-declining. The
+   shaded wedge between them is the gap, compounding. Purely illustrative,
+   no fake precision. Built on the CommsCalendar card chrome so it reads
+   as a sibling of the other data cards on the site. */
+
+const W = 520;
+const H = 300;
+const padL = 40;
+const padR = 92;
+const padT = 28;
+const padB = 40;
+const plotW = W - padL - padR;
+
+const originX = padL;
+const originY = 176;
+const endX = padL + plotW; // 428
+const todayX = originX + plotW / 3; // the two lines split at today (second tick)
+
+// The two lines share a single overlapping origin at 2025, then diverge
+// immediately: a divide that already exists by today (2026) and compounds to 2028.
+const aiPath = `M ${originX} ${originY} C 120 166, 280 116, ${endX} 56`;
+const sqPath = `M ${originX} ${originY} C 130 187, 300 201, ${endX} 208`;
+const gapPath = `${aiPath} L ${endX} 208 C 300 201, 130 187, ${originX} ${originY} Z`;
+
+const TICKS = [
+  { year: "2025", x: originX },
+  { year: "2026", x: todayX },
+  { year: "2027", x: originX + (plotW * 2) / 3 },
+  { year: "2028", x: endX },
+];
+
+const COLOR_AI = "#3A7D56";
+const COLOR_SQ = "#B0A288";
+const COLOR_GRID = "rgba(45, 36, 24, 0.07)";
+const COLOR_AXIS = "rgba(45, 36, 24, 0.14)";
+const COLOR_LABEL = "#8A7A5C";
+---
+
+<div
+  class="dc-wrap"
+  role="img"
+  aria-label="Illustration: two company trajectories share a single origin in 2025, then diverge immediately so a gap already exists by today (2026). An AI-native company curves up and away while a status-quo company stays flat, with the gap widening through 2028."
+>
+  <div class="dc-card">
+    <header class="dc-header">
+      <h3 class="dc-title">Same company, two trajectories.</h3>
+      <p class="dc-subtitle">What changes is who does the work.</p>
+    </header>
+
+    <svg viewBox={`0 0 ${W} ${H}`} xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="dc-gap-fill" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#3A7D56" stop-opacity="0.05" />
+          <stop offset="100%" stop-color="#3A7D56" stop-opacity="0.22" />
+        </linearGradient>
+      </defs>
+
+      <!-- Year gridlines + bottom axis + year labels -->
+      {TICKS.map((t) => (
+        <>
+          <line x1={t.x} y1={padT} x2={t.x} y2={H - padB} stroke={COLOR_GRID} stroke-width="1" />
+          <text
+            x={t.x}
+            y={H - padB + 20}
+            font-size="10"
+            font-weight="600"
+            letter-spacing="1"
+            text-anchor="middle"
+            fill={COLOR_LABEL}
+            font-family="'Plus Jakarta Sans', sans-serif"
+          >{t.year}</text>
+        </>
+      ))}
+      <line x1={padL} y1={H - padB} x2={endX} y2={H - padB} stroke={COLOR_AXIS} stroke-width="1" />
+
+      <!-- The gap, compounding -->
+      <path class="dc-gap" d={gapPath} fill="url(#dc-gap-fill)" />
+
+      <!-- Trajectories -->
+      <path
+        class="dc-line dc-line--sq"
+        d={sqPath}
+        fill="none"
+        stroke={COLOR_SQ}
+        stroke-width="2.5"
+        stroke-linecap="round"
+        pathLength="1"
+      />
+      <path
+        class="dc-line dc-line--ai"
+        d={aiPath}
+        fill="none"
+        stroke={COLOR_AI}
+        stroke-width="3"
+        stroke-linecap="round"
+        pathLength="1"
+      />
+
+      <!-- Endpoint + origin dots -->
+      <circle class="dc-anno" cx={endX} cy="56" r="4.5" fill={COLOR_AI} />
+      <circle class="dc-anno" cx={endX} cy="208" r="4" fill={COLOR_SQ} />
+
+      <!-- Start dots: the two lines overlapping together, on the left -->
+      <circle class="dc-origin" cx={originX} cy={originY} r="3.5" fill={COLOR_SQ} />
+      <circle class="dc-origin" cx={originX} cy={originY} r="3.5" fill={COLOR_AI} />
+
+      <!-- Labels -->
+      <text class="dc-anno" x={todayX} y={originY + 30} font-size="12" font-weight="600" text-anchor="middle" fill={COLOR_LABEL} font-family="'Plus Jakarta Sans', sans-serif">today</text>
+
+      <text class="dc-anno" x={endX + 10} y="60" font-size="13" font-weight="700" fill={COLOR_AI} font-family="'Plus Jakarta Sans', sans-serif">AI-native</text>
+
+      <text class="dc-anno" x={endX + 10} y="212" font-size="13" font-weight="600" fill="#7D6B4F" font-family="'Plus Jakarta Sans', sans-serif">Status quo</text>
+
+      <text class="dc-anno dc-anno--gap" x="322" y="164" font-size="12" font-style="italic" font-weight="500" text-anchor="middle" fill="#5C7A63" font-family="'Plus Jakarta Sans', sans-serif">the gap, compounding</text>
+    </svg>
+  </div>
+</div>
+
+<style>
+  .dc-wrap {
+    width: 100%;
+    max-width: 560px;
+    margin-left: auto;
+    opacity: 0;
+    animation: dc-fade-in 0.8s ease-out 0.15s forwards;
+    filter: drop-shadow(0 14px 44px rgba(45, 36, 24, 0.12))
+            drop-shadow(0 4px 12px rgba(45, 36, 24, 0.05));
+  }
+
+  @keyframes dc-fade-in {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .dc-card {
+    background: rgba(255, 253, 248, 0.72);
+    border: 1px solid rgba(45, 36, 24, 0.1);
+    border-radius: 14px;
+    padding: 22px 26px 20px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 1px 2px rgba(45, 36, 24, 0.04);
+  }
+
+  .dc-header {
+    margin: 2px 0 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(45, 36, 24, 0.08);
+  }
+  .dc-title {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #2d2418;
+    letter-spacing: 0.005em;
+    line-height: 1.25;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .dc-subtitle {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 400;
+    color: #6b5638;
+    letter-spacing: 0.005em;
+    line-height: 1.55;
+  }
+
+  .dc-card svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* Line draw-in */
+  .dc-line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: dc-draw 1.2s cubic-bezier(0.4, 0.1, 0.2, 1) forwards;
+  }
+  .dc-line--sq { animation-delay: 0.5s; }
+  .dc-line--ai { animation-delay: 0.5s; }
+
+  @keyframes dc-draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  .dc-gap {
+    opacity: 0;
+    animation: dc-appear 0.7s ease-out 1.4s forwards;
+  }
+  .dc-origin {
+    opacity: 0;
+    animation: dc-appear 0.4s ease-out 0.35s forwards;
+  }
+  .dc-anno {
+    opacity: 0;
+    animation: dc-appear 0.6s ease-out 1.6s forwards;
+  }
+
+  @keyframes dc-appear {
+    to { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dc-wrap,
+    .dc-line,
+    .dc-gap,
+    .dc-origin,
+    .dc-anno {
+      opacity: 1 !important;
+      transform: none !important;
+      stroke-dashoffset: 0 !important;
+      animation: none !important;
+    }
+  }
+</style>

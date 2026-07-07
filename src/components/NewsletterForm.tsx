@@ -168,8 +168,8 @@ export default function NewsletterForm() {
             <span data-marker-line>Stay in the loop</span>
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Get product updates, early access announcements, and supply chain
-            insights delivered to your inbox.
+            Product updates and field notes from making enterprises AI-native,
+            delivered to your inbox.
           </p>
 
           {status === "success" ? (

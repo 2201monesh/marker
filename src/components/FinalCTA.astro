@@ -1,70 +1,32 @@
 ---
-import DivergenceChart from "./DivergenceChart.astro";
+
 ---
 
-<section class="relative overflow-hidden hero-bloom">
+<section class="relative py-24 md:py-32 overflow-hidden" aria-labelledby="final-cta-heading">
   <canvas
-    id="hero-marker-canvas"
+    id="final-cta-canvas"
     class="absolute inset-0 w-full h-full pointer-events-none"
     aria-hidden="true"
   ></canvas>
-  <div class="relative z-10 mx-auto max-w-7xl px-8 py-28 md:py-36">
-    <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-      <!-- Left column: text -->
-      <div>
-        <h1 id="hero-heading" class="text-5xl font-bold tracking-tight text-foreground leading-[1.05] md:text-[clamp(2.5rem,4.5vw-6px,3.25rem)]">
-          Someone will rebuild
-          <br />
-          your industry around AI.
-          <br />
-          <span data-marker-line>Make it you.</span>
-        </h1>
-        <p id="hero-subtext" class="mt-8 mb-2 text-lg text-muted-foreground md:text-xl leading-relaxed max-w-md">
-          We make enterprises AI-native. Not a strategy deck. Working systems, shipped into your business in weeks.
-        </p>
-        <div id="hero-cta" class="mt-9 flex flex-wrap items-center gap-6">
-          <a
-            href="https://info.onmarker.com/book-a-demo"
-            class="btn-molding inline-flex h-11 items-center justify-center px-8 text-sm font-semibold tracking-wide text-primary transition-colors cursor-pointer"
-          >
-            Book a call
-          </a>
-        </div>
+  <div class="relative z-10 mx-auto max-w-7xl px-8">
+    <div class="mx-auto max-w-xl text-center">
+      <h2 id="final-cta-heading" class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.15] md:text-4xl">
+        Your board is asking <span data-marker-line>about AI.</span>
+      </h2>
+      <p class="ink-reveal mt-4 text-muted-foreground md:text-lg" style="--reveal-delay: 100">
+        Show them a working system, not a deck. Book 30 minutes and we'll tell you what we'd automate first.
+      </p>
+      <div class="ink-reveal mt-8" style="--reveal-delay: 200">
+        <a
+          href="https://info.onmarker.com/book-a-demo"
+          class="btn-molding inline-flex h-11 items-center justify-center px-8 text-sm font-semibold tracking-wide text-primary transition-colors hover:text-primary/80 cursor-pointer"
+        >
+          Book a call
+        </a>
       </div>
-
-      <!-- Right column: divergence chart, replaces the old inbox -->
-      <div class="hero-chart-wrap">
-        <DivergenceChart />
-      </div>
-
     </div>
   </div>
 </section>
-
-<style>
-  .hero-chart-wrap {
-    opacity: 0;
-    animation: hero-chart-fade 0.8s ease-out 0.15s forwards;
-  }
-  @keyframes hero-chart-fade {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  @media (max-width: 767px) {
-    .hero-chart-wrap {
-      margin-top: 1rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-chart-wrap {
-      opacity: 1 !important;
-      animation: none !important;
-    }
-  }
-</style>
 
 <script>
   import { drawCleanUnderline } from '../lib/marker-background.js';
@@ -80,10 +42,10 @@ import DivergenceChart from "./DivergenceChart.astro";
 
     return Array.from(lines).map((line) => {
       const rect = line.getBoundingClientRect();
-      const thickness = 14;
-      const cy = rect.bottom - sectionRect.top + 2;
-      const sx = rect.left - sectionRect.left - 8;
-      const ex = rect.right - sectionRect.left + 8;
+      const thickness = 10;
+      const cy = rect.bottom - sectionRect.top + 1;
+      const sx = rect.left - sectionRect.left - 5;
+      const ex = rect.right - sectionRect.left + 5;
       const strokeLen = ex - sx;
       const rise = Math.sin(angleRad) * strokeLen * 0.5;
 
@@ -99,9 +61,8 @@ import DivergenceChart from "./DivergenceChart.astro";
     });
   }
 
-  // Instant render (used on resize and when motion is reduced)
   function renderFull() {
-    const canvas = document.getElementById('hero-marker-canvas') as HTMLCanvasElement;
+    const canvas = document.getElementById('final-cta-canvas') as HTMLCanvasElement;
     const section = canvas?.closest('section');
     if (!canvas || !section) return;
 
@@ -117,9 +78,8 @@ import DivergenceChart from "./DivergenceChart.astro";
     getStrokeParams(section).forEach(p => drawCleanUnderline(ctx, p));
   }
 
-  // Animated draw-in: strokes reveal left-to-right like a hand drawing them
   function renderAnimated() {
-    const canvas = document.getElementById('hero-marker-canvas') as HTMLCanvasElement;
+    const canvas = document.getElementById('final-cta-canvas') as HTMLCanvasElement;
     const section = canvas?.closest('section');
     if (!canvas || !section) return;
 
@@ -133,7 +93,6 @@ import DivergenceChart from "./DivergenceChart.astro";
 
     const params = getStrokeParams(section);
 
-    // Render each stroke to its own offscreen canvas (prevents vertical overlap bleed)
     const offscreens = params.map(p => {
       const off = document.createElement('canvas');
       off.width = canvas.width;
@@ -146,8 +105,7 @@ import DivergenceChart from "./DivergenceChart.astro";
 
     const DURATION = 650;
     const STAGGER = 500;
-    const INITIAL_DELAY = 650; // let the hero settle before the underline draws
-    const startTime = performance.now() + INITIAL_DELAY;
+    const startTime = performance.now();
 
     function ease(t: number) {
       return t < 0.15
@@ -185,11 +143,27 @@ import DivergenceChart from "./DivergenceChart.astro";
     requestAnimationFrame(animate);
   }
 
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReduced) {
-    renderFull();
-  } else {
-    renderAnimated();
+  const section = document.getElementById('final-cta-heading')?.closest('section');
+  if (section) {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let hasAnimated = false;
+
+    if (prefersReduced) {
+      renderFull();
+    } else {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            hasAnimated = true;
+            renderAnimated();
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.2 }
+      );
+      observer.observe(section);
+    }
+
+    window.addEventListener('resize', () => { if (hasAnimated) renderFull(); });
   }
-  window.addEventListener('resize', renderFull);
 </script>

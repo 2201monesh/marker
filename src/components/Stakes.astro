@@ -1,0 +1,90 @@
+---
+const forces = [
+  { label: "New entrants", line: "Your business model, run at a tenth the headcount." },
+  { label: "Old rivals", line: "Your competitors have pilots live right now." },
+  { label: "The clock", line: "Models speed up every year. Your process doesn't." },
+  { label: "The spend", line: "Millions to consultants. Decks in return." },
+];
+---
+
+<section id="stakes" class="relative py-24 md:py-32" aria-labelledby="stakes-heading">
+  <div class="mx-auto max-w-6xl px-8">
+    <p class="ink-reveal text-xs font-semibold uppercase tracking-[0.12em] text-accent/80 mb-4">
+      The stakes
+    </p>
+    <h2
+      id="stakes-heading"
+      class="ink-reveal text-debossed text-3xl font-bold tracking-tight text-foreground leading-[1.1] md:text-5xl max-w-2xl"
+    >
+      Legacy just became a liability.
+    </h2>
+    <p
+      class="ink-reveal mt-6 text-muted-foreground md:text-lg leading-relaxed max-w-xl"
+      style="--reveal-delay: 120"
+    >
+      AI collapsed the cost of work. The companies built around that are already pulling away.
+    </p>
+
+    <div class="forces mt-14 md:mt-16">
+      {forces.map((f, i) => (
+        <div class="force ink-reveal" style={`--reveal-delay: ${200 + i * 90}`}>
+          <p class="force-label">{f.label}</p>
+          <p class="force-line">{f.line}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .forces {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  @media (min-width: 640px) {
+    .forces {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 2.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .forces {
+      grid-template-columns: repeat(4, 1fr);
+      column-gap: 2rem;
+    }
+  }
+
+  .force {
+    padding: 1.35rem 0 1.5rem;
+    border-top: 2px solid #9a5f2e;
+  }
+  /* Give the top rule a bit of breathing room between columns */
+  @media (min-width: 640px) {
+    .force {
+      padding-right: 1rem;
+    }
+  }
+
+  .force-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #9a5f2e;
+    margin-bottom: 0.7rem;
+  }
+
+  .force-line {
+    font-size: 1.15rem;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #2d2418;
+  }
+  @media (min-width: 1024px) {
+    .force-line {
+      font-size: 1.2rem;
+    }
+  }
+</style>
