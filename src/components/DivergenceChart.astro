@@ -17,17 +17,19 @@ const plotW = W - padL - padR;
 const originX = padL;
 const originY = 176;
 const endX = padL + plotW; // 428
+const todayX = originX + plotW / 3; // the two lines split at today (second tick)
 
-// Two hand-tuned trajectories sharing the origin dot.
-const aiPath = `M ${originX} ${originY} C 150 172, 280 120, ${endX} 56`;
-const sqPath = `M ${originX} ${originY} C 150 180, 290 196, ${endX} 208`;
-const gapPath = `${aiPath} L ${endX} 208 C 290 196, 150 180, ${originX} ${originY} Z`;
+// The two lines share a single overlapping origin at 2025, then diverge
+// immediately: a divide that already exists by today (2026) and compounds to 2028.
+const aiPath = `M ${originX} ${originY} C 120 166, 280 116, ${endX} 56`;
+const sqPath = `M ${originX} ${originY} C 130 187, 300 201, ${endX} 208`;
+const gapPath = `${aiPath} L ${endX} 208 C 300 201, 130 187, ${originX} ${originY} Z`;
 
 const TICKS = [
-  { year: "2026", x: originX },
-  { year: "2027", x: originX + plotW / 3 },
-  { year: "2028", x: originX + (plotW * 2) / 3 },
-  { year: "2029", x: endX },
+  { year: "2025", x: originX },
+  { year: "2026", x: todayX },
+  { year: "2027", x: originX + (plotW * 2) / 3 },
+  { year: "2028", x: endX },
 ];
 
 const COLOR_AI = "#3A7D56";
@@ -40,7 +42,7 @@ const COLOR_LABEL = "#8A7A5C";
 <div
   class="dc-wrap"
   role="img"
-  aria-label="Illustration: two trajectories from today. An AI-native company curves up and away while a status-quo company stays flat, with a widening gap between them through 2029."
+  aria-label="Illustration: two company trajectories share a single origin in 2025, then diverge immediately so a gap already exists by today (2026). An AI-native company curves up and away while a status-quo company stays flat, with the gap widening through 2028."
 >
   <div class="dc-card">
     <header class="dc-header">
@@ -100,10 +102,13 @@ const COLOR_LABEL = "#8A7A5C";
       <!-- Endpoint + origin dots -->
       <circle class="dc-anno" cx={endX} cy="56" r="4.5" fill={COLOR_AI} />
       <circle class="dc-anno" cx={endX} cy="208" r="4" fill={COLOR_SQ} />
-      <circle class="dc-origin" cx={originX} cy={originY} r="5" fill={COLOR_AI} />
+
+      <!-- Start dots: the two lines overlapping together, on the left -->
+      <circle class="dc-origin" cx={originX} cy={originY} r="3.5" fill={COLOR_SQ} />
+      <circle class="dc-origin" cx={originX} cy={originY} r="3.5" fill={COLOR_AI} />
 
       <!-- Labels -->
-      <text class="dc-anno" x={originX + 12} y={originY + 20} font-size="12" font-weight="600" fill={COLOR_LABEL} font-family="'Plus Jakarta Sans', sans-serif">today</text>
+      <text class="dc-anno" x={todayX} y={originY + 30} font-size="12" font-weight="600" text-anchor="middle" fill={COLOR_LABEL} font-family="'Plus Jakarta Sans', sans-serif">today</text>
 
       <text class="dc-anno" x={endX + 10} y="60" font-size="13" font-weight="700" fill={COLOR_AI} font-family="'Plus Jakarta Sans', sans-serif">AI-native</text>
 
@@ -176,8 +181,8 @@ const COLOR_LABEL = "#8A7A5C";
     stroke-dashoffset: 1;
     animation: dc-draw 1.2s cubic-bezier(0.4, 0.1, 0.2, 1) forwards;
   }
-  .dc-line--sq { animation-delay: 0.55s; }
-  .dc-line--ai { animation-delay: 0.75s; }
+  .dc-line--sq { animation-delay: 0.5s; }
+  .dc-line--ai { animation-delay: 0.5s; }
 
   @keyframes dc-draw {
     to { stroke-dashoffset: 0; }
@@ -189,7 +194,7 @@ const COLOR_LABEL = "#8A7A5C";
   }
   .dc-origin {
     opacity: 0;
-    animation: dc-appear 0.4s ease-out 0.55s forwards;
+    animation: dc-appear 0.4s ease-out 0.35s forwards;
   }
   .dc-anno {
     opacity: 0;
