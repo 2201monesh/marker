@@ -1,7 +1,21 @@
 import { test, expect } from "@playwright/test";
+import zlib from "zlib";
+import type { Request } from "@playwright/test";
 
 let hubspotCalls: { url: string; body: unknown }[] = [];
 let amplitudeEvents: Record<string, unknown>[] = [];
+
+// Amplitude's browser SDK gzip-compresses its HTTP API request bodies by
+// default, so `request.postDataJSON()` can't parse them directly (it throws
+// on the raw compressed bytes). Decode based on Content-Encoding before
+// parsing, falling back to uncompressed for safety if that ever changes.
+async function readJsonBody(request: Request): Promise<unknown> {
+  const buf = request.postDataBuffer();
+  if (!buf) return undefined;
+  const encoding = (await request.allHeaders())["content-encoding"];
+  const raw = encoding === "gzip" ? zlib.gunzipSync(buf) : buf;
+  return JSON.parse(raw.toString("utf-8"));
+}
 
 test.beforeEach(async ({ page }) => {
   hubspotCalls = [];
@@ -26,7 +40,9 @@ test.beforeEach(async ({ page }) => {
   // Intercept Amplitude event uploads
   await page.route("https://api2.amplitude.com/**", async (route) => {
     try {
-      const body = route.request().postDataJSON();
+      const body = (await readJsonBody(route.request())) as
+        | { events?: Record<string, unknown>[] }
+        | undefined;
       if (body?.events) {
         amplitudeEvents.push(...body.events);
       }
