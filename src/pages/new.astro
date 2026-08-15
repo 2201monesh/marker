@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "../styles/new-landing.css";
+import NewHero from "../components/new/NewHero.astro";
+import NewProblem from "../components/new/NewProblem.astro";
+import NewAlternatives from "../components/new/NewAlternatives.astro";
+import NewSolution from "../components/new/NewSolution.astro";
+import NewProof from "../components/new/NewProof.astro";
+import NewBanner from "../components/new/NewBanner.astro";
+import NewHowItWorks from "../components/new/NewHowItWorks.astro";
+import NewFounders from "../components/new/NewFounders.astro";
+import NewClosing from "../components/new/NewClosing.astro";
+import NewFooter from "../components/new/NewFooter.astro";
+---
+
+<Layout title="Marker — Your AI transformation, actually shipped" noindex={true}>
+  <link slot="head" rel="preconnect" href="https://fonts.googleapis.com" />
+  <link slot="head" rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    slot="head"
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&display=swap"
+  />
+  <div class="nl-page">
+    <main id="main-content">
+      <NewHero />
+      <NewProblem />
+      <NewAlternatives />
+      <NewSolution />
+      <NewProof />
+      <NewBanner />
+      <NewHowItWorks />
+      <NewFounders />
+      <NewClosing />
+    </main>
+    <NewFooter />
+  </div>
+</Layout>

@@ -1,0 +1,179 @@
+/* ─── /new landing page — self-contained design system ──────────────────────
+   Scoped under .nl-page so it never leaks into the rest of the site.
+   Palette sampled from the Figma export (.context/attachments/w7FOib).      */
+
+.nl-page {
+  --nl-lime: #DDE830;
+  --nl-lime-deep: #D9E32F;
+  --nl-orange: #F35901;
+  --nl-orange-deep: #F25001;
+  --nl-ink: #1A1A1A;
+  --nl-black: #000000;
+  --nl-card-dark: #0F0F0F;
+  --nl-bg: #F6F6F6;
+  --nl-white: #FFFFFF;
+  --nl-heading: #333333;
+  --nl-body: #4A4A4A;
+  --nl-gray: #B4B4B4;
+  --nl-line: rgba(0, 0, 0, 0.08);
+  --nl-line-dark: rgba(255, 255, 255, 0.12);
+
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  background: var(--nl-ink);
+  color: var(--nl-heading);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* ─── Layout ── content column is 1280px wide at 1440 (80px margins) ─────── */
+.nl-container {
+  width: min(1280px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+/* ─── Typography ─────────────────────────────────────────────────────────── */
+.nl-display {
+  font-family: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+  color: var(--nl-heading);
+}
+
+.nl-h1 { font-size: clamp(2.75rem, 5vw, 4.25rem); }
+.nl-h2 { font-size: clamp(2.25rem, 4.2vw, 3.5rem); }
+.nl-h3 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); }
+
+.nl-display--ondark { color: var(--nl-white); }
+
+/* Lime highlighter mark behind heading words */
+.nl-hl {
+  background: var(--nl-lime);
+  color: var(--nl-ink);
+  padding: 0.02em 0.14em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Small uppercase tracked label */
+.nl-label {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* De-emphasised gray span inside bold lead paragraphs */
+.nl-dim { color: var(--nl-gray); font-weight: 400; }
+
+/* ─── Eyebrow pill (icon chip + bordered pill label) ─────────────────────── */
+.nl-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  color: var(--nl-ink);
+}
+.nl-eyebrow-chip {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.22);
+  display: grid;
+  place-items: center;
+  background: transparent;
+  flex: none;
+}
+.nl-eyebrow-pill {
+  border: 1px solid rgba(0, 0, 0, 0.22);
+  border-radius: 999px;
+  padding: 9px 16px 8px;
+  margin-left: -1px;
+  background: transparent;
+  white-space: nowrap;
+}
+.nl-eyebrow--dark { color: var(--nl-white); }
+.nl-eyebrow--dark .nl-eyebrow-chip,
+.nl-eyebrow--dark .nl-eyebrow-pill { border-color: rgba(255, 255, 255, 0.3); }
+
+/* ─── Buttons ────────────────────────────────────────────────────────────── */
+.nl-btn {
+  display: inline-flex;
+  align-items: center;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1;
+}
+.nl-btn:focus-visible {
+  outline: 2px solid var(--nl-orange);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+.nl-btn-outline {
+  background: var(--nl-white);
+  color: var(--nl-ink);
+  border: 1px solid #d8d8d8;
+  border-radius: 10px;
+  padding: 16px 22px 15px;
+  transition: border-color 120ms ease;
+}
+.nl-btn-outline:hover { border-color: #ababab; }
+
+/* Dark CTA: label block with slanted right edge + detached arrow chip.
+   The "/" notch is carved with clip-path; outer corners stay rounded. */
+.nl-btn-dark { color: var(--nl-white); }
+.nl-btn-dark-label {
+  background: var(--nl-ink);
+  border-radius: 10px;
+  padding: 17px 30px 16px 20px;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+  transition: background 120ms ease;
+}
+.nl-btn-dark-chip {
+  width: 46px;
+  height: 46px;
+  margin-left: -11px;
+  background: var(--nl-ink);
+  border-radius: 10px;
+  clip-path: polygon(14px 0, 100% 0, 100% 100%, 0 100%);
+  display: grid;
+  place-items: center;
+  transition: background 120ms ease;
+}
+.nl-btn-dark-chip svg { margin-left: 5px; }
+.nl-btn-dark:hover .nl-btn-dark-label,
+.nl-btn-dark:hover .nl-btn-dark-chip { background: #000; }
+
+/* ─── Section dot grids ──────────────────────────────────────────────────── */
+.nl-dots-dark {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1.3px, transparent 1.3px);
+  background-size: 28px 28px;
+}
+.nl-dots-lime {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.10) 1.3px, transparent 1.3px);
+  background-size: 28px 28px;
+}
+
+/* ─── Cards ──────────────────────────────────────────────────────────────── */
+.nl-card {
+  background: var(--nl-white);
+  border-radius: 24px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 12px 32px rgba(0, 0, 0, 0.06);
+}
+
+/* Fine halftone texture used on the orange/gray stat shapes */
+.nl-halftone {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.35) 1px, transparent 1px);
+  background-size: 7px 7px;
+}
+.nl-halftone-dark {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 7px 7px;
+}

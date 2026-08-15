@@ -1,0 +1,427 @@
+---
+// NewHero — hero section of the /new landing page.
+// Dark ink page frame, light rounded panel inset from the top, black logo tab
+// top-left, copy column left, workflow node diagram right (inline SVG + CSS).
+import MarkerMark from "./MarkerMark.astro";
+import CtaButton from "./CtaButton.astro";
+
+// ── Diagram data (620×720 canvas; geometry measured from the Figma export:
+// canvas origin = design (820, 0), so y0 is the very top of the page and the
+// right edge is the viewport edge) ──────────────────────────────────────────
+// Input pill labels flowing into the central node.
+const pills = [
+  { t: "95% grunt work", x: 242, y: 65 },
+  { t: "Growth is bottlenecked", x: 82, y: 113 },
+  { t: "Headcount scales with workload", x: 311, y: 125 },
+];
+
+// Blurred gray placeholder pills for depth.
+const blurPills = [
+  { x: 293, y: 232, w: 74, h: 16 },
+  { x: 222, y: 310, w: 73, h: 15 },
+];
+
+// Tiny dotted chart glyphs for the output-card icon circles.
+const barsUp: [number, number][] = [];
+for (let i = 0; i < 4; i++)
+  for (let j = 0; j <= i; j++) barsUp.push([2 + i * 2.7, 10 - j * 2.2]);
+const barsDown: [number, number][] = [];
+for (let i = 0; i < 4; i++)
+  for (let j = 0; j < 4 - i; j++) barsDown.push([2 + i * 2.7, 10 - j * 2.2]);
+const spark: [number, number][] = [
+  [6, 2], [6, 4.2], [6, 7.8], [6, 10],
+  [2, 6], [4.2, 6], [7.8, 6], [10, 6], [6, 6],
+];
+const play: [number, number][] = [
+  [4, 3], [4, 5], [4, 7], [4, 9], [6, 4.2], [6, 7.8], [8, 6],
+];
+
+// Output cards below the node.
+const outputs = [
+  { title: "Automated Workflow", sub: "Processes run end-to-end", glyph: spark, x: 36, y: 508 },
+  { title: "Operational Efficiency", sub: "Streamlines operations", glyph: play, x: 361, y: 531 },
+  { title: "Onboarding", sub: "120days → 60days", glyph: barsUp, x: 194, y: 580 },
+  { title: "95% less", sub: "less manual QA", glyph: barsDown, x: 36, y: 633 },
+  { title: "First agent", sub: "Weeks → Days", glyph: barsUp, x: 361, y: 663 },
+];
+
+// Wire strands above the node — the exact vector layers from the Figma file,
+// each translated into this 620×720 canvas (offsets matched against the
+// design export). Strokes fade from ink at the top to #E3E3E3 at the node.
+const wireLayers = [
+  {
+    tx: 157,
+    d: "M0.375 -316.999L4.2573 20.329C4.51776 42.9601 30.375 55.7697 51.4567 47.536C65.6021 42.0114 77.7558 40.9893 78.875 53.0005C80.09 66.0397 68.5184 71.4548 67.375 84.5005C66.3766 95.8914 72.4351 102.786 82.4021 106.637C109.773 117.212 135.719 158.706 117.133 181.413C93.3273 210.497 72.1695 241.633 67.375 265.001C55.6341 322.223 96.375 402.501 96.375 402.501",
+    y1: -308.72,
+    y2: 422.28,
+  },
+  {
+    tx: 198,
+    d: "M69.7513 -311.999C69.7513 -311.999 166.251 50.5005 69.7513 134.501C-26.7487 218.501 162.253 251.001 69.7513 287.001C-22.7505 323.001 -22.7505 366.501 69.7513 402.501",
+    y1: -346.499,
+    y2: 384.501,
+  },
+  {
+    tx: 188,
+    d: "M191.441 -316.999L181.515 72.6079C181.466 74.5312 181.23 76.4216 180.688 78.2676C177.653 88.6024 165.127 124.093 137.441 119.001C109.309 113.826 120.638 143.041 95.4414 129.5C46.7966 103.358 -76.5586 246 69.4414 268.5C215.441 291.001 95.4414 402.5 95.4414 402.5",
+    y1: -394.279,
+    y2: 336.721,
+  },
+];
+
+// Connection-point squares on the wires (centered on the point).
+const blackSquares = [
+  [283, 117],
+  [354, 107],
+  [218, 153],
+];
+const orangeSquares = [
+  [255, 462],
+  [283, 474],
+  [269, 525],
+  [158, 596],
+  [380, 647],
+];
+---
+
+<section class="nlh">
+  <!-- Black logo tab overlapping the panel, with concave corner transitions -->
+  <a href="/" class="nlh-tab" aria-label="Marker — home">
+    <MarkerMark class="nlh-tab-mark" title="Marker" />
+  </a>
+  <span class="nlh-tab-corner nlh-tab-corner--right" aria-hidden="true"></span>
+  <span class="nlh-tab-corner nlh-tab-corner--below" aria-hidden="true"></span>
+
+  <div class="nlh-panel">
+    <div class="nl-container nlh-grid">
+      <!-- ── Left: copy ────────────────────────────────────────────────── -->
+      <div class="nlh-copy">
+        <p class="nlh-eyebrow">
+          <span class="nlh-yc" aria-hidden="true">Y</span>
+          <span class="nl-label nlh-eyebrow-label">BACKED BY Y COMBINATOR</span>
+        </p>
+
+        <h1 class="nl-display nl-h1 nlh-title">
+          Your AI transformation,<br /><span class="nl-hl">actually shipped</span>
+        </h1>
+
+        <p class="nlh-body">
+          We embed with your company, ship agents in weeks, and don't stop until your transformation is complete.
+        </p>
+
+        <div class="nlh-ctas">
+          <CtaButton label="How it works" href="#how-it-works" variant="outline" />
+          <CtaButton label="Book a call" href="https://info.onmarker.com/book-a-demo" variant="dark" />
+        </div>
+      </div>
+
+      <!-- ── Right: workflow node diagram (decorative) ─────────────────── -->
+      <div class="nlh-diagram" aria-hidden="true">
+        {blurPills.map((b) => (
+          <span
+            class="nlh-blur-pill"
+            style={`left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px;`}
+          />
+        ))}
+
+        <svg class="nlh-wires" viewBox="0 0 620 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            {wireLayers.map((w, i) => (
+              <linearGradient id={`nlh-wire-grad-${i}`} x1="0" y1={w.y1} x2="0" y2={w.y2} gradientUnits="userSpaceOnUse">
+                <stop offset="0.408654" stop-color="#1A1A1A" />
+                <stop offset="0.900703" stop-color="#E3E3E3" />
+              </linearGradient>
+            ))}
+          </defs>
+          <!-- wire strands above the node (exact Figma vector layers) -->
+          {wireLayers.map((w, i) => (
+            <g transform={`translate(${w.tx} 0)`}>
+              <path d={w.d} stroke={`url(#nlh-wire-grad-${i})`} stroke-width="0.75" />
+            </g>
+          ))}
+          <!-- node bottom → output cards -->
+          <path d="M 255 428 L 255 503 C 255 517, 249 523, 235 523 L 200 523" stroke="#C9C9C9" stroke-width="1.5" />
+          <path d="M 283 428 L 283 505 C 283 519, 289 525, 303 525 L 360 525 C 374 525, 380 531, 380 543 L 380 556" stroke="#C9C9C9" stroke-width="1.5" />
+          <path d="M 269 428 L 269 585" stroke="#C9C9C9" stroke-width="1.5" />
+          <path d="M 158 551 L 158 638" stroke="#C9C9C9" stroke-width="1.5" />
+          <path d="M 380 574 L 380 668" stroke="#C9C9C9" stroke-width="1.5" />
+
+          {blackSquares.map(([x, y]) => (
+            <rect x={x - 4} y={y - 4} width="8" height="8" fill="#3D3D3D" />
+          ))}
+          {orangeSquares.map(([x, y]) => (
+            <rect x={x - 3} y={y - 3} width="6" height="6" fill="#F35901" />
+          ))}
+        </svg>
+
+        {pills.map((p) => (
+          <span class="nlh-pill" style={`left:${p.x}px;top:${p.y}px;`}>{p.t}</span>
+        ))}
+
+        <div class="nlh-node">
+          <MarkerMark class="nlh-node-mark" />
+        </div>
+
+        {outputs.map((o) => (
+          <div class="nlh-out" style={`left:${o.x}px;top:${o.y}px;`}>
+            <span class="nlh-out-icon">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="#7A7A7A" xmlns="http://www.w3.org/2000/svg">
+                {o.glyph.map(([cx, cy]) => (
+                  <circle cx={cx} cy={cy} r="0.85" />
+                ))}
+              </svg>
+            </span>
+            <span class="nlh-out-text">
+              <span class="nlh-out-title">{o.title}</span>
+              <span class="nlh-out-sub">{o.sub}</span>
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Page frame: ink behind, light panel inset from the top ───────────── */
+  .nlh {
+    position: relative;
+    background: var(--nl-ink);
+    padding: 12px 12px 0;
+  }
+  .nlh-panel {
+    background: var(--nl-bg);
+    overflow: hidden;
+  }
+
+  /* ── Logo tab ──────────────────────────────────────────────────────────── */
+  .nlh-tab {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 168px;
+    height: 110px;
+    background: var(--nl-ink);
+    border-bottom-right-radius: 11px;
+    display: grid;
+    place-items: center;
+    color: var(--nl-white);
+  }
+  .nlh-tab:focus-visible {
+    outline: 2px solid var(--nl-orange);
+    outline-offset: -4px;
+  }
+  .nlh-tab :global(.nlh-tab-mark) {
+    width: 78px;
+    height: auto;
+  }
+  /* Concave corner pieces where the tab meets the light panel */
+  .nlh-tab-corner {
+    position: absolute;
+    z-index: 3;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+    background: radial-gradient(circle 12px at 100% 100%, transparent 11.3px, var(--nl-ink) 11.8px);
+  }
+  .nlh-tab-corner--right {
+    top: 12px;
+    left: 168px;
+  }
+  .nlh-tab-corner--below {
+    top: 110px;
+    left: 12px;
+  }
+
+  /* ── Layout grid ───────────────────────────────────────────────────────── */
+  .nlh-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: 64px;
+  }
+  .nlh-copy {
+    padding-top: 168px;
+    max-width: 640px;
+  }
+  .nlh-diagram {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .nlh-grid {
+      grid-template-columns: minmax(0, 1fr) 620px;
+      column-gap: 20px;
+      padding-bottom: 88px;
+      align-items: start;
+    }
+    .nlh-copy {
+      padding-top: 224px;
+    }
+    /* Canvas origin matches the design export: y0 = very top of the page
+       (12px above the panel), right edge = viewport edge. */
+    .nlh-diagram {
+      display: block;
+      position: relative;
+      width: 620px;
+      height: 720px;
+      justify-self: end;
+      margin-top: -12px;
+      margin-right: calc((min(1280px, 100vw - 48px) - 100vw) / 2);
+    }
+  }
+
+  /* ── Copy column ───────────────────────────────────────────────────────── */
+  .nlh-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+  }
+  .nlh-yc {
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border-radius: 6px;
+    background: var(--nl-orange);
+    color: var(--nl-white);
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+  }
+  .nlh-eyebrow-label {
+    color: #6e6e6e;
+  }
+  .nlh-title {
+    margin: 28px 0 0;
+  }
+  .nlh-title .nl-hl {
+    display: inline-block;
+    margin-top: 0.08em;
+  }
+  .nlh-body {
+    margin: 24px 0 0;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--nl-heading);
+    max-width: 480px;
+  }
+  .nlh-ctas {
+    margin-top: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* ── Diagram pieces ────────────────────────────────────────────────────── */
+  .nlh-wires {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .nlh-pill {
+    position: absolute;
+    background: #efefef;
+    border-radius: 999px;
+    padding: 7px 12px 6px;
+    font-size: 12.5px;
+    letter-spacing: -0.015em;
+    line-height: 1;
+    color: var(--nl-body);
+    white-space: nowrap;
+  }
+  .nlh-blur-pill {
+    position: absolute;
+    background: #e9e9e9;
+    border-radius: 999px;
+    filter: blur(2px);
+  }
+  .nlh-node {
+    position: absolute;
+    left: 231px;
+    top: 351px;
+    width: 77px;
+    height: 77px;
+    background: var(--nl-white);
+    border-radius: 18px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.05),
+      0 14px 30px rgba(0, 0, 0, 0.1);
+    display: grid;
+    place-items: center;
+    color: var(--nl-ink);
+  }
+  .nlh-node :global(.nlh-node-mark) {
+    width: 42px;
+    height: auto;
+  }
+  .nlh-out {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--nl-white);
+    border-radius: 999px;
+    padding: 6px 10px 6px 7px;
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.05),
+      0 10px 24px rgba(0, 0, 0, 0.07);
+    white-space: nowrap;
+  }
+  .nlh-out-icon {
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border-radius: 999px;
+    background: #f1f1f1;
+    display: grid;
+    place-items: center;
+  }
+  .nlh-out-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-right: 4px;
+  }
+  .nlh-out-title {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: var(--nl-ink);
+  }
+  .nlh-out-sub {
+    font-size: 11px;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: #9a9a9a;
+  }
+
+  /* ── Small screens ─────────────────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .nlh-tab {
+      width: 128px;
+      height: 86px;
+      border-bottom-right-radius: 11px;
+    }
+    .nlh-tab :global(.nlh-tab-mark) {
+      width: 52px;
+    }
+    .nlh-tab-corner--right {
+      left: 128px;
+    }
+    .nlh-tab-corner--below {
+      top: 86px;
+    }
+    .nlh-copy {
+      padding-top: 136px;
+    }
+    .nlh-grid {
+      padding-bottom: 56px;
+    }
+  }
+</style>

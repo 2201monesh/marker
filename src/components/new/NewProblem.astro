@@ -1,0 +1,183 @@
+---
+// NewProblem — dark "THE PROBLEM" section.
+// Heading row (h2 left, intro paragraph right), then a 2-col grid:
+// orange gradient quote card (left) + two stacked white label cards (right).
+// Refs: .context/attachments/w7FOib/slices/slice_1.png, z_eyebrow.png, z_dark_labels.png
+import Eyebrow from "./Eyebrow.astro";
+---
+
+<section class="nl-problem nl-dots-dark" aria-labelledby="new-problem-heading">
+  <div class="nl-container">
+    <Eyebrow label="THE PROBLEM" theme="dark" class="nl-problem-eyebrow" />
+
+    <div class="nl-problem-head">
+      <h2 id="new-problem-heading" class="nl-display nl-h2 nl-display--ondark">
+        You can see<br />
+        <span class="nl-hl">where this is going</span>
+      </h2>
+      <p class="nl-problem-intro">
+        You know AI should transform how your company works.<br />
+        95% of AI initiatives still fail.
+      </p>
+    </div>
+
+    <div class="nl-problem-grid">
+      <figure class="nl-problem-quote">
+        <div class="nl-problem-quote-texture nl-halftone" aria-hidden="true"></div>
+        <svg
+          class="nl-problem-quote-glyph"
+          width="74"
+          height="54"
+          viewBox="0 0 74 54"
+          fill="#FFFFFF"
+          fill-opacity="0.35"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path d="M9 0 L12 0 Q17 0 17 5 L17 8 A15 15 0 0 0 32 23 L32 49 Q32 54 27 54 L5 54 Q0 54 0 49 L0 9 Q0 0 9 0 Z" />
+          <path d="M51 0 L54 0 Q59 0 59 5 L59 8 A15 15 0 0 0 74 23 L74 49 Q74 54 69 54 L47 54 Q42 54 42 49 L42 9 Q42 0 51 0 Z" />
+        </svg>
+        <blockquote>
+          You're not short on ambition. You're short on time, expertise, and a map of what's possible.
+        </blockquote>
+      </figure>
+
+      <div class="nl-problem-cards">
+        <article class="nl-card nl-problem-card">
+          <h3 class="nl-label nl-problem-card-label">CONDITION</h3>
+          <p>How work really happens lives in people's heads, not documentation.</p>
+        </article>
+        <article class="nl-card nl-problem-card">
+          <h3 class="nl-label nl-problem-card-label">PRESENT</h3>
+          <p>Knowing what AI can actually do, and getting it all the way into production.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .nl-problem {
+    background: var(--nl-black);
+    padding: 96px 0;
+  }
+
+  .nl-problem :global(.nl-problem-eyebrow) {
+    margin-bottom: 32px;
+  }
+
+  /* ── Heading row: h2 left, intro paragraph bottom-aligned on the right ── */
+  .nl-problem-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 40px;
+    margin-bottom: 52px;
+  }
+  .nl-problem-head h2 {
+    margin: 0;
+  }
+  .nl-problem-intro {
+    margin: 0 0 6px;
+    font-size: 17px;
+    line-height: 1.55;
+    color: #d6d6d6;
+    max-width: 520px;
+  }
+
+  /* ── Card grid ── */
+  .nl-problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  /* Orange gradient quote card */
+  .nl-problem-quote {
+    position: relative;
+    margin: 0;
+    min-height: 440px;
+    padding: 28px;
+    border-radius: 24px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #f25001 0%, #f79c6a 55%, #fef6f2 100%);
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 12px 32px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .nl-problem-quote-texture {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .nl-problem-quote-glyph {
+    position: relative;
+    flex: none;
+  }
+  .nl-problem-quote blockquote {
+    position: relative;
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--nl-ink);
+    max-width: 470px;
+  }
+
+  /* Two stacked white cards: label pinned top, copy pinned bottom */
+  .nl-problem-cards {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 24px;
+  }
+  .nl-problem-card {
+    padding: 28px;
+    min-height: 208px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .nl-problem-card-label {
+    margin: 0;
+    color: #8a8a8a;
+  }
+  .nl-problem-card p {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.45;
+    color: var(--nl-ink);
+    max-width: 620px;
+  }
+
+  /* ── Mobile: stack everything ── */
+  @media (max-width: 1023px) {
+    .nl-problem {
+      padding: 64px 0;
+    }
+    .nl-problem-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    .nl-problem-intro {
+      margin-bottom: 0;
+    }
+    .nl-problem-grid {
+      grid-template-columns: 1fr;
+    }
+    .nl-problem-quote {
+      min-height: 360px;
+    }
+    .nl-problem-cards {
+      grid-template-rows: none;
+    }
+    .nl-problem-card {
+      min-height: 176px;
+    }
+  }
+</style>

@@ -1,0 +1,452 @@
+---
+// NewProof — light "PROOF" section with the tabbed case-study widget.
+// Tab bar sits on the page background; the active tab is black and merges
+// with the black frame below it (browser-tab style, with concave fillets).
+// Refs: .context/attachments/w7FOib/slices/slice_4.png, slice_0.png,
+//       z_tabs.png, z_proof_table.png
+import Eyebrow from "./Eyebrow.astro";
+import DotArrow from "./DotArrow.astro";
+---
+
+<section class="nl-proof" aria-labelledby="new-proof-heading">
+  <div class="nl-container">
+    <Eyebrow label="PROOF" class="nl-proof-eyebrow" />
+
+    <h2 id="new-proof-heading" class="nl-display nl-h2">
+      What this looks like <span class="nl-hl">today</span>
+    </h2>
+
+    <div class="nl-proof-widget" data-proof-tabs>
+      <div class="nl-proof-tablist" role="tablist" aria-label="Case studies">
+        <button
+          type="button"
+          id="nl-proof-tab-retailer"
+          class="nl-proof-tab nl-label"
+          role="tab"
+          aria-selected="true"
+          aria-controls="nl-proof-panel-retailer"
+        >FORTUNE 500 RETAILER</button>
+        <button
+          type="button"
+          id="nl-proof-tab-proptech"
+          class="nl-proof-tab nl-label"
+          role="tab"
+          aria-selected="false"
+          aria-controls="nl-proof-panel-proptech"
+          tabindex="-1"
+        >8-FIGURE PROP-TECH COMPANY</button>
+      </div>
+
+      <div class="nl-proof-frame">
+        <!-- Panel A: Fortune 500 retailer -->
+        <div
+          id="nl-proof-panel-retailer"
+          class="nl-proof-panel"
+          role="tabpanel"
+          aria-labelledby="nl-proof-tab-retailer"
+        >
+          <div class="nl-proof-copy">
+            <h3 class="nl-display nl-proof-h3">
+              Manual work,<br />
+              <span class="nl-proof-h3-accent">down by 80%.</span>
+            </h3>
+            <p class="nl-proof-body">
+              <span class="nl-proof-body-dim">In product operations, automated on the systems they already run.</span>
+              Next up: assortment and buying, reimagined from the ground up.
+            </p>
+            <dl class="nl-proof-table">
+              <div class="nl-proof-row">
+                <dt class="nl-label">PRODUCT OPS</dt>
+                <dd class="nl-label">MANUAL WORK DOWN 80%</dd>
+              </div>
+              <div class="nl-proof-row">
+                <dt class="nl-label">NEXT UP</dt>
+                <dd class="nl-label">ASSORTMENT &amp; BUYING, REBUILT GROUND-UP</dd>
+              </div>
+              <div class="nl-proof-row">
+                <dt class="nl-label">APPROACH</dt>
+                <dd class="nl-label">EMBEDDED INSIDE, ON EXISTING SYSTEMS</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="nl-proof-visual" aria-hidden="true">
+            <div class="nl-proof-bar-gray nl-halftone-dark"></div>
+            <div class="nl-proof-bar-orange">
+              <DotArrow dir="se" size={36} class="nl-proof-bar-arrow" />
+              <span class="nl-display nl-proof-bar-stat">80%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel B: 8-figure prop-tech company -->
+        <div
+          id="nl-proof-panel-proptech"
+          class="nl-proof-panel"
+          role="tabpanel"
+          aria-labelledby="nl-proof-tab-proptech"
+          hidden
+        >
+          <div class="nl-proof-copy">
+            <h3 class="nl-display nl-proof-h3">
+              Onboarding,<br />
+              <span class="nl-proof-h3-accent">120 days to 60.</span>
+            </h3>
+            <p class="nl-proof-body">
+              <span class="nl-proof-body-dim">Client onboarding, automated end-to-end on the systems they already run.</span>
+              Next up: manual QA down 95%, and the first agent live in days.
+            </p>
+            <dl class="nl-proof-table">
+              <div class="nl-proof-row">
+                <dt class="nl-label">ONBOARDING</dt>
+                <dd class="nl-label">120 DAYS DOWN TO 60</dd>
+              </div>
+              <div class="nl-proof-row">
+                <dt class="nl-label">MANUAL QA</dt>
+                <dd class="nl-label">DOWN 95%</dd>
+              </div>
+              <div class="nl-proof-row">
+                <dt class="nl-label">APPROACH</dt>
+                <dd class="nl-label">EMBEDDED INSIDE, ON EXISTING SYSTEMS</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="nl-proof-visual" aria-hidden="true">
+            <div class="nl-proof-bar-gray nl-halftone-dark"></div>
+            <div class="nl-proof-bar-orange">
+              <DotArrow dir="se" size={36} class="nl-proof-bar-arrow" />
+              <span class="nl-display nl-proof-bar-stat">60d</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const widgets = document.querySelectorAll<HTMLElement>("[data-proof-tabs]");
+
+  widgets.forEach((widget) => {
+    const tabs = Array.from(
+      widget.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
+    );
+    const panels = Array.from(
+      widget.querySelectorAll<HTMLElement>('[role="tabpanel"]'),
+    );
+
+    const select = (tab: HTMLButtonElement, focus = false) => {
+      tabs.forEach((t) => {
+        const active = t === tab;
+        t.setAttribute("aria-selected", String(active));
+        t.tabIndex = active ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.id !== tab.getAttribute("aria-controls");
+      });
+      if (focus) tab.focus();
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => select(tab));
+      tab.addEventListener("keydown", (event) => {
+        let next: number | null = null;
+        if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+          next = (i + 1) % tabs.length;
+        } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+          next = (i - 1 + tabs.length) % tabs.length;
+        } else if (event.key === "Home") {
+          next = 0;
+        } else if (event.key === "End") {
+          next = tabs.length - 1;
+        }
+        if (next !== null) {
+          event.preventDefault();
+          select(tabs[next], true);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .nl-proof {
+    background: var(--nl-bg);
+    padding: 96px 0 0;
+  }
+
+  .nl-proof :global(.nl-proof-eyebrow) {
+    margin-bottom: 28px;
+  }
+
+  .nl-proof h2 {
+    margin: 0 0 44px;
+  }
+
+  /* ── Tab bar: sits on the page background, above the black frame.
+        The active tab is black and merges with the frame (browser-tab style). */
+  .nl-proof-tablist {
+    display: flex;
+    position: relative;
+    z-index: 1;
+    margin-bottom: -12px; /* overlap the frame's 12px top rim */
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nl-proof-tablist::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nl-proof-tab {
+    position: relative;
+    flex: none;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    margin: 0;
+    padding: 0 26px 12px; /* bottom padding = frame-rim overlap */
+    height: 53px; /* 41px visible above the frame + 12px overlap */
+    display: inline-flex;
+    align-items: center;
+    font-size: 12.5px;
+    letter-spacing: 0.07em;
+    color: var(--nl-ink);
+    white-space: nowrap;
+    cursor: pointer;
+    border-radius: 14px 14px 0 0;
+  }
+  .nl-proof-tab:focus-visible {
+    outline: 2px solid var(--nl-orange);
+    outline-offset: -3px;
+  }
+  .nl-proof-tab[aria-selected="true"] {
+    background: var(--nl-ink);
+    color: var(--nl-white);
+  }
+
+  /* Concave fillets where the active tab meets the frame top */
+  .nl-proof-tab[aria-selected="true"]::before,
+  .nl-proof-tab[aria-selected="true"]::after {
+    content: "";
+    position: absolute;
+    bottom: 12px;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+  }
+  .nl-proof-tab[aria-selected="true"]::before {
+    right: 100%;
+    background: radial-gradient(circle at 0 0, transparent 13.5px, var(--nl-ink) 14px);
+  }
+  .nl-proof-tab[aria-selected="true"]::after {
+    left: 100%;
+    background: radial-gradient(circle at 100% 0, transparent 13.5px, var(--nl-ink) 14px);
+  }
+  /* First tab is flush with the frame's left edge: no left fillet */
+  .nl-proof-tab:first-child[aria-selected="true"]::before {
+    display: none;
+  }
+
+  /* ── Black frame around the case-study panel ── */
+  .nl-proof-frame {
+    background: var(--nl-ink);
+    border-radius: 28px;
+    padding: 12px;
+  }
+  /* When the first tab is active it merges with the frame's top-left corner,
+     so that corner reads square (as in the design). */
+  .nl-proof-tablist:has(.nl-proof-tab:first-child[aria-selected="true"]) + .nl-proof-frame {
+    border-top-left-radius: 4px;
+  }
+
+  /* ── Panel ── */
+  .nl-proof-panel {
+    background: #f4f4f4;
+    border-radius: 20px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: minmax(0, 500px) minmax(0, 1fr);
+    min-height: 494px;
+  }
+  .nl-proof-panel[hidden] {
+    display: none;
+  }
+
+  .nl-proof-copy {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nl-proof-h3 {
+    margin: 0;
+    font-size: clamp(2rem, 3.2vw, 2.875rem);
+    line-height: 1.16;
+  }
+  .nl-proof-h3-accent {
+    color: var(--nl-orange);
+  }
+
+  .nl-proof-body {
+    margin: 22px 0 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--nl-heading);
+    max-width: 420px;
+  }
+  .nl-proof-body-dim {
+    color: #9a9a9a;
+  }
+
+  /* ── Spec table pinned to the panel bottom ── */
+  .nl-proof-table {
+    margin: 48px 0 0;
+    margin-top: auto;
+    padding-top: 48px;
+  }
+  .nl-proof-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    padding: 12px 0;
+    border-top: 1px solid var(--nl-line);
+  }
+  .nl-proof-row dt {
+    color: var(--nl-ink);
+  }
+  .nl-proof-row dd {
+    margin: 0;
+    color: #989898;
+    font-weight: 500;
+    text-align: right;
+  }
+
+  /* ── Right visual: two rounded-top bars rising from the panel bottom ── */
+  .nl-proof-visual {
+    position: relative;
+    min-height: 300px;
+  }
+
+  .nl-proof-bar-gray {
+    position: absolute;
+    bottom: 0;
+    right: 47.5%;
+    width: 26%;
+    height: 456px;
+    max-height: calc(100% - 38px);
+    background-color: #e0e0e0;
+    border-radius: 18px 18px 0 0;
+    box-shadow:
+      inset 0 2px 0 rgba(255, 255, 255, 0.65),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+      inset 0 14px 24px rgba(255, 255, 255, 0.5),
+      inset 0 -20px 32px rgba(0, 0, 0, 0.04),
+      0 4px 28px rgba(0, 0, 0, 0.1);
+  }
+
+  .nl-proof-bar-orange {
+    position: absolute;
+    bottom: 0;
+    right: 15%;
+    width: 26%;
+    height: 187px;
+    border-radius: 18px 18px 0 0;
+    /* white halftone dots over the orange fade */
+    background-image:
+      radial-gradient(rgba(255, 255, 255, 0.35) 1px, transparent 1px),
+      linear-gradient(
+        180deg,
+        #ec5502 0%,
+        #e86921 30%,
+        #e99464 60%,
+        #e8bea6 85%,
+        #e2d0c5 100%
+      );
+    background-size:
+      7px 7px,
+      100% 100%;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  }
+  .nl-proof-bar-orange :global(.nl-proof-bar-arrow) {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    color: var(--nl-ink);
+  }
+  .nl-proof-bar-stat {
+    position: absolute;
+    right: 16px;
+    bottom: 4px;
+    font-size: 54px;
+    line-height: 1.05;
+    color: var(--nl-ink);
+  }
+
+  /* ── Mobile: single column, scaled-down bars ── */
+  @media (max-width: 1023px) {
+    .nl-proof {
+      padding: 64px 0 0;
+    }
+    .nl-proof h2 {
+      margin-bottom: 28px;
+    }
+    .nl-proof-tab {
+      padding: 0 18px 12px;
+    }
+    .nl-proof-frame {
+      border-radius: 20px;
+      padding: 8px;
+    }
+    .nl-proof-tablist {
+      margin-bottom: -8px;
+    }
+    .nl-proof-tab {
+      height: 49px;
+      padding-bottom: 8px;
+    }
+    .nl-proof-tab[aria-selected="true"]::before,
+    .nl-proof-tab[aria-selected="true"]::after {
+      bottom: 8px;
+    }
+    .nl-proof-panel {
+      grid-template-columns: 1fr;
+      min-height: 0;
+      border-radius: 16px;
+    }
+    .nl-proof-copy {
+      padding: 28px;
+    }
+    .nl-proof-table {
+      margin-top: 32px;
+      padding-top: 0;
+    }
+    .nl-proof-visual {
+      min-height: 0;
+      height: 260px;
+      margin-top: 8px;
+    }
+    .nl-proof-bar-gray {
+      left: 24px;
+      right: auto;
+      width: 38%;
+      max-width: 205px;
+      height: 240px;
+      max-height: none;
+    }
+    .nl-proof-bar-orange {
+      right: 24px;
+      width: 38%;
+      max-width: 205px;
+      height: 150px;
+    }
+    .nl-proof-bar-stat {
+      font-size: 40px;
+    }
+    .nl-proof-bar-orange :global(.nl-proof-bar-arrow) {
+      top: 12px;
+      right: 12px;
+      width: 28px;
+      height: 28px;
+    }
+  }
+</style>
