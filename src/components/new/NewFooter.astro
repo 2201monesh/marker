@@ -14,11 +14,11 @@ const columns = [
   { label: "Terms of Service", href: "/terms", highlighted: true },
   { label: "Privacy Policy", href: "/privacy", highlighted: false },
   { label: "Cookie Policy", href: "/cookies", highlighted: false },
-  { label: "Manage Cookies", href: "#", onclick: MANAGE_COOKIES_ONCLICK, highlighted: false },
+  { label: "Trust Center", href: "https://trust.onmarker.com/", highlighted: false },
 ];
 
 const legalLinks = [
-  { label: "Trust Center", href: "https://trust.onmarker.com/" },
+  { label: "Manage Cookies", href: "#", onclick: MANAGE_COOKIES_ONCLICK },
   { label: "Do Not Sell My Personal Information", href: "/privacy#privacyrights" },
 ];
 
@@ -76,8 +76,8 @@ const year = new Date().getFullYear();
           </span>
           <span class="nl-footer-wordmark" aria-hidden="true">Marker</span>
         </a>
-        <nav class="nl-footer-legal" aria-label="Trust and privacy">
-          {legalLinks.map(({ label, href }) => <a href={href}>{label}</a>)}
+        <nav class="nl-footer-legal" aria-label="Cookies and privacy">
+          {legalLinks.map(({ label, href, onclick }) => <a href={href} onclick={onclick}>{label}</a>)}
         </nav>
       </div>
 
