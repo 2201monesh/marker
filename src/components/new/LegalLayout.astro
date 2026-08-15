@@ -133,7 +133,7 @@ const { metaTitle, description, titlePre, titleHl } = Astro.props;
     font-weight: 600 !important;
     letter-spacing: 0.08em !important;
     text-transform: uppercase !important;
-    color: #8a8a8a !important;
+    color: #6b6b6b !important;
   }
   .nll-content :global([data-custom-class="heading_1"]),
   .nll-content :global([data-custom-class="heading_1"] *) {
@@ -170,7 +170,9 @@ const { metaTitle, description, titlePre, titleHl } = Astro.props;
   .nll-content :global(a *),
   .nll-content :global([data-custom-class="link"]),
   .nll-content :global([data-custom-class="link"] *) {
-    color: var(--nl-orange) !important;
+    /* Darker take on --nl-orange: brand #F35901 is 3.1:1 on this bg,
+       below the 4.5:1 WCAG AA minimum for body-size text */
+    color: #c24601 !important;
     text-decoration: underline !important;
     word-break: break-word !important;
   }
