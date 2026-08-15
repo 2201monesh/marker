@@ -7,10 +7,7 @@ import Eyebrow from "./Eyebrow.astro";
 
 // 02 FIND — diagram is an inline SVG asset exported from Figma
 
-// 03 BUILD & SHIP — 5×5 tile grid: 7 shipped (checks), 2 escalations, rest idle
-const cells = Array.from({ length: 25 }, (_, i) =>
-  i < 7 ? "check" : i === 8 || i === 16 ? "alert" : "dot"
-);
+// 03 BUILD & SHIP — diagram is an inline SVG asset exported from Figma
 
 // 04 COMPOUND — diagram is an inline SVG asset exported from Figma
 ---
@@ -339,30 +336,131 @@ const cells = Array.from({ length: 25 }, (_, i) =>
       <!-- 03 BUILD & SHIP -->
       <li class="hiw-row">
         <h3 class="nl-label hiw-num">03 BUILD &amp; SHIP:</h3>
-        <div class="nl-card hiw-card" aria-hidden="true">
-          <div class="hiw-gridwrap">
-            <div class="hiw-grid-blue hiw-grid-blue--row"></div>
-            <div class="hiw-grid-blue hiw-grid-blue--corner"></div>
-            <div class="hiw-grid">
-              {cells.map((kind) => (
-                <div class:list={["hiw-cell", kind === "check" && "is-check"]}>
-                  {kind === "check" ? (
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M4.2 9.6 7.4 12.6 13.8 5.2" stroke="#5FC873" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                  ) : kind === "alert" ? (
-                    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="8.5" cy="8.5" r="6.6" stroke="#F35901" stroke-width="1.5" />
-                      <path d="M8.5 5v4" stroke="#F35901" stroke-width="1.6" stroke-linecap="round" />
-                      <circle cx="8.5" cy="11.6" r="1" fill="#F35901" />
-                    </svg>
-                  ) : (
-                    <span class="hiw-cell-dot"></span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+        <div class="nl-card hiw-card hiw-card--flush" aria-hidden="true">
+          <svg class="hiw-asset" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#filter0_ii_629_1172)">
+          <path d="M366 85C366 93.8366 358.837 101 350 101H183C174.163 101 167 108.163 167 117V151C167 159.837 159.837 167 151 167H51C42.1634 167 35 159.837 35 151V51C35 42.1634 42.1634 35 51 35H350C358.837 35 366 42.1634 366 51V85Z" fill="#87D1F8"/>
+          <path d="M366 85C366 93.8366 358.837 101 350 101H183C174.163 101 167 108.163 167 117V151C167 159.837 159.837 167 151 167H51C42.1634 167 35 159.837 35 151V51C35 42.1634 42.1634 35 51 35H350C358.837 35 366 42.1634 366 51V85Z" fill="url(#pattern0_629_1172)" fill-opacity="0.02"/>
+          </g>
+          <g filter="url(#filter1_ii_629_1172)">
+          <path d="M82 304C89.732 304 96 310.268 96 318V346C96 353.732 89.732 360 82 360H54C46.268 360 40 353.732 40 346V318C40 310.268 46.268 304 54 304H82ZM148 304C155.732 304 162 310.268 162 318V346C162 353.732 155.732 360 148 360H120C112.268 360 106 353.732 106 346V318C106 310.268 112.268 304 120 304H148ZM214 304C221.732 304 228 310.268 228 318V346C228 353.732 221.732 360 214 360H186C178.268 360 172 353.732 172 346V318C172 310.268 178.268 304 186 304H214ZM280 304C287.732 304 294 310.268 294 318V346C294 353.732 287.732 360 280 360H252C244.268 360 238 353.732 238 346V318C238 310.268 244.268 304 252 304H280ZM346 304C353.732 304 360 310.268 360 318V346C360 353.732 353.732 360 346 360H318C310.268 360 304 353.732 304 346V318C304 310.268 310.268 304 318 304H346ZM82 238C89.732 238 96 244.268 96 252V280C96 287.732 89.732 294 82 294H54C46.268 294 40 287.732 40 280V252C40 244.268 46.268 238 54 238H82ZM148 238C155.732 238 162 244.268 162 252V280C162 287.732 155.732 294 148 294H120C112.268 294 106 287.732 106 280V252C106 244.268 112.268 238 120 238H148ZM214 238C221.732 238 228 244.268 228 252V280C228 287.732 221.732 294 214 294H186C178.268 294 172 287.732 172 280V252C172 244.268 178.268 238 186 238H214ZM280 238C287.732 238 294 244.268 294 252V280C294 287.732 287.732 294 280 294H252C244.268 294 238 287.732 238 280V252C238 244.268 244.268 238 252 238H280ZM346 238C353.732 238 360 244.268 360 252V280C360 287.732 353.732 294 346 294H318C310.268 294 304 287.732 304 280V252C304 244.268 310.268 238 318 238H346ZM82 172C89.732 172 96 178.268 96 186V214C96 221.732 89.732 228 82 228H54C46.268 228 40 221.732 40 214V186C40 178.268 46.268 172 54 172H82ZM148 172C155.732 172 162 178.268 162 186V214C162 221.732 155.732 228 148 228H120C112.268 228 106 221.732 106 214V186C106 178.268 112.268 172 120 172H148ZM214 172C221.732 172 228 178.268 228 186V214C228 221.732 221.732 228 214 228H186C178.268 228 172 221.732 172 214V186C172 178.268 178.268 172 186 172H214ZM280 172C287.732 172 294 178.268 294 186V214C294 221.732 287.732 228 280 228H252C244.268 228 238 221.732 238 214V186C238 178.268 244.268 172 252 172H280ZM346 172C353.732 172 360 178.268 360 186V214C360 221.732 353.732 228 346 228H318C310.268 228 304 221.732 304 214V186C304 178.268 310.268 172 318 172H346ZM82 106C89.732 106 96 112.268 96 120V148C96 155.732 89.732 162 82 162H54C46.268 162 40 155.732 40 148V120C40 112.268 46.268 106 54 106H82ZM148 106C155.732 106 162 112.268 162 120V148C162 155.732 155.732 162 148 162H120C112.268 162 106 155.732 106 148V120C106 112.268 112.268 106 120 106H148ZM214 106C221.732 106 228 112.268 228 120V148C228 155.732 221.732 162 214 162H186C178.268 162 172 155.732 172 148V120C172 112.268 178.268 106 186 106H214ZM280 106C287.732 106 294 112.268 294 120V148C294 155.732 287.732 162 280 162H252C244.268 162 238 155.732 238 148V120C238 112.268 244.268 106 252 106H280ZM346 106C353.732 106 360 112.268 360 120V148C360 155.732 353.732 162 346 162H318C310.268 162 304 155.732 304 148V120C304 112.268 310.268 106 318 106H346ZM82 40C89.732 40 96 46.268 96 54V82C96 89.732 89.732 96 82 96H54C46.268 96 40 89.732 40 82V54C40 46.268 46.268 40 54 40H82ZM148 40C155.732 40 162 46.268 162 54V82C162 89.732 155.732 96 148 96H120C112.268 96 106 89.732 106 82V54C106 46.268 112.268 40 120 40H148ZM214 40C221.732 40 228 46.268 228 54V82C228 89.732 221.732 96 214 96H186C178.268 96 172 89.732 172 82V54C172 46.268 178.268 40 186 40H214ZM280 40C287.732 40 294 46.268 294 54V82C294 89.732 287.732 96 280 96H252C244.268 96 238 89.732 238 82V54C238 46.268 244.268 40 252 40H280ZM346 40C353.732 40 360 46.268 360 54V82C360 89.732 353.732 96 346 96H318C310.268 96 304 89.732 304 82V54C304 46.268 310.268 40 318 40H346Z" fill="white"/>
+          <path d="M82 304C89.732 304 96 310.268 96 318V346C96 353.732 89.732 360 82 360H54C46.268 360 40 353.732 40 346V318C40 310.268 46.268 304 54 304H82ZM148 304C155.732 304 162 310.268 162 318V346C162 353.732 155.732 360 148 360H120C112.268 360 106 353.732 106 346V318C106 310.268 112.268 304 120 304H148ZM214 304C221.732 304 228 310.268 228 318V346C228 353.732 221.732 360 214 360H186C178.268 360 172 353.732 172 346V318C172 310.268 178.268 304 186 304H214ZM280 304C287.732 304 294 310.268 294 318V346C294 353.732 287.732 360 280 360H252C244.268 360 238 353.732 238 346V318C238 310.268 244.268 304 252 304H280ZM346 304C353.732 304 360 310.268 360 318V346C360 353.732 353.732 360 346 360H318C310.268 360 304 353.732 304 346V318C304 310.268 310.268 304 318 304H346ZM82 238C89.732 238 96 244.268 96 252V280C96 287.732 89.732 294 82 294H54C46.268 294 40 287.732 40 280V252C40 244.268 46.268 238 54 238H82ZM148 238C155.732 238 162 244.268 162 252V280C162 287.732 155.732 294 148 294H120C112.268 294 106 287.732 106 280V252C106 244.268 112.268 238 120 238H148ZM214 238C221.732 238 228 244.268 228 252V280C228 287.732 221.732 294 214 294H186C178.268 294 172 287.732 172 280V252C172 244.268 178.268 238 186 238H214ZM280 238C287.732 238 294 244.268 294 252V280C294 287.732 287.732 294 280 294H252C244.268 294 238 287.732 238 280V252C238 244.268 244.268 238 252 238H280ZM346 238C353.732 238 360 244.268 360 252V280C360 287.732 353.732 294 346 294H318C310.268 294 304 287.732 304 280V252C304 244.268 310.268 238 318 238H346ZM82 172C89.732 172 96 178.268 96 186V214C96 221.732 89.732 228 82 228H54C46.268 228 40 221.732 40 214V186C40 178.268 46.268 172 54 172H82ZM148 172C155.732 172 162 178.268 162 186V214C162 221.732 155.732 228 148 228H120C112.268 228 106 221.732 106 214V186C106 178.268 112.268 172 120 172H148ZM214 172C221.732 172 228 178.268 228 186V214C228 221.732 221.732 228 214 228H186C178.268 228 172 221.732 172 214V186C172 178.268 178.268 172 186 172H214ZM280 172C287.732 172 294 178.268 294 186V214C294 221.732 287.732 228 280 228H252C244.268 228 238 221.732 238 214V186C238 178.268 244.268 172 252 172H280ZM346 172C353.732 172 360 178.268 360 186V214C360 221.732 353.732 228 346 228H318C310.268 228 304 221.732 304 214V186C304 178.268 310.268 172 318 172H346ZM82 106C89.732 106 96 112.268 96 120V148C96 155.732 89.732 162 82 162H54C46.268 162 40 155.732 40 148V120C40 112.268 46.268 106 54 106H82ZM148 106C155.732 106 162 112.268 162 120V148C162 155.732 155.732 162 148 162H120C112.268 162 106 155.732 106 148V120C106 112.268 112.268 106 120 106H148ZM214 106C221.732 106 228 112.268 228 120V148C228 155.732 221.732 162 214 162H186C178.268 162 172 155.732 172 148V120C172 112.268 178.268 106 186 106H214ZM280 106C287.732 106 294 112.268 294 120V148C294 155.732 287.732 162 280 162H252C244.268 162 238 155.732 238 148V120C238 112.268 244.268 106 252 106H280ZM346 106C353.732 106 360 112.268 360 120V148C360 155.732 353.732 162 346 162H318C310.268 162 304 155.732 304 148V120C304 112.268 310.268 106 318 106H346ZM82 40C89.732 40 96 46.268 96 54V82C96 89.732 89.732 96 82 96H54C46.268 96 40 89.732 40 82V54C40 46.268 46.268 40 54 40H82ZM148 40C155.732 40 162 46.268 162 54V82C162 89.732 155.732 96 148 96H120C112.268 96 106 89.732 106 82V54C106 46.268 112.268 40 120 40H148ZM214 40C221.732 40 228 46.268 228 54V82C228 89.732 221.732 96 214 96H186C178.268 96 172 89.732 172 82V54C172 46.268 178.268 40 186 40H214ZM280 40C287.732 40 294 46.268 294 54V82C294 89.732 287.732 96 280 96H252C244.268 96 238 89.732 238 82V54C238 46.268 244.268 40 252 40H280ZM346 40C353.732 40 360 46.268 360 54V82C360 89.732 353.732 96 346 96H318C310.268 96 304 89.732 304 82V54C304 46.268 310.268 40 318 40H346Z" fill="url(#pattern1_629_1172)" fill-opacity="0.02"/>
+          </g>
+          <path d="M62.5 68.4L66 72L73.5 64" stroke="#78D990" stroke-width="1.8" stroke-linecap="square"/>
+          <path d="M62.5 134.4L66 138L73.5 130" stroke="#78D990" stroke-width="1.8" stroke-linecap="square"/>
+          <path d="M128.5 68.4L132 72L139.5 64" stroke="#78D990" stroke-width="1.8" stroke-linecap="square"/>
+          <path d="M128.5 134.4L132 138L139.5 130" stroke="#78D990" stroke-width="1.8" stroke-linecap="square"/>
+          <path d="M194.5 68.4L198 72L205.5 64" stroke="#78D990" stroke-width="1.8" stroke-linecap="square"/>
+          <path d="M260.5 68.4L264 72L271.5 64" stroke="#78D990" stroke-width="1.8" stroke-linecap="square"/>
+          <path d="M326.5 68.4L330 72L337.5 64" stroke="#78D990" stroke-width="1.8" stroke-linecap="square"/>
+          <path d="M266 141.5C261.858 141.5 258.5 138.142 258.5 134C258.5 129.858 261.858 126.5 266 126.5C270.142 126.5 273.5 129.858 273.5 134C273.5 138.142 270.142 141.5 266 141.5ZM266 140C269.314 140 272 137.314 272 134C272 130.686 269.314 128 266 128C262.686 128 260 130.686 260 134C260 137.314 262.686 140 266 140ZM265.25 136.25H266.75V137.75H265.25V136.25ZM265.25 130.25H266.75V134.75H265.25V130.25Z" fill="#F35901"/>
+          <path d="M134 273.5C129.858 273.5 126.5 270.142 126.5 266C126.5 261.858 129.858 258.5 134 258.5C138.142 258.5 141.5 261.858 141.5 266C141.5 270.142 138.142 273.5 134 273.5ZM134 272C137.314 272 140 269.314 140 266C140 262.686 137.314 260 134 260C130.686 260 128 262.686 128 266C128 269.314 130.686 272 134 272ZM133.25 268.25H134.75V269.75H133.25V268.25ZM133.25 262.25H134.75V266.75H133.25V262.25Z" fill="#F35901"/>
+          <g>
+          <rect x="196" y="130" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="196.25" y="130.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="196" y="196" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="196.25" y="196.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="130" y="196" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="130.25" y="196.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="64" y="196" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="64.25" y="196.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="64" y="262" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="64.25" y="262.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="64" y="328" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="64.25" y="328.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="130" y="328" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="130.25" y="328.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="262" y="196" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="262.25" y="196.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="328" y="196" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="328.25" y="196.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="328" y="130" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="328.25" y="130.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="196" y="262" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="196.25" y="262.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="262" y="262" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="262.25" y="262.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="328" y="262" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="328.25" y="262.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="328" y="328" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="328.25" y="328.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="196" y="328" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="196.25" y="328.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          </g>
+          <g>
+          <rect x="262" y="328" width="8" height="8" rx="2" fill="black" fill-opacity="0.06"/>
+          <rect x="262.25" y="328.25" width="7.5" height="7.5" rx="1.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
+          <defs>
+          <filter id="filter0_ii_629_1172" x="35" y="35" width="331" height="134" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+          <feOffset dy="2"/>
+          <feGaussianBlur stdDeviation="1"/>
+          <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+          <feBlend mode="normal" in2="shape" result="effect1_innerShadow_629_1172"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+          <feOffset/>
+          <feGaussianBlur stdDeviation="4.30483"/>
+          <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0"/>
+          <feBlend mode="normal" in2="effect1_innerShadow_629_1172" result="effect2_innerShadow_629_1172"/>
+          </filter>
+          <filter id="filter1_ii_629_1172" x="40" y="40" width="320" height="322" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+          <feOffset dy="2"/>
+          <feGaussianBlur stdDeviation="1"/>
+          <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+          <feBlend mode="normal" in2="shape" result="effect1_innerShadow_629_1172"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+          <feOffset/>
+          <feGaussianBlur stdDeviation="4.30483"/>
+          <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0"/>
+          <feBlend mode="normal" in2="effect1_innerShadow_629_1172" result="effect2_innerShadow_629_1172"/>
+          </filter>
+          <pattern id="pattern0_629_1172" patternUnits="userSpaceOnUse" patternTransform="matrix(3.58736 0 0 3.58736 198.706 99.2063)" preserveAspectRatio="none" viewBox="0 0 25 25" width="1" height="1">
+          <g id="pattern0_629_1172_inner">
+          <circle cx="12.5" cy="12.5" r="12.5" fill="black"/>
+          </g>
+          </pattern><pattern id="pattern1_629_1172" patternUnits="userSpaceOnUse" patternTransform="matrix(3.58736 0 0 3.58736 198.206 198.206)" preserveAspectRatio="none" viewBox="0 0 25 25" width="1" height="1">
+          <g id="pattern1_629_1172_inner">
+          <circle cx="12.5" cy="12.5" r="12.5" fill="black"/>
+          </g>
+          </pattern></defs>
+          </svg>
         </div>
         <p class="hiw-lead">
           In production in weeks. <span class="nl-dim">Tested on real data. Anything ambiguous escalates to a human.</span>
@@ -672,7 +770,7 @@ const cells = Array.from({ length: 25 }, (_, i) =>
     justify-content: center;
   }
 
-  /* ── 01/02/04: Figma-exported SVG assets, drawn edge-to-edge ───────────── */
+  /* ── Diagram cards: Figma-exported SVG assets, drawn edge-to-edge ──────── */
   .hiw-card--flush {
     padding: 0;
   }
@@ -680,60 +778,6 @@ const cells = Array.from({ length: 25 }, (_, i) =>
     display: block;
     width: 100%;
     height: 100%;
-  }
-
-  /* ── 03: ship grid ─────────────────────────────────────────────────────── */
-  .hiw-gridwrap {
-    --cell: 54px;
-    --cgap: 12px;
-    position: relative;
-  }
-  .hiw-grid {
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(5, var(--cell));
-    grid-auto-rows: var(--cell);
-    gap: var(--cgap);
-  }
-  /* Sky blue sampled from the Figma export; two same-color rects union
-     into the L-shaped backdrop without a seam. */
-  .hiw-grid-blue {
-    position: absolute;
-    top: -7px;
-    left: -7px;
-    background: #80c7ec;
-    border-radius: 16px;
-  }
-  .hiw-grid-blue--row {
-    width: calc(var(--cell) * 5 + var(--cgap) * 4 + 14px);
-    height: calc(var(--cell) + 14px);
-  }
-  .hiw-grid-blue--corner {
-    width: calc(var(--cell) * 2 + var(--cgap) + 14px);
-    height: calc(var(--cell) * 2 + var(--cgap) + 14px);
-  }
-  .hiw-cell {
-    display: grid;
-    place-items: center;
-    border-radius: 14px;
-    background:
-      radial-gradient(rgba(0, 0, 0, 0.025) 0.9px, transparent 0.9px) 0 0 / 5px 5px,
-      linear-gradient(180deg, #fdfdfd, #f6f6f6);
-    border: 1px solid #e9e9e9;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.9),
-      0 2px 3px rgba(0, 0, 0, 0.08);
-  }
-  .hiw-cell.is-check {
-    background: linear-gradient(180deg, #ffffff, #f8fbfd);
-    border-color: #e3eef6;
-  }
-  .hiw-cell-dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 2.5px;
-    background: #ececec;
-    box-shadow: inset 0 0 0 1px #e0e0e0;
   }
 
   /* ── Mobile: stack label / card / text ─────────────────────────────────── */
@@ -771,10 +815,6 @@ const cells = Array.from({ length: 25 }, (_, i) =>
     }
     .hiw-card--flush {
       padding: 0;
-    }
-    .hiw-gridwrap {
-      --cell: 42px;
-      --cgap: 9px;
     }
   }
 </style>
