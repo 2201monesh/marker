@@ -6,19 +6,18 @@ import DotArrow from "./DotArrow.astro";
 import MarkerMark from "./MarkerMark.astro";
 
 // Column cells and legal links mirror the main-page footer (src/components/
-// Footer.astro) — only destinations that actually exist.
+// Footer.astro) — only real destinations, no duplicates across the two rows.
+const MANAGE_COOKIES_ONCLICK =
+  "if(window.displayPreferenceModal){window.displayPreferenceModal();return false;}";
+
 const columns = [
-  { label: "About us", href: "/team", highlighted: true },
-  { label: "Book a call", href: "https://info.onmarker.com/book-a-demo", highlighted: false },
-  { label: "Trust Center", href: "https://trust.onmarker.com/", highlighted: false },
-  { label: "Contact", href: "mailto:founders@onmarker.com", highlighted: false },
+  { label: "Terms of Service", href: "/terms", highlighted: true },
+  { label: "Privacy Policy", href: "/privacy", highlighted: false },
+  { label: "Cookie Policy", href: "/cookies", highlighted: false },
+  { label: "Manage Cookies", href: "#", onclick: MANAGE_COOKIES_ONCLICK, highlighted: false },
 ];
 
 const legalLinks = [
-  { label: "Book a call", href: "https://info.onmarker.com/book-a-demo" },
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Cookie Policy", href: "/cookies" },
-  { label: "Terms of Service", href: "/terms" },
   { label: "Trust Center", href: "https://trust.onmarker.com/" },
   { label: "Do Not Sell My Personal Information", href: "/privacy#privacyrights" },
 ];
@@ -51,11 +50,12 @@ const year = new Date().getFullYear();
 <footer class="nl-footer nl-dots-lime" aria-label="Footer">
   <div class="nl-container">
     <div class="nl-footer-panel">
-      <nav class="nl-footer-cols" aria-label="Explore">
+      <nav class="nl-footer-cols" aria-label="Legal">
         {
-          columns.map(({ label, href, highlighted }) => (
+          columns.map(({ label, href, onclick, highlighted }) => (
             <a
               href={href}
+              onclick={onclick}
               class:list={["nl-footer-cell", highlighted && "nl-footer-cell--hl"]}
             >
               {highlighted && (
@@ -76,12 +76,8 @@ const year = new Date().getFullYear();
           </span>
           <span class="nl-footer-wordmark" aria-hidden="true">Marker</span>
         </a>
-        <nav class="nl-footer-legal" aria-label="Legal and contact">
+        <nav class="nl-footer-legal" aria-label="Trust and privacy">
           {legalLinks.map(({ label, href }) => <a href={href}>{label}</a>)}
-          <a
-            href="#"
-            onclick="if(window.displayPreferenceModal){window.displayPreferenceModal();return false;}"
-          >Manage Cookies</a>
         </nav>
       </div>
 
@@ -224,11 +220,12 @@ const year = new Date().getFullYear();
   }
 
   .nl-footer-legal {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    row-gap: 24px;
-    column-gap: 16px;
+    display: flex;
+    flex-wrap: wrap;
     align-content: center;
+    align-items: center;
+    row-gap: 20px;
+    column-gap: 40px;
     padding: 32px 40px;
     border-left: 1px solid var(--nl-line);
   }
@@ -333,9 +330,7 @@ const year = new Date().getFullYear();
     .nl-footer-legal {
       border-left: 0;
       border-top: 1px solid var(--nl-line);
-      grid-template-columns: repeat(2, 1fr);
       padding: 28px 24px;
-      row-gap: 20px;
     }
     .nl-footer-strip {
       flex-direction: column;
