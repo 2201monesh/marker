@@ -1,0 +1,54 @@
+---
+// Full-width lime CTA band between the proof and how-it-works sections.
+// Refs: slices/slice_0.png, slices/slice_5.png (top), slices/z_banner_btn.png
+import CtaButton from "./CtaButton.astro";
+---
+<section class="nl-banner-section" aria-label="Book a call">
+  <div class="nl-container">
+    <div class="nl-banner nl-dots-lime">
+      <p class="nl-banner-text">
+        Nobody hires us for one agent. We stay embedded, and the list grows faster every time.
+      </p>
+      <CtaButton label="Book a call" href="https://info.onmarker.com/book-a-demo" class="nl-banner-cta" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .nl-banner-section {
+    background: var(--nl-bg);
+    padding-block: 28px;
+  }
+
+  .nl-banner {
+    background: var(--nl-lime);
+    border-radius: 24px;
+    padding: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  .nl-banner-text {
+    font-size: 1.5rem;
+    line-height: 1.35;
+    font-weight: 500;
+    color: #1a1a1a;
+    max-width: 640px;
+    margin: 0;
+  }
+
+  @media (max-width: 767px) {
+    .nl-banner {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 32px 24px;
+      gap: 24px;
+    }
+    .nl-banner-text {
+      font-size: 1.25rem;
+    }
+  }
+</style>

@@ -1,0 +1,485 @@
+---
+// Section 7 — "How Marker works": four numbered process rows, each with a
+// recreated graphic card (molecules / ranked pills / ship grid / bars).
+import Eyebrow from "./Eyebrow.astro";
+
+// 01 UNDERSTAND — three tri-lobe molecule blobs rotated 0/120/240 around center
+const blobs = [
+  { x: 170, y: 80, r: 0 },
+  { x: 90, y: 216, r: 120 },
+  { x: 250, y: 216, r: 240 },
+];
+const lobes: [number, number][] = [
+  [0, 44],
+  [-40, -24],
+  [40, -24],
+];
+const ringDots: [number, number][] = [
+  [100, 52],
+  [240, 52],
+  [39, 172],
+  [301, 172],
+  [105, 288],
+  [236, 288],
+];
+
+// 02 FIND — ranked opportunity pill rows
+const ranks = [
+  {
+    label: "Growth",
+    score: 91,
+    bg: "#DCEFD4",
+    fg: "#4C8B3F",
+    glyph:
+      '<rect x="2.4" y="7.2" width="2.5" height="4.6" rx="1"/><rect x="5.8" y="4.2" width="2.5" height="7.6" rx="1"/><rect x="9.2" y="6" width="2.5" height="5.8" rx="1"/>',
+  },
+  {
+    label: "Opportunity",
+    score: 87,
+    bg: "#FBE3CE",
+    fg: "#DD7328",
+    glyph:
+      '<circle cx="7" cy="7" r="4.3" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="7" cy="7" r="1.7"/><path d="M7 .9v2.2M7 10.9v2.2M.9 7h2.2M10.9 7h2.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/>',
+  },
+  {
+    label: "Capacity",
+    score: 76,
+    bg: "#E9DFF5",
+    fg: "#8B6BB8",
+    glyph:
+      '<circle cx="7" cy="7" r="5.3" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="7" cy="7" r="1.4"/><path d="M7.9 6.1 10 3.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>',
+  },
+  {
+    label: "Speed",
+    score: 64,
+    bg: "#F1EFA9",
+    fg: "#8F8A1B",
+    glyph: '<path d="M7.9 1 3.2 7.7h3L5.6 13l4.9-6.9H7.6L7.9 1Z"/>',
+  },
+  {
+    label: "Cost",
+    score: 42,
+    bg: "#F5D9BE",
+    fg: "#B96F35",
+    glyph:
+      '<circle cx="7" cy="7" r="5.3" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M7 3.4v7.2M8.9 5.2c-.4-.7-2.9-1-3.3.3-.5 1.6 3.3 1.2 2.9 2.9-.3 1.3-2.7 1.1-3.3.2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>',
+  },
+];
+
+// 03 BUILD & SHIP — 5×5 tile grid: 7 shipped (checks), 2 escalations, rest idle
+const cells = Array.from({ length: 25 }, (_, i) =>
+  i < 7 ? "check" : i === 8 || i === 16 ? "alert" : "dot"
+);
+
+// 04 COMPOUND — descending rounded bars (% of the track height), last one green
+const bars = [94, 74, 58, 46, 37];
+---
+
+<section id="how-it-works" class="hiw" aria-labelledby="hiw-title">
+  <div class="nl-container">
+    <div class="hiw-head">
+      <Eyebrow label="WHAT WE DO" theme="light" />
+      <h2 id="hiw-title" class="nl-display nl-h2">
+        How <span class="nl-hl">Marker</span> works
+      </h2>
+    </div>
+
+    <ol class="hiw-rows">
+      <!-- 01 UNDERSTAND -->
+      <li class="hiw-row">
+        <h3 class="nl-label hiw-num">01 UNDERSTAND</h3>
+        <div class="nl-card hiw-card" aria-hidden="true">
+          <svg class="hiw-molecule" viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="hiw-ht" width="7" height="7" patternUnits="userSpaceOnUse">
+                <circle cx="1.2" cy="1.2" r="1" fill="rgba(0,0,0,0.055)"></circle>
+              </pattern>
+            </defs>
+            <circle cx="170" cy="170" r="150" class="hiw-orbit"></circle>
+            <circle cx="170" cy="170" r="96" class="hiw-orbit"></circle>
+            {blobs.map((b) => (
+              <g class="hiw-blob" transform={`translate(${b.x} ${b.y}) rotate(${b.r})`}>
+                {lobes.map(([lx, ly]) => (
+                  <line x1="0" y1="0" x2={lx} y2={ly} stroke="#E3E3E3" stroke-width="34" stroke-linecap="round" />
+                ))}
+                {lobes.map(([lx, ly]) => (
+                  <circle cx={lx} cy={ly} r="23" fill="#E3E3E3" />
+                ))}
+                <circle r="20" fill="#E3E3E3"></circle>
+                {lobes.map(([lx, ly]) => (
+                  <line x1="0" y1="0" x2={lx} y2={ly} stroke="url(#hiw-ht)" stroke-width="34" stroke-linecap="round" />
+                ))}
+                {lobes.map(([lx, ly]) => (
+                  <circle cx={lx} cy={ly} r="23" fill="url(#hiw-ht)" />
+                ))}
+                <circle r="20" fill="url(#hiw-ht)"></circle>
+              </g>
+            ))}
+            <g class="hiw-blob">
+              <circle cx="170" cy="172" r="18" fill="#E3E3E3"></circle>
+              <circle cx="170" cy="172" r="18" fill="url(#hiw-ht)"></circle>
+            </g>
+            <circle cx="210" cy="56" r="23" fill="#7ACC7A"></circle>
+            <circle cx="91" cy="263" r="28" class="hiw-focus-ring"></circle>
+            {ringDots.map(([dx, dy]) => (
+              <circle cx={dx} cy={dy} r="5.5" fill="#3C3C3C" />
+            ))}
+          </svg>
+        </div>
+        <p class="hiw-lead">
+          We embed with your teams, <span class="nl-dim">listen closely, and map how the work actually happens: the parts that live in people's heads.</span>
+        </p>
+      </li>
+
+      <!-- 02 FIND -->
+      <li class="hiw-row">
+        <h3 class="nl-label hiw-num">02 FIND</h3>
+        <div class="nl-card hiw-card" aria-hidden="true">
+          <div class="hiw-ranks">
+            {ranks.map((r) => (
+              <div class="hiw-rank">
+                <span class="hiw-rank-left">
+                  <span class="hiw-rank-icon" style={`background:${r.bg}; color:${r.fg}`}>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg" set:html={r.glyph} />
+                  </span>
+                  <span class="hiw-rank-label">{r.label}</span>
+                </span>
+                <span class="hiw-score">{r.score}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <p class="hiw-lead">
+          We put a number on every opportunity, <span class="nl-dim">cost, capacity, speed, or growth. Then we rank the list with you.</span>
+        </p>
+      </li>
+
+      <!-- 03 BUILD & SHIP -->
+      <li class="hiw-row">
+        <h3 class="nl-label hiw-num">03 BUILD &amp; SHIP:</h3>
+        <div class="nl-card hiw-card" aria-hidden="true">
+          <div class="hiw-gridwrap">
+            <div class="hiw-grid-blue hiw-grid-blue--row"></div>
+            <div class="hiw-grid-blue hiw-grid-blue--corner"></div>
+            <div class="hiw-grid">
+              {cells.map((kind) => (
+                <div class:list={["hiw-cell", kind === "check" && "is-check"]}>
+                  {kind === "check" ? (
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4.2 9.6 7.4 12.6 13.8 5.2" stroke="#56BE63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  ) : kind === "alert" ? (
+                    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="8.5" cy="8.5" r="6.6" stroke="#F35901" stroke-width="1.5" />
+                      <path d="M8.5 5v4" stroke="#F35901" stroke-width="1.6" stroke-linecap="round" />
+                      <circle cx="8.5" cy="11.6" r="1" fill="#F35901" />
+                    </svg>
+                  ) : (
+                    <span class="hiw-cell-dot"></span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <p class="hiw-lead">
+          In production in weeks. <span class="nl-dim">Tested on real data. Anything ambiguous escalates to a human.</span>
+        </p>
+      </li>
+
+      <!-- 04 COMPOUND -->
+      <li class="hiw-row">
+        <h3 class="nl-label hiw-num">04 COMPOUND</h3>
+        <div class="nl-card hiw-card" aria-hidden="true">
+          <div class="hiw-bars">
+            {bars.map((h, i) => (
+              <div
+                class:list={["hiw-bar", i === bars.length - 1 && "hiw-bar--green"]}
+                style={`height:${h}%`}
+              />
+            ))}
+          </div>
+        </div>
+        <p class="hiw-lead">
+          Each system ships faster <span class="nl-dim">than the last, until the transformation is complete.</span>
+        </p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<style>
+  .hiw {
+    background: var(--nl-bg);
+    padding-block: 96px;
+  }
+
+  /* Centered header */
+  .hiw-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+    text-align: center;
+  }
+
+  /* Rows: 1fr | 400px card (page-centered) | 1fr */
+  .hiw-rows {
+    list-style: none;
+    margin: 60px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 96px;
+  }
+  .hiw-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 400px) minmax(0, 1fr);
+    column-gap: 40px;
+    align-items: start;
+  }
+  .hiw-num {
+    margin: 0;
+    padding-top: 8px;
+    color: #8a8a8a;
+  }
+  .hiw-lead {
+    margin: 0;
+    padding-left: 40px;
+    font-size: 24px;
+    line-height: 1.32;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--nl-heading);
+  }
+
+  /* Graphic card */
+  .hiw-card {
+    border-radius: 20px;
+    width: min(400px, 100%);
+    height: 400px;
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── 01: molecules ─────────────────────────────────────────────────────── */
+  .hiw-molecule {
+    display: block;
+    width: 100%;
+    max-width: 336px;
+    height: auto;
+  }
+  .hiw-orbit {
+    fill: none;
+    stroke: #e4e4e4;
+    stroke-width: 1.4;
+    stroke-dasharray: 2 5;
+  }
+  .hiw-blob {
+    filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.07));
+  }
+  .hiw-focus-ring {
+    fill: none;
+    stroke: #cfcfcf;
+    stroke-width: 1.4;
+    stroke-dasharray: 3 4;
+  }
+
+  /* ── 02: ranked pill rows ──────────────────────────────────────────────── */
+  .hiw-ranks {
+    position: relative;
+    width: 100%;
+    max-width: 306px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+  .hiw-ranks::before {
+    content: "";
+    position: absolute;
+    left: -13px;
+    top: 24px;
+    bottom: 24px;
+    border-left: 2px dotted #d9d9d9;
+  }
+  .hiw-rank {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border: 1px solid #ececec;
+    border-radius: 999px;
+    padding: 10px 18px;
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.05),
+      0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+  .hiw-rank-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hiw-rank-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+    flex: none;
+  }
+  .hiw-rank-label {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333333;
+  }
+  .hiw-score {
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+    color: #9e9e9e;
+  }
+  .hiw-rank:nth-child(1) .hiw-score,
+  .hiw-rank:nth-child(2) .hiw-score {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+  .hiw-rank:nth-child(3) .hiw-score {
+    color: #7e7e7e;
+    font-weight: 500;
+  }
+  .hiw-rank:nth-child(5) .hiw-score {
+    color: #bcbcbc;
+  }
+
+  /* ── 03: ship grid ─────────────────────────────────────────────────────── */
+  .hiw-gridwrap {
+    --cell: 54px;
+    --cgap: 12px;
+    position: relative;
+  }
+  .hiw-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, var(--cell));
+    grid-auto-rows: var(--cell);
+    gap: var(--cgap);
+  }
+  /* Solid equivalent of #7CC4F0 @ 55% over white; two same-color rects union
+     into the L-shaped backdrop without a seam. */
+  .hiw-grid-blue {
+    position: absolute;
+    top: -7px;
+    left: -7px;
+    background: #b7dff7;
+    border-radius: 16px;
+  }
+  .hiw-grid-blue--row {
+    width: calc(var(--cell) * 5 + var(--cgap) * 4 + 14px);
+    height: calc(var(--cell) + 14px);
+  }
+  .hiw-grid-blue--corner {
+    width: calc(var(--cell) * 2 + var(--cgap) + 14px);
+    height: calc(var(--cell) * 2 + var(--cgap) + 14px);
+  }
+  .hiw-cell {
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fcfcfc, #f1f1f1);
+    border: 1px solid #e4e4e4;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  .hiw-cell.is-check {
+    background: linear-gradient(180deg, #ffffff, #f4fafe);
+    border-color: #d8ecf8;
+  }
+  .hiw-cell-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: #cdcdcd;
+  }
+
+  /* ── 04: compounding bars ──────────────────────────────────────────────── */
+  .hiw-bars {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 20px;
+    background-image: radial-gradient(#e0e0e0 1px, transparent 1.4px);
+    background-size: 21px 8px;
+    background-position: center top;
+  }
+  .hiw-bar {
+    position: relative;
+    width: 44px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #fcfcfc, #f2f2f2);
+    border: 1px solid #e7e7e7;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+  .hiw-bar--green {
+    background: linear-gradient(180deg, #83d383, #74c874);
+    border-color: #67b967;
+  }
+  .hiw-bar--green::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 3px;
+    border-radius: 2px;
+    background: #1a1a1a;
+  }
+
+  /* ── Mobile: stack label / card / text ─────────────────────────────────── */
+  @media (max-width: 1023px) {
+    .hiw {
+      padding-block: 72px;
+    }
+    .hiw-rows {
+      gap: 64px;
+      margin-top: 48px;
+    }
+    .hiw-row {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 20px;
+    }
+    .hiw-card {
+      justify-self: center;
+    }
+    .hiw-num {
+      padding-top: 0;
+    }
+    .hiw-lead {
+      padding-left: 0;
+      font-size: 20px;
+      max-width: 480px;
+      justify-self: center;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 460px) {
+    .hiw-card {
+      height: 360px;
+      padding: 24px;
+    }
+    .hiw-gridwrap {
+      --cell: 42px;
+      --cgap: 9px;
+    }
+    .hiw-bars {
+      gap: 14px;
+    }
+    .hiw-bar {
+      width: 34px;
+    }
+  }
+</style>

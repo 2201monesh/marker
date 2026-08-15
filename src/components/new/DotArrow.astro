@@ -1,0 +1,33 @@
+---
+// Dot-matrix arrow icon (halftone style, as in the design's stat and CTA cards).
+// dir: "ne" points up-right, "se" points down-right.
+interface Props {
+  dir?: "ne" | "se";
+  class?: string;
+  size?: number;
+}
+const { dir = "ne", class: className = "", size = 20 } = Astro.props;
+// 5x5 grid; arrow pointing up-right: head hugs the top-right corner,
+// shaft runs down the diagonal to bottom-left.
+const cells = [
+  [1, 0], [2, 0], [3, 0], [4, 0],
+  [4, 1], [4, 2], [4, 3],
+  [3, 1], [2, 2], [1, 3], [0, 4],
+];
+const u = 4; // grid unit
+const r = 1.15; // dot radius
+---
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 20 20"
+  fill="currentColor"
+  xmlns="http://www.w3.org/2000/svg"
+  class={className}
+  style={dir === "se" ? "transform: rotate(90deg)" : undefined}
+  aria-hidden="true"
+>
+  {cells.map(([cx, cy]) => (
+    <circle cx={cx * u + 2} cy={cy * u + 2} r={r} />
+  ))}
+</svg>

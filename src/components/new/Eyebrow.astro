@@ -1,0 +1,18 @@
+---
+// Section eyebrow: round icon chip + bordered pill label.
+interface Props {
+  label: string;
+  theme?: "light" | "dark";
+  class?: string;
+}
+const { label, theme = "light", class: className = "" } = Astro.props;
+---
+<div class:list={["nl-eyebrow", theme === "dark" && "nl-eyebrow--dark", className]}>
+  <span class="nl-eyebrow-chip" aria-hidden="true">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="7" y="1.6" width="7.64" height="7.64" transform="rotate(45 7 1.6)" stroke="currentColor" stroke-width="1.1" />
+      <rect x="7" y="5.1" width="2.69" height="2.69" transform="rotate(45 7 5.1)" fill="currentColor" />
+    </svg>
+  </span>
+  <span class="nl-eyebrow-pill nl-label">{label}</span>
+</div>

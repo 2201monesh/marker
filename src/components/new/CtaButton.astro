@@ -1,0 +1,25 @@
+---
+// CTA button. "dark" = black label block with slanted notch + arrow chip;
+// "outline" = white bordered button.
+interface Props {
+  label: string;
+  href: string;
+  variant?: "dark" | "outline";
+  class?: string;
+}
+const { label, href, variant = "dark", class: className = "" } = Astro.props;
+---
+{
+  variant === "outline" ? (
+    <a href={href} class:list={["nl-btn nl-btn-outline", className]}>{label}</a>
+  ) : (
+    <a href={href} class:list={["nl-btn nl-btn-dark", className]}>
+      <span class="nl-btn-dark-label">{label}</span>
+      <span class="nl-btn-dark-chip" aria-hidden="true">
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.5 8.5h11.2m0 0L9.4 4.2m4.3 4.3l-4.3 4.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+    </a>
+  )
+}
