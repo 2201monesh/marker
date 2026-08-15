@@ -24,7 +24,7 @@ const { metaTitle, description, titlePre, titleHl } = Astro.props;
   <link
     slot="head"
     rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Stack+Sans+Headline:wght@400&display=swap"
   />
   <div class="nl-page nll">
     <main id="main-content">
@@ -133,23 +133,24 @@ const { metaTitle, description, titlePre, titleHl } = Astro.props;
     font-weight: 600 !important;
     letter-spacing: 0.08em !important;
     text-transform: uppercase !important;
-    color: #8a8a8a !important;
+    color: #6b6b6b !important;
   }
   .nll-content :global([data-custom-class="heading_1"]),
   .nll-content :global([data-custom-class="heading_1"] *) {
-    font-family: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif !important;
+    font-family: "Stack Sans Headline", "Inter", ui-sans-serif, system-ui, sans-serif !important;
     font-size: 24px !important;
-    font-weight: 600 !important;
-    letter-spacing: -0.02em !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.04em !important;
     line-height: 1.2 !important;
     color: var(--nl-heading) !important;
   }
   .nll-content :global([data-custom-class="heading_2"]),
   .nll-content :global([data-custom-class="heading_2"] *) {
-    font-family: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif !important;
+    font-family: "Stack Sans Headline", "Inter", ui-sans-serif, system-ui, sans-serif !important;
     font-size: 18px !important;
-    font-weight: 600 !important;
-    letter-spacing: -0.01em !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.04em !important;
+    line-height: 1.2 !important;
     color: var(--nl-heading) !important;
   }
   .nll-content :global([data-custom-class="body_text"]),
@@ -170,7 +171,9 @@ const { metaTitle, description, titlePre, titleHl } = Astro.props;
   .nll-content :global(a *),
   .nll-content :global([data-custom-class="link"]),
   .nll-content :global([data-custom-class="link"] *) {
-    color: var(--nl-orange) !important;
+    /* Darker take on --nl-orange: brand #F35901 is 3.1:1 on this bg,
+       below the 4.5:1 WCAG AA minimum for body-size text */
+    color: #c24601 !important;
     text-decoration: underline !important;
     word-break: break-word !important;
   }
