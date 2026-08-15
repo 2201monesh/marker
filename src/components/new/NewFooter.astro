@@ -5,30 +5,57 @@
 import DotArrow from "./DotArrow.astro";
 import MarkerMark from "./MarkerMark.astro";
 
+// Column cells and legal links mirror the main-page footer (src/components/
+// Footer.astro) — only real destinations, no duplicates across the two rows.
+const MANAGE_COOKIES_ONCLICK =
+  "if(window.displayPreferenceModal){window.displayPreferenceModal();return false;}";
+
 const columns = [
-  { label: "About us", href: "/team", highlighted: true },
-  { label: "Features", href: "/", highlighted: false },
-  { label: "Articles", href: "/", highlighted: false },
-  { label: "Contact", href: "mailto:founders@onmarker.com", highlighted: false },
+  { label: "Terms of Service", href: "/new/terms", highlighted: true },
+  { label: "Privacy Policy", href: "/new/privacy", highlighted: false },
+  { label: "Cookie Policy", href: "/new/cookies", highlighted: false },
+  { label: "Trust Center", href: "https://trust.onmarker.com/", highlighted: false },
 ];
 
 const legalLinks = [
-  { label: "Book a call", href: "https://info.onmarker.com/book-a-demo" },
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Cookie Policy", href: "/cookies" },
-  { label: "Terms of Service", href: "/terms" },
-  { label: "Trust Center", href: "https://trust.onmarker.com/" },
+  { label: "Manage Cookies", href: "#", onclick: MANAGE_COOKIES_ONCLICK },
+  { label: "Do Not Sell My Personal Information", href: "/new/privacy#privacyrights" },
 ];
+
+// Social profiles — same targets and icons as the main-page footer.
+const socials = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/112296703/",
+    viewBox: "0 0 24 24",
+    path: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/channel/UCfTEGXwS-TNobRvV1sT603A",
+    viewBox: "0 0 24 24",
+    path: "M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z",
+  },
+  {
+    label: "X",
+    href: "https://x.com/markerhq",
+    viewBox: "0 0 24 24",
+    path: "M18.901 1.153h3.68l-8.04 9.19L24 22.847h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.153h7.594l5.243 6.932zm-1.29 19.494h2.039L6.486 3.238H4.298z",
+  },
+];
+
+const year = new Date().getFullYear();
 ---
 
 <footer class="nl-footer nl-dots-lime" aria-label="Footer">
   <div class="nl-container">
     <div class="nl-footer-panel">
-      <nav class="nl-footer-cols" aria-label="Explore">
+      <nav class="nl-footer-cols" aria-label="Legal">
         {
-          columns.map(({ label, href, highlighted }) => (
+          columns.map(({ label, href, onclick, highlighted }) => (
             <a
               href={href}
+              onclick={onclick}
               class:list={["nl-footer-cell", highlighted && "nl-footer-cell--hl"]}
             >
               {highlighted && (
@@ -49,13 +76,30 @@ const legalLinks = [
           </span>
           <span class="nl-footer-wordmark" aria-hidden="true">Marker</span>
         </a>
-        <nav class="nl-footer-legal" aria-label="Legal and contact">
-          {legalLinks.map(({ label, href }) => <a href={href}>{label}</a>)}
-          <a
-            href="#"
-            onclick="if(window.displayPreferenceModal){window.displayPreferenceModal();return false;}"
-          >Manage Cookies</a>
+        <nav class="nl-footer-legal" aria-label="Cookies and privacy">
+          {legalLinks.map(({ label, href, onclick }) => <a href={href} onclick={onclick}>{label}</a>)}
         </nav>
+      </div>
+
+      <div class="nl-footer-strip">
+        <nav class="nl-footer-social" aria-label="Social media">
+          {
+            socials.map(({ label, href, viewBox, path }) => (
+              <a href={href} target="_blank" rel="noreferrer" aria-label={label}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox={viewBox} fill="currentColor" width="18" height="18" aria-hidden="true">
+                  <path d={path} />
+                </svg>
+              </a>
+            ))
+          }
+        </nav>
+        <div class="nl-footer-fineprint">
+          <p>&copy; {year} Widari Inc. All rights reserved.</p>
+          <p>
+            We are committed to making this website accessible to all users. If you experience any
+            accessibility issues, please contact <a href="mailto:privacy@onmarker.com">privacy@onmarker.com</a>.
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -176,11 +220,12 @@ const legalLinks = [
   }
 
   .nl-footer-legal {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    row-gap: 24px;
-    column-gap: 16px;
+    display: flex;
+    flex-wrap: wrap;
     align-content: center;
+    align-items: center;
+    row-gap: 20px;
+    column-gap: 40px;
     padding: 32px 40px;
     border-left: 1px solid var(--nl-line);
   }
@@ -199,6 +244,66 @@ const legalLinks = [
     outline: 2px solid var(--nl-orange);
     outline-offset: 3px;
     border-radius: 4px;
+  }
+
+  /* ── Bottom strip: social buttons + fine print ──────────────────────── */
+  .nl-footer-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px 40px;
+    border-top: 1px solid var(--nl-line);
+  }
+
+  .nl-footer-social {
+    display: flex;
+    gap: 10px;
+    flex: none;
+  }
+  .nl-footer-social a {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    color: var(--nl-body);
+    transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+  }
+  .nl-footer-social a:hover {
+    background: var(--nl-ink);
+    border-color: var(--nl-ink);
+    color: var(--nl-white);
+  }
+  .nl-footer-social a:focus-visible {
+    outline: 2px solid var(--nl-orange);
+    outline-offset: 3px;
+  }
+
+  .nl-footer-fineprint {
+    text-align: right;
+  }
+  .nl-footer-fineprint p {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #8a8a8a;
+  }
+  .nl-footer-fineprint p + p {
+    margin-top: 4px;
+  }
+  .nl-footer-fineprint a {
+    color: #4a4a4a;
+    text-decoration: underline;
+  }
+  .nl-footer-fineprint a:hover {
+    color: var(--nl-ink);
+  }
+  .nl-footer-fineprint a:focus-visible {
+    outline: 2px solid var(--nl-orange);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
   /* ── Mobile stacking ────────────────────────────────────────────────── */
@@ -225,9 +330,15 @@ const legalLinks = [
     .nl-footer-legal {
       border-left: 0;
       border-top: 1px solid var(--nl-line);
-      grid-template-columns: repeat(2, 1fr);
       padding: 28px 24px;
-      row-gap: 20px;
+    }
+    .nl-footer-strip {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 24px;
+    }
+    .nl-footer-fineprint {
+      text-align: left;
     }
   }
 </style>
