@@ -82,6 +82,7 @@
   place-items: center;
   background: transparent;
   flex: none;
+  color: #525252; /* icon gray from the Figma export */
 }
 .nl-eyebrow-pill {
   border: 1px solid rgba(0, 0, 0, 0.22);
@@ -94,6 +95,7 @@
 .nl-eyebrow--dark { color: var(--nl-white); }
 .nl-eyebrow--dark .nl-eyebrow-chip,
 .nl-eyebrow--dark .nl-eyebrow-pill { border-color: rgba(255, 255, 255, 0.3); }
+.nl-eyebrow--dark .nl-eyebrow-chip { color: rgba(255, 255, 255, 0.8); }
 
 /* ─── Buttons ────────────────────────────────────────────────────────────── */
 .nl-btn {
