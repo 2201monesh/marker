@@ -40,7 +40,7 @@
   color: var(--nl-heading);
 }
 
-.nl-h1 { font-size: clamp(2.75rem, 5vw, 4.25rem); }
+.nl-h1 { font-size: clamp(2.75rem, 4vw, 3.5rem); }
 .nl-h2 { font-size: clamp(2.25rem, 4.2vw, 3.5rem); }
 .nl-h3 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); }
 
