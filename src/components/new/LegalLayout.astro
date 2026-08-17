@@ -1,5 +1,5 @@
 ---
-// Shell for the /new legal pages: ink frame + logo tab (as on the landing
+// Shell for the legal pages: ink frame + logo tab (as on the landing
 // hero), display heading with lime highlight, restyled Termly content slot,
 // and the /new footer. Content components carry inline Termly styles, so the
 // overrides below use !important to win over them.
@@ -18,7 +18,7 @@ interface Props {
 const { metaTitle, description, titlePre, titleHl } = Astro.props;
 ---
 
-<Layout title={metaTitle} description={description} noindex={true} favicon="/favicon-new">
+<Layout title={metaTitle} description={description} favicon="/favicon-new">
   <link slot="head" rel="preconnect" href="https://fonts.googleapis.com" />
   <link slot="head" rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -29,7 +29,7 @@ const { metaTitle, description, titlePre, titleHl } = Astro.props;
   <div class="nl-page nll">
     <main id="main-content">
       <section class="nll-frame">
-        <a href="/new" class="nll-tab" aria-label="Marker — back to landing page">
+        <a href="/" class="nll-tab" aria-label="Marker — back to landing page">
           <MarkerMark class="nll-tab-mark" title="Marker" />
         </a>
         <span class="nll-tab-corner nll-tab-corner--right" aria-hidden="true"></span>

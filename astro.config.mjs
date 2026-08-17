@@ -10,5 +10,13 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [react()]
+  integrations: [react()],
+
+  // The new landing site moved from /new to the root; keep old links working.
+  redirects: {
+    '/new': '/',
+    '/new/terms': '/terms',
+    '/new/privacy': '/privacy',
+    '/new/cookies': '/cookies',
+  },
 });
