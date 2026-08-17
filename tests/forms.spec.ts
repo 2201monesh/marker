@@ -14,7 +14,9 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("newsletter signup shows a success message", async ({ page }) => {
-  await page.goto("/");
+  // The newsletter form lives on the archived old home page (/old); the
+  // launched landing page at / has no newsletter form.
+  await page.goto("/old/");
 
   const emailInput = page.getByPlaceholder("you@company.com");
   const subscribeButton = page.getByRole("button", { name: "Subscribe" });

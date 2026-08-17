@@ -1,45 +1,41 @@
 ---
-import MarketingLayout from "../layouts/MarketingLayout.astro";
-import Navbar from "../components/Navbar.astro";
-import Hero from "../components/Hero.astro";
-import Credibility from "../components/Credibility.astro";
-import Stakes from "../components/Stakes.astro";
-import WhatWeDo from "../components/WhatWeDo.astro";
-import HowItRuns from "../components/HowItRuns.astro";
-import EndState from "../components/EndState.astro";
-import FinalCTA from "../components/FinalCTA.astro";
-import GrainLayer from "../components/GrainLayer.astro";
-import NewsletterForm from "../components/NewsletterForm";
-import Footer from "../components/Footer.astro";
+import Layout from "../layouts/Layout.astro";
+import "../styles/new-landing.css";
+import NewHero from "../components/new/NewHero.astro";
+import NewProblem from "../components/new/NewProblem.astro";
+import NewAlternatives from "../components/new/NewAlternatives.astro";
+import NewSolution from "../components/new/NewSolution.astro";
+import NewProof from "../components/new/NewProof.astro";
+import NewBanner from "../components/new/NewBanner.astro";
+import NewHowItWorks from "../components/new/NewHowItWorks.astro";
+import NewFounders from "../components/new/NewFounders.astro";
+import NewClosing from "../components/new/NewClosing.astro";
+import NewFooter from "../components/new/NewFooter.astro";
 ---
 
-<MarketingLayout title="Marker - We make enterprises AI-native">
-  <Navbar ctaLabel="Book a call" />
-  <main id="main-content">
-    <div class="relative">
-      <GrainLayer />
-      <Hero />
-    </div>
-    <Credibility />
-    <div class="relative">
-      <GrainLayer />
-      <Stakes />
-    </div>
-    <WhatWeDo />
-    <div class="relative">
-      <GrainLayer />
-      <HowItRuns />
-    </div>
-    <EndState />
-    <FinalCTA />
-    <div class="relative">
-      <GrainLayer />
-      <NewsletterForm client:load />
-    </div>
-  </main>
-  <div class="relative">
-    <GrainLayer />
-    <Footer />
+<Layout
+  title="Marker — the AI-native consultancy rebuilding businesses with AI agents"
+  favicon="/favicon-new"
+>
+  <link slot="head" rel="preconnect" href="https://fonts.googleapis.com" />
+  <link slot="head" rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    slot="head"
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Stack+Sans+Headline:wght@400&display=swap"
+  />
+  <div class="nl-page">
+    <main id="main-content">
+      <NewHero />
+      <NewProblem />
+      <NewAlternatives />
+      <NewSolution />
+      <NewProof />
+      <NewBanner />
+      <NewHowItWorks />
+      <NewFounders />
+      <NewClosing />
+    </main>
+    <NewFooter />
   </div>
-
-</MarketingLayout>
+</Layout>

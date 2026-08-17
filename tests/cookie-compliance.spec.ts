@@ -55,5 +55,7 @@ test("Termly consent script is present in page", async ({ page }) => {
 test("cookie policy page loads successfully", async ({ page }) => {
   const response = await page.goto("/cookies");
   expect(response?.status()).toBe(200);
-  await expect(page.locator("h1")).toBeVisible();
+  // The Termly content ships its own (CSS-hidden) inline <h1>, so query by
+  // role, which only matches visible headings.
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });

@@ -192,16 +192,31 @@ jobs:
           fi
       - name: Comment preview URL on PR
         if: steps.firebase_preview.outputs.preview_url
+        # The deploy already succeeded at this point; a failure to post the
+        # comment (e.g. a transient GitHub API outage) shouldn't fail the job.
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PREVIEW_URL: ${{ steps.firebase_preview.outputs.preview_url }}
         run: |
           comment_body="🔗 **Preview:** $PREVIEW_URL"
-          # Look for an existing preview comment to update
-          existing_comment_id=$(gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" --jq '.[] | select(.body | startswith("🔗 **Preview:**")) | .id' | head -n 1)
-          if [ -n "$existing_comment_id" ]; then
-            gh api "repos/${{ github.repository }}/issues/comments/${existing_comment_id}" -X PATCH -f body="$comment_body"
-          else
-            gh pr comment "$PR_NUMBER" --body "$comment_body"
-          fi
+          post_comment() {
+            # Look for an existing preview comment to update
+            existing_comment_id=$(gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" --jq '.[] | select(.body | startswith("🔗 **Preview:**")) | .id' | head -n 1)
+            if [ -n "$existing_comment_id" ]; then
+              gh api "repos/${{ github.repository }}/issues/comments/${existing_comment_id}" -X PATCH -f body="$comment_body"
+            else
+              gh pr comment "$PR_NUMBER" --body "$comment_body"
+            fi
+          }
+          # Retry with backoff to ride out transient GitHub API errors
+          for attempt in 1 2 3 4 5; do
+            if post_comment; then
+              exit 0
+            fi
+            echo "Posting preview comment failed (attempt $attempt), retrying in $((attempt * 15))s..."
+            sleep $((attempt * 15))
+          done
+          echo "::warning::Could not post the preview URL comment after 5 attempts. Preview: $PREVIEW_URL"
+          exit 1
