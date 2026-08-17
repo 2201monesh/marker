@@ -89,7 +89,9 @@ test("Amplitude and HubSpot scripts load on the page", async ({ page }) => {
 test("newsletter form fires HubSpot submission and Amplitude identify", async ({
   page,
 }) => {
-  await page.goto("/");
+  // The newsletter form lives on the archived old home page (/old); the
+  // launched landing page at / has no newsletter form.
+  await page.goto("/old/");
 
   // Wait for Amplitude to initialize
   await page.waitForFunction(() => !!window.amplitude, { timeout: 15000 });
