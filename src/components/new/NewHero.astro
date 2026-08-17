@@ -258,7 +258,8 @@ const orangeSquares = [
       padding-top: 224px;
     }
     /* Canvas origin matches the design export: y0 = very top of the page
-       (12px above the panel), right edge = viewport edge. */
+       (12px above the panel). The diagram stays inside the container so it
+       remains grouped with the copy on wide viewports. */
     .nlh-diagram {
       display: block;
       position: relative;
@@ -266,7 +267,6 @@ const orangeSquares = [
       height: 720px;
       justify-self: end;
       margin-top: -12px;
-      margin-right: calc((min(1280px, 100vw - 48px) - 100vw) / 2);
     }
   }
 
