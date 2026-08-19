@@ -7,7 +7,7 @@ import CtaButton from "./CtaButton.astro";
   <div class="nl-container">
     <div class="nl-banner nl-dots-lime">
       <p class="nl-banner-text">
-        Nobody hires us for just one agent.<br />We stay embedded and build faster over time.
+        Nobody hires us for just one agent. We stay embedded, <br /> and the list grows faster every time.
       </p>
       <CtaButton label="Book a call" href="https://info.onmarker.com/book-a-call" class="nl-banner-cta" />
     </div>
@@ -17,13 +17,14 @@ import CtaButton from "./CtaButton.astro";
 <style>
   .nl-banner-section {
     background: var(--nl-bg);
-    padding-block: 28px;
+    padding-top: 20px;
+    padding-bottom: 28px;
   }
 
   .nl-banner {
     background: var(--nl-lime);
-    border-radius: 24px;
-    padding: 40px;
+    border-radius: 14px;
+    padding: 30px 40px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -32,12 +33,30 @@ import CtaButton from "./CtaButton.astro";
   }
 
   .nl-banner-text {
-    font-size: 1.5rem;
-    line-height: 1.35;
-    font-weight: 500;
+    font-family: "Stack Sans Headline", "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
     color: #1a1a1a;
     max-width: 640px;
     margin: 0;
+  }
+
+  .nl-banner :global(.nl-banner-cta .nl-btn-dark-label) {
+    padding: 13px 14px;
+    font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    border-radius: 6px;
+  }
+  .nl-banner :global(.nl-banner-cta .nl-btn-dark-chip) {
+    height: auto;
+    align-self: stretch;
+    border-radius: 6px;
   }
 
   @media (max-width: 767px) {

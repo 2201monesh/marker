@@ -36,7 +36,7 @@ const q2Dots = [
     <div class="nl-alt-head">
       <Eyebrow label="THE ALTERNATIVES" />
       <h2 id="nl-alt-heading" class="nl-display nl-h2 nl-alt-title">
-        The usual paths<br /><span class="nl-hl">don't realize</span>
+        The usual paths<br /><span class="nl-hl nl-alt-hl">don't ship</span>
       </h2>
     </div>
 
@@ -158,14 +158,36 @@ const q2Dots = [
 
   .nl-alt-head { align-self: start; }
 
-  .nl-alt-title { margin-top: 24px; }
+  .nl-alt-title {
+    margin-top: 24px;
+    font-family: "Stack Sans Headline", "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 54px;
+    letter-spacing: -0.04em;
+    color: #333333;
+  }
+  .nl-alt-title :global(.nl-alt-hl) {
+    border-radius: 8px;
+    padding-top: 0.01em;
+    padding-bottom: 0.01em;
+  }
 
   /* Content column starts lower so the heading overlaps the first card, as in the design */
   .nl-alt-content { margin-top: 148px; }
 
   .nl-alt-card {
     position: relative;
+    box-sizing: border-box;
+    height: 324px;
     padding: 28px;
+  }
+  .nl-alt-card--nothing {
+    padding: 44px 32px 48px;
+  }
+  .nl-alt-card--hire {
+    padding-top: 44px;
+    padding-left: 32px;
+    padding-right: 32px;
   }
   .nl-alt-card + .nl-alt-card { margin-top: 28px; }
 
@@ -209,8 +231,8 @@ const q2Dots = [
   }
   /* Tall right-side bars rise alongside the lead, as in the design */
   .nl-alt-chart--bars { margin-top: -28px; }
-  .nl-alt-chart--scatter { margin-top: 40px; }
-  .nl-alt-chart--steps { margin-top: 24px; }
+  .nl-alt-chart--scatter { margin-top: 12px; }
+  .nl-alt-chart--steps { margin-top: 16px; }
 
   .nl-alt-svg-label {
     font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -221,16 +243,17 @@ const q2Dots = [
   }
 
   .nl-alt-closing {
-    margin-top: 72px;
+    margin-top: 64px;
     font-family: "Stack Sans Headline", "Inter", ui-sans-serif, system-ui, sans-serif;
     font-weight: 400;
-    font-size: clamp(1.5rem, 2.4vw, 2.125rem);
-    line-height: 1.2;
-    letter-spacing: -0.04em;
+    font-size: 40px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    vertical-align: middle;
     color: var(--nl-heading);
   }
   /* The gray run keeps the display weight; only the color dims */
-  .nl-alt-closing :global(.nl-dim) { font-weight: inherit; }
+  .nl-alt-closing :global(.nl-dim) { font-weight: inherit; color: #b4b4b4; }
 
   @media (max-width: 1023px) {
     .nl-alt { padding-block: 64px; }

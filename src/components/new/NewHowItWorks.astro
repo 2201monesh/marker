@@ -17,7 +17,7 @@ import Eyebrow from "./Eyebrow.astro";
     <div class="hiw-head">
       <Eyebrow label="WHAT WE DO" theme="light" />
       <h2 id="hiw-title" class="nl-display nl-h2">
-        How <span class="nl-hl">Marker</span> works
+        How <span class="nl-hl hiw-title-hl">Marker</span> works
       </h2>
     </div>
 
@@ -329,7 +329,7 @@ import Eyebrow from "./Eyebrow.astro";
           </svg>
         </div>
         <p class="hiw-lead">
-          We evaluate and rate every opportunity, <span class="nl-dim">cost, capacity, speed, or growth. Then we rank the list with you.</span>
+          We put a number on every opportunity, <span class="nl-dim">cost, capacity, speed, or growth. Then we rank the list with you.</span>
         </p>
       </li>
 
@@ -728,11 +728,23 @@ import Eyebrow from "./Eyebrow.astro";
     gap: 26px;
     text-align: center;
   }
+  .hiw-head h2 {
+    font-family: "Stack Sans Headline", "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 60px;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    color: #000000;
+  }
+  .hiw-head :global(.hiw-title-hl) {
+    border-radius: 8px;
+    padding: 0.01em 0.08em;
+  }
 
   /* Rows: 1fr | 400px card (page-centered) | 1fr */
   .hiw-rows {
     list-style: none;
-    margin: 60px 0 0;
+    margin: 56px 0 0;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -747,15 +759,22 @@ import Eyebrow from "./Eyebrow.astro";
   .hiw-num {
     margin: 0;
     padding-top: 8px;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: #6f6f6f;
   }
   .hiw-lead {
     margin: 0;
     padding-left: 40px;
+    font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
     font-size: 24px;
-    line-height: 1.32;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: -0.02em;
     color: var(--nl-heading);
   }
 
