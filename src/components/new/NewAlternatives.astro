@@ -41,6 +41,10 @@ const q1Dots = [
 const q2Dots = [
   [252, 50], [420, 46], [364, 96], [232, 112],
 ];
+
+// Closing line: the dimmed run is split into words so each can be
+// progressively re-colored (staggered) as the reader scrolls past it.
+const closingDimWords = "company to Gap and founded their Office of AI. That expertise embeds with you on day one, and the first agents are live in weeks.".split(" ");
 ---
 <section class="nl-alt" aria-labelledby="nl-alt-heading">
   <div class="nl-container nl-alt-grid">
@@ -133,10 +137,46 @@ const q2Dots = [
       </article>
 
       <!-- Closing paragraph -->
-      <p class="nl-alt-closing"><span>We sold our last</span><span class="nl-dim"> company to Gap and founded their Office of AI. That expertise embeds with you on day one, and the first agents are live in weeks.</span></p>
+      <p class="nl-alt-closing" data-scroll-reveal><span>We sold our last</span> <span class="nl-alt-closing-dim">{closingDimWords.map((word) => (
+        <span class="nl-alt-closing-word">{word} </span>
+      ))}</span></p>
     </div>
   </div>
 </section>
+
+<script>
+  const el = document.querySelector<HTMLElement>("[data-scroll-reveal]");
+  if (el) {
+    const words = Array.from(el.querySelectorAll<HTMLElement>(".nl-alt-closing-word"));
+
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const rect = el.getBoundingClientRect();
+      const rangeStart = window.innerHeight * 0.9;
+      const rangeEnd = window.innerHeight * 0.4;
+      const progress = Math.min(
+        1,
+        Math.max(0, (rangeStart - rect.top) / (rangeStart - rangeEnd)),
+      );
+      const revealCount = Math.round(progress * words.length);
+      words.forEach((word, i) => {
+        word.classList.toggle("is-revealed", i < revealCount);
+      });
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+  }
+</script>
 
 <style define:vars={{
   altCard1Url: `url(${card1Img.src})`,
@@ -290,8 +330,14 @@ const q2Dots = [
     vertical-align: middle;
     color: var(--nl-heading);
   }
-  /* The gray run keeps the display weight; only the color dims */
-  .nl-alt-closing :global(.nl-dim) { font-weight: inherit; color: #b4b4b4; }
+  /* Dimmed run, split per-word so it can be revealed word-by-word on scroll */
+  .nl-alt-closing-word {
+    color: #b4b4b4;
+    transition: color 300ms ease;
+  }
+  .nl-alt-closing-word.is-revealed {
+    color: var(--nl-heading);
+  }
 
   @media (max-width: 1023px) {
     .nl-alt { padding-block: 64px; }
