@@ -1,0 +1,321 @@
+---
+// Reusable floating navbar — dark pill fixed to the top of the viewport.
+// Hidden on initial load; slides in smoothly once the page is scrolled past
+// SHOW_AFTER px, then stays put (fixed) across every section. Clicking the
+// menu button expands it into a full panel and morphs the hamburger into a
+// close (X) icon.
+import { Image, getImage } from "astro:assets";
+import CtaButton from "./CtaButton.astro";
+import markerLogo from "../../assets/landing/marker-logo.png";
+import arrowNavbarGrey from "../../assets/landing/arrow-navbar-grey.svg";
+import arrowNavbarYellow from "../../assets/landing/arrow-navbar-yellow.svg";
+import bookCallBtn3 from "../../assets/landing/book-call-btn-3.png";
+import bookCallBtn4 from "../../assets/landing/book-call-btn-4.png";
+
+const bookCallBtn3Img = await getImage({ src: bookCallBtn3, format: "png" });
+const bookCallBtn4Img = await getImage({ src: bookCallBtn4, format: "png" });
+
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+
+const BOOK_A_CALL = "https://info.onmarker.com/book-a-call";
+---
+<nav class:list={["nl-navbar", className]} aria-label="Primary">
+  <div class="nl-navbar-bar">
+    <a href="/" class="nl-navbar-brand" aria-label="Marker — home">
+      <Image src={markerLogo} alt="" class="nl-navbar-logo" width={62} height={31} />
+      <span class="nl-navbar-wordmark">Marker</span>
+    </a>
+
+    <button type="button" class="nl-navbar-menu" aria-label="Toggle menu" aria-expanded="false">
+      <span class="nl-navbar-menu-line"></span>
+      <span class="nl-navbar-menu-line"></span>
+    </button>
+  </div>
+
+  <div class="nl-navbar-panel">
+    <a href="#the-problem" class="nl-navbar-item">
+      <span class="nl-navbar-item-label">Problem</span>
+      <span class="nl-navbar-item-arrow">
+        <Image src={arrowNavbarGrey} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--grey" width={24} height={24} />
+        <Image src={arrowNavbarYellow} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--yellow" width={24} height={24} />
+      </span>
+    </a>
+    <a href="#the-solution" class="nl-navbar-item">
+      <span class="nl-navbar-item-label">Solution</span>
+      <span class="nl-navbar-item-arrow">
+        <Image src={arrowNavbarGrey} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--grey" width={24} height={24} />
+        <Image src={arrowNavbarYellow} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--yellow" width={24} height={24} />
+      </span>
+    </a>
+    <a href="#the-proof" class="nl-navbar-item">
+      <span class="nl-navbar-item-label">Proof</span>
+      <span class="nl-navbar-item-arrow">
+        <Image src={arrowNavbarGrey} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--grey" width={24} height={24} />
+        <Image src={arrowNavbarYellow} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--yellow" width={24} height={24} />
+      </span>
+    </a>
+    <a href="#how-it-works" class="nl-navbar-item">
+      <span class="nl-navbar-item-label">What we do</span>
+      <span class="nl-navbar-item-arrow">
+        <Image src={arrowNavbarGrey} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--grey" width={24} height={24} />
+        <Image src={arrowNavbarYellow} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--yellow" width={24} height={24} />
+      </span>
+    </a>
+
+    <CtaButton label="Book a call" href={BOOK_A_CALL} variant="dark" class="nl-navbar-cta" />
+  </div>
+</nav>
+
+<style define:vars={{ bookCallBtn3Url: `url(${bookCallBtn3Img.src})`, bookCallBtn4Url: `url(${bookCallBtn4Img.src})` }}>
+  .nl-navbar {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    z-index: 50;
+    width: 400px;
+    height: 52px;
+    border-radius: 12px;
+    background-color: #1a1a1a;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transform: translate(-50%, -140%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      transform 350ms ease,
+      opacity 350ms ease,
+      visibility 0s linear 350ms,
+      height 350ms ease;
+  }
+  .nl-navbar.is-visible {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      transform 350ms ease,
+      opacity 350ms ease,
+      visibility 0s linear 0s,
+      height 350ms ease;
+  }
+  .nl-navbar.is-open {
+    height: 428px;
+  }
+
+  .nl-navbar-bar {
+    flex: none;
+    width: 100%;
+    height: 52px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+
+  .nl-navbar-panel {
+    flex: 1;
+    box-sizing: border-box;
+    padding: 32px 17px 0;
+  }
+
+  .nl-navbar-item {
+    width: 100%;
+    height: 41px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    border-bottom: 1px solid #666666;
+  }
+  .nl-navbar-item + .nl-navbar-item {
+    margin-top: 24px;
+  }
+  .nl-navbar-item-label {
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #4d4d4d;
+    transition: color 150ms ease;
+  }
+  .nl-navbar-item:hover .nl-navbar-item-label {
+    color: #f7f7f7;
+  }
+  .nl-navbar-item-arrow {
+    position: relative;
+    display: block;
+    width: 24px;
+    height: 24px;
+    flex: none;
+  }
+  .nl-navbar :global(.nl-navbar-item-arrow-icon) {
+    position: absolute;
+    inset: 0;
+    width: 24px;
+    height: 24px;
+    transition: opacity 150ms ease;
+  }
+  .nl-navbar :global(.nl-navbar-item-arrow-icon--grey) {
+    opacity: 1;
+  }
+  .nl-navbar :global(.nl-navbar-item-arrow-icon--yellow) {
+    opacity: 0;
+  }
+  .nl-navbar-item:hover :global(.nl-navbar-item-arrow-icon--grey) {
+    opacity: 0;
+  }
+  .nl-navbar-item:hover :global(.nl-navbar-item-arrow-icon--yellow) {
+    opacity: 1;
+  }
+
+  .nl-navbar :global(.nl-navbar-cta) {
+    margin-top: 48px;
+    width: 100%;
+    color: #1a1a1a;
+  }
+  .nl-navbar :global(.nl-navbar-cta .nl-btn-dark-label) {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 14px;
+    font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    background-color: transparent;
+    background-image: var(--bookCallBtn3Url);
+    background-size: 100% 100%;
+    clip-path: none;
+  }
+  .nl-navbar :global(.nl-navbar-cta .nl-btn-dark-chip) {
+    height: auto;
+    align-self: stretch;
+    margin-left: 0px;
+    background-color: transparent;
+    background-image: var(--bookCallBtn4Url);
+    background-size: 100% 100%;
+    clip-path: none;
+  }
+  .nl-navbar :global(.nl-navbar-cta:hover .nl-btn-dark-label) {
+    background-color: transparent;
+    background-image: var(--bookCallBtn3Url);
+  }
+  .nl-navbar :global(.nl-navbar-cta:hover .nl-btn-dark-chip) {
+    background-color: transparent;
+    background-image: var(--bookCallBtn4Url);
+  }
+  .nl-navbar :global(.nl-navbar-cta .nl-btn-dark-chip svg) {
+    transition: transform 150ms ease;
+  }
+  .nl-navbar :global(.nl-navbar-cta:hover .nl-btn-dark-chip svg) {
+    transform: translateX(3px);
+  }
+
+  .nl-navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 2.88px;
+    text-decoration: none;
+  }
+  .nl-navbar :global(.nl-navbar-logo) {
+    width: 30.69px;
+    height: 15.11px;
+  }
+  .nl-navbar-wordmark {
+    font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-box-trim: trim-both;
+    text-box-edge: cap alphabetic;
+    color: #f7f7f7;
+  }
+
+  .nl-navbar-menu {
+    flex: none;
+    position: relative;
+    display: block;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+    appearance: none;
+    line-height: 0;
+    font-size: 0;
+    cursor: pointer;
+  }
+  .nl-navbar-menu-line {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 20px;
+    height: 2px;
+    border-radius: 1px;
+    background-color: #f7f7f7;
+    transition: transform 350ms ease, width 350ms ease;
+  }
+  .nl-navbar-menu-line:first-child {
+    transform: translate(-50%, -50%) translateY(-3px);
+  }
+  .nl-navbar-menu-line:last-child {
+    transform: translate(-50%, -50%) translateY(3px);
+  }
+  .nl-navbar.is-open .nl-navbar-menu-line {
+    width: 24px;
+  }
+  .nl-navbar.is-open .nl-navbar-menu-line:first-child {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  .nl-navbar.is-open .nl-navbar-menu-line:last-child {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nl-navbar {
+      transition: opacity 150ms ease, visibility 0s linear 150ms;
+    }
+    .nl-navbar.is-visible {
+      transition: opacity 150ms ease, visibility 0s linear 0s;
+    }
+    .nl-navbar-menu-line {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const SHOW_AFTER = 110;
+
+  function initNavbar(nav: Element) {
+    const update = () => {
+      nav.classList.toggle("is-visible", window.scrollY > SHOW_AFTER);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+
+    const menu = nav.querySelector<HTMLButtonElement>(".nl-navbar-menu");
+    menu?.addEventListener("click", () => {
+      const open = nav.classList.toggle("is-open");
+      menu.setAttribute("aria-expanded", String(open));
+      menu.setAttribute("aria-label", open ? "Close menu" : "Toggle menu");
+    });
+  }
+
+  document.querySelectorAll(".nl-navbar").forEach(initNavbar);
+</script>
