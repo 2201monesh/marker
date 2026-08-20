@@ -33,6 +33,11 @@ const bannerBgImg = await getImage({ src: bannerBg, format: "png" });
     padding-bottom: 28px;
   }
 
+  .nl-banner-section .nl-container {
+    width: calc(100% - 160px);
+    margin-inline: auto;
+  }
+
   .nl-banner {
     background-color: var(--nl-lime);
     background-image: var(--bannerBgUrl);
@@ -87,6 +92,12 @@ const bannerBgImg = await getImage({ src: bannerBg, format: "png" });
   .nl-banner :global(.nl-banner-cta:hover .nl-btn-dark-chip) {
     background-color: transparent;
     background-image: var(--bookCallBtn2Url);
+  }
+  .nl-banner :global(.nl-banner-cta .nl-btn-dark-chip svg) {
+    transition: transform 150ms ease;
+  }
+  .nl-banner :global(.nl-banner-cta:hover .nl-btn-dark-chip svg) {
+    transform: translateX(3px);
   }
 
   @media (max-width: 767px) {

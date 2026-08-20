@@ -22,12 +22,12 @@ const ORANGE_COUNT = 20;
 const BAR_W = 3;
 const C1_W = 682;
 const C1_H = 215;
-const MIN_H = 6;
+const MIN_H = 10;
 const MAX_H = 200;
 const step = (C1_W - BAR_W) / (BAR_COUNT - 1);
 const bars = Array.from({ length: BAR_COUNT }, (_, i) => {
   const x = +(i * step).toFixed(1);
-  if (i < ORANGE_COUNT) return { x, h: 14, orange: true };
+  if (i < ORANGE_COUNT) return { x, h: MIN_H, orange: true };
   const t = (i - ORANGE_COUNT) / (BAR_COUNT - 1 - ORANGE_COUNT);
   const h = +(MIN_H * Math.pow(MAX_H / MIN_H, t)).toFixed(1);
   return { x, h, orange: false };
@@ -191,6 +191,8 @@ const closingDimWords = "company to Gap and founded their Office of AI. That exp
   }
 
   .nl-alt-grid {
+    width: calc(100% - 160px);
+    margin-inline: auto;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 738px);
     column-gap: 40px;

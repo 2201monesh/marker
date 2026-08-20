@@ -141,15 +141,45 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
       widget.querySelectorAll<HTMLElement>('[role="tabpanel"]'),
     );
 
+    const FADE_MS = 220;
+
     const select = (tab: HTMLButtonElement, focus = false) => {
+      const targetId = tab.getAttribute("aria-controls");
+      const currentPanel = panels.find((p) => !p.hidden);
+      const nextPanel = panels.find((p) => p.id === targetId);
+
       tabs.forEach((t) => {
         const active = t === tab;
         t.setAttribute("aria-selected", String(active));
         t.tabIndex = active ? 0 : -1;
       });
-      panels.forEach((panel) => {
-        panel.hidden = panel.id !== tab.getAttribute("aria-controls");
-      });
+
+      const fadeTargets = (panel: HTMLElement | undefined) =>
+        panel
+          ? Array.from(panel.querySelectorAll<HTMLElement>(".nl-proof-visual, .nl-proof-copy"))
+          : [];
+
+      const swapPanels = () => {
+        panels.forEach((panel) => {
+          panel.hidden = panel.id !== targetId;
+        });
+        const nextFadeEls = fadeTargets(nextPanel);
+        nextFadeEls.forEach((el) => el.classList.add("is-fading"));
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            nextFadeEls.forEach((el) => el.classList.remove("is-fading"));
+          });
+        });
+      };
+
+      const currentFadeEls = fadeTargets(currentPanel);
+      if (currentPanel && currentPanel !== nextPanel && currentFadeEls.length) {
+        currentFadeEls.forEach((el) => el.classList.add("is-fading"));
+        window.setTimeout(swapPanels, FADE_MS);
+      } else {
+        swapPanels();
+      }
+
       if (focus) tab.focus();
     };
 
@@ -179,6 +209,11 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
   .nl-proof {
     background: var(--nl-bg);
     padding: 80px 0 0;
+  }
+
+  .nl-proof .nl-container {
+    width: calc(100% - 160px);
+    margin-inline: auto;
   }
 
   .nl-proof :global(.nl-proof-eyebrow) {
@@ -326,6 +361,11 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
     padding: 40px;
     display: flex;
     flex-direction: column;
+    opacity: 1;
+    transition: opacity 220ms ease;
+  }
+  .nl-proof-copy.is-fading {
+    opacity: 0;
   }
 
   .nl-proof-h3 {
@@ -400,6 +440,11 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
   .nl-proof-visual {
     position: relative;
     min-height: 300px;
+    opacity: 1;
+    transition: opacity 220ms ease;
+  }
+  .nl-proof-visual.is-fading {
+    opacity: 0;
   }
 
   .nl-proof-bar-gray {

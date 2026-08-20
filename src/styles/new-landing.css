@@ -27,9 +27,11 @@
   margin-inline: auto;
 }
 
-/* ─── Layout ── content column is 1280px wide at 1440 (80px margins) ─────── */
+/* ─── Layout ── content column keeps 80px side margins up to the 1800px
+   page cap (.nl-page), so it scales with the page instead of freezing at
+   the old 1280px design width once the viewport grows past it. ─────────── */
 .nl-container {
-  width: min(1280px, calc(100% - 48px));
+  width: min(1640px, calc(100% - 48px));
   margin-inline: auto;
 }
 
