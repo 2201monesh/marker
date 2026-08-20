@@ -1,7 +1,11 @@
 ---
 // Section 7 — "How Marker works": four numbered process rows, each with a
 // recreated graphic card (molecules / ranked pills / ship grid / bars).
+import { getImage } from "astro:assets";
 import Eyebrow from "./Eyebrow.astro";
+import chipBorder5 from "../../assets/landing/chip-border-5.png";
+
+const chipBorder5Img = await getImage({ src: chipBorder5, format: "png" });
 
 // 01 UNDERSTAND — diagram is an inline SVG asset exported from Figma
 
@@ -15,7 +19,7 @@ import Eyebrow from "./Eyebrow.astro";
 <section id="how-it-works" class="hiw" aria-labelledby="hiw-title">
   <div class="nl-container">
     <div class="hiw-head">
-      <Eyebrow label="WHAT WE DO" theme="light" />
+      <Eyebrow label="WHAT WE DO" theme="light" class="hiw-eyebrow" />
       <h2 id="hiw-title" class="nl-display nl-h2">
         How <span class="nl-hl hiw-title-hl">Marker</span> works
       </h2>
@@ -714,10 +718,42 @@ import Eyebrow from "./Eyebrow.astro";
   </div>
 </section>
 
-<style>
+<style define:vars={{ chipBorder5Url: `url(${chipBorder5Img.src})` }}>
   .hiw {
     background: var(--nl-bg);
     padding-block: 96px;
+  }
+
+  .hiw :global(.hiw-eyebrow) {
+    padding-left: 7px;
+    background-image: var(--chipBorder5Url);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+  .hiw :global(.hiw-eyebrow .nl-eyebrow-chip),
+  .hiw :global(.hiw-eyebrow .nl-eyebrow-pill) {
+    border-color: transparent;
+    background: transparent;
+  }
+  .hiw :global(.hiw-eyebrow .nl-eyebrow-chip) {
+    width: 40px;
+    height: 40px;
+  }
+  .hiw :global(.hiw-eyebrow .nl-eyebrow-chip svg) {
+    width: 19px;
+    height: 19px;
+   
+  }
+  .hiw :global(.hiw-eyebrow .nl-eyebrow-pill) {
+    padding: 9px 32px 8px;
+    font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: #6f6f6f;
+     transform: translateX(2px);
   }
 
   /* Centered header */
@@ -737,8 +773,22 @@ import Eyebrow from "./Eyebrow.astro";
     color: #000000;
   }
   .hiw-head :global(.hiw-title-hl) {
+    position: relative;
+    display: inline-block;
+    padding: 8px 0.08em;
+    background: none;
+    z-index: 0;
+  }
+  .hiw-head :global(.hiw-title-hl)::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 14%;
+    bottom: 14%;
+    background: var(--nl-lime);
     border-radius: 8px;
-    padding: 0.01em 0.08em;
+    z-index: -1;
   }
 
   /* Rows: 1fr | 400px card (page-centered) | 1fr */
@@ -784,6 +834,8 @@ import Eyebrow from "./Eyebrow.astro";
     width: min(400px, 100%);
     height: 400px;
     padding: 32px;
+    box-shadow: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;

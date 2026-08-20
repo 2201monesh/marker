@@ -23,6 +23,8 @@
   color: var(--nl-heading);
   font-size: 16px;
   line-height: 1.5;
+  max-width: 1800px;
+  margin-inline: auto;
 }
 
 /* ─── Layout ── content column is 1280px wide at 1440 (80px margins) ─────── */

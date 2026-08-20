@@ -1,8 +1,13 @@
 ---
 // Closing "Is this you?" section: lime full-bleed band containing a white
 // panel with eyebrow, heading, checklist, and two giant CTA cells.
+import { Image, getImage } from "astro:assets";
 import Eyebrow from "./Eyebrow.astro";
 import DotArrow from "./DotArrow.astro";
+import chipBorder7 from "../../assets/landing/chip-border-7.png";
+import upArrow from "../../assets/landing/up-arrow.png";
+
+const chipBorder7Img = await getImage({ src: chipBorder7, format: "png" });
 
 const BOOK_A_CALL = "https://info.onmarker.com/book-a-call";
 const EMAIL = "mailto:founders@onmarker.com";
@@ -20,7 +25,7 @@ const checklist = [
   <div class="nl-container">
     <div class="nl-closing-panel">
       <div class="nl-closing-top">
-        <Eyebrow label="IS THIS YOU?" theme="light" />
+        <Eyebrow label="IS THIS YOU?" theme="light" class="nl-closing-eyebrow" />
         <h2 id="closing-heading" class="nl-display nl-h2 nl-closing-heading">
           You'll know in <span class="nl-hl nl-closing-hl">thirty seconds</span>
         </h2>
@@ -55,11 +60,11 @@ const checklist = [
 
       <div class="nl-closing-ctas">
         <a href={BOOK_A_CALL} class="nl-closing-cta">
-          <DotArrow dir="ne" size={20} class="nl-closing-cta-arrow" />
+          <Image src={upArrow} alt="" class="nl-closing-cta-arrow" width={48} height={48} />
           <span class="nl-display nl-closing-cta-label">Book a call</span>
         </a>
         <a href={EMAIL} class="nl-closing-cta nl-closing-cta--divided">
-          <DotArrow dir="ne" size={20} class="nl-closing-cta-arrow" />
+          <Image src={upArrow} alt="" class="nl-closing-cta-arrow" width={48} height={48} />
           <span class="nl-display nl-closing-cta-label">founders@onmarker.com</span>
         </a>
       </div>
@@ -67,10 +72,41 @@ const checklist = [
   </div>
 </section>
 
-<style>
+<style define:vars={{ chipBorder7Url: `url(${chipBorder7Img.src})` }}>
   .nl-closing {
     background-color: var(--nl-lime);
     padding-block: 56px;
+  }
+
+  .nl-closing :global(.nl-closing-eyebrow) {
+    padding-left: 7px;
+    background-image: var(--chipBorder7Url);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+  .nl-closing :global(.nl-closing-eyebrow .nl-eyebrow-chip),
+  .nl-closing :global(.nl-closing-eyebrow .nl-eyebrow-pill) {
+    border-color: transparent;
+    background: transparent;
+  }
+  .nl-closing :global(.nl-closing-eyebrow .nl-eyebrow-chip) {
+    width: 40px;
+    height: 40px;
+  }
+  .nl-closing :global(.nl-closing-eyebrow .nl-eyebrow-chip svg) {
+    width: 19px;
+    height: 19px;
+    transform: translateX(-2px);
+  }
+  .nl-closing :global(.nl-closing-eyebrow .nl-eyebrow-pill) {
+    padding: 9px 32px 8px;
+    font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: #6f6f6f;
   }
 
   .nl-closing-panel {
@@ -158,11 +194,6 @@ const checklist = [
     padding-bottom: 24px;
     text-decoration: none;
     background-color: #f7f7f7;
-    background-image: linear-gradient(
-      135deg,
-      #ffffff 0%,
-      rgba(255, 255, 255, 0) 62%
-    );
     transition: background-color 140ms ease;
   }
 
@@ -172,6 +203,11 @@ const checklist = [
 
   .nl-closing-cta:hover {
     background-color: #ffffff;
+    background-image: linear-gradient(
+      135deg,
+      #ffffff 0%,
+      rgba(255, 255, 255, 0) 62%
+    );
     box-shadow:
       inset 0 3.22px 7.22px 0 rgba(0, 0, 0, 0.06),
       inset 0 0 11.58px 0 rgba(0, 0, 0, 0.03);
@@ -196,6 +232,8 @@ const checklist = [
     position: absolute;
     top: 24px;
     right: 24px;
+    width: 24px;
+    height: 24px;
     color: #1a1a1a;
   }
 

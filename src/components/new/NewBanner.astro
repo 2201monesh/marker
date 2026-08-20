@@ -1,7 +1,15 @@
 ---
 // Full-width lime CTA band between the proof and how-it-works sections.
 // Refs: slices/slice_0.png, slices/slice_5.png (top), slices/z_banner_btn.png
+import { getImage } from "astro:assets";
 import CtaButton from "./CtaButton.astro";
+import bookCallBtn1 from "../../assets/landing/book-call-btn-1.png";
+import bookCallBtn2 from "../../assets/landing/book-call-btn-2.png";
+import bannerBg from "../../assets/landing/banner-bg.png";
+
+const bookCallBtn1Img = await getImage({ src: bookCallBtn1, format: "png" });
+const bookCallBtn2Img = await getImage({ src: bookCallBtn2, format: "png" });
+const bannerBgImg = await getImage({ src: bannerBg, format: "png" });
 ---
 <section class="nl-banner-section" aria-label="Book a call">
   <div class="nl-container">
@@ -14,7 +22,11 @@ import CtaButton from "./CtaButton.astro";
   </div>
 </section>
 
-<style>
+<style define:vars={{
+  bookCallBtn1Url: `url(${bookCallBtn1Img.src})`,
+  bookCallBtn2Url: `url(${bookCallBtn2Img.src})`,
+  bannerBgUrl: `url(${bannerBgImg.src})`,
+}}>
   .nl-banner-section {
     background: var(--nl-bg);
     padding-top: 20px;
@@ -22,7 +34,10 @@ import CtaButton from "./CtaButton.astro";
   }
 
   .nl-banner {
-    background: var(--nl-lime);
+    background-color: var(--nl-lime);
+    background-image: var(--bannerBgUrl);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     border-radius: 14px;
     padding: 30px 40px;
     display: flex;
@@ -51,12 +66,27 @@ import CtaButton from "./CtaButton.astro";
     line-height: 1;
     letter-spacing: -0.02em;
     text-transform: uppercase;
-    border-radius: 6px;
+    background-color: transparent;
+    background-image: var(--bookCallBtn1Url);
+    background-size: 100% 100%;
+    clip-path: none;
   }
   .nl-banner :global(.nl-banner-cta .nl-btn-dark-chip) {
     height: auto;
     align-self: stretch;
-    border-radius: 6px;
+    margin-left: 0px;
+    background-color: transparent;
+    background-image: var(--bookCallBtn2Url);
+    background-size: 100% 100%;
+    clip-path: none;
+  }
+  .nl-banner :global(.nl-banner-cta:hover .nl-btn-dark-label) {
+    background-color: transparent;
+    background-image: var(--bookCallBtn1Url);
+  }
+  .nl-banner :global(.nl-banner-cta:hover .nl-btn-dark-chip) {
+    background-color: transparent;
+    background-image: var(--bookCallBtn2Url);
   }
 
   @media (max-width: 767px) {

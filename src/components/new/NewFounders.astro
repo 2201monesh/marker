@@ -1,21 +1,24 @@
 ---
 // Section 8 — "WHO WE ARE": founder credentials on dark.
 // Refs: slices/slice_7.png, slices/slice_8.png (top), slices/z_who_cards.png
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import Eyebrow from "./Eyebrow.astro";
 import ycLogo from "../../assets/landing/y-combinator-logo.png";
 import twoTimesYcLogo from "../../assets/landing/two-times-yc-logo.png";
 import previousExitLogo from "../../assets/landing/previous-exit-logo.png";
 import gapLogo from "../../assets/landing/gap-logo.png";
+import chipBorder6 from "../../assets/landing/chip-border-6.png";
+
+const chipBorder6Img = await getImage({ src: chipBorder6, format: "png" });
 ---
 
-<section class="nl-founders nl-dots-dark" aria-labelledby="founders-heading">
+<section id="who-we-are" class="nl-founders nl-dots-dark" aria-labelledby="founders-heading">
   <div class="nl-container founders-grid">
     <!-- Left: eyebrow + heading + sub -->
     <div class="founders-intro">
-      <Eyebrow label="WHO WE ARE" theme="dark" />
+      <Eyebrow label="WHO WE ARE" theme="dark" class="founders-eyebrow" />
       <h2 id="founders-heading" class="nl-display nl-h2 nl-display--ondark founders-heading">
-        We’ve sat on<br /><span class="nl-hl founders-hl">every side</span> of this
+        We’ve sat on<br /><span class="nl-hl founders-hl">every side</span>of this
       </h2>
       <p class="founders-sub">
         We’re Will, Richard, and David. Building together <br /> for 15 years.
@@ -51,10 +54,41 @@ import gapLogo from "../../assets/landing/gap-logo.png";
   </div>
 </section>
 
-<style>
+<style define:vars={{ chipBorder6Url: `url(${chipBorder6Img.src})` }}>
   .nl-founders {
     background-color: var(--nl-black);
     padding-block: 96px;
+  }
+
+  .nl-founders :global(.founders-eyebrow) {
+    padding-left: 7px;
+    background-image: var(--chipBorder6Url);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+  .nl-founders :global(.founders-eyebrow .nl-eyebrow-chip),
+  .nl-founders :global(.founders-eyebrow .nl-eyebrow-pill) {
+    border-color: transparent;
+    background: transparent;
+  }
+  .nl-founders :global(.founders-eyebrow .nl-eyebrow-chip) {
+    width: 40px;
+    height: 40px;
+  }
+  .nl-founders :global(.founders-eyebrow .nl-eyebrow-chip svg) {
+    width: 19px;
+    height: 19px;
+    transform: translateX(-2.5px);
+  }
+  .nl-founders :global(.founders-eyebrow .nl-eyebrow-pill) {
+    padding: 9px 32px 8px;
+    font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: #cccccc;
   }
 
   .founders-grid {

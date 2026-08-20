@@ -4,8 +4,13 @@
 // with the black frame below it (browser-tab style, with concave fillets).
 // Refs: .context/attachments/w7FOib/slices/slice_4.png, slice_0.png,
 //       z_tabs.png, z_proof_table.png
+import { Image, getImage } from "astro:assets";
 import Eyebrow from "./Eyebrow.astro";
 import DotArrow from "./DotArrow.astro";
+import chipBorder4 from "../../assets/landing/chip-border-4.png";
+import downArrow from "../../assets/landing/down-arrow.png";
+
+const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
 ---
 
 <section class="nl-proof" aria-labelledby="new-proof-heading">
@@ -72,7 +77,7 @@ import DotArrow from "./DotArrow.astro";
           <div class="nl-proof-visual" aria-hidden="true">
             <div class="nl-proof-bar-gray nl-halftone-dark"></div>
             <div class="nl-proof-bar-orange">
-              <DotArrow dir="se" size={36} class="nl-proof-bar-arrow" />
+              <Image src={downArrow} alt="" class="nl-proof-bar-arrow" width={86} height={86} />
               <span class="nl-display nl-proof-bar-stat">80%</span>
             </div>
           </div>
@@ -115,7 +120,7 @@ import DotArrow from "./DotArrow.astro";
               <span class="nl-display nl-proof-bar-gray-label">120 Days</span>
             </div>
             <div class="nl-proof-bar-orange">
-              <DotArrow dir="se" size={36} class="nl-proof-bar-arrow" />
+              <Image src={downArrow} alt="" class="nl-proof-bar-arrow" width={86} height={86} />
               <span class="nl-display nl-proof-bar-stat">60 Days</span>
             </div>
           </div>
@@ -170,7 +175,7 @@ import DotArrow from "./DotArrow.astro";
   });
 </script>
 
-<style>
+<style define:vars={{ chipBorder4Url: `url(${chipBorder4Img.src})` }}>
   .nl-proof {
     background: var(--nl-bg);
     padding: 96px 0 0;
@@ -178,6 +183,34 @@ import DotArrow from "./DotArrow.astro";
 
   .nl-proof :global(.nl-proof-eyebrow) {
     margin-bottom: 28px;
+    padding-left: 7px;
+    background-image: var(--chipBorder4Url);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+  .nl-proof :global(.nl-proof-eyebrow .nl-eyebrow-chip),
+  .nl-proof :global(.nl-proof-eyebrow .nl-eyebrow-pill) {
+    border-color: transparent;
+    background: transparent;
+  }
+  .nl-proof :global(.nl-proof-eyebrow .nl-eyebrow-chip) {
+    width: 40px;
+    height: 40px;
+  }
+  .nl-proof :global(.nl-proof-eyebrow .nl-eyebrow-chip svg) {
+    width: 19px;
+    height: 19px;
+    transform: translateX(-2px);
+  }
+  .nl-proof :global(.nl-proof-eyebrow .nl-eyebrow-pill) {
+    padding: 9px 32px 8px;
+    font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: #6f6f6f;
   }
 
   .nl-proof h2 {
@@ -267,7 +300,7 @@ import DotArrow from "./DotArrow.astro";
   /* ── Black frame around the case-study panel ── */
   .nl-proof-frame {
     background: var(--nl-ink);
-    border-radius: 28px;
+    border-radius: 14px;
     padding: 12px;
   }
   /* When the first tab is active it merges with the frame's top-left corner,
@@ -279,7 +312,7 @@ import DotArrow from "./DotArrow.astro";
   /* ── Panel ── */
   .nl-proof-panel {
     background: #f4f4f4;
-    border-radius: 20px;
+    border-radius: 6px;
     overflow: hidden;
     display: grid;
     grid-template-columns: minmax(0, 500px) minmax(0, 1fr);
@@ -384,8 +417,7 @@ import DotArrow from "./DotArrow.astro";
       inset 0 14px 24px rgba(255, 255, 255, 0.5),
       inset 0 -20px 32px rgba(0, 0, 0, 0.04),
       inset 0 5.73px 5.73px 0 rgba(0, 0, 0, 0.26),
-      inset 0 0 20.62px 0 rgba(0, 0, 0, 0.22),
-      0 4px 28px rgba(0, 0, 0, 0.1);
+      inset 0 0 20.62px 0 rgba(0, 0, 0, 0.22);
   }
   .nl-proof-bar-gray-label {
     position: absolute;
@@ -440,6 +472,8 @@ import DotArrow from "./DotArrow.astro";
     position: absolute;
     top: 16px;
     right: 16px;
+    width: 43px;
+    height: 43px;
     color: var(--nl-ink);
   }
   .nl-proof-bar-stat {

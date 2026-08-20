@@ -2,10 +2,15 @@
 // NewHero — hero section of the /new landing page.
 // Dark ink page frame, light rounded panel inset from the top, black logo tab
 // top-left, copy column left, workflow node diagram right (inline SVG + CSS).
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import MarkerMark from "./MarkerMark.astro";
 import CtaButton from "./CtaButton.astro";
 import ycLogo from "../../assets/landing/y-combinator-logo.png";
+import bookCallBtn1 from "../../assets/landing/book-call-btn-1.png";
+import bookCallBtn2 from "../../assets/landing/book-call-btn-2.png";
+
+const bookCallBtn1Img = await getImage({ src: bookCallBtn1, format: "png" });
+const bookCallBtn2Img = await getImage({ src: bookCallBtn2, format: "png" });
 
 // ── Diagram data (620×720 canvas; geometry measured from the Figma export:
 // canvas origin = design (820, 0), so y0 is the very top of the page and the
@@ -184,7 +189,7 @@ const orangeSquares = [
   </div>
 </section>
 
-<style>
+<style define:vars={{ bookCallBtn1Url: `url(${bookCallBtn1Img.src})`, bookCallBtn2Url: `url(${bookCallBtn2Img.src})` }}>
   /* ── Page frame: ink behind, light panel inset from the top ───────────── */
   .nlh {
     position: relative;
@@ -334,12 +339,27 @@ const orangeSquares = [
     line-height: 1;
     letter-spacing: -0.02em;
     text-transform: uppercase;
-    border-radius: 6px;
+    background-color: transparent;
+    background-image: var(--bookCallBtn1Url);
+    background-size: 100% 100%;
+    clip-path: none;
   }
   .nlh-ctas :global(.nlh-cta-book .nl-btn-dark-chip) {
     height: auto;
     align-self: stretch;
-    border-radius: 6px;
+    margin-left: 0px;
+    background-color: transparent;
+    background-image: var(--bookCallBtn2Url);
+    background-size: 100% 100%;
+    clip-path: none;
+  }
+  .nlh-ctas :global(.nlh-cta-book:hover .nl-btn-dark-label) {
+    background-color: transparent;
+    background-image: var(--bookCallBtn1Url);
+  }
+  .nlh-ctas :global(.nlh-cta-book:hover .nl-btn-dark-chip) {
+    background-color: transparent;
+    background-image: var(--bookCallBtn2Url);
   }
 
   /* ── Diagram pieces ────────────────────────────────────────────────────── */

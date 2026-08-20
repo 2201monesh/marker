@@ -3,12 +3,17 @@
 // Heading row (h2 left, intro paragraph right), then a 2-col grid:
 // orange gradient quote card (left) + two stacked white label cards (right).
 // Refs: .context/attachments/w7FOib/slices/slice_1.png, z_eyebrow.png, z_dark_labels.png
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import Eyebrow from "./Eyebrow.astro";
 import commaLogo from "../../assets/landing/comma-logo.png";
+import chipBorder1 from "../../assets/landing/chip-border-1.png";
+import orangeGradientBg from "../../assets/landing/orange-gradient-bg.png";
+
+const chipBorder1Img = await getImage({ src: chipBorder1, format: "png" });
+const orangeGradientBgImg = await getImage({ src: orangeGradientBg, format: "png" });
 ---
 
-<section class="nl-problem nl-dots-dark" aria-labelledby="new-problem-heading">
+<section id="the-problem" class="nl-problem nl-dots-dark" aria-labelledby="new-problem-heading">
   <div class="nl-container">
     <Eyebrow label="THE PROBLEM" theme="dark" class="nl-problem-eyebrow" />
 
@@ -25,7 +30,6 @@ import commaLogo from "../../assets/landing/comma-logo.png";
 
     <div class="nl-problem-grid">
       <figure class="nl-problem-quote">
-        <div class="nl-problem-quote-texture nl-halftone" aria-hidden="true"></div>
         <Image
           src={commaLogo}
           alt=""
@@ -52,7 +56,10 @@ import commaLogo from "../../assets/landing/comma-logo.png";
   </div>
 </section>
 
-<style>
+<style define:vars={{
+  chipBorder1Url: `url(${chipBorder1Img.src})`,
+  orangeGradientBgUrl: `url(${orangeGradientBgImg.src})`,
+}}>
   .nl-problem {
     background-color: var(--nl-black);
     padding: 96px 0;
@@ -60,6 +67,34 @@ import commaLogo from "../../assets/landing/comma-logo.png";
 
   .nl-problem :global(.nl-problem-eyebrow) {
     margin-bottom: 32px;
+    padding-left: 7px;
+    background-image: var(--chipBorder1Url);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+  .nl-problem :global(.nl-problem-eyebrow .nl-eyebrow-chip),
+  .nl-problem :global(.nl-problem-eyebrow .nl-eyebrow-pill) {
+    border-color: transparent;
+    background: transparent;
+  }
+  .nl-problem :global(.nl-problem-eyebrow .nl-eyebrow-chip) {
+    width: 40px;
+    height: 40px;
+  }
+  .nl-problem :global(.nl-problem-eyebrow .nl-eyebrow-chip svg) {
+    width: 19px;
+    height: 19px;
+    transform: translateX(-2px);
+  }
+  .nl-problem :global(.nl-problem-eyebrow .nl-eyebrow-pill) {
+    padding: 9px 32px 8px;
+    font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: #cccccc;
   }
 
   /* ── Heading row: h2 left, intro paragraph bottom-aligned on the right ── */
@@ -78,6 +113,7 @@ import commaLogo from "../../assets/landing/comma-logo.png";
   }
   .nl-problem-head :global(.nl-problem-hl) {
     border-radius: 9px;
+    border: 1px solid #ffffff;
     padding-top: 0.01em;
     padding-bottom: 0.01em;
   }
@@ -107,18 +143,16 @@ import commaLogo from "../../assets/landing/comma-logo.png";
     padding: 24px;
     border-radius: 14px;
     overflow: hidden;
-    background: linear-gradient(180deg, #f25001 0%, #f79c6a 55%, #fef6f2 100%);
+    background-color: #f25001;
+    background-image: var(--orangeGradientBgUrl);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     box-shadow:
       0 1px 2px rgba(0, 0, 0, 0.04),
       0 12px 32px rgba(0, 0, 0, 0.06);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
-  .nl-problem-quote-texture {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
   }
   .nl-problem-quote-glyph {
     position: relative;
