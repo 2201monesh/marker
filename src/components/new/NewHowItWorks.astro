@@ -721,7 +721,8 @@ const chipBorder5Img = await getImage({ src: chipBorder5, format: "png" });
 <style define:vars={{ chipBorder5Url: `url(${chipBorder5Img.src})` }}>
   .hiw {
     background: var(--nl-bg);
-    padding-block: 96px;
+    padding-top: 80px;
+    padding-bottom: 96px;
   }
 
   .hiw :global(.hiw-eyebrow) {
@@ -761,7 +762,7 @@ const chipBorder5Img = await getImage({ src: chipBorder5, format: "png" });
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 26px;
+    gap: 24px;
     text-align: center;
   }
   .hiw-head h2 {
@@ -788,6 +789,7 @@ const chipBorder5Img = await getImage({ src: chipBorder5, format: "png" });
     bottom: 14%;
     background: var(--nl-lime);
     border-radius: 8px;
+    border: 1px solid #e6e6e6;
     z-index: -1;
   }
 

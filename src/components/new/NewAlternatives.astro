@@ -186,7 +186,8 @@ const closingDimWords = "company to Gap and founded their Office of AI. That exp
 }}>
   .nl-alt {
     background: var(--nl-bg);
-    padding-block: 96px;
+    padding-top: 80px;
+    padding-bottom: 96px;
   }
 
   .nl-alt-grid {
@@ -230,7 +231,7 @@ const closingDimWords = "company to Gap and founded their Office of AI. That exp
   }
 
   .nl-alt-title {
-    margin-top: 24px;
+    margin-top: 14px;
     font-family: "Stack Sans Headline", "Inter", ui-sans-serif, system-ui, sans-serif;
     font-weight: 400;
     font-size: 54px;
@@ -239,12 +240,13 @@ const closingDimWords = "company to Gap and founded their Office of AI. That exp
   }
   .nl-alt-title :global(.nl-alt-hl) {
     border-radius: 8px;
+    border: 1px solid #e6e6e6;
     padding-top: 0;
     padding-bottom: 0;
   }
 
-  /* Content column starts lower so the heading overlaps the first card, as in the design */
-  .nl-alt-content { margin-top: 148px; }
+  /* Content column starts just after the heading text ends (no overlap) */
+  .nl-alt-content { margin-top: 184px; }
 
   .nl-alt-card {
     position: relative;

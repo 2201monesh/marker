@@ -178,11 +178,11 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
 <style define:vars={{ chipBorder4Url: `url(${chipBorder4Img.src})` }}>
   .nl-proof {
     background: var(--nl-bg);
-    padding: 96px 0 0;
+    padding: 80px 0 0;
   }
 
   .nl-proof :global(.nl-proof-eyebrow) {
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     padding-left: 7px;
     background-image: var(--chipBorder4Url);
     background-repeat: no-repeat;
@@ -224,7 +224,7 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
   }
   .nl-proof h2 :global(.nl-proof-hl) {
     border-radius: 8px;
-    border: 1px solid #ffffff;
+    border: 1px solid #e6e6e6;
     padding-top: 0.01em;
     padding-bottom: 0.01em;
   }

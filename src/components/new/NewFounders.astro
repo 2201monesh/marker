@@ -57,7 +57,8 @@ const chipBorder6Img = await getImage({ src: chipBorder6, format: "png" });
 <style define:vars={{ chipBorder6Url: `url(${chipBorder6Img.src})` }}>
   .nl-founders {
     background-color: var(--nl-black);
-    padding-block: 96px;
+    padding-top: 80px;
+    padding-bottom: 96px;
   }
 
   .nl-founders :global(.founders-eyebrow) {
@@ -100,7 +101,7 @@ const chipBorder6Img = await getImage({ src: chipBorder6, format: "png" });
 
   /* ── Left column ── */
   .founders-heading {
-    margin-top: 28px;
+    margin-top: 24px;
     font-family: "Stack Sans Headline", "Inter", ui-sans-serif, system-ui, sans-serif;
     font-weight: 400;
     font-size: 54px;
@@ -109,7 +110,7 @@ const chipBorder6Img = await getImage({ src: chipBorder6, format: "png" });
   }
   .founders-heading :global(.founders-hl) {
     border-radius: 8px;
-    border: 1px solid #ffffff;
+    border: 1px solid #e6e6e6;
     padding-top: 0;
     padding-bottom: 0;
   }
