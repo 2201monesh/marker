@@ -6,7 +6,9 @@ interface Props {
   title: string;
   description?: string;
   noindex?: boolean;
-  fontSource?: "google" | "local";
+  /** "none" for pages that load their own faces via slot="head" (the new
+   *  landing + legal pages) so the Plus Jakarta Sans request is not made. */
+  fontSource?: "google" | "local" | "none";
   /** Base path for a PNG favicon override, e.g. "/favicon-new" → -32.png/-192.png */
   favicon?: string;
 }
@@ -62,6 +64,10 @@ const LOCAL_FONT_CSS = `
       <>
         <link rel="icon" type="image/png" sizes="32x32" href={`${favicon}-32.png`} />
         <link rel="icon" type="image/png" sizes="192x192" href={`${favicon}-192.png`} />
+        {/* Dark browser UI gets the light mark. Purely additive: browsers that
+            ignore `media` on icon links (Safari) fall through to the pair above. */}
+        <link rel="icon" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)" href={`${favicon}-light-32.png`} />
+        <link rel="icon" type="image/png" sizes="192x192" media="(prefers-color-scheme: dark)" href={`${favicon}-light-192.png`} />
       </>
     ) : (
       <>
@@ -96,7 +102,7 @@ const LOCAL_FONT_CSS = `
     <link rel="dns-prefetch" href="https://cdn.amplitude.com" />
     <link rel="dns-prefetch" href="https://app.termly.io" />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-    {fontSource === "local" ? (
+    {fontSource === "none" ? null : fontSource === "local" ? (
       <style is:inline>{LOCAL_FONT_CSS}</style>
     ) : (
       <>

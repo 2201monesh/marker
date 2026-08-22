@@ -89,6 +89,7 @@
   color: #525252; /* icon gray from the Figma export */
 }
 .nl-eyebrow-pill {
+  font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
   border: 1px solid rgba(0, 0, 0, 0.22);
   border-radius: 999px;
   padding: 9px 16px 8px;

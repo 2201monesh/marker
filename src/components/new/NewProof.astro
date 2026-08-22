@@ -9,6 +9,8 @@ import Eyebrow from "./Eyebrow.astro";
 import DotArrow from "./DotArrow.astro";
 import chipBorder4 from "../../assets/landing/chip-border-4.png";
 import downArrow from "../../assets/landing/down-arrow.png";
+import proofTabIconA from "../../assets/landing/proof-tab-icon-1.svg";
+import proofTabIconB from "../../assets/landing/proof-tab-icon-2.svg";
 
 const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
 ---
@@ -30,7 +32,10 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
           role="tab"
           aria-selected="true"
           aria-controls="nl-proof-panel-retailer"
-        >FORTUNE 500 RETAILER</button>
+        >
+          <Image src={proofTabIconA} alt="" class="nl-proof-tab-icon" width={21} height={21} />
+          <span class="nl-proof-tab-text">FORTUNE 500 RETAILER</span>
+        </button>
         <button
           type="button"
           id="nl-proof-tab-proptech"
@@ -39,7 +44,10 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
           aria-selected="false"
           aria-controls="nl-proof-panel-proptech"
           tabindex="-1"
-        >8-FIGURE PROP-TECH COMPANY</button>
+        >
+          <Image src={proofTabIconB} alt="" class="nl-proof-tab-icon" width={21} height={21} />
+          <span class="nl-proof-tab-text">8-FIGURE PROP-TECH COMPANY</span>
+        </button>
       </div>
 
       <div class="nl-proof-frame">
@@ -289,6 +297,7 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
     height: 53px; /* 41px visible above the frame + 12px overlap */
     display: inline-flex;
     align-items: center;
+    gap: 8px;
     font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
     font-weight: 500;
     font-size: 12px;
@@ -299,6 +308,20 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
     white-space: nowrap;
     cursor: pointer;
     border-radius: 14px 14px 0 0;
+  }
+
+  /* Tab glyph (Figma 1386:4293 / 1386:4277). Both exports are white artwork,
+     so the inactive tab — which sits on the light page background — inverts
+     it to dark to match its black label. */
+  .nl-proof :global(.nl-proof-tab-icon) {
+    flex: none;
+    display: block;
+    width: 21.43px;
+    height: 21.43px;
+    transition: filter 150ms ease;
+  }
+  .nl-proof-tab[aria-selected="false"] :global(.nl-proof-tab-icon) {
+    filter: invert(1);
   }
   .nl-proof-tab:focus-visible {
     outline: 2px solid var(--nl-orange);
@@ -383,7 +406,7 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
 
   .nl-proof-body {
     margin: 20px 0 0;
-    font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
     font-weight: 400;
     font-size: 16px;
     line-height: 1.1;
@@ -631,6 +654,15 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
     .nl-proof-tab {
       font-size: 10px;
       padding: 0 11px 8px;
+    }
+    /* On phones the tab bar spans the full frame width, so the last tab is
+       now flush with the frame's right edge too — mirror the first tab's
+       treatment (no fillet on the flush side, matching square frame corner). */
+    .nl-proof-tab:last-child[aria-selected="true"]::after {
+      display: none;
+    }
+    .nl-proof-tablist:has(.nl-proof-tab:last-child[aria-selected="true"]) + .nl-proof-frame {
+      border-top-right-radius: 4px;
     }
     .nl-proof-copy {
       padding: 20px;

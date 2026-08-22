@@ -4,16 +4,11 @@
 // SHOW_AFTER px, then stays put (fixed) across every section. Clicking the
 // menu button expands it into a full panel and morphs the hamburger into a
 // close (X) icon.
-import { Image, getImage } from "astro:assets";
+import { Image } from "astro:assets";
 import CtaButton from "./CtaButton.astro";
 import markerLogo from "../../assets/landing/marker-logo.png";
 import arrowNavbarGrey from "../../assets/landing/arrow-navbar-grey.svg";
 import arrowNavbarYellow from "../../assets/landing/arrow-navbar-yellow.svg";
-import bookCallBtn3 from "../../assets/landing/book-call-btn-3.png";
-import bookCallBtn4 from "../../assets/landing/book-call-btn-4.png";
-
-const bookCallBtn3Img = await getImage({ src: bookCallBtn3, format: "png" });
-const bookCallBtn4Img = await getImage({ src: bookCallBtn4, format: "png" });
 
 interface Props {
   class?: string;
@@ -39,29 +34,29 @@ const BOOK_A_CALL = "https://info.onmarker.com/book-a-call";
     <a href="#the-problem" class="nl-navbar-item">
       <span class="nl-navbar-item-label">Problem</span>
       <span class="nl-navbar-item-arrow">
-        <Image src={arrowNavbarGrey} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--grey" width={24} height={24} />
-        <Image src={arrowNavbarYellow} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--yellow" width={24} height={24} />
+        <Image src={arrowNavbarGrey} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--grey" width={21} height={21} />
+        <Image src={arrowNavbarYellow} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--yellow" width={21} height={21} />
       </span>
     </a>
     <a href="#the-solution" class="nl-navbar-item">
       <span class="nl-navbar-item-label">Solution</span>
       <span class="nl-navbar-item-arrow">
-        <Image src={arrowNavbarGrey} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--grey" width={24} height={24} />
-        <Image src={arrowNavbarYellow} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--yellow" width={24} height={24} />
+        <Image src={arrowNavbarGrey} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--grey" width={21} height={21} />
+        <Image src={arrowNavbarYellow} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--yellow" width={21} height={21} />
       </span>
     </a>
     <a href="#the-proof" class="nl-navbar-item">
       <span class="nl-navbar-item-label">Proof</span>
       <span class="nl-navbar-item-arrow">
-        <Image src={arrowNavbarGrey} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--grey" width={24} height={24} />
-        <Image src={arrowNavbarYellow} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--yellow" width={24} height={24} />
+        <Image src={arrowNavbarGrey} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--grey" width={21} height={21} />
+        <Image src={arrowNavbarYellow} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--yellow" width={21} height={21} />
       </span>
     </a>
     <a href="#how-it-works" class="nl-navbar-item">
       <span class="nl-navbar-item-label">What we do</span>
       <span class="nl-navbar-item-arrow">
-        <Image src={arrowNavbarGrey} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--grey" width={24} height={24} />
-        <Image src={arrowNavbarYellow} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--yellow" width={24} height={24} />
+        <Image src={arrowNavbarGrey} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--grey" width={21} height={21} />
+        <Image src={arrowNavbarYellow} alt="" class="nl-navbar-item-arrow-icon nl-navbar-item-arrow-icon--yellow" width={21} height={21} />
       </span>
     </a>
 
@@ -69,7 +64,7 @@ const BOOK_A_CALL = "https://info.onmarker.com/book-a-call";
   </div>
 </nav>
 
-<style define:vars={{ bookCallBtn3Url: `url(${bookCallBtn3Img.src})`, bookCallBtn4Url: `url(${bookCallBtn4Img.src})` }}>
+<style>
   .nl-navbar {
     position: fixed;
     top: 20px;
@@ -141,7 +136,7 @@ const BOOK_A_CALL = "https://info.onmarker.com/book-a-call";
   .nl-navbar-item-label {
     font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1;
     letter-spacing: 1.2px;
     text-transform: uppercase;
@@ -154,15 +149,15 @@ const BOOK_A_CALL = "https://info.onmarker.com/book-a-call";
   .nl-navbar-item-arrow {
     position: relative;
     display: block;
-    width: 24px;
-    height: 24px;
+    width: 21px;
+    height: 21px;
     flex: none;
   }
   .nl-navbar :global(.nl-navbar-item-arrow-icon) {
     position: absolute;
     inset: 0;
-    width: 24px;
-    height: 24px;
+    width: 21px;
+    height: 21px;
     transition: opacity 150ms ease;
   }
   .nl-navbar :global(.nl-navbar-item-arrow-icon--grey) {
@@ -183,45 +178,76 @@ const BOOK_A_CALL = "https://info.onmarker.com/book-a-call";
     width: 100%;
     color: #1a1a1a;
   }
+  /* Book a call — the light variant of the hero button, from Figma node
+     1323:14694: same two vectors and same notch angle, but #F7F7F7 with a
+     #E6E6E6 border and the two inner shadows, and a dark arrow. Both halves are
+     9-slices, so the corners and the slanted edge keep their true geometry while
+     the label's flat middle stretches to fill the panel (the design's label is a
+     stretched instance too — 310.53×40 inside a 352px button). */
   .nl-navbar :global(.nl-navbar-cta .nl-btn-dark-label) {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 13px 14px;
-    font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+    box-sizing: border-box;
+    border-style: solid;
+    border-color: transparent;
+    border-width: 8px 14px 8px 8px;
+    border-image: url("../../assets/landing/book-call-btn-label-outline.svg") 8 14 8 8 fill stretch;
+    border-radius: 0;
+    /* the extra right inset offsets the centred label the same way the design
+       does, so it reads centred against the slanted end rather than the box */
+    padding: 5px 15.6px 5px 0;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
     font-weight: 500;
     font-size: 14px;
     line-height: 1;
     letter-spacing: -0.02em;
     text-transform: uppercase;
-    background-color: transparent;
-    background-image: var(--bookCallBtn3Url);
-    background-size: 100% 100%;
+    background: none;
     clip-path: none;
   }
   .nl-navbar :global(.nl-navbar-cta .nl-btn-dark-chip) {
+    position: relative;
+    box-sizing: border-box;
+    width: 41.418px;
     height: auto;
     align-self: stretch;
     margin-left: 0px;
-    background-color: transparent;
-    background-image: var(--bookCallBtn4Url);
-    background-size: 100% 100%;
+    border-style: solid;
+    border-color: transparent;
+    border-width: 8px 8px 8px 14px;
+    border-image: url("../../assets/landing/book-call-btn-chip-outline.svg") 8 8 8 14 fill stretch;
+    border-radius: 0;
+    background: none;
     clip-path: none;
   }
-  .nl-navbar :global(.nl-navbar-cta:hover .nl-btn-dark-label) {
-    background-color: transparent;
-    background-image: var(--bookCallBtn3Url);
-  }
-  .nl-navbar :global(.nl-navbar-cta:hover .nl-btn-dark-chip) {
-    background-color: transparent;
-    background-image: var(--bookCallBtn4Url);
-  }
+  /* The design's own lucide/arrow-right export (dark stroke), at its design
+     offset inside the chip. CtaButton's inline SVG is hidden rather than
+     restyled so the hero and banner CTAs keep theirs. */
   .nl-navbar :global(.nl-navbar-cta .nl-btn-dark-chip svg) {
+    display: none;
+  }
+  .nl-navbar :global(.nl-navbar-cta .nl-btn-dark-chip)::after {
+    content: "";
+    position: absolute;
+    /* 12.418px from the chip's border edge; the containing block is the padding
+       box, which starts after the 14px left border slice */
+    left: -1.582px;
+    top: calc(50% + 0.14px);
+    width: 16px;
+    height: 16px;
+    transform: translateY(-50%);
+    background: url("../../assets/landing/book-call-btn-arrow-outline.svg") 0 0 / 16px 16px no-repeat;
     transition: transform 150ms ease;
   }
-  .nl-navbar :global(.nl-navbar-cta:hover .nl-btn-dark-chip svg) {
-    transform: translateX(3px);
+  .nl-navbar :global(.nl-navbar-cta:hover .nl-btn-dark-chip)::after {
+    transform: translateY(-50%) translateX(3px);
+  }
+  /* Neutralise the shared .nl-btn-dark hover fill; only the arrow moves. */
+  .nl-navbar :global(.nl-navbar-cta:hover .nl-btn-dark-label),
+  .nl-navbar :global(.nl-navbar-cta:hover .nl-btn-dark-chip) {
+    background: none;
   }
 
   .nl-navbar-brand {

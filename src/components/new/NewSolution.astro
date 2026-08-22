@@ -96,6 +96,7 @@ const chipBorder3Img = await getImage({ src: chipBorder3, format: "png" });
     padding-top: 0.01em;
     padding-bottom: 0.01em;
     border: 1px solid #e6e6e6;
+    border-radius: 8px;
   }
   .nl-solution-heading :global(.nl-solution-hl--left) {
     border-top-left-radius: 8px;
@@ -166,6 +167,10 @@ const chipBorder3Img = await getImage({ src: chipBorder3, format: "png" });
 
   /* ── Desktop (1440 design): absolutely-positioned composition ───────── */
   @media (min-width: 1024px) {
+    .nl-solution {
+      padding-top: 112px;
+      padding-bottom: 128px;
+    }
     .nl-solution-comp {
       display: block;
       position: relative;
