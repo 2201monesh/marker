@@ -328,12 +328,17 @@ const year = new Date().getFullYear();
     .nl-footer-bottom {
       grid-template-columns: 1fr;
     }
+    /* Links section first, logo lockup below it */
+    .nl-footer-right {
+      order: -1;
+    }
     .nl-footer-brand {
+      order: 1;
       padding: 28px 24px;
+      border-top: 1px solid var(--nl-line);
     }
     .nl-footer-legal {
       border-left: 0;
-      border-top: 1px solid var(--nl-line);
       padding: 28px 24px;
     }
     .nl-footer-strip {

@@ -672,5 +672,17 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
     .nl-proof-bar-stat {
       font-size: 32px;
     }
+
+    /* Prop-tech panel: the two bars represent the same shrinking timeline, so
+       they should sit stacked front-to-back (like desktop) and centered in
+       the visual area, not side-by-side and left-anchored. */
+    #nl-proof-panel-proptech .nl-proof-bar-gray,
+    #nl-proof-panel-proptech .nl-proof-bar-orange {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      width: 56%;
+      max-width: 260px;
+    }
   }
 </style>

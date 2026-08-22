@@ -27,7 +27,7 @@ const checklist = [
       <div class="nl-closing-top">
         <Eyebrow label="IS THIS YOU?" theme="light" class="nl-closing-eyebrow" />
         <h2 id="closing-heading" class="nl-display nl-h2 nl-closing-heading">
-          You'll know in <span class="nl-hl nl-closing-hl">thirty seconds</span>
+          You'll know in<br class="nl-closing-break" /> <span class="nl-hl nl-closing-hl">thirty seconds</span>
         </h2>
         <p class="nl-closing-sub">
           Working systems in your business in weeks. The first conversation costs thirty minutes.
@@ -139,6 +139,9 @@ const checklist = [
     border: 1px solid #e6e6e6;
     padding-top: 0.01em;
     padding-bottom: 0.01em;
+  }
+  .nl-closing-break {
+    display: none;
   }
 
   .nl-closing-sub {
@@ -287,8 +290,18 @@ const checklist = [
     .nl-closing .nl-container {
       width: calc(100% - 40px);
     }
+    .nl-closing-cta {
+      min-height: 140px;
+    }
     .nl-closing-heading {
       font-size: 40px;
+    }
+    .nl-closing-break {
+      display: block;
+    }
+    .nl-closing-heading :global(.nl-closing-hl) {
+      display: inline-block;
+      
     }
   }
 </style>

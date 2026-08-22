@@ -297,6 +297,99 @@ const BOOK_A_CALL = "https://info.onmarker.com/book-a-call";
       transition: none;
     }
   }
+
+  /* ── Small screens (phones): the floating pill becomes a plain hamburger
+     that's visible immediately (not gated behind scroll), which expands into
+     a full-screen dark menu instead of a small dropdown ── */
+  @media (max-width: 640px) {
+    .nl-navbar,
+    .nl-navbar.is-visible {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: none;
+      width: 100%;
+      height: 100vh;
+      border-radius: 0;
+      background-color: transparent;
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: none;
+      transition: background-color 250ms ease;
+    }
+    .nl-navbar.is-open {
+      position: fixed;
+      height: 100vh;
+      background-color: #1a1a1a;
+      pointer-events: auto;
+    }
+
+    .nl-navbar-bar {
+      height: 72px;
+      padding: 0 20px;
+    }
+
+    /* The page already shows its own logo tab; the navbar's brand mark only
+       needs to appear once the full-screen menu is open. */
+    .nl-navbar-brand {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 150ms ease;
+    }
+    .nl-navbar.is-open .nl-navbar-brand {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .nl-navbar-menu {
+      pointer-events: auto;
+    }
+    .nl-navbar-menu-line {
+      width: 22px;
+      height: 2.5px;
+      background-color: #1a1a1a;
+    }
+    .nl-navbar-menu-line:first-child {
+      transform: translate(-50%, -50%) translateY(-4.5px);
+    }
+    .nl-navbar-menu-line:last-child {
+      transform: translate(-50%, -50%) translateY(4.5px);
+    }
+    .nl-navbar.is-open .nl-navbar-menu-line {
+      background-color: #f7f7f7;
+    }
+
+    .nl-navbar-panel {
+      display: none;
+      flex-direction: column;
+      height: calc(100% - 72px);
+      box-sizing: border-box;
+      padding: 32px 24px 40px;
+    }
+    .nl-navbar.is-open .nl-navbar-panel {
+      display: flex;
+    }
+
+    .nl-navbar-item {
+      height: auto;
+      padding: 16px 0;
+    }
+    .nl-navbar-item + .nl-navbar-item {
+      margin-top: 0;
+    }
+    .nl-navbar-item-label {
+      font-size: 22px;
+      letter-spacing: 1px;
+      color: #f7f7f7;
+    }
+    .nl-navbar-item-arrow {
+      display: none;
+    }
+
+    .nl-navbar :global(.nl-navbar-cta) {
+      margin-top: auto;
+    }
+  }
 </style>
 
 <script>

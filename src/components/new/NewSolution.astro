@@ -204,6 +204,10 @@ const chipBorder3Img = await getImage({ src: chipBorder3, format: "png" });
     .nl-solution-heading {
       font-size: 44px;
     }
+    .nl-solution-heading :global(.nl-solution-hl--right) {
+      display: inline-block;
+      margin-top: 5px;
+    }
     .nl-solution-comp {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -229,11 +233,11 @@ const chipBorder3Img = await getImage({ src: chipBorder3, format: "png" });
       place-items: center;
       grid-area: blob;
       align-self: center;
-      width: 75px;
-      height: 217px;
+      width: 90px;
+      height: 260px;
     }
     .nl-solution-blob-wrap .nl-solution-blob {
-      width: 217px;
+      width: 260px !important;
       height: auto;
       transform: rotate(90deg);
     }
