@@ -67,12 +67,14 @@ const closingDimWords = "company to Gap and founded their Office of AI. That exp
         >
           {bars.map((b) => (
             <rect
+              class="nl-alt-bar"
               x={b.x}
               y={+(C1_H - b.h).toFixed(1)}
               width={BAR_W}
               height={b.h}
               rx="1.5"
               fill={b.orange ? "var(--nl-orange)" : "#D9D9D9"}
+              style={`--ox:${+(b.x + BAR_W / 2).toFixed(1)}px;--oy:${C1_H}px;`}
             />
           ))}
         </svg>
@@ -90,15 +92,19 @@ const closingDimWords = "company to Gap and founded their Office of AI. That exp
           role="img"
           aria-label="Scatter chart: many candidates across Q1 and Q2; a single hire finally lands in Q3"
         >
-          <line x1="205" y1="4" x2="205" y2="206" stroke="#DDDDDD" stroke-width="1" stroke-dasharray="3 5" />
-          <line x1="478" y1="4" x2="478" y2="206" stroke="#DDDDDD" stroke-width="1" stroke-dasharray="3 5" />
-          {q1Dots.map(([cx, cy]) => <circle cx={cx} cy={cy} r="3.5" fill="#C9C9C9" />)}
-          {q2Dots.map(([cx, cy]) => <circle cx={cx} cy={cy} r="3.5" fill="#C9C9C9" />)}
-          <circle cx="590" cy="84" r="8" fill="var(--nl-orange-deep)" />
-          <text class="nl-alt-svg-label" x="590" y="112" text-anchor="middle">HIRED</text>
-          <text class="nl-alt-svg-label" x="102" y="198" text-anchor="middle">Q1</text>
-          <text class="nl-alt-svg-label" x="341" y="160" text-anchor="middle">Q2</text>
-          <text class="nl-alt-svg-label" x="590" y="198" text-anchor="middle">Q3</text>
+          <line class="nl-alt-hire-chrome" x1="205" y1="4" x2="205" y2="206" stroke="#DDDDDD" stroke-width="1" stroke-dasharray="3 5" />
+          <line class="nl-alt-hire-chrome" x1="478" y1="4" x2="478" y2="206" stroke="#DDDDDD" stroke-width="1" stroke-dasharray="3 5" />
+          {q1Dots.map(([cx, cy]) => (
+            <circle class="nl-alt-hdot" data-q="0" cx={cx} cy={cy} r="3.5" fill="#C9C9C9" style={`--ox:${cx}px;--oy:${cy}px;`} />
+          ))}
+          {q2Dots.map(([cx, cy]) => (
+            <circle class="nl-alt-hdot" data-q="1" cx={cx} cy={cy} r="3.5" fill="#C9C9C9" style={`--ox:${cx}px;--oy:${cy}px;`} />
+          ))}
+          <circle class="nl-alt-hdot" data-q="2" cx="590" cy="84" r="8" fill="var(--nl-orange-deep)" style="--ox:590px;--oy:84px;" />
+          <text class="nl-alt-svg-label nl-alt-hire-chrome" x="590" y="112" text-anchor="middle">HIRED</text>
+          <text class="nl-alt-svg-label nl-alt-hire-chrome" x="102" y="198" text-anchor="middle">Q1</text>
+          <text class="nl-alt-svg-label nl-alt-hire-chrome" x="341" y="160" text-anchor="middle">Q2</text>
+          <text class="nl-alt-svg-label nl-alt-hire-chrome" x="590" y="198" text-anchor="middle">Q3</text>
         </svg>
       </article>
 
@@ -115,26 +121,50 @@ const closingDimWords = "company to Gap and founded their Office of AI. That exp
           aria-label="Line chart: an engagement climbs in steps, then flattens the day they leave while the gap keeps compounding"
         >
           <!-- faint dashed vertical gridlines -->
-          <line x1="136" y1="96" x2="136" y2="222" stroke="#E6E6E6" stroke-width="1" stroke-dasharray="3 5" />
-          <line x1="272" y1="96" x2="272" y2="222" stroke="#E6E6E6" stroke-width="1" stroke-dasharray="3 5" />
-          <line x1="544" y1="96" x2="544" y2="222" stroke="#E6E6E6" stroke-width="1" stroke-dasharray="3 5" />
-          <line x1="640" y1="96" x2="640" y2="222" stroke="#E6E6E6" stroke-width="1" stroke-dasharray="3 5" />
-          <!-- the gap keeps compounding: dashed rising curve -->
-          <path d="M 24 206 C 300 200, 520 168, 682 74" fill="none" stroke="#D0D0D0" stroke-width="1.5" stroke-dasharray="5 5" />
-          <!-- stepped engagement line; flat after the leave point -->
-          <path d="M 24 196 H 96 V 178 H 205 V 164 H 315 V 152 H 400 V 146 H 682" fill="none" stroke="#C4C4C4" stroke-width="1.5" />
+          <line class="nl-alt-consult-tick" x1="136" y1="96" x2="136" y2="222" stroke="#E6E6E6" stroke-width="1" stroke-dasharray="3 5" />
+          <line class="nl-alt-consult-tick" x1="272" y1="96" x2="272" y2="222" stroke="#E6E6E6" stroke-width="1" stroke-dasharray="3 5" />
+          <line class="nl-alt-consult-tick" x1="544" y1="96" x2="544" y2="222" stroke="#E6E6E6" stroke-width="1" stroke-dasharray="3 5" />
+          <line class="nl-alt-consult-tick" x1="640" y1="96" x2="640" y2="222" stroke="#E6E6E6" stroke-width="1" stroke-dasharray="3 5" />
+          <!-- the gap keeps compounding: dashed rising curve, revealed by a sliding wipe -->
+          <defs>
+            <clipPath id="nl-alt-pace-clip">
+              <rect id="nl-alt-pace-wipe" x="-10" y="0" width="0" height="240" />
+            </clipPath>
+          </defs>
+          <g clip-path="url(#nl-alt-pace-clip)">
+            <path d="M 24 206 C 300 200, 520 168, 682 74" fill="none" stroke="#D0D0D0" stroke-width="1.5" stroke-dasharray="5 5" />
+          </g>
+          <!-- stepped engagement line; flat after the leave point; drawn on via stroke-dashoffset (path length = 708) -->
+          <path id="nl-alt-consult-step" d="M 24 196 H 96 V 178 H 205 V 164 H 315 V 152 H 400 V 146 H 682" fill="none" stroke="#C4C4C4" stroke-width="1.5" stroke-dasharray="708 708" stroke-dashoffset="708" />
           <!-- they-leave vertical marker -->
-          <line x1="423" y1="118" x2="423" y2="220" stroke="#C4C4C4" stroke-width="1.5" />
-          <circle cx="423" cy="146" r="4.5" fill="var(--nl-orange-deep)" />
-          <circle cx="435" cy="104" r="6" fill="none" stroke="var(--nl-orange)" stroke-width="1.3" />
-          <line x1="435" y1="100.6" x2="435" y2="105.4" stroke="var(--nl-orange)" stroke-width="1.4" stroke-linecap="round" />
-          <circle cx="435" cy="107.7" r="0.9" fill="var(--nl-orange)" />
-          <text class="nl-alt-svg-label" x="447" y="108" text-anchor="start">THEY LEAVE</text>
+          <line id="nl-alt-consult-leave" x1="423" y1="118" x2="423" y2="220" stroke="#C4C4C4" stroke-width="1.5" />
+          <circle class="nl-alt-consult-dot" data-d="1" cx="423" cy="146" r="4.5" fill="var(--nl-orange-deep)" style="--ox:423px;--oy:146px;" />
+          <g class="nl-alt-consult-leave-label">
+            <circle cx="435" cy="104" r="6" fill="none" stroke="var(--nl-orange)" stroke-width="1.3" />
+            <line x1="435" y1="100.6" x2="435" y2="105.4" stroke="var(--nl-orange)" stroke-width="1.4" stroke-linecap="round" />
+            <circle cx="435" cy="107.7" r="0.9" fill="var(--nl-orange)" />
+            <text class="nl-alt-svg-label" x="447" y="108" text-anchor="start">THEY LEAVE</text>
+          </g>
           <!-- engaged start -->
-          <circle cx="24" cy="196" r="4.5" fill="var(--nl-orange-deep)" />
-          <text class="nl-alt-svg-label" x="17" y="226" text-anchor="start">ENGAGED</text>
+          <circle class="nl-alt-consult-dot" data-d="0" cx="24" cy="196" r="4.5" fill="var(--nl-orange-deep)" style="--ox:24px;--oy:196px;" />
+          <text id="nl-alt-consult-engaged" class="nl-alt-svg-label" x="17" y="226" text-anchor="start">ENGAGED</text>
         </svg>
       </article>
+
+      <noscript>
+        <style>
+          .nl-alt-bar,
+          .nl-alt-hdot,
+          .nl-alt-hire-chrome,
+          .nl-alt-consult-tick,
+          .nl-alt-consult-dot,
+          #nl-alt-consult-engaged,
+          .nl-alt-consult-leave-label,
+          #nl-alt-consult-leave { opacity: 1 !important; transform: none !important; }
+          #nl-alt-consult-step { stroke-dashoffset: 0 !important; }
+          #nl-alt-pace-wipe { width: 702px !important; }
+        </style>
+      </noscript>
 
       <!-- Closing paragraph -->
       <p class="nl-alt-closing" data-scroll-reveal><span>We sold our last</span> <span class="nl-alt-closing-dim">{closingDimWords.map((word) => (
@@ -178,6 +208,200 @@ const closingDimWords = "company to Gap and founded their Office of AI. That exp
   }
 </script>
 
+<script>
+  // "Do nothing" card (card 1): bars rise from the baseline, left to right,
+  // with a slight overshoot — ported from marker-dn-animation.html's runDN().
+  const dnCard = document.querySelector<HTMLElement>(".nl-alt-card--nothing");
+  if (dnCard && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const bars = Array.from(dnCard.querySelectorAll<SVGRectElement>(".nl-alt-bar"));
+    const RISE = 770; // ms
+    const STAGGER = 26; // ms per bar
+    const OVERSHOOT = 1.08; // scaleY peak before settling
+    const FADE_AT = 0.55; // offset at which the bar has fully faded in
+
+    let played = false;
+    function playBars() {
+      if (played) return;
+      played = true;
+      bars.forEach((bar, i) => {
+        bar.animate(
+          [
+            { transform: "scaleY(0)", opacity: 0 },
+            { opacity: 1, offset: FADE_AT },
+            { transform: `scaleY(${OVERSHOOT})`, offset: 0.78 },
+            { transform: "scaleY(1)", opacity: 1 },
+          ],
+          { duration: RISE, delay: i * STAGGER, fill: "both", easing: "cubic-bezier(.22,1,.32,1)" }
+        );
+      });
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          playBars();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(dnCard);
+  }
+</script>
+
+<script>
+  // "Hire for it" card (card 2): dividers/labels fade in, then candidate dots
+  // pop in per quarter (shuffled order), then the "HIRED" dot lands in Q3 —
+  // ported from marker-hire-animation.html's runHire().
+  const hireCard = document.querySelector<HTMLElement>(".nl-alt-card--hire");
+  if (hireCard && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const chrome = Array.from(hireCard.querySelectorAll<SVGElement>(".nl-alt-hire-chrome"));
+    const dots = Array.from(hireCard.querySelectorAll<SVGElement>(".nl-alt-hdot"));
+    const POP = 520; // ms
+    const STAGGER = 45; // ms per dot within a quarter
+    const Q_GAP = 420; // ms pause between quarters
+    const OVERSHOOT = 1.22; // scale peak before settling
+
+    function shuffle(arr: SVGElement[]) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    let played = false;
+    function playHire() {
+      if (played) return;
+      played = true;
+
+      chrome.forEach((el, i) => {
+        el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 420, delay: i * 30, fill: "both" });
+      });
+
+      let t = 0;
+      [0, 1, 2].forEach((q) => {
+        const group = shuffle(dots.filter((d) => d.dataset.q === String(q)));
+        let last = 0;
+        group.forEach((dot, i) => {
+          const delay = t + i * STAGGER;
+          last = Math.max(last, delay + POP);
+          dot.animate(
+            [
+              { opacity: 0, transform: "scale(0)" },
+              { opacity: 1, transform: `scale(${OVERSHOOT})`, offset: 0.62 },
+              { opacity: 1, transform: "scale(1)" },
+            ],
+            { duration: POP, delay, fill: "both", easing: "cubic-bezier(.22,1,.32,1)" }
+          );
+        });
+        t = last + Q_GAP;
+      });
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          playHire();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(hireCard);
+  }
+</script>
+
+<script>
+  // "Call in a consultancy" card (card 3): the stepped engagement line and the
+  // dashed "gap compounds" curve draw on together, gridlines fade in, the
+  // engaged dot lands, then at the leave point a vertical marker rises, the
+  // leave dot lands, and the "THEY LEAVE" label follows — ported from
+  // marker-consult-animation.html's runCons().
+  const consultCard = document.querySelector<HTMLElement>(".nl-alt-card--consult");
+  if (consultCard && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const stepPath = consultCard.querySelector<SVGPathElement>("#nl-alt-consult-step");
+    const paceWipe = consultCard.querySelector<SVGRectElement>("#nl-alt-pace-wipe");
+    const ticks = Array.from(consultCard.querySelectorAll<SVGElement>(".nl-alt-consult-tick"));
+    const engagedDot = consultCard.querySelector<SVGElement>('.nl-alt-consult-dot[data-d="0"]');
+    const engagedText = consultCard.querySelector<SVGElement>("#nl-alt-consult-engaged");
+    const leaveLine = consultCard.querySelector<SVGElement>("#nl-alt-consult-leave");
+    const leaveDot = consultCard.querySelector<SVGElement>('.nl-alt-consult-dot[data-d="1"]');
+    const leaveLabel = consultCard.querySelector<SVGElement>(".nl-alt-consult-leave-label");
+
+    const DRAW = 2600; // ms — step line + pace curve draw-on
+    const LEAVE_AT = 0.6; // fraction of DRAW at which the leave marker rises
+    const V_GROW = 520; // ms — leave marker rise duration
+    const LABEL_LEAD = 140; // ms after the leave dot before the label follows
+    const STEP_LEN = 708; // pre-computed total length of the stepped path
+
+    let played = false;
+    function playConsult() {
+      if (played) return;
+      played = true;
+
+      stepPath?.animate([{ strokeDashoffset: STEP_LEN }, { strokeDashoffset: 0 }], {
+        duration: DRAW,
+        fill: "both",
+        easing: "cubic-bezier(.35,.02,.28,1)",
+      });
+      paceWipe?.animate([{ width: "0px" }, { width: "702px" }], {
+        duration: DRAW,
+        fill: "both",
+        easing: "cubic-bezier(.35,.02,.28,1)",
+      });
+      ticks.forEach((tick, i) => {
+        tick.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400, delay: 120 + i * 70, fill: "both" });
+      });
+      engagedDot?.animate(
+        [
+          { opacity: 0, transform: "scale(0)" },
+          { opacity: 1, transform: "scale(1.25)", offset: 0.62 },
+          { opacity: 1, transform: "scale(1)" },
+        ],
+        { duration: 420, delay: 80, fill: "both", easing: "cubic-bezier(.22,1,.32,1)" }
+      );
+      engagedText?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 380, delay: 180, fill: "both" });
+
+      const leaveAt = DRAW * LEAVE_AT;
+      leaveLine?.animate(
+        [
+          { opacity: 0, transform: "scaleY(0)" },
+          { opacity: 1, transform: "scaleY(1)" },
+        ],
+        { duration: V_GROW, delay: leaveAt, fill: "both", easing: "cubic-bezier(.2,.8,.26,1)" }
+      );
+      leaveDot?.animate(
+        [
+          { opacity: 0, transform: "scale(0)" },
+          { opacity: 1, transform: "scale(1.25)", offset: 0.62 },
+          { opacity: 1, transform: "scale(1)" },
+        ],
+        { duration: 420, delay: leaveAt + V_GROW * 0.55, fill: "both", easing: "cubic-bezier(.22,1,.32,1)" }
+      );
+      leaveLabel?.animate(
+        [
+          { opacity: 0, transform: "translateY(4px)" },
+          { opacity: 1, transform: "none" },
+        ],
+        { duration: 420, delay: leaveAt + V_GROW * 0.55 + LABEL_LEAD, fill: "both", easing: "cubic-bezier(.22,1,.32,1)" }
+      );
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          playConsult();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(consultCard);
+  }
+</script>
+
 <style define:vars={{
   altCard1Url: `url(${card1Img.src})`,
   altCard2Url: `url(${card2Img.src})`,
@@ -199,7 +423,11 @@ const closingDimWords = "company to Gap and founded their Office of AI. That exp
     align-items: start;
   }
 
-  .nl-alt-head { align-self: start; }
+  .nl-alt-head {
+    align-self: start;
+    position: sticky;
+    top: 96px;
+  }
 
   .nl-alt-head :global(.nl-alt-eyebrow) {
     padding-left: 7px;
@@ -324,6 +552,78 @@ const closingDimWords = "company to Gap and founded their Office of AI. That exp
     fill: #9a9a9a;
   }
 
+  /* Card 1 bars: hidden until they animate in on scroll (see script below) */
+  .nl-alt-bar {
+    transform-box: view-box;
+    transform-origin: var(--ox) var(--oy);
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nl-alt-bar {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Card 2 dots + chrome: hidden until they pop in on scroll (see script below) */
+  .nl-alt-hdot {
+    transform-box: view-box;
+    transform-origin: var(--ox) var(--oy);
+    opacity: 0;
+    transform: scale(0);
+  }
+  .nl-alt-hire-chrome {
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nl-alt-hdot,
+    .nl-alt-hire-chrome {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Card 3: gridlines, dots, "engaged"/"they leave" chrome hidden until they
+     draw in on scroll (see script below); the step line and pace curve hide
+     via stroke-dashoffset / a clip-path wipe instead of opacity. */
+  .nl-alt-consult-tick,
+  #nl-alt-consult-engaged {
+    opacity: 0;
+  }
+  .nl-alt-consult-dot {
+    transform-box: view-box;
+    transform-origin: var(--ox) var(--oy);
+    opacity: 0;
+    transform: scale(0);
+  }
+  #nl-alt-consult-leave {
+    transform-box: view-box;
+    transform-origin: 423px 220px;
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  .nl-alt-consult-leave-label {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nl-alt-consult-tick,
+    #nl-alt-consult-engaged,
+    .nl-alt-consult-dot,
+    #nl-alt-consult-leave,
+    .nl-alt-consult-leave-label {
+      opacity: 1;
+      transform: none;
+    }
+    #nl-alt-consult-step {
+      stroke-dashoffset: 0;
+    }
+    #nl-alt-pace-wipe {
+      width: 702px;
+    }
+  }
+
   .nl-alt-closing {
     margin-top: 64px;
     font-family: "Stack Sans Headline", "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -346,6 +646,7 @@ const closingDimWords = "company to Gap and founded their Office of AI. That exp
   @media (max-width: 1023px) {
     .nl-alt { padding-block: 64px; }
     .nl-alt-grid { grid-template-columns: minmax(0, 1fr); }
+    .nl-alt-head { position: static; top: auto; }
     .nl-alt-content { margin-top: 48px; }
     .nl-alt-card { padding: 20px; }
     .nl-alt-chart--bars { margin-top: 16px; }

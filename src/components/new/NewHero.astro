@@ -75,20 +75,6 @@ const wireLayers = [
     y2: 336.721,
   },
 ];
-
-// Connection-point squares on the wires (centered on the point).
-const blackSquares = [
-  [283, 117],
-  [354, 107],
-  [218, 153],
-];
-const orangeSquares = [
-  [255, 462],
-  [283, 474],
-  [269, 525],
-  [158, 596],
-  [380, 647],
-];
 ---
 
 <section class="nlh">
@@ -143,22 +129,15 @@ const orangeSquares = [
           <!-- wire strands above the node (exact Figma vector layers) -->
           {wireLayers.map((w, i) => (
             <g transform={`translate(${w.tx} 0)`}>
-              <path d={w.d} stroke={`url(#nlh-wire-grad-${i})`} stroke-width="0.75" />
+              <path class="nlh-wire-in" d={w.d} stroke={`url(#nlh-wire-grad-${i})`} stroke-width="0.75" />
             </g>
           ))}
           <!-- node bottom → output cards -->
-          <path d="M 255 428 L 255 503 C 255 517, 249 523, 235 523 L 200 523" stroke="#C9C9C9" stroke-width="1.5" />
-          <path d="M 283 428 L 283 505 C 283 519, 289 525, 303 525 L 360 525 C 374 525, 380 531, 380 543 L 380 556" stroke="#C9C9C9" stroke-width="1.5" />
-          <path d="M 269 428 L 269 585" stroke="#C9C9C9" stroke-width="1.5" />
-          <path d="M 158 551 L 158 638" stroke="#C9C9C9" stroke-width="1.5" />
-          <path d="M 380 574 L 380 668" stroke="#C9C9C9" stroke-width="1.5" />
-
-          {blackSquares.map(([x, y]) => (
-            <rect x={x - 4} y={y - 4} width="8" height="8" fill="#3D3D3D" />
-          ))}
-          {orangeSquares.map(([x, y]) => (
-            <rect x={x - 3} y={y - 3} width="6" height="6" fill="#F35901" />
-          ))}
+          <path class="nlh-wire-out" d="M 255 428 L 255 503 C 255 517, 249 523, 235 523 L 200 523" stroke="#C9C9C9" stroke-width="1.5" />
+          <path class="nlh-wire-out" d="M 283 428 L 283 505 C 283 519, 289 525, 303 525 L 360 525 C 374 525, 380 531, 380 543 L 380 556" stroke="#C9C9C9" stroke-width="1.5" />
+          <path class="nlh-wire-out" d="M 269 428 L 269 585" stroke="#C9C9C9" stroke-width="1.5" />
+          <path class="nlh-wire-out" d="M 158 551 L 158 638" stroke="#C9C9C9" stroke-width="1.5" />
+          <path class="nlh-wire-out" d="M 380 574 L 380 668" stroke="#C9C9C9" stroke-width="1.5" />
         </svg>
 
         {pills.map((p) => (
@@ -492,3 +471,114 @@ const orangeSquares = [
     }
   }
 </style>
+
+<script>
+  // Ambient hero diagram animation: problem pills drift into the central node
+  // and shrink away while gray dots flow along the inbound wires; the node
+  // pulses once, then orange dots flow outward along the wires to the output
+  // cards. Positions are measured from the live layout so nothing about the
+  // diagram's static alignment changes — this only adds motion on top of it.
+  function initHeroDiagram(diagram: HTMLElement) {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const node = diagram.querySelector<HTMLElement>(".nlh-node");
+    const wiresSvg = diagram.querySelector<SVGSVGElement>(".nlh-wires");
+    if (!node || !wiresSvg) return;
+
+    const pills = Array.from(diagram.querySelectorAll<HTMLElement>(".nlh-pill"));
+    const inPaths = Array.from(wiresSvg.querySelectorAll<SVGPathElement>(".nlh-wire-in"));
+    const outPaths = Array.from(wiresSvg.querySelectorAll<SVGPathElement>(".nlh-wire-out"));
+
+    const DESCEND = 2600; // ms — one full "problem pill falls into the node" cycle
+    const ORDER = 1150; // ms — outbound dot travel time along a wire
+    const HANDOFF = 0.88; // fraction of DESCEND before the node "processes" and pulses
+    const DOTS = 3;
+    const DOT_SIZE = 6;
+    const SHRINK = 0.58; // pills shrink to this fraction of size as they near the node
+
+    function spawnFlow(path: SVGPathElement, count: number, colour: string, dur: number, gap: number) {
+      const g = path.parentNode;
+      const d = path.getAttribute("d");
+      if (!g || !d) return;
+      for (let n = 0; n < count; n++) {
+        const dot = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        dot.setAttribute("width", String(DOT_SIZE));
+        dot.setAttribute("height", String(DOT_SIZE));
+        dot.setAttribute("rx", String(DOT_SIZE * 0.24));
+        dot.setAttribute("fill", colour);
+        dot.setAttribute("x", String(-DOT_SIZE / 2));
+        dot.setAttribute("y", String(-DOT_SIZE / 2));
+        dot.setAttribute("data-nlh-flow-dot", "");
+        dot.style.offsetPath = `path('${d}')`;
+        g.appendChild(dot);
+        dot.animate(
+          [
+            { offsetDistance: "0%", opacity: 0 },
+            { offsetDistance: "8%", opacity: 1, offset: 0.1 },
+            { offsetDistance: "90%", opacity: 1, offset: 0.9 },
+            { offsetDistance: "100%", opacity: 0 },
+          ],
+          { duration: dur, delay: n * gap, iterations: Infinity, easing: "cubic-bezier(.2,.7,.3,1)", fill: "both" }
+        );
+      }
+    }
+
+    function run() {
+      const diagRect = diagram.getBoundingClientRect();
+      const nodeRect = node!.getBoundingClientRect();
+      const nodeCx = nodeRect.left - diagRect.left + nodeRect.width / 2;
+      const nodeCy = nodeRect.top - diagRect.top + nodeRect.height / 2;
+
+      node!.animate(
+        [
+          { opacity: 0, transform: "scale(.92)" },
+          { opacity: 1, transform: "none" },
+        ],
+        { duration: 520, easing: "cubic-bezier(.18,.9,.24,1)", fill: "both" }
+      );
+
+      pills.forEach((pill, i) => {
+        const r = pill.getBoundingClientRect();
+        const cx = r.left - diagRect.left + r.width / 2;
+        const cy = r.top - diagRect.top + r.height / 2;
+        const dx = nodeCx - cx;
+        const dy = nodeCy - cy;
+        const tf = (f: number, s: number) => `translate(${(dx * f).toFixed(1)}px, ${(dy * f).toFixed(1)}px) scale(${s.toFixed(3)})`;
+        pill.animate(
+          [
+            { opacity: 0, transform: tf(0, 1), offset: 0 },
+            { opacity: 1, transform: tf(0, 1), offset: 0.14 },
+            { opacity: 1, transform: tf(0.62, (1 + SHRINK) / 2), offset: 0.72 },
+            { opacity: 0, transform: tf(0.93, SHRINK), offset: 1 },
+          ],
+          { duration: DESCEND, delay: i * 180, iterations: Infinity, easing: "cubic-bezier(.42,.02,.34,1)", fill: "both" }
+        );
+      });
+
+      inPaths.forEach((p) => spawnFlow(p, DOTS, "#9B9B9B", DESCEND, DESCEND / DOTS));
+
+      setTimeout(() => {
+        node!.animate(
+          [{ transform: "scale(1)" }, { transform: "scale(1.06)", offset: 0.45 }, { transform: "scale(1)" }],
+          { duration: 520, easing: "cubic-bezier(.22,1,.32,1)" }
+        );
+        outPaths.forEach((p) => spawnFlow(p, Math.max(1, DOTS - 1), "#F35901", ORDER, ORDER / 2));
+      }, DESCEND * HANDOFF);
+    }
+
+    let started = false;
+    function tryStart() {
+      if (started) return;
+      const rect = diagram.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      started = true;
+      window.removeEventListener("resize", tryStart);
+      run();
+    }
+    window.addEventListener("resize", tryStart);
+    if (document.fonts?.ready) document.fonts.ready.then(tryStart).catch(tryStart);
+    else tryStart();
+  }
+
+  document.querySelectorAll<HTMLElement>(".nlh-diagram").forEach(initHeroDiagram);
+</script>
