@@ -25,12 +25,18 @@ const {
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, "https://onmarker.com").href.replace(/\/$/, "") || "https://onmarker.com";
-// Vercel sets VERCEL_URL to the deployment's own host at build time (preview or
-// production); other deployment targets (e.g. the Firebase/onmarker.com build)
-// don't set it, so they fall back to the production domain. This keeps social
-// preview images working on Vercel preview deployments without depending on
-// onmarker.com already having the same build's assets.
-const siteOrigin = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://onmarker.com";
+// VERCEL_URL is the unique per-deployment host (e.g. marker-8xp8oquvy-...vercel.app),
+// which sits behind Vercel's deployment-protection SSO wall and 302s crawlers away
+// from the image instead of serving it. VERCEL_PROJECT_PRODUCTION_URL is the stable,
+// unprotected domain assigned to the project (e.g. marker-lyart.vercel.app) and is
+// set for both production and preview builds, so it's used first; VERCEL_URL is kept
+// only as a last-resort fallback. Other deployment targets (e.g. the Firebase/
+// onmarker.com build) set neither, so they fall back to the production domain.
+const siteOrigin = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "https://onmarker.com";
 const metaImageBannerImg = await getImage({ src: metaImageBanner, format: "png", width: 1200, height: 630 });
 const ogImage = new URL(metaImageBannerImg.src, siteOrigin).href;
 const LOCAL_FONT_CSS = `
