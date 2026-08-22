@@ -617,4 +617,60 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
       height: 28px;
     }
   }
+
+  /* ── Small screens (phones): tighter margins + smaller type throughout so
+     the panel content (headline, tabs, table, bars) no longer overflows the
+     narrow viewport, matching the mobile design ── */
+  @media (max-width: 640px) {
+    .nl-proof .nl-container {
+      width: calc(100% - 40px);
+    }
+    .nl-proof h2 {
+      font-size: 40px;
+    }
+    .nl-proof-tab {
+      font-size: 10px;
+      padding: 0 11px 8px;
+    }
+    .nl-proof-copy {
+      padding: 20px;
+    }
+    .nl-proof-h3 {
+      font-size: 28px;
+    }
+    .nl-proof-body {
+      font-size: 14px;
+      max-width: none;
+    }
+    .nl-proof-table {
+      margin-top: 20px;
+    }
+    .nl-proof-row {
+      gap: 12px;
+      padding: 10px 0;
+    }
+    .nl-proof-row dt,
+    .nl-proof-row dd {
+      font-size: 10px;
+    }
+    .nl-proof-row dt {
+      flex: none;
+      white-space: nowrap;
+    }
+    .nl-proof-visual {
+      height: 340px;
+    }
+    .nl-proof-bar-gray {
+      height: 300px;
+    }
+    .nl-proof-bar-orange {
+      height: 125px;
+    }
+    .nl-proof-bar-gray-label {
+      font-size: 32px;
+    }
+    .nl-proof-bar-stat {
+      font-size: 32px;
+    }
+  }
 </style>

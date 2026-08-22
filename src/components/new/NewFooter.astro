@@ -345,4 +345,25 @@ const year = new Date().getFullYear();
       text-align: left;
     }
   }
+
+  /* ── Small screens (phones): the "Marker" wordmark was a hardcoded 145px
+     with no responsive sizing, running off the edge of the panel; scale it
+     (and the mark beside it) down to fit ── */
+  @media (max-width: 640px) {
+    .nl-footer-panel {
+      width: calc(100% - 40px);
+    }
+    .nl-footer-brand {
+      height: auto;
+      gap: 12px;
+      padding: 24px;
+    }
+    .nl-footer-brandmark :global(svg) {
+      width: 64px;
+      height: 31.5px;
+    }
+    .nl-footer-wordmark {
+      font-size: 56px;
+    }
+  }
 </style>

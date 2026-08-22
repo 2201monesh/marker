@@ -111,4 +111,10 @@ const bannerBgImg = await getImage({ src: bannerBg, format: "png" });
       font-size: 1.25rem;
     }
   }
+
+  @media (max-width: 640px) {
+    .nl-banner-section .nl-container {
+      width: calc(100% - 40px);
+    }
+  }
 </style>

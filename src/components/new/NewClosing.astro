@@ -280,4 +280,15 @@ const checklist = [
       right: 24px;
     }
   }
+
+  /* ── Small screens (phones): tighter outer margin + smaller headline so it
+     no longer overflows the panel, matching the mobile design ── */
+  @media (max-width: 640px) {
+    .nl-closing .nl-container {
+      width: calc(100% - 40px);
+    }
+    .nl-closing-heading {
+      font-size: 40px;
+    }
+  }
 </style>

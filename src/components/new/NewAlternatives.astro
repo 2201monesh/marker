@@ -7,12 +7,18 @@ import Eyebrow from "./Eyebrow.astro";
 import card1Src from "../../assets/landing/card-1.png";
 import card2Src from "../../assets/landing/card-2.png";
 import card3Src from "../../assets/landing/card-3.png";
+import card1MobileSrc from "../../assets/landing/card-mobile-1.png";
+import card2MobileSrc from "../../assets/landing/card-mobile-2.png";
+import card3MobileSrc from "../../assets/landing/card-mobile-3.png";
 import bottomArrowIcon from "../../assets/landing/bottom-arrow-icon.png";
 import chipBorder2 from "../../assets/landing/chip-border-2.png";
 
 const card1Img = await getImage({ src: card1Src, format: "png" });
 const card2Img = await getImage({ src: card2Src, format: "png" });
 const card3Img = await getImage({ src: card3Src, format: "png" });
+const card1MobileImg = await getImage({ src: card1MobileSrc, format: "png" });
+const card2MobileImg = await getImage({ src: card2MobileSrc, format: "png" });
+const card3MobileImg = await getImage({ src: card3MobileSrc, format: "png" });
 const chipBorder2Img = await getImage({ src: chipBorder2, format: "png" });
 
 // ── Card 1 bar strip: ~55 thin bars, first 20 short & orange, the rest gray
@@ -406,6 +412,9 @@ const closingDimWords = "company to Gap and founded their Office of AI. That exp
   altCard1Url: `url(${card1Img.src})`,
   altCard2Url: `url(${card2Img.src})`,
   altCard3Url: `url(${card3Img.src})`,
+  altCard1MobileUrl: `url(${card1MobileImg.src})`,
+  altCard2MobileUrl: `url(${card2MobileImg.src})`,
+  altCard3MobileUrl: `url(${card3MobileImg.src})`,
   chipBorder2Url: `url(${chipBorder2Img.src})`,
 }}>
   .nl-alt {
@@ -651,5 +660,52 @@ const closingDimWords = "company to Gap and founded their Office of AI. That exp
     .nl-alt-card { padding: 20px; }
     .nl-alt-chart--bars { margin-top: 16px; }
     .nl-alt-closing { margin-top: 48px; }
+  }
+
+  /* ── Small screens (phones): tighter margins, mobile-specific card
+     backgrounds (their connector notches are cut for the shorter mobile
+     card proportions), and smaller type so headline/closing text wrap to
+     match the mobile design ── */
+  @media (max-width: 640px) {
+    .nl-alt-grid {
+      width: calc(100% - 40px);
+    }
+    .nl-alt-title {
+      font-size: 42px;
+    }
+    .nl-alt-card {
+      height: auto;
+      aspect-ratio: 700 / 320;
+      padding: 20px;
+    }
+    .nl-alt-card--nothing {
+      padding: 20px;
+      background-image: var(--altCard1MobileUrl);
+    }
+    .nl-alt-card--hire {
+      padding: 20px;
+      background-image: var(--altCard2MobileUrl);
+    }
+    .nl-alt-card--consult {
+      padding: 20px;
+      background-image: var(--altCard3MobileUrl);
+    }
+    .nl-alt-card--nothing .nl-alt-lead,
+    .nl-alt-card--hire .nl-alt-lead,
+    .nl-alt-card--consult .nl-alt-lead {
+      max-width: none;
+    }
+    .nl-alt-chart--bars {
+      margin-top: 8px;
+    }
+    .nl-alt-chart--scatter {
+      margin-top: 4px;
+    }
+    .nl-alt-chart--steps {
+      margin-top: 4px;
+    }
+    .nl-alt-closing {
+      font-size: 26px;
+    }
   }
 </style>

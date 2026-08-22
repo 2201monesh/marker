@@ -239,4 +239,15 @@ const orangeGradientBgImg = await getImage({ src: orangeGradientBg, format: "png
       min-height: 176px;
     }
   }
+
+  /* ── Small screens (phones): tighter side margins + smaller heading so the
+     highlighted headline wraps onto one line per the mobile design ── */
+  @media (max-width: 640px) {
+    .nl-problem .nl-container {
+      width: calc(100% - 40px);
+    }
+    .nl-problem-head h2 {
+      font-size: 42px;
+    }
+  }
 </style>

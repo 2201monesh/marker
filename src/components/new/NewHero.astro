@@ -110,6 +110,7 @@ const wireLayers = [
 
       <!-- ── Right: workflow node diagram (decorative) ─────────────────── -->
       <div class="nlh-diagram" aria-hidden="true">
+       <div class="nlh-diagram-canvas">
         {blurPills.map((b) => (
           <span
             class="nlh-blur-pill"
@@ -163,6 +164,7 @@ const wireLayers = [
             </span>
           </div>
         ))}
+       </div>
       </div>
     </div>
   </div>
@@ -234,6 +236,30 @@ const wireLayers = [
   }
   .nlh-diagram {
     display: none;
+  }
+  /* Fixed-size 620×720 canvas holding the diagram's absolutely-positioned
+     pieces; scaled down to fit narrower containers via --nlh-scale (set by
+     script on mobile). On desktop the diagram's own box is exactly 620×720,
+     so the scale resolves to 1 and this is a no-op. */
+  .nlh-diagram-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 620px;
+    height: 720px;
+    transform-origin: top left;
+    transform: scale(var(--nlh-scale, 1));
+  }
+  @media (max-width: 640px) {
+    .nlh-diagram {
+      display: block;
+      position: relative;
+      left: 10px;
+      width: 100%;
+      aspect-ratio: 620 / 720;
+      overflow: hidden;
+      margin-top: 48px;
+    }
   }
   @media (min-width: 1024px) {
     .nlh-grid {
@@ -467,7 +493,29 @@ const wireLayers = [
       padding-top: 136px;
     }
     .nlh-grid {
+      width: calc(100% - 40px);
       padding-bottom: 56px;
+    }
+    /* CTAs sit side by side, evenly filling the row, matching the mobile design */
+    .nlh-ctas {
+      flex-wrap: nowrap;
+      gap: 10px;
+    }
+    .nlh-ctas :global(.nlh-cta-how) {
+      flex: 1;
+      padding: 13px 6px;
+      font-size: 12px;
+    }
+    .nlh-ctas :global(.nlh-cta-book) {
+      flex: 1.2;
+      min-width: 0;
+    }
+    .nlh-ctas :global(.nlh-cta-book .nl-btn-dark-label) {
+      flex: 1;
+      min-width: 0;
+      padding: 13px 8px 12px 14px;
+      font-size: 12px;
+      text-align: center;
     }
   }
 </style>
@@ -478,7 +526,20 @@ const wireLayers = [
   // pulses once, then orange dots flow outward along the wires to the output
   // cards. Positions are measured from the live layout so nothing about the
   // diagram's static alignment changes — this only adds motion on top of it.
+  const CANVAS_WIDTH = 620;
+
+  // The fixed 620×720 canvas is scaled down via CSS transform to fit narrower
+  // (mobile) containers; keep --nlh-scale in sync with the rendered width so
+  // the canvas fills its frame exactly, on every viewport size.
+  function syncDiagramScale(diagram: HTMLElement) {
+    const width = diagram.getBoundingClientRect().width;
+    if (width > 0) diagram.style.setProperty("--nlh-scale", String(width / CANVAS_WIDTH));
+  }
+
   function initHeroDiagram(diagram: HTMLElement) {
+    syncDiagramScale(diagram);
+    window.addEventListener("resize", () => syncDiagramScale(diagram));
+
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const node = diagram.querySelector<HTMLElement>(".nlh-node");
@@ -525,6 +586,7 @@ const wireLayers = [
 
     function run() {
       const diagRect = diagram.getBoundingClientRect();
+      const scale = diagRect.width / CANVAS_WIDTH || 1;
       const nodeRect = node!.getBoundingClientRect();
       const nodeCx = nodeRect.left - diagRect.left + nodeRect.width / 2;
       const nodeCy = nodeRect.top - diagRect.top + nodeRect.height / 2;
@@ -541,8 +603,8 @@ const wireLayers = [
         const r = pill.getBoundingClientRect();
         const cx = r.left - diagRect.left + r.width / 2;
         const cy = r.top - diagRect.top + r.height / 2;
-        const dx = nodeCx - cx;
-        const dy = nodeCy - cy;
+        const dx = (nodeCx - cx) / scale;
+        const dy = (nodeCy - cy) / scale;
         const tf = (f: number, s: number) => `translate(${(dx * f).toFixed(1)}px, ${(dy * f).toFixed(1)}px) scale(${s.toFixed(3)})`;
         pill.animate(
           [

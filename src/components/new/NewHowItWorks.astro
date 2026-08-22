@@ -1162,6 +1162,29 @@ const chipBorder5Img = await getImage({ src: chipBorder5, format: "png" });
     }
   }
 
+  /* ── Small screens (phones): tighter margins, smaller headline, and
+     left-aligned row copy (instead of centered), matching the mobile design ── */
+  @media (max-width: 640px) {
+    .hiw .nl-container {
+      width: calc(100% - 40px);
+    }
+    .hiw-head h2 {
+      font-size: 40px;
+    }
+    .hiw-row {
+      row-gap: 12px;
+    }
+    .hiw-num {
+      justify-self: start;
+    }
+    .hiw-lead {
+      font-size: 16px;
+      max-width: none;
+      justify-self: stretch;
+      text-align: left;
+    }
+  }
+
   /* Card 1 (01 Understand) glyph: hidden until it grows in on scroll (see script) */
   .hiw-u1-ring,
   .hiw-u1-green,

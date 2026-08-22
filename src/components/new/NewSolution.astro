@@ -28,7 +28,9 @@ const chipBorder3Img = await getImage({ src: chipBorder3, format: "png" });
         <span>We keep going until you're running an AI-native organization.</span>
       </p>
 
-      <Image src={unionBlob} alt="" class="nl-solution-blob" width={833} height={286} />
+      <div class="nl-solution-blob-wrap">
+        <Image src={unionBlob} alt="" class="nl-solution-blob" width={833} height={286} />
+      </div>
 
       <p class="nl-solution-note nl-solution-note--left">
         <strong>They work the way you already work.</strong>
@@ -125,6 +127,13 @@ const chipBorder3Img = await getImage({ src: chipBorder3, format: "png" });
     gap: 32px;
   }
 
+  /* Transparent wrapper: keeps the mobile-only grid placement/rotation off
+     the tablet (flex) and desktop (absolute) layouts, which target the img
+     itself unchanged. */
+  .nl-solution-blob-wrap {
+    display: contents;
+  }
+
   .nl-solution-blob {
     display: block;
     width: min(100%, 440px);
@@ -182,6 +191,51 @@ const chipBorder3Img = await getImage({ src: chipBorder3, format: "png" });
       top: 206px;
       right: 300px;
       width: 340px;
+    }
+  }
+
+  /* ── Small screens (phones): tighter margins, smaller heading, and the
+     two notes stacked left with the chain graphic rotated upright beside
+     them, matching the mobile design ── */
+  @media (max-width: 640px) {
+    .nl-solution .nl-container {
+      width: calc(100% - 40px);
+    }
+    .nl-solution-heading {
+      font-size: 44px;
+    }
+    .nl-solution-comp {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        "noteRight blob"
+        "noteLeft  blob";
+      column-gap: 20px;
+      row-gap: 32px;
+    }
+    .nl-solution-note {
+      font-size: 15px;
+    }
+    .nl-solution-note--right {
+      grid-area: noteRight;
+      max-width: none;
+    }
+    .nl-solution-note--left {
+      grid-area: noteLeft;
+      max-width: none;
+    }
+    .nl-solution-blob-wrap {
+      display: grid;
+      place-items: center;
+      grid-area: blob;
+      align-self: center;
+      width: 75px;
+      height: 217px;
+    }
+    .nl-solution-blob-wrap .nl-solution-blob {
+      width: 217px;
+      height: auto;
+      transform: rotate(90deg);
     }
   }
 </style>
