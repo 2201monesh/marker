@@ -5,6 +5,7 @@
 import { Image, getImage } from "astro:assets";
 import Eyebrow from "./Eyebrow.astro";
 import unionBlob from "../../assets/landing/Union.png";
+import unionBlobMobile from "../../assets/landing/Union-mobile.png";
 import chipBorder3 from "../../assets/landing/chip-border-3.png";
 
 const chipBorder3Img = await getImage({ src: chipBorder3, format: "png" });
@@ -29,7 +30,8 @@ const chipBorder3Img = await getImage({ src: chipBorder3, format: "png" });
       </p>
 
       <div class="nl-solution-blob-wrap">
-        <Image src={unionBlob} alt="" class="nl-solution-blob" width={833} height={286} />
+        <Image src={unionBlob} alt="" class="nl-solution-blob nl-solution-blob--desktop" width={833} height={286} />
+        <Image src={unionBlobMobile} alt="" class="nl-solution-blob nl-solution-blob--mobile" width={142} height={433} />
       </div>
 
       <p class="nl-solution-note nl-solution-note--left">
@@ -144,6 +146,10 @@ const chipBorder3Img = await getImage({ src: chipBorder3, format: "png" });
     filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.15));
   }
 
+  .nl-solution-blob--mobile {
+    display: none;
+  }
+
   .nl-solution-note {
     font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
     font-size: 18px;
@@ -238,13 +244,16 @@ const chipBorder3Img = await getImage({ src: chipBorder3, format: "png" });
       place-items: center;
       grid-area: blob;
       align-self: center;
-      width: 90px;
-      height: 260px;
+      width: 100px;
+      height: 300px;
     }
-    .nl-solution-blob-wrap .nl-solution-blob {
-      width: 260px !important;
-      height: auto;
-      transform: rotate(90deg);
+    .nl-solution-blob-wrap .nl-solution-blob--desktop {
+      display: none;
+    }
+    .nl-solution-blob-wrap .nl-solution-blob--mobile {
+      display: block;
+      width: auto;
+      height: 300px !important;
     }
   }
 </style>

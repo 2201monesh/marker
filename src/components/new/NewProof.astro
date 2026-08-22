@@ -216,7 +216,7 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
 <style define:vars={{ chipBorder4Url: `url(${chipBorder4Img.src})` }}>
   .nl-proof {
     background: var(--nl-bg);
-    padding: 80px 0 0;
+    padding: 112px 0 0;
   }
 
   .nl-proof .nl-container {
@@ -279,6 +279,7 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
     position: relative;
     z-index: 1;
     margin-bottom: -12px; /* overlap the frame's 12px top rim */
+    padding-right: 14px; /* room for the last tab's right fillet so it isn't clipped */
     overflow-x: auto;
     scrollbar-width: none;
   }
@@ -651,13 +652,35 @@ const chipBorder4Img = await getImage({ src: chipBorder4, format: "png" });
     .nl-proof h2 {
       font-size: 40px;
     }
-    .nl-proof-tab {
-      font-size: 10px;
-      padding: 0 11px 8px;
+    /* Tabs split the bar evenly and wrap to two lines instead of forcing the
+       tablist to scroll horizontally on narrow phones. */
+    .nl-proof-tablist {
+      padding-right: 0;
+      overflow-x: visible;
     }
-    /* On phones the tab bar spans the full frame width, so the last tab is
-       now flush with the frame's right edge too — mirror the first tab's
-       treatment (no fillet on the flush side, matching square frame corner). */
+    .nl-proof-tab {
+      flex: 1 1 0;
+      min-width: 0;
+      height: auto;
+      min-height: 49px;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 9px;
+      letter-spacing: 0.03em;
+      white-space: normal;
+      text-align: left;
+      padding: 10px 8px 8px;
+    }
+    .nl-proof :global(.nl-proof-tab-icon) {
+      margin-top: 1px;
+    }
+    .nl-proof-tab:first-child .nl-proof-tab-text {
+      margin-top: 6px;
+      margin-left: 6px;
+    }
+    .nl-proof-tab:last-child .nl-proof-tab-text {
+      margin-top: 2px;
+    }
     .nl-proof-tab:last-child[aria-selected="true"]::after {
       display: none;
     }
